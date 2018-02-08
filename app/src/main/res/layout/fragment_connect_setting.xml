@@ -1,0 +1,362 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            android:id="@+id/GridLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="6"
+            android:horizontalSpacing="5sp"
+            android:numColumns="auto_fit"
+            android:orientation="horizontal"
+            android:stretchMode="columnWidth"
+            android:theme="@style/theme_param_setting"
+            android:verticalSpacing="25sp">
+
+            <TextView
+                style="@style/theme_title_bar_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Connection Settings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Net Protocol" />
+            <android.support.v7.widget.LinearLayoutCompat>
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/id_tcp_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="1"
+                    android:clickable="true"
+                    android:enabled="true"
+                    android:text="TCP" />
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/id_udp_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:clickable="true"
+                    android:enabled="true"
+                    android:text="UDP" />
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Protocol to Set" />
+
+            <Spinner
+                android:id="@+id/id_connect_protocol"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_protocol" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Channel" />
+
+            <Spinner
+                android:id="@+id/id_connect_channel"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:spinnerMode="dialog"
+                android:entries="@array/opt_connect_channel" />
+
+            <!-- TCP Only -->
+            <TextView
+                android:id="@+id/label_work_as"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Work As" />
+
+            <Spinner
+                android:id="@+id/id_work_role"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_work_role" />
+
+            <!-- UDP Only -->
+            <TextView
+                android:id="@+id/label_accepting_income"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Accept Incoming" />
+
+            <Switch
+                android:id="@+id/id_accepting_income"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:textOff="off"
+                android:textOn="on" />
+
+            <!-- UDP Only -->
+            <TextView
+                android:id="@+id/label_connect_uni_multi"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Uni/Multi" />
+
+            <Spinner
+                android:id="@+id/id_connect_uni_multi"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_uni_multi" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Optition" />
+
+            <Spinner
+                android:id="@+id/id_connect_rts"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_rts" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Local Port" />
+
+            <com.ibamb.udm.tag.IncDecTextEdit
+                android:id="@+id/id_local_port"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Remote Port" />
+
+
+            <com.ibamb.udm.tag.IncDecTextEdit
+                android:id="@+id/id_remort_port"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3" />
+
+            <TextView
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Remote Host" />
+
+            <EditText
+                android:id="@+id/id_remort_host"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:background="@drawable/border_background" />
+
+            <TextView
+                style="@style/theme_title_bar_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+
+                android:text="Serial Settings" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Protocol" />
+
+            <Spinner
+                android:id="@+id/id_serial_protocol"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_protocol" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Baud Rate" />
+
+            <Spinner
+                android:id="@+id/id_baud_rate"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_baud_rate" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Data Bits" />
+
+            <Spinner
+                android:id="@+id/id_data_bits"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_data_bits" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Stop Bits" />
+
+            <Spinner
+                android:id="@+id/id_stop_bits"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_stop_bits" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Flow Control" />
+
+            <Spinner
+                android:id="@+id/id_flow_control"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_flow_control" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Parity" />
+
+            <Spinner
+                android:id="@+id/id_serial_parity"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_parity" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Uart ldle Time(ms)" />
+
+            <com.ibamb.udm.tag.IncDecTextEdit
+                android:id="@+id/id_uart_ldle_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Uart Out IFG(ms)" />
+
+            <com.ibamb.udm.tag.IncDecTextEdit
+                android:id="@+id/id_uart_out_ifg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Link Latch(ms)" />
+
+            <com.ibamb.udm.tag.IncDecTextEdit
+                android:id="@+id/id_link_latch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3" />
+
+            <Button
+                android:id="@+id/id_conect_setting_commit"
+                style="@style/Widget.AppCompat.Button.Small"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:text="Submit"
+                android:textColor="#FFFFFF" />
+        </GridLayout>
+    </ScrollView>
+</RelativeLayout>
+
+

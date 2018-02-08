@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/decr_button"
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:layout_gravity="center"
+        android:text="-"
+        android:textColor="#CCFFFF"
+        style="?android:attr/buttonStyleSmall"/>
+    <EditText
+        android:id="@+id/value_edit_text"
+        android:layout_width="100sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:background="@drawable/border_background"/>
+    <Button
+        android:id="@+id/incr_button"
+        android:layout_height="40sp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:text="+"
+        android:textColor="#CCFFFF"
+        style="?android:attr/buttonStyleSmall"/>
+
+
+</LinearLayout>

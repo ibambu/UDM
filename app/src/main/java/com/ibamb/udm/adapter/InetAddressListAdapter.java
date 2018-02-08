@@ -1,0 +1,98 @@
+package com.ibamb.udm.adapter;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+
+
+import com.ibamb.udm.R;
+
+import java.net.InetAddress;
+import java.util.ArrayList;
+
+/**
+ * Created by luotao on 18-1-17.
+ */
+
+public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
+    private ArrayList<InetAddress> data;
+    private int id;
+    private LayoutInflater inflater;
+
+    public InetAddressListAdapter(int item, LayoutInflater inflater, ArrayList<InetAddress> data) {
+        this.data = data;
+        this.inflater = inflater;
+        this.id = item;
+    }
+
+    @Override
+    public int getCount() {
+        return data != null ? data.size() : 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return data.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+
+    @Override
+    public View getView(int position, View view, ViewGroup arg2) {
+        TextView deviceIndex = null;
+        TextView deviceIP = null;
+        TextView deviceMac = null;
+        if (view == null) {
+            view = inflater.inflate(id, null);
+            deviceIndex = (TextView) view.findViewById(R.id.device_index);
+            deviceIP = (TextView)view.findViewById(R.id.device_ip);
+            deviceMac = (TextView)view.findViewById(R.id.device_mac);
+            view.setTag(new ListViewColumns(deviceIndex,deviceIP,deviceMac));
+        } else {
+            //得到保存的对象
+            ListViewColumns columns = (ListViewColumns) view.getTag();
+            deviceIndex = columns.index;
+            deviceIP = columns.ip;
+            deviceMac = columns.mac;
+        }
+
+        InetAddress inetAddress = (InetAddress) data.get(position);
+        //帮数据绑定到控件上
+        System.out.println("inetAddress=" + inetAddress);
+        deviceIndex.setText(String.valueOf(position));
+        deviceIP.setText(inetAddress.getHostAddress());
+        deviceMac.setText("AA:BB:CC:DD:FF");
+//        indexView.setText(String.valueOf(position));
+
+        return view;
+
+    }
+
+//    private void LoadImage(ImageView img, String path)
+//    {
+//        //异步加载图片资源
+//        AsyncTaskImageLoad async=new AsyncTaskImageLoad(img);
+//        //执行异步加载，并把图片的路径传送过去
+//        async.execute(path);
+//
+//    }
+
+    private final class ListViewColumns {
+        TextView index = null;
+        TextView ip = null;
+        TextView mac = null;
+
+        public ListViewColumns(TextView index, TextView ip, TextView mac) {
+            this.index = index;
+            this.ip = ip;
+            this.mac = mac;
+        }
+    }
+}

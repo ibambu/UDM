@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <GridLayout
+        android:id="@+id/GridLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="12"
+        android:horizontalSpacing="5sp"
+        android:numColumns="auto_fit"
+        android:orientation="horizontal"
+        android:stretchMode="columnWidth"
+        android:theme="@style/theme_param_setting"
+        android:verticalSpacing="25sp">
+        <TextView
+            android:id="@+id/header_device_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:text="Index" />
+        <TextView
+            android:id="@+id/header_device_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="5"
+            android:layout_gravity="fill"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:text="IP" />
+        <TextView
+            android:id="@+id/header_device_mac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="5"
+            android:layout_gravity="fill"
+            android:layout_marginLeft="2sp"
+            android:layout_marginRight="2sp"
+            android:text="MAC" />
+    </GridLayout>
+
+</LinearLayout>
