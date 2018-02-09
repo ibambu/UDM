@@ -27,6 +27,7 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
+                android:background="@color/udm_gree_light"
                 android:text="Connection Settings" />
 
             <TextView
@@ -210,6 +211,7 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
 
+                android:background="@color/udm_gree_light"
                 android:text="Serial Settings" />
 
             <TextView
@@ -352,6 +354,7 @@
                 style="@style/Widget.AppCompat.Button.Small"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
+                android:background="@color/udm_gree_light"
                 android:gravity="center"
                 android:text="Submit"
                 android:textColor="#FFFFFF" />
