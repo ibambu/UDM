@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.ibamb.udm.R;
@@ -36,13 +37,13 @@ public class ConnectSettingFragment extends Fragment {
     private Spinner protocolSpinner;//tup/udp
     private Button commitButton;
 
-    private class ProtoclChangeListener implements Spinner.OnItemSelectedListener{
+    private class ProtoclChangeListener implements Spinner.OnItemSelectedListener {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            String protocol = (String)protocolSpinner.getItemAtPosition(position);
+            String protocol = (String) protocolSpinner.getItemAtPosition(position);
             AdapterView v = null;
-            if("TCP".equals(protocol)){
+            if ("TCP".equals(protocol)) {
                 currentView.findViewById(R.id.label_work_as).setVisibility(View.VISIBLE);
                 currentView.findViewById(R.id.id_work_role).setVisibility(View.VISIBLE);
 
@@ -51,7 +52,7 @@ public class ConnectSettingFragment extends Fragment {
 
                 currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.GONE);
                 currentView.findViewById(R.id.id_connect_uni_multi).setVisibility(View.GONE);
-            }else if("UDP".equals(protocol)){
+            } else if ("UDP".equals(protocol)) {
                 currentView.findViewById(R.id.label_accepting_income).setVisibility(View.VISIBLE);
                 currentView.findViewById(R.id.id_accepting_income).setVisibility(View.VISIBLE);
 
@@ -120,8 +121,17 @@ public class ConnectSettingFragment extends Fragment {
         commitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TCPChannelParameterDTO dto = new TCPChannelParameterDTO(currentView);
-                TCPChannelParameter tcpChannelParameter = dto.getParamFromView();
+                String connetProtocol = ((Spinner) v.findViewById(R.id.id_connect_protocol)).getSelectedItem().toString();
+                String channelId = ((Spinner) (v.findViewById(R.id.id_connect_channel))).getSelectedItem().toString();
+                boolean isTCPPermit = ((CheckBox) v.findViewById(R.id.id_tcp_check_box)).isChecked();
+                boolean isUDPPermit = ((CheckBox) v.findViewById(R.id.id_udp_check_box)).isChecked();
+                if ("TCP".equals(connetProtocol)) {
+                    TCPChannelParameterDTO dto = new TCPChannelParameterDTO(currentView, channelId);
+                    TCPChannelParameter tcpChannelParameter = dto.getParamFromView();
+                } else if ("UDP".equals(connetProtocol)) {
+
+                }
+
             }
         });
         return currentView;

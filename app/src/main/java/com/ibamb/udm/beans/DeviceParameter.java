@@ -9,7 +9,7 @@ import java.util.List;
 public class DeviceParameter {
     private String ip;
     private String mac;
-    private String netProtocol;
+    private String netProtocol;//TCP|UDP|BOTH
     private List<TCPChannelParameter> tcpChannelParamList;
     private List<UDPChannelParameter> udpChannelParamList;
 

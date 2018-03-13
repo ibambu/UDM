@@ -12,10 +12,12 @@ public class TCPChannelParameter {
     private List<ParameterItem> paramItems;
 
     public String getChannelId() {
+
         return channelId;
     }
 
-    public void setChannelId(String channelId) {
+    public void setChannelId(String channelId)
+    {
         this.channelId = channelId;
     }
 
