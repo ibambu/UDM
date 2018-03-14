@@ -5,9 +5,9 @@ package com.ibamb.udm.instruct.beans;
  */
 
 public class ReplyFrame {
-    private byte control;
-    private byte id;
-    private byte[] length;
+    private byte control;// 1 octet
+    private byte id;// 1 octet
+    private byte[] length;// 2 octets
     private Information information;
 
     public byte getControl() {

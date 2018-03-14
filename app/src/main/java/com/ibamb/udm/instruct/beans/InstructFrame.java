@@ -5,11 +5,11 @@ package com.ibamb.udm.instruct.beans;
  */
 
 public class InstructFrame {
-    private byte control;
-    private byte id;
-    private byte[] length;
-    private byte[] ip;
-    private byte[] mac;
+    private byte control;// 1 octet
+    private byte id;// 1 octet
+    private byte[] length;// 2 octets
+    private byte[] ip;// 4 octets
+    private byte[] mac;// 8 octets
     private Information information;
 
     public byte getControl() {
