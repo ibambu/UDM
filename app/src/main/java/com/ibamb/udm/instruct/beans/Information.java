@@ -9,6 +9,12 @@ public class Information {
     private byte[] length;// 1 octet
     private byte[] data;// zero or more octets
 
+    public Information(String type,String value){
+
+    }
+    public Information(){
+
+    }
     public byte[] getType() {
         return type;
     }

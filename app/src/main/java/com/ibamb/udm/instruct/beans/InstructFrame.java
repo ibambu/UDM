@@ -12,6 +12,11 @@ public class InstructFrame {
     private byte[] mac;// 8 octets
     private Information information;
 
+    public InstructFrame(byte control,String mac,String type,String value){
+        this.control = control;
+        information = new Information(type,value);
+    }
+
     public byte getControl() {
         return control;
     }

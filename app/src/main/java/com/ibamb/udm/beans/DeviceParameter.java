@@ -13,6 +13,26 @@ public class DeviceParameter {
     private List<TCPChannelParameter> tcpChannelParamList;
     private List<UDPChannelParameter> udpChannelParamList;
 
+    public List<TCPChannelParameter> getTcpChannelParamList() {
+        return tcpChannelParamList;
+    }
+
+    public void setTcpChannelParamList(List<TCPChannelParameter> tcpChannelParamList) {
+        this.tcpChannelParamList = tcpChannelParamList;
+    }
+
+    public List<UDPChannelParameter> getUdpChannelParamList() {
+        return udpChannelParamList;
+    }
+
+    public void setUdpChannelParamList(List<UDPChannelParameter> udpChannelParamList) {
+        this.udpChannelParamList = udpChannelParamList;
+    }
+
+    public DeviceParameter(String ip, String mac){
+        this.ip = ip;
+        this.mac = mac;
+    }
     private TCPChannelParameter getTcpChannelParameters(String channelId) {
         TCPChannelParameter channelParam = null;
         for (TCPChannelParameter channelParameter : tcpChannelParamList) {
