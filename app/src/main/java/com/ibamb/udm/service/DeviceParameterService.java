@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.DeviceParameter;
 import com.ibamb.udm.beans.TCPChannelParameter;
 import com.ibamb.udm.beans.UDPChannelParameter;
@@ -29,22 +30,16 @@ public class DeviceParameterService extends Service {
 
     public class DeviceParameterServiceBinder extends Binder {
 
-        public TCPChannelParameter readTCPChannelParameter(String mac,String channelId,List<String> paramIds){
+        public ChannelParameter readChannelParameter(String mac, String channelId, List<String> paramIds){
             UDPSender sender = new UDPSender();
             List<InstructFrame> instructFrames = null;//from paramIds
             List<ReplyFrame> replyFrames = sender.sendInstruct(mac,instructFrames);
-            TCPChannelParameter tcpChannelParameter = null;//from replyFrames
-            return tcpChannelParameter;
-        }
-        public UDPChannelParameter readUDPChannelParameter(String mac,String channelId,List<String> paramIds){
-            UDPSender sender = new UDPSender();
-            List<InstructFrame> instructFrames = null;//from paramIds
-            List<ReplyFrame> replyFrames = sender.sendInstruct(mac,instructFrames);
-            UDPChannelParameter udpChannelParameter = null;//from replyFrames
-            return udpChannelParameter;
+            ChannelParameter channelParameter = null;//from replyFrames
+            return channelParameter;
         }
 
-        public TCPChannelParameter writeTCPChannelParameter(String mac,TCPChannelParameter tcpChannelParameter){
+
+        public ChannelParameter writeChannelParameter(String mac,ChannelParameter channelParameter){
             UDPSender sender = new UDPSender();
             /**
              * 根据将界面参数生成指令
@@ -57,25 +52,8 @@ public class DeviceParameterService extends Service {
             /**
              * 解析返回帧,读取返回的最新参数设置.
              */
-            tcpChannelParameter = null;
-            return tcpChannelParameter;
-        }
-
-        public UDPChannelParameter writeUDPChannelParameter(String mac,UDPChannelParameter udpChannelParameter){
-            UDPSender sender = new UDPSender();
-            /**
-             * 根据将界面参数生成指令
-             */
-            List<InstructFrame> instructFrames = null;//from udpChannelParameter
-            /**
-             * 发送指令
-             */
-            List<ReplyFrame> replyFrames = sender.sendInstruct(mac,instructFrames);
-            /**
-             * 解析返回帧,读取返回的最新参数设置.
-             */
-            udpChannelParameter = null;
-            return udpChannelParameter;
+            channelParameter = null;
+            return channelParameter;
         }
     }
 }

@@ -13,29 +13,22 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.DeviceParameter;
 import com.ibamb.udm.beans.TCPChannelParameter;
 import com.ibamb.udm.beans.UDPChannelParameter;
 import com.ibamb.udm.dto.TCPChannelParameterDTO;
+import com.ibamb.udm.instruct.IParameterReaderWriter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ConnectSettingFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ConnectSettingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ConnectSettingFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String HOST_IP = "IP";
     private static final String HOST_MAC = "MAC";
 
-    // TODO: Rename and change types of parameters
     private String ip;
     private String mac;
     private View currentView;
@@ -43,6 +36,7 @@ public class ConnectSettingFragment extends Fragment {
     private Button commitButton;
 
     private DeviceParameter deviceParameter;
+    private IParameterReaderWriter parameterReaderWriter;
 
     private class ProtoclChangeListener implements Spinner.OnItemSelectedListener {
 
@@ -84,7 +78,6 @@ public class ConnectSettingFragment extends Fragment {
         }
     }
 
-    private OnFragmentInteractionListener mListener;
 
     public ConnectSettingFragment() {
         // Required empty public constructor
@@ -98,7 +91,6 @@ public class ConnectSettingFragment extends Fragment {
      * @param mac Parameter 2.
      * @return A new instance of fragment ConnectSettingFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ConnectSettingFragment newInstance(String ip, String mac) {
         ConnectSettingFragment fragment = new ConnectSettingFragment();
         Bundle args = new Bundle();
@@ -125,6 +117,12 @@ public class ConnectSettingFragment extends Fragment {
         protocolSpinner = currentView.findViewById(R.id.id_connect_protocol);
         protocolSpinner.setOnItemSelectedListener(new ProtoclChangeListener());
         commitButton = currentView.findViewById(R.id.id_conect_setting_commit);
+        String channelId ="1";//界面默认的通道
+        List<String> parmaIds = null;//默认通道的所有参数ID
+        ChannelParameter initChannelParam = parameterReaderWriter.readChannelParam(channelId,parmaIds);
+        /**
+         * 初始化界面参数值.
+         */
         commitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +133,9 @@ public class ConnectSettingFragment extends Fragment {
                 String channelId = ((Spinner) (v.findViewById(R.id.id_connect_channel))).getSelectedItem().toString();
                 boolean isTCPPermit = ((CheckBox) v.findViewById(R.id.id_tcp_check_box)).isChecked();
                 boolean isUDPPermit = ((CheckBox) v.findViewById(R.id.id_udp_check_box)).isChecked();
+
+                ChannelParameter parameter = null;//保存从界面读取到的参数
+
                 if ("TCP".equals(connetProtocol)) {
                     /**
                      * 从界面获取TCP某个通道的参数设置
@@ -144,20 +145,21 @@ public class ConnectSettingFragment extends Fragment {
                     if(deviceParameter.getTcpChannelParamList()==null){
                         deviceParameter.setTcpChannelParamList(new ArrayList<TCPChannelParameter>());
                     }
-                    /**
-                     * 将界面上的TCP参数写入到设备,然后将设备返回的最新UDP参数回显到界面.
-                     */
-                    tcpChannelParameter = mListener.writeTCPParameterToDevice(tcpChannelParameter);
+                    parameter = null;
+
                 } else if ("UDP".equals(connetProtocol)) {
                     /**
                      * 从界面获取UDP某个通道的参数设置
                      */
                     UDPChannelParameter udpChannelParameter = null;
-                    /**
-                     * 将界面上的UDP参数写入到设备,然后将设备返回的最新UDP参数回显到界面.
-                     */
-                    udpChannelParameter = mListener.writeUDPParameterToDevice(udpChannelParameter);
+                    parameter = null;
                 }
+
+                parameter = parameterReaderWriter.writeChannelParam(parameter);
+                /**
+                 * 将返回的参数更新到界面
+                 */
+
             }
         });
         return currentView;
@@ -167,8 +169,8 @@ public class ConnectSettingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof IParameterReaderWriter) {
+            parameterReaderWriter = (IParameterReaderWriter) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -178,24 +180,7 @@ public class ConnectSettingFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        parameterReaderWriter = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-
-        TCPChannelParameter readTCPParameterToDevice(String channelId,List<String> paramIds);
-        UDPChannelParameter readUDPParameterToDevice(String channelId,List<String> paramIds);
-        TCPChannelParameter writeTCPParameterToDevice(TCPChannelParameter tcpParam);
-        UDPChannelParameter writeUDPParameterToDevice(UDPChannelParameter tcpParam);
-    }
 }

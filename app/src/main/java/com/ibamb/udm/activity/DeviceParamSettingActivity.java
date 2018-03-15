@@ -17,10 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.TCPChannelParameter;
 import com.ibamb.udm.beans.UDPChannelParameter;
 import com.ibamb.udm.fragment.ConnectSettingFragment;
 import com.ibamb.udm.fragment.IPSettingFragment;
+import com.ibamb.udm.instruct.IParameterReaderWriter;
 import com.ibamb.udm.service.DeviceParameterService;
 import com.ibamb.udm.service.DeviceSearchService;
 
@@ -29,7 +31,7 @@ import java.util.List;
 /**
  * 登录设备后进入的主界面
  */
-public class DeviceParamSettingActivity extends AppCompatActivity implements ConnectSettingFragment.OnFragmentInteractionListener {
+public class DeviceParamSettingActivity extends AppCompatActivity implements IParameterReaderWriter {
 
     private TextView tabIpSetting;
     private TextView tabConnectSetting;
@@ -145,44 +147,13 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements Con
         }
     };
 
-    /**
-     *  读取设备某个通道的TCP参数设置
-     * @param channelId
-     * @return
-     */
     @Override
-    public TCPChannelParameter readTCPParameterToDevice(String channelId,List<String> paramIds) {
-        return parameterServiceBinder.readTCPChannelParameter(mac,channelId,paramIds);
+    public ChannelParameter readChannelParam(String channelId, List<String> paramIds) {
+        return parameterServiceBinder.readChannelParameter(mac,channelId,paramIds);
     }
 
-    /**
-     * 读取设备某个通道的UDP参数设置
-     * @param channelId
-     * @return
-     */
     @Override
-    public UDPChannelParameter readUDPParameterToDevice(String channelId,List<String> paramIds) {
-        return parameterServiceBinder.readUDPChannelParameter(mac,channelId,paramIds);
+    public ChannelParameter writeChannelParam(ChannelParameter channelParameter) {
+        return parameterServiceBinder.writeChannelParameter(mac,channelParameter);
     }
-
-    /**
-     * 设置设备某个通道的TCP参数
-     * @param tcpParam
-     * @return
-     */
-    @Override
-    public TCPChannelParameter writeTCPParameterToDevice(TCPChannelParameter tcpParam) {
-        return parameterServiceBinder.writeTCPChannelParameter(mac,tcpParam);
-    }
-
-    /**
-     * 设置设备某个通道的UDP参数
-     * @param udpParam
-     * @return
-     */
-    @Override
-    public UDPChannelParameter writeUDPParameterToDevice(UDPChannelParameter udpParam) {
-        return parameterServiceBinder.writeUDPChannelParameter(mac,udpParam);
-    }
-
 }
