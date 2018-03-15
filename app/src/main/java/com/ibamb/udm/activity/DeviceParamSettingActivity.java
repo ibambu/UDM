@@ -24,6 +24,8 @@ import com.ibamb.udm.fragment.IPSettingFragment;
 import com.ibamb.udm.service.DeviceParameterService;
 import com.ibamb.udm.service.DeviceSearchService;
 
+import java.util.List;
+
 /**
  * 登录设备后进入的主界面
  */
@@ -146,23 +148,21 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements Con
     /**
      *  读取设备某个通道的TCP参数设置
      * @param channelId
-     * @param mac
      * @return
      */
     @Override
-    public TCPChannelParameter readTCPParameterToDevice(String channelId,String mac) {
-        return parameterServiceBinder.readTCPChannelParameter(channelId,mac);
+    public TCPChannelParameter readTCPParameterToDevice(String channelId,List<String> paramIds) {
+        return parameterServiceBinder.readTCPChannelParameter(mac,channelId,paramIds);
     }
 
     /**
      * 读取设备某个通道的UDP参数设置
      * @param channelId
-     * @param mac
      * @return
      */
     @Override
-    public UDPChannelParameter readUDPParameterToDevice(String channelId,String mac) {
-        return parameterServiceBinder.readUDPChannelParameter(channelId,mac);
+    public UDPChannelParameter readUDPParameterToDevice(String channelId,List<String> paramIds) {
+        return parameterServiceBinder.readUDPChannelParameter(mac,channelId,paramIds);
     }
 
     /**
@@ -172,7 +172,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements Con
      */
     @Override
     public TCPChannelParameter writeTCPParameterToDevice(TCPChannelParameter tcpParam) {
-        return parameterServiceBinder.writeTCPChannelParameter(tcpParam);
+        return parameterServiceBinder.writeTCPChannelParameter(mac,tcpParam);
     }
 
     /**
@@ -182,7 +182,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements Con
      */
     @Override
     public UDPChannelParameter writeUDPParameterToDevice(UDPChannelParameter udpParam) {
-        return parameterServiceBinder.writeUDPChannelParameter(udpParam);
+        return parameterServiceBinder.writeUDPChannelParameter(mac,udpParam);
     }
 
 }

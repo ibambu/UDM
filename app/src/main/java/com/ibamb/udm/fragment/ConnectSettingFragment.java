@@ -193,8 +193,8 @@ public class ConnectSettingFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
 
-        TCPChannelParameter readTCPParameterToDevice(String channelId,String mac);
-        UDPChannelParameter readUDPParameterToDevice(String channelId,String mac);
+        TCPChannelParameter readTCPParameterToDevice(String channelId,List<String> paramIds);
+        UDPChannelParameter readUDPParameterToDevice(String channelId,List<String> paramIds);
         TCPChannelParameter writeTCPParameterToDevice(TCPChannelParameter tcpParam);
         UDPChannelParameter writeUDPParameterToDevice(UDPChannelParameter tcpParam);
     }
