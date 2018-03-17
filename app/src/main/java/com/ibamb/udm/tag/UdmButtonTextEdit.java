@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.ibamb.udm.R;
 
@@ -16,7 +15,7 @@ import com.ibamb.udm.R;
  * TextEdit center with reduce button left and add button right.
  */
 
-public class IncDecTextEdit extends LinearLayout {
+public class UdmButtonTextEdit extends LinearLayout {
 
     private EditText valueEditText;
     private Button incrButton;
@@ -35,7 +34,6 @@ public class IncDecTextEdit extends LinearLayout {
         @Override
         public void onClick(View v) {
             String editTextValue = valueEditText.getText().toString();
-            System.out.println("editTextValue:" + editTextValue);
             if (editTextValue == null || editTextValue.trim().length() == 0) {
                 editTextValue = "0";
             }
@@ -46,7 +44,9 @@ public class IncDecTextEdit extends LinearLayout {
                     valueEditText.setText(editTextValue.toCharArray(), 0, editTextValue.length());
                     break;
                 case R.id.decr_button:
-                    editTextValue=String.valueOf(value-1);
+                    value --;
+                    value = value < 0 ? 0 : value;
+                    editTextValue=String.valueOf(value);
                     valueEditText.setText(editTextValue.toCharArray(), 0, editTextValue.length());
                     break;
                 default:
@@ -55,9 +55,9 @@ public class IncDecTextEdit extends LinearLayout {
         }
     }
 
-    public IncDecTextEdit(Context context, @Nullable AttributeSet attrs) {
+    public UdmButtonTextEdit(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View view = LayoutInflater.from(context).inflate(R.layout.tag_incrdecr_textedit_layout, this);
+        View view = LayoutInflater.from(context).inflate(R.layout.tag_udm_button_textedit_layout, this);
 
         incrButton = (Button) findViewById(R.id.incr_button);
         decrButton = (Button) findViewById(R.id.decr_button);

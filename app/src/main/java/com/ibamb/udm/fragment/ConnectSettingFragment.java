@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -19,6 +20,7 @@ import com.ibamb.udm.beans.TCPChannelParameter;
 import com.ibamb.udm.beans.UDPChannelParameter;
 import com.ibamb.udm.dto.TCPChannelParameterDTO;
 import com.ibamb.udm.instruct.IParameterReaderWriter;
+import com.ibamb.udm.tag.UdmSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class ConnectSettingFragment extends Fragment {
     private String ip;
     private String mac;
     private View currentView;
-    private Spinner protocolSpinner;//tup/udp
+    private UdmSpinner protocolSpinner;//tup/udp
     private Button commitButton;
 
     private DeviceParameter deviceParameter;
@@ -42,7 +44,7 @@ public class ConnectSettingFragment extends Fragment {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            String protocol = (String) protocolSpinner.getItemAtPosition(position);
+            String protocol = "TCP";//(String) protocolSpinner.getItemAtPosition(position);
             AdapterView v = null;
             if ("TCP".equals(protocol)) {
                 currentView.findViewById(R.id.label_work_as).setVisibility(View.VISIBLE);
@@ -114,12 +116,12 @@ public class ConnectSettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         currentView = inflater.inflate(R.layout.fragment_connect_setting, container, false);
-        protocolSpinner = currentView.findViewById(R.id.id_connect_protocol);
-        protocolSpinner.setOnItemSelectedListener(new ProtoclChangeListener());
+        protocolSpinner =(UdmSpinner) currentView.findViewById(R.id.id_connect_protocol);
+
         commitButton = currentView.findViewById(R.id.id_conect_setting_commit);
-        String channelId ="1";//界面默认的通道
-        List<String> parmaIds = null;//默认通道的所有参数ID
-        ChannelParameter initChannelParam = parameterReaderWriter.readChannelParam(channelId,parmaIds);
+//        String channelId ="1";//界面默认的通道
+//        List<String> parmaIds = null;//默认通道的所有参数ID
+//        ChannelParameter initChannelParam = parameterReaderWriter.readChannelParam(channelId,parmaIds);
         /**
          * 初始化界面参数值.
          */
@@ -129,11 +131,11 @@ public class ConnectSettingFragment extends Fragment {
                 if(deviceParameter==null){
                     deviceParameter = new DeviceParameter(ip,mac);
                 }
-                String connetProtocol = ((Spinner) v.findViewById(R.id.id_connect_protocol)).getSelectedItem().toString();
-                String channelId = ((Spinner) (v.findViewById(R.id.id_connect_channel))).getSelectedItem().toString();
-                boolean isTCPPermit = ((CheckBox) v.findViewById(R.id.id_tcp_check_box)).isChecked();
-                boolean isUDPPermit = ((CheckBox) v.findViewById(R.id.id_udp_check_box)).isChecked();
-
+                String connetProtocol = ((UdmSpinner) currentView.findViewById(R.id.id_connect_protocol)).getValue();
+                String channelId =((UdmSpinner) (currentView.findViewById(R.id.id_connect_channel))).getValue();
+                boolean isTCPPermit = ((CheckBox) currentView.findViewById(R.id.id_tcp_check_box)).isChecked();
+                boolean isUDPPermit = ((CheckBox) currentView.findViewById(R.id.id_udp_check_box)).isChecked();
+                System.out.println(connetProtocol);
                 ChannelParameter parameter = null;//保存从界面读取到的参数
 
                 if ("TCP".equals(connetProtocol)) {
@@ -155,7 +157,7 @@ public class ConnectSettingFragment extends Fragment {
                     parameter = null;
                 }
 
-                parameter = parameterReaderWriter.writeChannelParam(parameter);
+//                parameter = parameterReaderWriter.writeChannelParam(parameter);
                 /**
                  * 将返回的参数更新到界面
                  */

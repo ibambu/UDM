@@ -7,9 +7,8 @@ import android.widget.Spinner;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.beans.TCPChannelParameter;
 import com.ibamb.udm.beans.UDPChannelParameter;
-import com.ibamb.udm.tag.IncDecTextEdit;
+import com.ibamb.udm.tag.UdmButtonTextEdit;
 
 import java.util.ArrayList;
 
@@ -47,11 +46,11 @@ public class UDPChannelParameterDTO {
         ParameterItem connResonsItem = new ParameterItem("CONN" + channelId + "__UDP_TMP_HOST_EN", connResons);
         channelParameter.getUniParamItems().add(connResonsItem);
 
-        String localPort = ((IncDecTextEdit) view.findViewById(R.id.id_local_port)).getValueEditText();//local port
+        String localPort = ((UdmButtonTextEdit) view.findViewById(R.id.id_local_port)).getValueEditText();//local port
         ParameterItem localPortItem = new ParameterItem("CONN" + channelId + "_UDP_UNI_LOCAL_PORT", localPort);
         channelParameter.getUniParamItems().add(localPortItem);
 
-        String remotePort = ((IncDecTextEdit) view.findViewById(R.id.id_remort_port)).getValueEditText();//remote port
+        String remotePort = ((UdmButtonTextEdit) view.findViewById(R.id.id_remort_port)).getValueEditText();//remote port
         ParameterItem remotePortItem = new ParameterItem("CONN" + channelId + "_UDP_UNI_HOST_PORT0", remotePort);
         channelParameter.getUniParamItems().add(remotePortItem);
 
@@ -84,15 +83,15 @@ public class UDPChannelParameterDTO {
         ParameterItem serialParitylItem = new ParameterItem("UART" + channelId + "_PARITY", flowControl);
         channelParameter.getUniParamItems().add(serialParitylItem);
 
-        String uartLdleTime = ((IncDecTextEdit) view.findViewById(R.id.id_uart_ldle_time)).getValueEditText();//uart ldle time
+        String uartLdleTime = ((UdmButtonTextEdit) view.findViewById(R.id.id_uart_ldle_time)).getValueEditText();//uart ldle time
         ParameterItem uartLdleTimeItem = new ParameterItem("UART" + channelId + "_IDLE_TIME_PACKINGR", uartLdleTime);
         channelParameter.getUniParamItems().add(uartLdleTimeItem);
         //TODO wait conform
-        String uartOutIfg = ((IncDecTextEdit) view.findViewById(R.id.id_uart_out_ifg)).getValueEditText();// rart out ifg
+        String uartOutIfg = ((UdmButtonTextEdit) view.findViewById(R.id.id_uart_out_ifg)).getValueEditText();// rart out ifg
         ParameterItem uartOutIfgItem = new ParameterItem("CONN" + channelId + "_MERGE_TIMEOUT", uartOutIfg);
         channelParameter.getUniParamItems().add(uartOutIfgItem);
 
-        String linkLatch = ((IncDecTextEdit) view.findViewById(R.id.id_link_latch)).getValueEditText();//link latch
+        String linkLatch = ((UdmButtonTextEdit) view.findViewById(R.id.id_link_latch)).getValueEditText();//link latch
         ParameterItem linkLatchItem = new ParameterItem("CONN" + channelId + "_LINK_LATCH_TIMEOUT", linkLatch);
         channelParameter.getUniParamItems().add(linkLatchItem);
 
