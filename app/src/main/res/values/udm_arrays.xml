@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TCP/UDP Protocol-->
+    <string-array name="opt_connect_protocol">
+        <item>TCP</item>
+        <item>UDP</item>
+    </string-array>
+
+    <!--channel option-->
+    <string-array name="opt_connect_channel">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+    </string-array>
+    <!--Work as Server/Client option-->
+    <string-array name="opt_connect_work_role">
+        <item>Server</item>
+        <item>Client</item>
+        <item>Both</item>
+    </string-array>
+    <!--RTS Option-->
+    <string-array name="opt_connect_rts">
+        <item>RTS_out</item>
+        <item>RTS_in</item>
+    </string-array>
+    <string-array name="opt_connect_uni_multi">
+        <item>uni</item>
+        <item>multi</item>
+    </string-array>
+    <!--serial protocol-->
+    <string-array name="opt_serial_protocol">
+        <item>Rs232</item>
+        <item>Rs422</item>
+        <item>Rs485</item>
+        <item>1003</item>
+    </string-array>
+    <!--serial protocol-->
+    <string-array name="opt_serial_baud_rate">
+        <item>110</item>
+        <item>134</item>
+        <item>150</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1200</item>
+        <item>1800</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>7200</item>
+        <item>9600</item>
+        <item>14400</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>115200</item>
+        <item>230400</item>
+        <item>460800</item>
+        <item>921600</item>
+    </string-array>
+    <string-array name="opt_serial_data_bits">
+        <item>8</item>
+        <item>7</item>
+        <item>6</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="opt_serial_stop_bits">
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="opt_serial_flow_control">
+        <item>Hardware</item>
+        <item>Software</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="opt_serial_parity">
+        <item>ODD</item>
+        <item>EVEN</item>
+        <item>NONE</item>
+    </string-array>
+    <string-array name="opt_values">
+        <item>1000</item>
+        <item>1001</item>
+        <item>1002</item>
+        <item>1003</item>
+    </string-array>
+
+    <string-array name="opt_ip_obtain">
+        <item>Manual IP</item>
+        <item>DHCP IP</item>
+    </string-array>
+</resources>

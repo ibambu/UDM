@@ -67,7 +67,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Protocol to Set" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_connect_protocol"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -82,7 +82,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Channel" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_connect_channel"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -100,7 +100,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Work As" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_work_role"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -133,7 +133,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Uni/Multi" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_connect_uni_multi"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -148,7 +148,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Optition" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_connect_rts"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -164,7 +164,7 @@
                 android:gravity="left|center"
                 android:text="Local Port" />
 
-            <com.ibamb.udm.tag.IncDecTextEdit
+            <com.ibamb.udm.tag.UdmButtonTextEdit
                 android:id="@+id/id_local_port"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                 android:text="Remote Port" />
 
 
-            <com.ibamb.udm.tag.IncDecTextEdit
+            <com.ibamb.udm.tag.UdmButtonTextEdit
                 android:id="@+id/id_remort_port"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Protocol" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_serial_protocol"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -236,7 +236,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Baud Rate" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_baud_rate"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -251,7 +251,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Data Bits" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_data_bits"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -266,7 +266,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Stop Bits" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_stop_bits"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -281,7 +281,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Flow Control" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_flow_control"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -296,7 +296,7 @@
                 android:layout_marginRight="2sp"
                 android:text="Parity" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_serial_parity"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -312,7 +312,7 @@
                 android:gravity="left|center"
                 android:text="Uart ldle Time(ms)" />
 
-            <com.ibamb.udm.tag.IncDecTextEdit
+            <com.ibamb.udm.tag.UdmButtonTextEdit
                 android:id="@+id/id_uart_ldle_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -327,7 +327,7 @@
                 android:gravity="left|center"
                 android:text="Uart Out IFG(ms)" />
 
-            <com.ibamb.udm.tag.IncDecTextEdit
+            <com.ibamb.udm.tag.UdmButtonTextEdit
                 android:id="@+id/id_uart_out_ifg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -342,7 +342,7 @@
                 android:gravity="left|center"
                 android:text="Link Latch(ms)" />
 
-            <com.ibamb.udm.tag.IncDecTextEdit
+            <com.ibamb.udm.tag.UdmButtonTextEdit
                 android:id="@+id/id_link_latch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
