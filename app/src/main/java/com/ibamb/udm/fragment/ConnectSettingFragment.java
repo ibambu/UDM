@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,10 @@ import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.DeviceParameter;
 import com.ibamb.udm.beans.TCPChannelParameter;
 import com.ibamb.udm.beans.UDPChannelParameter;
+import com.ibamb.udm.dto.ParameterTransfer;
 import com.ibamb.udm.dto.TCPChannelParameterDTO;
 import com.ibamb.udm.instruct.IParameterReaderWriter;
+import com.ibamb.udm.instruct.beans.ChannelParamsID;
 import com.ibamb.udm.tag.UdmSpinner;
 
 import java.util.ArrayList;
@@ -31,14 +35,19 @@ public class ConnectSettingFragment extends Fragment {
     private static final String HOST_IP = "IP";
     private static final String HOST_MAC = "MAC";
 
+    private IParameterReaderWriter parameterReaderWriter;
+    private View currentView;
+
     private String ip;
     private String mac;
-    private View currentView;
-    private UdmSpinner protocolSpinner;//tup/udp
+
+    private UdmSpinner toSetProtocol;//tup/udp
+    private UdmSpinner toSetChannel;
+    private UdmSpinner toSetUdpDataMode;
     private Button commitButton;
 
-    private DeviceParameter deviceParameter;
-    private IParameterReaderWriter parameterReaderWriter;
+    private ChannelParameter channelParameter;
+
 
     private class ProtoclChangeListener implements Spinner.OnItemSelectedListener {
 
@@ -46,24 +55,24 @@ public class ConnectSettingFragment extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String protocol = "TCP";//(String) protocolSpinner.getItemAtPosition(position);
             AdapterView v = null;
-            if ("TCP".equals(protocol)) {
-                currentView.findViewById(R.id.label_work_as).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.id_work_role).setVisibility(View.VISIBLE);
-
-                currentView.findViewById(R.id.label_accepting_income).setVisibility(View.GONE);
-                currentView.findViewById(R.id.id_accepting_income).setVisibility(View.GONE);
-
-                currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.GONE);
-                currentView.findViewById(R.id.id_connect_uni_multi).setVisibility(View.GONE);
-            } else if ("UDP".equals(protocol)) {
-                currentView.findViewById(R.id.label_accepting_income).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.id_accepting_income).setVisibility(View.VISIBLE);
-
-                currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.id_connect_uni_multi).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.id_work_role).setVisibility(View.GONE);
-                currentView.findViewById(R.id.label_work_as).setVisibility(View.GONE);
-            }
+//            if ("TCP".equals(protocol)) {
+//                currentView.findViewById(R.id.label_work_as).setVisibility(View.VISIBLE);
+//                currentView.findViewById(R.id.id_work_role).setVisibility(View.VISIBLE);
+//
+//                currentView.findViewById(R.id.label_accepting_income).setVisibility(View.GONE);
+//                currentView.findViewById(R.id.id_accepting_income).setVisibility(View.GONE);
+//
+//                currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.GONE);
+//                currentView.findViewById(R.id.id_connect_uni_multi).setVisibility(View.GONE);
+//            } else if ("UDP".equals(protocol)) {
+//                currentView.findViewById(R.id.label_accepting_income).setVisibility(View.VISIBLE);
+//                currentView.findViewById(R.id.id_accepting_income).setVisibility(View.VISIBLE);
+//
+//                currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.VISIBLE);
+//                currentView.findViewById(R.id.id_connect_uni_multi).setVisibility(View.VISIBLE);
+//                currentView.findViewById(R.id.id_work_role).setVisibility(View.GONE);
+//                currentView.findViewById(R.id.label_work_as).setVisibility(View.GONE);
+//            }
         }
 
         @Override
@@ -89,7 +98,7 @@ public class ConnectSettingFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param ip Parameter 1.
+     * @param ip  Parameter 1.
      * @param mac Parameter 2.
      * @return A new instance of fragment ConnectSettingFragment.
      */
@@ -116,52 +125,29 @@ public class ConnectSettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         currentView = inflater.inflate(R.layout.fragment_connect_setting, container, false);
-        protocolSpinner =(UdmSpinner) currentView.findViewById(R.id.id_connect_protocol);
-
+        toSetProtocol = (UdmSpinner) currentView.findViewById(R.id.udm_conn_net_protocol_set);
+        toSetChannel = (UdmSpinner) currentView.findViewById(R.id.udm_connect_channel_set);
+        toSetUdpDataMode = (UdmSpinner) currentView.findViewById(R.id.udm_conn_udp_data_mode);
         commitButton = currentView.findViewById(R.id.id_conect_setting_commit);
-//        String channelId ="1";//界面默认的通道
-//        List<String> parmaIds = null;//默认通道的所有参数ID
-//        ChannelParameter initChannelParam = parameterReaderWriter.readChannelParam(channelId,parmaIds);
-        /**
-         * 初始化界面参数值.
-         */
+
+        String[] parmaIds = ChannelParamsID.getTcpParamsId("1");// read default channel 1. default protocol tcp.
+        ChannelParameter initChannelParam = parameterReaderWriter.readChannelParam("1",parmaIds);
+        ParameterTransfer.transTcpParamToView(currentView,initChannelParam);
+        initParamView();// init param view element.
+        bindParamChangeEvent();// init event.
         commitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(deviceParameter==null){
-                    deviceParameter = new DeviceParameter(ip,mac);
+                ChannelParameter parameter = null;
+                if ("TCP".equals(toSetProtocol.getValue())) {
+                    parameter = ParameterTransfer.getTcpParamFromView(currentView, mac);
+                    parameter = parameterReaderWriter.writeChannelParam(parameter);
+                    ParameterTransfer.transTcpParamToView(currentView, parameter);
+                } else if ("UDP".equals(toSetProtocol.getValue())) {
+                    parameter = ParameterTransfer.getUdpParamFromView(currentView, mac);
+                    parameter = parameterReaderWriter.writeChannelParam(parameter);
+                    ParameterTransfer.transUdpParamToView(currentView, parameter);
                 }
-                String connetProtocol = ((UdmSpinner) currentView.findViewById(R.id.id_connect_protocol)).getValue();
-                String channelId =((UdmSpinner) (currentView.findViewById(R.id.id_connect_channel))).getValue();
-                boolean isTCPPermit = ((CheckBox) currentView.findViewById(R.id.id_tcp_check_box)).isChecked();
-                boolean isUDPPermit = ((CheckBox) currentView.findViewById(R.id.id_udp_check_box)).isChecked();
-                System.out.println(connetProtocol);
-                ChannelParameter parameter = null;//保存从界面读取到的参数
-
-                if ("TCP".equals(connetProtocol)) {
-                    /**
-                     * 从界面获取TCP某个通道的参数设置
-                     */
-                    TCPChannelParameterDTO dto = new TCPChannelParameterDTO(currentView, channelId);
-                    TCPChannelParameter tcpChannelParameter = dto.getParamFromView();
-                    if(deviceParameter.getTcpChannelParamList()==null){
-                        deviceParameter.setTcpChannelParamList(new ArrayList<TCPChannelParameter>());
-                    }
-                    parameter = null;
-
-                } else if ("UDP".equals(connetProtocol)) {
-                    /**
-                     * 从界面获取UDP某个通道的参数设置
-                     */
-                    UDPChannelParameter udpChannelParameter = null;
-                    parameter = null;
-                }
-
-//                parameter = parameterReaderWriter.writeChannelParam(parameter);
-                /**
-                 * 将返回的参数更新到界面
-                 */
-
             }
         });
         return currentView;
@@ -183,6 +169,91 @@ public class ConnectSettingFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         parameterReaderWriter = null;
+    }
+
+    private void initParamView(){
+        //todo
+    }
+    private void bindParamChangeEvent() {
+        /**
+         * When TCP or UDP switched , parameters must to reload.
+         */
+        toSetProtocol.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String[] paramIds = null;
+                if (s.toString().equals("TCP")) {
+                    paramIds = ChannelParamsID.getTcpParamsId(toSetChannel.getValue());
+                } else if (s.toString().equals("UDP")) {
+                    paramIds = ChannelParamsID.getTcpParamsId(toSetChannel.getValue());
+                }
+                channelParameter = parameterReaderWriter.readChannelParam(toSetChannel.getValue(), paramIds);
+                if (s.toString().equals("TCP")) {
+                    ParameterTransfer.transTcpParamToView(currentView, channelParameter);
+                } else if (s.toString().equals("UDP")) {
+                    ParameterTransfer.transUdpParamToView(currentView, channelParameter);
+                }
+            }
+        });
+        /**
+         * When channel changed , parameters must to reload.
+         */
+        toSetChannel.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String channelId = s.toString();
+                String[] paramIds = null;
+                if (toSetProtocol.getValue().equals("TCP")) {
+                    paramIds = ChannelParamsID.getTcpParamsId(channelId);
+                } else if (toSetProtocol.getValue().equals("UDP")) {
+                    paramIds = ChannelParamsID.getTcpParamsId(channelId);
+                }
+                channelParameter = parameterReaderWriter.readChannelParam(channelId, paramIds);
+                if (toSetProtocol.getValue().equals("TCP")) {
+                    ParameterTransfer.transTcpParamToView(currentView, channelParameter);
+                } else if (toSetProtocol.getValue().equals("UDP")) {
+                    ParameterTransfer.transUdpParamToView(currentView, channelParameter);
+                }
+            }
+        });
+        /**
+         * When UDP data mode changed , parameters must to change display.
+         */
+        toSetUdpDataMode.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
 }

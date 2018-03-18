@@ -15,8 +15,8 @@ public class ParameterItem {
         this.remoteParamId = remoteParamId;
     }
 
-    public ParameterItem(String remoteParamId,String paramValue) {
-        this.remoteParamId = remoteParamId;
+    public ParameterItem(String paramId,String paramValue) {
+        this.paramId = paramId;
         this.paramValue = paramValue;
     }
 

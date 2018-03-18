@@ -21,11 +21,11 @@ public class UdmButtonTextEdit extends LinearLayout {
     private Button incrButton;
     private Button decrButton;
 
-    public String getValueEditText() {
+    public String getValue() {
         return valueEditText.getText().toString();
     }
 
-    public void setValueEditText(String value) {
+    public void setValue(String value) {
         valueEditText.setText(value);
     }
 

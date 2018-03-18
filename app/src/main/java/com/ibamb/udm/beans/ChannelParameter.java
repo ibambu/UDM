@@ -1,5 +1,6 @@
 package com.ibamb.udm.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,10 +8,28 @@ import java.util.List;
  */
 
 public class ChannelParameter {
-    private String channelId;
 
+    private String mac;
+    private String channelId;
     private List<ParameterItem> paramItems;
 
+    public String getParamValueById(String paramId){
+        String value="";
+        for(ParameterItem item:paramItems){
+            if(paramId.equals(item.getParamId())){
+                value = item.getParamValue();
+                break;
+            }
+        }
+        return value;
+    }
+    public ChannelParameter(){
+
+    }
+    public ChannelParameter(String mac,String channelId){
+        this.mac = mac;
+        paramItems = new ArrayList<>();
+    }
     public String getChannelId() {
         return channelId;
     }
@@ -25,5 +44,13 @@ public class ChannelParameter {
 
     public void setParamItems(List<ParameterItem> paramItems) {
         this.paramItems = paramItems;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 }

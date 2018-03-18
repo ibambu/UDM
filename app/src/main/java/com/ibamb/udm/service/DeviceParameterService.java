@@ -30,7 +30,7 @@ public class DeviceParameterService extends Service {
 
     public class DeviceParameterServiceBinder extends Binder {
 
-        public ChannelParameter readChannelParameter(String mac, String channelId, List<String> paramIds){
+        public ChannelParameter readChannelParameter(String mac, String channelId, String[] paramIds){
             UDPSender sender = new UDPSender();
             List<InstructFrame> instructFrames = null;//from paramIds
             List<ReplyFrame> replyFrames = sender.sendInstruct(mac,instructFrames);

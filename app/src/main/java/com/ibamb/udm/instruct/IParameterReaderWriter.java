@@ -11,6 +11,6 @@ import java.util.List;
  */
 
 public interface IParameterReaderWriter {
-    public  ChannelParameter readChannelParam(String channelId, List<String> paramIds);
+    public  ChannelParameter readChannelParam(String channelId, String[] paramIds);
     public  ChannelParameter writeChannelParam(ChannelParameter channelParameter);
 }
