@@ -48,11 +48,11 @@ public class ParameterTransfer {
             } else if (paramId.equals("CONN" + channelId + "_TCP_CONN_RESPONS")) {
                 ((UdmSpinner) view.findViewById(R.id.udm_conn_tcp_conn_respons)).setValue(value);
             } else if (paramId.equals("CONN" + channelId + "_TCP_HOST_IP0")) {
-                ((EditText) view.findViewById(R.id.udm_conn_tcpudp_host_ip0)).setText(value);
+                ((EditText) view.findViewById(R.id.udm_conn_host_ip0)).setText(value);
             } else if (paramId.equals("CONN" + channelId + "_TCP_HOST_PORT0")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_port0)).setValue(value);
+                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_port0)).setValue(value);
             } else if (paramId.equals("CONN" + channelId + "_TCP_LOCAL_PORT")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_local_port)).setValue(value);
+                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_local_port)).setValue(value);
             } else if (paramId.equals("UART" + channelId + "_STOPBIT")) {
                 ((UdmSpinner) view.findViewById(R.id.udm_uart_stopbit)).setValue(value);
             } else if (paramId.equals("UART" + channelId + "_DATABIT")) {
@@ -111,16 +111,14 @@ public class ParameterTransfer {
 
                 }
             } else if (paramId.equals("CONN" + channelId + "_UDP_TMP_HOST_EN")) {
-                ((UdmSpinner) view.findViewById(R.id.udm_conn_tcp_conn_respons)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
+                ((UdmSpinner) view.findViewById(R.id.udm_conn_udp_tmp_host_en)).setValue(value);
             } else if (paramId.equals("CONN" + channelId + "_UDP_UNI_LOCAL_PORT")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_local_port)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
+                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_local_port)).setValue(value);//
             } else if (paramId.equals("CONN" + channelId + "_UDP_UNI_HOST_IP0")) {
-                ((EditText) view.findViewById(R.id.udm_conn_tcpudp_host_ip0)).setText(value);//TODO 与TCP标签公用. 需要分开处理.
-            } else if (paramId.equals("CONN" + channelId + "_UDP_UNI_HOST_IP0")) {
-                ((EditText) view.findViewById(R.id.udm_conn_tcpudp_host_ip0)).setText(value);//TODO 与TCP标签公用. 需要分开处理.
+                ((EditText) view.findViewById(R.id.udm_conn_host_ip0)).setText(value);//
             } else if (paramId.equals("CONN" + channelId + "_UDP_UNI_HOST_PORT0")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_port0)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
-            } else if (paramId.equals("UART" + channelId + "_STOPBIT")) {
+                ((EditText) view.findViewById(R.id.udm_conn_host_port0)).setText(value);//
+            }  else if (paramId.equals("UART" + channelId + "_STOPBIT")) {
                 ((UdmSpinner) view.findViewById(R.id.udm_uart_stopbit)).setValue(value);
             } else if (paramId.equals("UART" + channelId + "_DATABIT")) {
                 ((UdmSpinner) view.findViewById(R.id.udm_uart_databit)).setValue(value);
@@ -135,11 +133,11 @@ public class ParameterTransfer {
             } else if (paramId.equals("CONN" + channelId + "_LINK_LATCH_TIMEOUT")) {
                 ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_link_latch_timeout)).setValue(value);
             } else if (paramId.equals("CONN" + channelId + "_UDP_MUL_LOCAL_PORT")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_local_port)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
+                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_local_port)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
             } else if (paramId.equals("CONN" + channelId + "_UDP_MUL_REMOTE_PORT")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_port0)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
+                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_port0)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
             } else if (paramId.equals("CONN" + channelId + "_UDP_MUL_REMOTE_IP")) {
-                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_ip0)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
+                ((UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_ip0)).setValue(value);//TODO 与TCP标签公用. 需要分开处理.
             }
         }
     }
@@ -175,13 +173,13 @@ public class ParameterTransfer {
         UdmSpinner tcpConnRespons = (UdmSpinner) view.findViewById(R.id.udm_conn_tcp_conn_respons);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_TCP_CONN_RESPONS", tcpConnRespons.getValue()));
 
-        EditText hostIp = (EditText) view.findViewById(R.id.udm_conn_tcpudp_host_ip0);
+        EditText hostIp = (EditText) view.findViewById(R.id.udm_conn_host_ip0);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_TCP_HOST_IP0", hostIp.getText().toString()));
 
-        UdmButtonTextEdit hostPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_port0);
+        UdmButtonTextEdit hostPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_port0);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_TCP_HOST_PORT0", hostPort.getValue()));
 
-        UdmButtonTextEdit localPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_local_port);
+        UdmButtonTextEdit localPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_local_port);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_TCP_LOCAL_PORT", localPort.getValue()));
 
         UdmSpinner stopBit = (UdmSpinner) view.findViewById(R.id.udm_uart_stopbit);
@@ -242,13 +240,13 @@ public class ParameterTransfer {
         UdmSpinner udpTmpHostEn = (UdmSpinner) view.findViewById(R.id.udm_conn_tcp_conn_respons);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_TMP_HOST_EN", udpTmpHostEn.getValue()));
 
-        UdmButtonTextEdit udpLocalPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_local_port);
+        UdmButtonTextEdit udpLocalPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_local_port);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_UNI_LOCAL_PORT", udpLocalPort.getValue()));
 
-        EditText hostIp = (EditText) view.findViewById(R.id.udm_conn_tcpudp_host_ip0);
+        EditText hostIp = (EditText) view.findViewById(R.id.udm_conn_host_ip0);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_UNI_HOST_IP0", hostIp.getText().toString()));
 
-        UdmButtonTextEdit  hostPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_port0);
+        UdmButtonTextEdit  hostPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_port0);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_UNI_HOST_PORT0", hostPort.getValue()));
 
         UdmSpinner stopBit = (UdmSpinner) view.findViewById(R.id.udm_uart_stopbit);
@@ -272,13 +270,13 @@ public class ParameterTransfer {
         UdmButtonTextEdit linkLatchTimeOut = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_link_latch_timeout);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_LINK_LATCH_TIMEOUT", linkLatchTimeOut.getValue()));
 
-        UdmButtonTextEdit  udpMulLocalPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_local_port);
+        UdmButtonTextEdit  udpMulLocalPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_local_port);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_MUL_LOCAL_PORT", udpMulLocalPort.getValue()));
 
-        UdmButtonTextEdit udmMulHostPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_port0);
+        UdmButtonTextEdit udmMulHostPort = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_port0);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_MUL_REMOTE_PORT", udmMulHostPort.getValue()));
 
-        UdmButtonTextEdit udmMulHostIp = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_tcpudp_host_ip0);
+        UdmButtonTextEdit udmMulHostIp = (UdmButtonTextEdit) view.findViewById(R.id.udm_conn_host_ip0);
         paramItemList.add(new ParameterItem("CONN" + channelId + "_UDP_MUL_REMOTE_IP", udmMulHostIp.getValue()));
 
         return channelParameter;
