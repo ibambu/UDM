@@ -6,7 +6,7 @@ package com.ibamb.udm.instruct.beans;
 
 public class Information {
     private byte[] type;// 2 octets
-    private byte[] length;// 1 octet
+    private byte length;// 1 octet
     private byte[] data;// zero or more octets
 
     public Information(String type,String value){
@@ -23,11 +23,11 @@ public class Information {
         this.type = type;
     }
 
-    public byte[] getLength() {
+    public byte getLength() {
         return length;
     }
 
-    public void setLength(byte[] length) {
+    public void setLength(byte length) {
         this.length = length;
     }
 
