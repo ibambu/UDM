@@ -23,6 +23,20 @@ public class ChannelParameter {
         }
         return value;
     }
+
+    public void updateParamValueById(String paramId,String value){
+        boolean isExist = false;
+        for(ParameterItem item:paramItems){
+            if(paramId.equals(item.getParamId())){
+                item.setParamValue(value);
+                isExist = true;
+                break;
+            }
+        }
+        if(!isExist){
+            paramItems.add(new ParameterItem(paramId,value));
+        }
+    }
     public ChannelParameter(){
 
     }

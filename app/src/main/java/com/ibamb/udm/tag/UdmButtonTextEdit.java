@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ibamb.udm.R;
 
@@ -57,6 +58,7 @@ public class UdmButtonTextEdit extends LinearLayout {
 
     public UdmButtonTextEdit(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
         View view = LayoutInflater.from(context).inflate(R.layout.tag_udm_button_textedit_layout, this);
 
         incrButton = (Button) findViewById(R.id.incr_button);
