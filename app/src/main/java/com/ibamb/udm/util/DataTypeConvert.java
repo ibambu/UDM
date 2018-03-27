@@ -67,4 +67,51 @@ public class DataTypeConvert {
         }
         return result;
     }
+
+    public static short bytesToShort(byte[] bytes) {
+        short s = 0;
+        short s0 = (short) (bytes[0] & 0xff);//最低位
+        short s1 = (short) (bytes[1] & 0xff);
+        s1 <<= 8;
+        s = (short) (s0 | s1);
+        return s;
+    }
+
+    public static byte intToUnsignedByte(int value) {
+        byte retValue = (byte) value;
+        if (value > Byte.MAX_VALUE) {
+            retValue = (byte) (value - Byte.MAX_VALUE + Byte.MIN_VALUE - 1);
+        }
+        return retValue;
+    }
+
+    public static short intToUnsignedShort(int value) {
+        short retValue = (byte) value;
+        if (value > Short.MAX_VALUE) {
+            retValue = (byte) (value - Short.MAX_VALUE + Short.MIN_VALUE - 1);
+        }
+        return retValue;
+    }
+
+    /**
+     * 将16进制字符串转换为byte[]
+     *
+     * @param str
+     * @return
+     */
+    public static byte[] hexStringtoBytes(String str) {
+        if (str == null || str.trim().equals("")) {
+            return new byte[0];
+        }
+        byte[] bytes = new byte[str.length() / 2];
+        for (int i = 0; i < str.length() / 2; i++) {
+            String subStr = str.substring(i * 2, i * 2 + 2);
+            bytes[i] = (byte) Integer.parseInt(subStr, 16);
+        }
+        return bytes;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(intToUnsignedByte(127));
+    }
 }
