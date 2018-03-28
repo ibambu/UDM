@@ -5,32 +5,32 @@ package com.ibamb.udm.instruct.beans;
  */
 
 public class ReplyFrame {
-    private byte control;// 1 octet
-    private byte id;// 1 octet
-    private byte[] length;// 2 octets
+    private int control;// 1 octet
+    private int id;// 1 octet
+    private int length;// 2 octets
     private Information information;
 
-    public byte getControl() {
+    public int getControl() {
         return control;
     }
 
-    public void setControl(byte control) {
+    public void setControl(int control) {
         this.control = control;
     }
 
-    public byte getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(byte id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public byte[] getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(byte[] length) {
+    public void setLength(int length) {
         this.length = length;
     }
 

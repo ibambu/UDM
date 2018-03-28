@@ -4,18 +4,18 @@ package com.ibamb.udm.instruct.beans;
  * Created by luotao on 18-3-27.
  */
 
-public class ParameterValueMapping {
+public class ValueMapping {
     private String paramId;
     private String value;
     private String displayValue;
 
-    public ParameterValueMapping(String paramId, String value, String displayValue) {
+    public ValueMapping(String paramId, String value, String displayValue) {
         this.paramId = paramId;
         this.value = value;
         this.displayValue = displayValue;
     }
 
-    public ParameterValueMapping() {
+    public ValueMapping() {
 
     }
 
