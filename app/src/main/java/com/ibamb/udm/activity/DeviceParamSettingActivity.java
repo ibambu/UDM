@@ -148,7 +148,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
     };
 
     @Override
-    public ChannelParameter readChannelParam(String channelId, String[] paramIds) {
+    public ChannelParameter readChannelParam(String channelId, String mac,String[] paramIds) {
         return parameterServiceBinder.readChannelParameter(mac,channelId,paramIds);
     }
 

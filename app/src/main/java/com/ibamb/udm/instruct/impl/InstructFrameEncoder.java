@@ -13,7 +13,7 @@ public class InstructFrameEncoder implements IEncoder {
     @Override
     public byte[] encode(InstructFrame instructFrame) {
 //        int frameLength = DataTypeConvert.bytes2int(instructFrame.getLength());
-//        byte[] cmdByteBuffer = new byte[frameLength];
+        byte[] cmdByteBuffer = new byte[instructFrame.getLength()];
 //        cmdByteBuffer[0] = instructFrame.getControl();
 //        cmdByteBuffer[1] = instructFrame.getId();
 //        cmdByteBuffer[2] = instructFrame.getLength()[0];

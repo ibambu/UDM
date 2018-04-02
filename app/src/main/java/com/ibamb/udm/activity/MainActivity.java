@@ -34,7 +34,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 /**
- * main prog entry
+ * 应用程序主入口
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 菜单点击事件,切换到菜单对应的界面Fragment.
      */
-
     private View.OnClickListener menuOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -89,27 +88,27 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
 
-                case R.id.tab_other1:
-                    selected();
-                    tabOther1.setSelected(true);
-                    if (f2 == null) {
-                        f2 = BlankFragment.newInstance("第四个Fragment", null);
-                        transaction.add(R.id.fragment_container, f2);
-                    } else {
-                        transaction.show(f2);
-                    }
-                    break;
+//                case R.id.tab_other1:
+//                    selected();
+//                    tabOther1.setSelected(true);
+//                    if (f2 == null) {
+//                        f2 = BlankFragment.newInstance("第四个Fragment", null);
+//                        transaction.add(R.id.fragment_container, f2);
+//                    } else {
+//                        transaction.show(f2);
+//                    }
+//                    break;
 
-                case R.id.tab_other2:
-                    selected();
-                    tabOther2.setSelected(true);
-                    if (f3 == null) {
-                        f3 = BlankFragment.newInstance("第三个Fragment", null);
-                        transaction.add(R.id.fragment_container, f3);
-                    } else {
-                        transaction.show(f3);
-                    }
-                    break;
+//                case R.id.tab_other2:
+//                    selected();
+//                    tabOther2.setSelected(true);
+//                    if (f3 == null) {
+//                        f3 = BlankFragment.newInstance("第三个Fragment", null);
+//                        transaction.add(R.id.fragment_container, f3);
+//                    } else {
+//                        transaction.show(f3);
+//                    }
+//                    break;
 
                 case R.id.tab_setting:
                     selected();
@@ -143,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -151,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         Intent bindIntent = new Intent(MainActivity.this, DeviceSearchService.class);
         bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
     }
-
 
 
     @Override
@@ -197,12 +194,14 @@ public class MainActivity extends AppCompatActivity {
         }
         transaction.commit();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.tool_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     /**
      * UI组件初始化与事件绑定
      */
@@ -210,14 +209,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         tabDeviceList = (TextView) this.findViewById(R.id.tab_device_list);
-        tabOther1 = (TextView) this.findViewById(R.id.tab_other1);
-        tabOther2 = (TextView) this.findViewById(R.id.tab_other2);
+//        tabOther1 = (TextView) this.findViewById(R.id.tab_other1);
+//        tabOther2 = (TextView) this.findViewById(R.id.tab_other2);
         tabSetting = (TextView) this.findViewById(R.id.tab_setting);
 
 
         tabDeviceList.setOnClickListener(menuOnClickListener);
-        tabOther1.setOnClickListener(menuOnClickListener);
-        tabOther2.setOnClickListener(menuOnClickListener);
+//        tabOther1.setOnClickListener(menuOnClickListener);
+//        tabOther2.setOnClickListener(menuOnClickListener);
         tabSetting.setOnClickListener(menuOnClickListener);
 
         toolbar = (Toolbar) findViewById(R.id.udm_toolbar);
@@ -250,8 +249,8 @@ public class MainActivity extends AppCompatActivity {
     //重置所有文本的选中状态
     public void selected() {
         tabDeviceList.setSelected(false);
-        tabOther1.setSelected(false);
-        tabOther2.setSelected(false);
+//        tabOther1.setSelected(false);
+//        tabOther2.setSelected(false);
         tabSetting.setSelected(false);
     }
 

@@ -131,6 +131,10 @@ public class ConnectSettingFragment extends Fragment {
     }
 
 
+    /**
+     * 控制TCP/UDP协议切换控制面部分元素显示,部分控件隐藏.
+     * @param seletedProtocl
+     */
     private void switchTcpOrUdpView(String seletedProtocl){
         switch(seletedProtocl){
             case UdmConstants.CONN_NET_PROTOCOL_TCP:{
