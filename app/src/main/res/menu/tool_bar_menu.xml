@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/udm_search"
+        android:title="search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
     <!-- 同级的item有几个则在toolbar右边显示几个 -->
     <!--
         id:之后设置点击事件的时候找到当前菜单项的唯一标识
@@ -30,6 +34,10 @@
                 <item
                     android:id="@+id/id_menu_join_cloud"
                     android:title="Join Cloud"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/id_menu_exit"
+                    android:title="Exit"
                     app:showAsAction="never" />
             </group>
         </menu>

@@ -10,7 +10,8 @@ public class Information {
     private String data;// zero or more octets
 
     public Information(String type,String value){
-
+        this.type = type;
+        this.data = value;
     }
     public Information(){
 
@@ -39,4 +40,10 @@ public class Information {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Information{" + "type=" + type + ", length=" + length + ", data=" + data + '}';
+    }
+    
 }

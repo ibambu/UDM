@@ -2,10 +2,13 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff4081</color>
 
     <color name="text_gray">#E0E0E0</color>
     <color name="text_blue">#2a5caa</color>
     <color name="transparent">#e0e0e0</color>
-    <color name="udm_gree_light">#49b664</color>
+    <color name="udm_gree_light">#05b7e4</color>
+    <color name="toolbar_bgcolor">#e0e0e0</color>
+    <color name="float_button_color">#da3b8d</color>
+    <color name="udm_green_light">#4bc569</color>
 </resources>

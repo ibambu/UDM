@@ -26,6 +26,7 @@ import com.ibamb.udm.instruct.IParameterReaderWriter;
 import com.ibamb.udm.service.DeviceParameterService;
 import com.ibamb.udm.service.DeviceSearchService;
 
+import java.net.DatagramSocket;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
     private String ip;
     private String mac;
     private DeviceParameterService.DeviceParameterServiceBinder parameterServiceBinder;
+    private DatagramSocket datagramSocket;
 
     @Override
     protected void onStart() {
@@ -81,8 +83,8 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
                 case R.id.menu_ip_setting:
                     selected();
                     tabIpSetting.setSelected(true);
-                    tabIpSetting.setBackgroundColor(Color.LTGRAY);
-                    tabConnectSetting.setBackgroundColor(Color.WHITE);
+//                    tabIpSetting.setBackgroundColor(Color.LTGRAY);
+//                    tabConnectSetting.setBackgroundColor(Color.WHITE);
                     if(ipSettingFragment ==null){
                         ipSettingFragment = IPSettingFragment.newInstance(ip,mac);
                         transaction.add(R.id.param_fragment_container,ipSettingFragment);
@@ -94,8 +96,8 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
                 case R.id.menu_connect_setting:
                     selected();
                     tabConnectSetting.setSelected(true);
-                    tabConnectSetting.setBackgroundColor(Color.LTGRAY);
-                    tabIpSetting.setBackgroundColor(Color.WHITE);
+//                    tabConnectSetting.setBackgroundColor(Color.LTGRAY);
+//                    tabIpSetting.setBackgroundColor(Color.WHITE);
                     if(connectSettingFragment==null){
                         connectSettingFragment = ConnectSettingFragment.newInstance(ip,mac);
                         transaction.add(R.id.param_fragment_container,connectSettingFragment);
@@ -148,12 +150,12 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
     };
 
     @Override
-    public ChannelParameter readChannelParam(String channelId, String mac,String[] paramIds) {
-        return parameterServiceBinder.readChannelParameter(mac,channelId,paramIds);
+    public ChannelParameter readChannelParam(DatagramSocket datagramSocket,ChannelParameter channelParameter) {
+        return null;//parameterServiceBinder.readChannelParameter(mac,channelId,paramIds);
     }
 
     @Override
-    public ChannelParameter writeChannelParam(ChannelParameter channelParameter) {
-        return parameterServiceBinder.writeChannelParameter(mac,channelParameter);
+    public ChannelParameter writeChannelParam(DatagramSocket datagramSocket,ChannelParameter channelParameter) {
+        return null;//parameterServiceBinder.writeChannelParameter(mac,channelParameter);
     }
 }

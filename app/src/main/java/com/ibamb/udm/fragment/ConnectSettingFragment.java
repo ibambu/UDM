@@ -100,11 +100,11 @@ public class ConnectSettingFragment extends Fragment {
                 ChannelParameter channelParameter = null;
                 if (UdmConstants.CONN_NET_PROTOCOL_TCP.equals(toSetProtocol.getValue())) {
                     channelParameter = ParameterTransfer.getTcpParamFromView(currentView, channelParameter);
-                    channelParameter = parameterReaderWriter.writeChannelParam(channelParameter);
+//                    channelParameter = parameterReaderWriter.writeChannelParam(channelParameter);
                     ParameterTransfer.transTcpParamToView(currentView, channelParameter);
                 } else if (UdmConstants.CONN_NET_PROTOCOL_UDP.equals(toSetProtocol.getValue())) {
                     channelParameter = ParameterTransfer.getUdpParamFromView(currentView, channelParameter);
-                    channelParameter = parameterReaderWriter.writeChannelParam(channelParameter);
+//                    channelParameter = parameterReaderWriter.writeChannelParam(channelParameter);
                     ParameterTransfer.transUdpParamToView(currentView, channelParameter);
                 }
             }
@@ -202,7 +202,7 @@ public class ConnectSettingFragment extends Fragment {
                 } else if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
                     paramIds = ChannelParamsID.getTcpParamsId(toSetChannel.getValue());
                 }
-                channelParameter = parameterReaderWriter.readChannelParam(toSetChannel.getValue(), mac,paramIds);
+//                channelParameter = parameterReaderWriter.readChannelParam(toSetChannel.getValue(), mac,paramIds);
                 if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_TCP)) {
                     ParameterTransfer.transTcpParamToView(currentView, channelParameter);
                 } else if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
@@ -234,7 +234,7 @@ public class ConnectSettingFragment extends Fragment {
                 } else if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
                     paramIds = ChannelParamsID.getTcpParamsId(channelId);
                 }
-                channelParameter = parameterReaderWriter.readChannelParam(channelId,mac, paramIds);
+//                channelParameter = parameterReaderWriter.readChannelParam(channelId,mac, paramIds);
                 if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_TCP)) {
                     ParameterTransfer.transTcpParamToView(currentView, channelParameter);
                 } else if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {

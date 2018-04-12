@@ -16,31 +16,34 @@
         android:verticalSpacing="25sp">
         <TextView
             android:id="@+id/header_device_index"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
             android:layout_gravity="fill"
             android:layout_marginLeft="2sp"
             android:layout_marginRight="2sp"
-            android:text="Index" />
+            android:text="Index"
+            android:gravity="center"/>
         <TextView
             android:id="@+id/header_device_ip"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_columnSpan="5"
             android:layout_gravity="fill"
             android:layout_marginLeft="2sp"
             android:layout_marginRight="2sp"
-            android:text="IP" />
+            android:text="IP"
+            android:gravity="center"/>
         <TextView
             android:id="@+id/header_device_mac"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_columnSpan="5"
             android:layout_gravity="fill"
             android:layout_marginLeft="2sp"
             android:layout_marginRight="2sp"
-            android:text="MAC" />
+            android:gravity="center"
+            android:text="Mac" />
     </GridLayout>
 
 </LinearLayout>

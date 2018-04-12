@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.beans.DeviceInfo;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -18,11 +19,11 @@ import java.util.ArrayList;
  */
 
 public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
-    private ArrayList<InetAddress> data;
+    private ArrayList<DeviceInfo> data;
     private int id;
     private LayoutInflater inflater;
 
-    public InetAddressListAdapter(int item, LayoutInflater inflater, ArrayList<InetAddress> data) {
+    public InetAddressListAdapter(int item, LayoutInflater inflater, ArrayList<DeviceInfo> data) {
         this.data = data;
         this.inflater = inflater;
         this.id = item;
@@ -63,13 +64,11 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
             deviceMac = columns.mac;
         }
 
-        InetAddress inetAddress = (InetAddress) data.get(position);
+        DeviceInfo deviceInfo = (DeviceInfo) data.get(position);
         //帮数据绑定到控件上
-        System.out.println("inetAddress=" + inetAddress);
-        deviceIndex.setText(String.valueOf(position));
-        deviceIP.setText(inetAddress.getHostAddress());
-        deviceMac.setText("AA:BB:CC:DD:FF");
-//        indexView.setText(String.valueOf(position));
+        deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));
+        deviceIP.setText(deviceInfo.getIp());
+        deviceMac.setText(deviceInfo.getMac());
 
         return view;
 

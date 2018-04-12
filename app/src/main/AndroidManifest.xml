@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,11 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activity.UdmActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -30,7 +37,9 @@
         <activity android:name=".activity.UserProfileActivity" />
         <activity
             android:name=".activity.UdmMainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
 
         <service
             android:name=".service.UDPService"
@@ -41,14 +50,15 @@
             android:enabled="true"
             android:exported="true" />
 
-        <!--<activity android:name=".activity.UdmActivity"-->
-            <!--android:label="udm face">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <service
+            android:name=".service.DeviceParameterService"
+            android:enabled="true"
+            android:exported="true" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

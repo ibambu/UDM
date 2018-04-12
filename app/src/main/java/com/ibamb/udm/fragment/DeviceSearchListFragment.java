@@ -1,12 +1,16 @@
 package com.ibamb.udm.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +21,10 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceParamSettingActivity;
+import com.ibamb.udm.activity.LoginActivity;
 import com.ibamb.udm.activity.MainActivity;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
+import com.ibamb.udm.beans.DeviceInfo;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -46,20 +52,30 @@ public class DeviceSearchListFragment extends Fragment {
     private String context;
 
     private ListAdapter adapter;
-    private ArrayList<InetAddress> inetAddresses;
+    private ArrayList<DeviceInfo> inetAddresses;
     private ListView mListView;
 
     private AdapterView.OnItemClickListener itemOnclickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent((MainActivity) getActivity(), DeviceParamSettingActivity.class);
-            String ip = ((TextView)view.findViewById(R.id.device_ip)).getText().toString();
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//            builder.show();
+            Intent intent = new Intent((MainActivity) getActivity(), LoginActivity.class);
+            String ip = ((TextView)view.findViewById(R.id.device_mac)).getText().toString();
             String mac = ((TextView)view.findViewById(R.id.device_mac)).getText().toString();
             Bundle params = new Bundle();
             params.putString("HOST_ADDRESS",ip);
             params.putString("HOST_MAC",mac);
             intent.putExtras(params);
             startActivity(intent);
+//            builder.setItems(null, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which){
+//                    editText.setText(optitions[which]);
+//                }
+//            });
+
         }
     };
 
@@ -105,6 +121,7 @@ public class DeviceSearchListFragment extends Fragment {
         View listHeadeView = inflater.inflate(R.layout.device_search_list_header, container, false);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 inetAddresses = ((MainActivity) getActivity()).getInetAddresses();

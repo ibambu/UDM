@@ -25,12 +25,9 @@
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
                 android:background="@color/udm_gree_light"
-                android:text="Connection Settings"
-                android:typeface="sans"/>
-
+                android:text="Connection Settings" />
+            <!--BOTH-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,6 +36,7 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:text="Net Protocol" />
+            <!--BOTH-->
             <android.support.v7.widget.LinearLayoutCompat>
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/udm_conn_net_protocol_tcp"
@@ -58,7 +56,7 @@
                     android:enabled="true"
                     android:text="UDP" />
             </android.support.v7.widget.LinearLayoutCompat>
-
+            <!--BOTH-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +65,7 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:text="Protocol to Set" />
-
+            <!--BOTH-->
             <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/udm_conn_net_protocol_set"
                 android:layout_columnSpan="3"
@@ -75,14 +73,14 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:entries="@array/opt_connect_protocol" />
-
+            <!--BOTH-->
             <TextView
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:text="Channel" />
-
+            <!--BOTH-->
             <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/udm_connect_channel_set"
                 android:layout_columnSpan="3"
@@ -92,7 +90,7 @@
                 android:spinnerMode="dialog"
                 android:entries="@array/opt_connect_channel" />
 
-            <!-- TCP Only -->
+            <!-- TCP -->
             <TextView
                 android:id="@+id/label_work_as"
                 android:layout_columnSpan="3"
@@ -100,7 +98,7 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:text="Work As" />
-
+            <!-- TCP -->
             <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/udm_conn_tcp_work_mode"
                 android:layout_columnSpan="3"
@@ -125,7 +123,6 @@
                 android:layout_gravity="left"
                 android:textOff="off"
                 android:textOn="on"
-                android:switchMinWidth="200dp"
                 />
 
             <!-- UDP Only -->
@@ -144,14 +141,15 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:entries="@array/opt_connect_uni_multi" />
-
+            <!-- BOTH -->
             <TextView
+                android:id="@+id/id_tcp_conn_respons"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:text="Optition" />
-
+            <!--TCP-->
             <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/udm_conn_tcp_conn_respons"
                 android:layout_columnSpan="3"
@@ -159,7 +157,22 @@
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:entries="@array/opt_connect_rts" />
-
+            <TextView
+                android:id="@+id/id_udp_tmp_host_en"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Optition" />
+            <!--udp only-->
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_conn_udp_tmp_host_en"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_rts" />
+            <!--BOTH-->
             <TextView
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -167,14 +180,14 @@
                 android:layout_marginRight="2sp"
                 android:gravity="left|center"
                 android:text="Local Port" />
-
+            <!--BOTH-->
             <com.ibamb.udm.tag.UdmButtonTextEdit
-                android:id="@+id/udm_conn_tcpudp_local_port"
+                android:id="@+id/udm_conn_local_port"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:columnCount="3" />
-
+            <!--BOTH-->
             <TextView
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
@@ -183,23 +196,24 @@
                 android:gravity="left|center"
                 android:text="Remote Port" />
 
-
+            <!--BOTH-->
             <com.ibamb.udm.tag.UdmButtonTextEdit
-                android:id="@+id/udm_conn_tcpudp_host_port0"
+                android:id="@+id/udm_conn_host_port0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:columnCount="3" />
 
+            <!--BOTH-->
             <TextView
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
                 android:text="Remote Host" />
-
+            <!--BOTH-->
             <EditText
-                android:id="@+id/udm_conn_tcpudp_host_ip0"
+                android:id="@+id/udm_conn_host_ip0"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
@@ -212,8 +226,6 @@
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
 
                 android:background="@color/udm_gree_light"
                 android:text="Serial Settings" />
@@ -358,7 +370,7 @@
                 style="@style/Widget.AppCompat.Button.Small"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
-                android:background="@color/udm_gree_light"
+                android:background="#66CCCC"
                 android:gravity="center"
                 android:text="Submit"
                 android:textColor="#FFFFFF" />

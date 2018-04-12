@@ -7,12 +7,13 @@ package com.ibamb.udm.constants;
 public class UdmControl {
 
     //The command type is list below:
-    public static final int GET_PARAMETERS = 0x81;
+    public static final int GET_PARAMETERS = 0xC1;
     public static final int SET_PARAMETERS = 0xC3;
     public static final int AUTH_USER = 0xC5;
     public static final int REBOOT_SYSTEM = 0x87;
     public static final int LOGOUT = 0xC9;
     public static final int UDPDATE_FIRMWARE = 0x8B;
+    public static final int SEARCH_DEVICE = 0x81;
 
     //The response type is list below:
     public static final byte ACKNOWLEDGE = 0x00;

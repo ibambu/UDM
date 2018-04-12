@@ -3,12 +3,19 @@ package com.ibamb.udm.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
+
+import com.ibamb.udm.beans.DeviceInfo;
+import com.ibamb.udm.search.DeviceSearch;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ibamb.udm.search.DeviceSearch.searchDevice;
 
 public class DeviceSearchService extends Service {
 
@@ -29,16 +36,10 @@ public class DeviceSearchService extends Service {
          * @param broadcastAddress
          * @return
          */
-        public ArrayList<InetAddress> searchDeviceByBroadcast(InetAddress broadcastAddress) {
-            ArrayList inetAddresses = new ArrayList();
-            try {
-                inetAddresses.add(InetAddress.getByName("192.168.1.100"));
-                inetAddresses.add(InetAddress.getByName("192.168.1.102"));
-                inetAddresses.add(InetAddress.getByName("192.168.1.104"));
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-            return inetAddresses;
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        public ArrayList<DeviceInfo> searchDeviceByBroadcast(InetAddress broadcastAddress) {
+
+            return searchDevice();
         }
     }
 }

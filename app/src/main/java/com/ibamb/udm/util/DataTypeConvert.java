@@ -1,10 +1,12 @@
 package com.ibamb.udm.util;
 
+import java.util.Arrays;
+
 /**
  * Created by luotao on 18-3-26.
  */
-
 public class DataTypeConvert {
+
     /**
      * short 类型转成 byte 数组
      *
@@ -68,11 +70,18 @@ public class DataTypeConvert {
         return result;
     }
 
+    /**
+     * Byte 数组转 Short
+     *
+     * @param bytes
+     * @return
+     */
+
     public static short bytesToShort(byte[] bytes) {
         short s = 0;
         short s0 = (short) (bytes[0] & 0xff);//最低位
         short s1 = (short) (bytes[1] & 0xff);
-        s1 <<= 8;
+        s0 <<= 8;
         s = (short) (s0 | s1);
         return s;
     }
@@ -85,10 +94,35 @@ public class DataTypeConvert {
         return retValue;
     }
 
+    public static short toUnsignedByte(byte value) {
+        short retValue = (short) value;
+        if (value < 0) {
+            retValue = (short) (Byte.MAX_VALUE - Byte.MIN_VALUE + 1 + value);
+        }
+        return retValue;
+    }
+
+    /**
+     * 将单字节转成十六进制字符串
+     * @param value
+     * @return
+     */
+    public static String toHexString(byte value) {
+       return String.format("%02x",value);
+    }
+
     public static short intToUnsignedShort(int value) {
         short retValue = (byte) value;
         if (value > Short.MAX_VALUE) {
-            retValue = (byte) (value - Short.MAX_VALUE + Short.MIN_VALUE - 1);
+            retValue = (short) (value - Short.MAX_VALUE + Short.MIN_VALUE - 1);
+        }
+        return retValue;
+    }
+
+    public static int LongToUnsignedInt(long value) {
+        int retValue = (int) value;
+        if (value > Integer.MAX_VALUE) {
+            retValue = (int) (value - Integer.MAX_VALUE + Integer.MIN_VALUE - 1);
         }
         return retValue;
     }
@@ -106,12 +140,27 @@ public class DataTypeConvert {
         byte[] bytes = new byte[str.length() / 2];
         for (int i = 0; i < str.length() / 2; i++) {
             String subStr = str.substring(i * 2, i * 2 + 2);
-            bytes[i] = (byte) Integer.parseInt(subStr, 16);
+//            int unsignedInt = DataTypeConvert.intToUnsignedByte(Integer.parseInt(subStr, 16));
+            bytes[i] = DataTypeConvert.intToUnsignedByte(Integer.parseInt(subStr, 16));//(byte) Integer.parseInt(subStr, 16);
         }
         return bytes;
     }
 
+    public static String hexStringToString(String hexString) {
+        if (hexString == null || hexString.trim().length() == 0) {
+            return null;
+        }
+        byte[] byteWords = new byte[(hexString.length() / 2)];
+        for (int i = 0; i < byteWords.length; i++) {
+            byteWords[i] = (byte) (0xff & Integer.parseInt(hexString.substring(i * 2, i * 2 + 2), 16));
+        }
+        return new String(byteWords);
+    }
+
     public static void main(String[] args) {
-        System.out.println(intToUnsignedByte(127));
+        byte[] a = hexStringtoBytes("2c");
+        System.out.println(Arrays.toString(a));
+        System.out.println(hexStringtoBytes("a0c58932659a").length);
+//        System.out.println(toHexString(""));
     }
 }

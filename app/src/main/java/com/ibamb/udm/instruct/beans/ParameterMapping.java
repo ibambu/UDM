@@ -1,7 +1,6 @@
 package com.ibamb.udm.instruct.beans;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,9 +10,16 @@ import java.util.Map;
 public class ParameterMapping {
     private static Map<String,Parameter> parameterMap;
 
+    public void setParameterMap(Map<String, Parameter> parameterMap) {
+        ParameterMapping.parameterMap = parameterMap;
+    }
+    
+    
+
     public Parameter getMapping(String paramId){
         return parameterMap.get(paramId);
     }
+    
     public Parameter getMappingByDecId(int decId){
         Parameter parameter = null;
         for(Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext();){

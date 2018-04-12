@@ -25,8 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
+                android:background="@color/udm_gree_light"
                 android:text="IP Settings" />
 
             <TextView
@@ -128,9 +127,8 @@
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
 
+                android:background="@color/udm_gree_light"
                 android:text="Access Settings" />
 
             <TextView
@@ -195,8 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
+                android:background="@color/udm_gree_light"
                 android:text="Other Settings" />
 
             <TextView
@@ -234,6 +231,7 @@
                 style="@style/Widget.AppCompat.Button.Small"
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
+                android:background="#66CCCC"
                 android:gravity="center"
                 android:text="Submit"
                 android:textColor="#FFFFFF" />

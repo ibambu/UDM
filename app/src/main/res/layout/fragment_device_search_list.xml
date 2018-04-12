@@ -6,17 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ibamb.udm.fragment.DeviceSearchListFragment">
+
     <ListView
         android:id="@+id/search_device_list"
-        android:transcriptMode="alwaysScroll"
-        android:listSelector="@color/text_blue"
-        android:divider="#f9b68b"
-        android:dividerHeight="1dp"
-
-        android:fadingEdge="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="horizontal|vertical" />
+        android:cacheColorHint="@android:color/white"
+        android:divider="@color/transparent"
+        android:dividerHeight="1dp"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@color/transparent"
+        android:scrollbars="horizontal|vertical"
+        android:transcriptMode="alwaysScroll" />
 
     <include layout="@layout/content_float_button" />
 
@@ -26,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@android:color/holo_blue_bright"
+        app:backgroundTint="@color/float_button_color"
+        app:elevation="5dp"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 </android.support.design.widget.CoordinatorLayout>

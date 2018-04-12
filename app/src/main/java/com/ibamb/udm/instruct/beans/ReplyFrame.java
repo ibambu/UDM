@@ -1,5 +1,7 @@
 package com.ibamb.udm.instruct.beans;
 
+import java.util.List;
+
 /**
  * Created by luotao on 18-3-14.
  */
@@ -9,6 +11,15 @@ public class ReplyFrame {
     private int id;// 1 octet
     private int length;// 2 octets
     private Information information;
+    private List<Information> infoList;
+
+    public List<Information> getInfoList() {
+        return infoList;
+    }
+
+    public void setInfoList(List<Information> infoList) {
+        this.infoList = infoList;
+    }
 
     public int getControl() {
         return control;

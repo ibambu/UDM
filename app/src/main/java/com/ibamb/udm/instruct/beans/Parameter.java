@@ -1,6 +1,5 @@
 package com.ibamb.udm.instruct.beans;
 
-import android.view.View;
 
 import java.util.List;
 
@@ -14,8 +13,19 @@ public class Parameter {
     private int hexId;
     private int byteLength;
     // UI component ID
-    private String viewId;
+    private int viewId;
 
+    private int covertType;
+
+    public int getCovertType() {
+        return covertType;
+    }
+
+    public void setCovertType(int covertType) {
+        this.covertType = covertType;
+    }
+    
+    
     private List<ValueMapping> valueMappings;
 
     public String getId() {
@@ -50,11 +60,11 @@ public class Parameter {
         this.byteLength = byteLength;
     }
 
-    public String getViewId() {
+    public int getViewId() {
         return viewId;
     }
 
-    public void setViewId(String viewId) {
+    public void setViewId(int viewId) {
         this.viewId = viewId;
     }
 
@@ -87,4 +97,11 @@ public class Parameter {
         }
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Parameter{" + "id=" + id + ", decId=" + decId + ", hexId=" + hexId + ", byteLength=" + byteLength + ", viewId=" + viewId + ", covertType=" + covertType + ", valueMappings=" + valueMappings + '}';
+    }
+    
+    
 }

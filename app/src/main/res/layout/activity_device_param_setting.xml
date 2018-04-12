@@ -21,6 +21,8 @@
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/tab_name_ip_setting" />
 
         <TextView
@@ -32,6 +34,8 @@
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/tab_name_connect_setting" />
 
     </LinearLayout>

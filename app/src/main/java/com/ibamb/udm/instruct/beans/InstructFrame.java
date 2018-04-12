@@ -1,22 +1,37 @@
 package com.ibamb.udm.instruct.beans;
 
+import java.util.List;
+
 /**
  * Created by luotao on 18-3-13.
  */
-
 public class InstructFrame {
+
     private int control;// 1 octet
     private int id;// 1 octet
     private int length;// 2 octets
     private String ip;// 4 octets
     private String mac;// 8 octets
     private Information information;
+    private List<Information> infoList;
 
-    public InstructFrame(int control,String mac,String type,String value){
-        this.control = control;
-        information = new Information(type,value);
+    public List<Information> getInfoList() {
+        return infoList;
     }
 
+    public void setInfoList(List<Information> infoList) {
+        this.infoList = infoList;
+    }
+    
+    public InstructFrame(int control, String mac, String type, String value) {
+        this.control = control;
+        this.mac = mac;
+        information = new Information(type, value);
+    }
+    public InstructFrame(int control, String mac) {
+        this.control = control;
+        this.mac = mac;
+    }
     public int getControl() {
         return control;
     }
@@ -24,6 +39,7 @@ public class InstructFrame {
     public void setControl(byte control) {
         this.control = control;
     }
+
     public Information getInformation() {
         return information;
     }
@@ -67,4 +83,5 @@ public class InstructFrame {
     public void setMac(String mac) {
         this.mac = mac;
     }
+
 }

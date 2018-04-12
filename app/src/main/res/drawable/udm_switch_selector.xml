@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android" >
+        <shape android:shape="rectangle" >
 
             <!-- 高度40 -->
             <size android:height="10dp"/>
             <!-- 圆角弧度 20 -->
-            <corners android:radius="5dp"/>
+            <corners android:radius="1dp"/>
             <!-- 变化率 -->
             <gradient
                 android:endColor="#33da33"
@@ -19,8 +19,8 @@
 
             <!-- 高度30   此处设置宽度无效-->
             <size android:height="10dp"/>
-            <!-- 圆角弧度 15 -->
-            <corners android:radius="5dp"/>
+             圆角弧度 15
+            <corners android:radius="1dp"/>
 
 
             <!-- 变化率  定义从左到右的颜色不变 -->
