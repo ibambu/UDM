@@ -11,12 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
 
 import java.lang.reflect.Method;
 
@@ -45,39 +45,24 @@ public class UdmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_udm);
 
+        //将ActionBar位置改放Toolbar.
         mToolbar = (Toolbar) findViewById(R.id.udm_toolbar);
         mToolbar.setTitle("udm");
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.tool_bar_menu);//设置右上角的填充菜单
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
-        mToolbar.setOnMenuItemClickListener(new android.support.v7.widget.Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int menuItemId = item.getItemId();
-                if (menuItemId == R.id.id_menu_user_profile) {
 
+        //设置右上角的填充菜单
+        mToolbar.inflateMenu(R.menu.tool_bar_menu);
+        //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //绑定菜单点击事件
+        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener());
 
-                } else if (menuItemId == R.id.id_menu_or_code) {
-
-
-                } else if (menuItemId == R.id.id_menu_join_cloud) {
-
-                } else if (menuItemId == R.id.id_menu_exit) {
-                    System.exit(0);
-                }
-                return true;
-            }
-        });
-        /**
-         * 此处需要优化,将请求网络资源的操作放在一个单独的线程里面执行.避免网络延时界面假死.
-         */
+        //此处需要优化,将请求网络资源的操作放在一个单独的线程里面执行.避免网络延时界面假死.
         if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-        /**
-         * 沉静式工具栏栏,将任务栏的背景改为与Toolbar背景一致.
-         */
+        //沉静式工具栏,将任务栏的背景改为与Toolbar背景一致.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);

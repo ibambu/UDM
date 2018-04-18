@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -29,10 +30,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.constants.UdmConstants;
+import com.ibamb.udm.instruct.Login;
+import com.ibamb.udm.net.UDPMessageSender;
+import com.ibamb.udm.security.UserAuth;
+import com.ibamb.udm.util.DataTypeConvert;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -189,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(userName, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask.execute((DatagramSocket) null);
         }
     }
 
@@ -300,7 +308,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<DatagramSocket, Void, Boolean> {
 
         private final String mUserName;
         private final String mPassword;
@@ -310,37 +318,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPassword = password;
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-            /**
-             * 登录设备
-             */
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mUserName)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
+        protected Boolean doInBackground(DatagramSocket... params) {
+            return UserAuth.login(mUserName,mPassword,mac,params[0]);
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Boolean isSuccess) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (isSuccess!=null) {
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

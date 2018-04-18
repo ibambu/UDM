@@ -14,13 +14,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -29,6 +29,8 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.beans.DeviceInfo;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
+import com.ibamb.udm.listener.UdmBottomMenuClickListener;
+import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
 import com.ibamb.udm.net.LocalNetScanner;
 import com.ibamb.udm.service.DeviceSearchService;
 
@@ -39,8 +41,9 @@ import java.util.ArrayList;
 /**
  * 应用程序主入口
  */
-public class MainActivity extends UdmActivity {
+public class MainActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
     private TextView tabDeviceList;
     private TextView tabSetting;
 
@@ -65,43 +68,6 @@ public class MainActivity extends UdmActivity {
             searchServiceBinder = (DeviceSearchService.DeviceSearchServiceBinder) service;
         }
     };
-    /**
-     * 菜单点击事件,切换到菜单对应的界面Fragment.
-     */
-    private View.OnClickListener menuOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            hideAllFragment(transaction);
-            switch (v.getId()) {
-//                case 0:
-//                    Intent intent = new Intent(MainActivity.this, DeviceParamSettingActivity.class);
-//                    startActivity(intent);
-                case R.id.tab_device_list:
-                    selected();
-                    tabDeviceList.setSelected(true);
-                    if (f1 == null) {
-                        f1 = DeviceSearchListFragment.newInstance("第一个Fragment", null);
-                        transaction.add(R.id.fragment_container, f1);
-                    } else {
-                        transaction.show(f1);
-                    }
-                    break;
-
-                case R.id.tab_setting:
-                    selected();
-                    tabSetting.setSelected(true);
-                    if (f4 == null) {
-                        f4 = BlankFragment.newInstance("第四个Fragment", null);
-                        transaction.add(R.id.fragment_container, f4);
-                    } else {
-                        transaction.show(f4);
-                    }
-                    break;
-            }
-            transaction.commit();
-        }
-    };
 
     @Override
     protected void onStart() {
@@ -115,8 +81,50 @@ public class MainActivity extends UdmActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setParentContentView(R.layout.activity_main);
-        bindView();
+        setContentView(R.layout.activity_main);
+        //将ActionBar位置改放Toolbar.
+        mToolbar = (Toolbar) findViewById(R.id.udm_toolbar);
+        mToolbar.setTitle("udm");
+        setSupportActionBar(mToolbar);
+
+        //设置右上角的填充菜单
+        mToolbar.inflateMenu(R.menu.tool_bar_menu);
+        //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //绑定菜单点击事件
+        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener());
+
+        //此处已经优化,将请求网络资源的操作放在一个单独的线程里面执行.避免网络延时界面假死.
+        /*if (Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }*/
+        //沉静式工具栏,将任务栏的背景改为与Toolbar背景一致.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+        //默认显示第一个界面
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        hideAllFragment(transaction);
+        if (f1 == null) {
+            f1 = DeviceSearchListFragment.newInstance("第一个Fragment", null);
+            transaction.add(R.id.fragment_container, f1);
+            transaction.show(f1);
+        } else {
+            transaction.show(f1);
+
+        }
+        transaction.commit();
+        //底部菜单绑定点击事件,实现界面切换.
+        tabDeviceList = (TextView) this.findViewById(R.id.tab_device_list);
+        tabSetting = (TextView) this.findViewById(R.id.tab_setting);
+        UdmBottomMenuClickListener bottomMenuClickListener = new UdmBottomMenuClickListener(fragmentManager,f1,tabDeviceList,tabSetting);
+        tabDeviceList.setOnClickListener(bottomMenuClickListener);
+        tabSetting.setOnClickListener(bottomMenuClickListener);
+        tabDeviceList.requestFocus();
+
         try {
             ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -139,35 +147,7 @@ public class MainActivity extends UdmActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        hideAllFragment(transaction);
-        if (f1 == null) {
-            f1 = DeviceSearchListFragment.newInstance("第一个Fragment", null);
-            transaction.add(R.id.fragment_container, f1);
-            transaction.show(f1);
-        } else {
-            transaction.show(f1);
-
-        }
-        transaction.commit();
     }
-
-
-    /**
-     * UI组件初始化与事件绑定
-     */
-    private void bindView() {
-
-
-        tabDeviceList = (TextView) this.findViewById(R.id.tab_device_list);
-        tabSetting = (TextView) this.findViewById(R.id.tab_setting);
-
-        tabDeviceList.setOnClickListener(menuOnClickListener);
-        tabSetting.setOnClickListener(menuOnClickListener);
-        tabDeviceList.requestFocus();
-
-    }
-
 
     //重置所有文本的选中状态
     public void selected() {
@@ -198,8 +178,29 @@ public class MainActivity extends UdmActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<DeviceInfo> getInetAddresses() {
-        inetAddresses = searchServiceBinder.searchDeviceByBroadcast(broadcastAddress);
+//        return inetAddresses = searchServiceBinder.searchDeviceByBroadcast(broadcastAddress);
         return inetAddresses;
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.tool_bar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @SuppressLint("RestrictedApi")
+    @Override
+    protected boolean onPrepareOptionsPanel(View view, Menu menu) {
+        if (menu != null) {
+            if (menu.getClass() == MenuBuilder.class) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                }
+            }
+        }
+        return super.onPrepareOptionsPanel(view, menu);
+    }
 }

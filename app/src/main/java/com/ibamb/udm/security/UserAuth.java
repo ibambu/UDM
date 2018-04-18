@@ -5,6 +5,9 @@
  */
 package com.ibamb.udm.security;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.constants.UdmControl;
 import com.ibamb.udm.net.UDPMessageSender;
@@ -20,18 +23,21 @@ import java.util.Base64;
 public class UserAuth {
 
     /**
-     * 登录设备，如果登录成功则返回UDP数据报连接，如果登录失败，则返回NULL值。
-     *
+     * 登录成功返回 TRUE,登录失败返回 FALSE
      * @param userName
      * @param password
      * @param devMac
+     * @param datagramSocket
      * @return
      */
-    public DatagramSocket login(String userName, String password, String devMac) {
-        DatagramSocket datagramSocket;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static boolean login(String userName, String password, String devMac,DatagramSocket datagramSocket) {
+        boolean isSuccessful = false;
         Base64.Encoder encoder = Base64.getEncoder();
         try {
-            datagramSocket = new DatagramSocket();
+            if(datagramSocket == null){
+                datagramSocket = new DatagramSocket();
+            }
             /**
              * 将用户名和密码采用BASE64加密并转成字节数组。注意用户名和密码之间要留一个空格，加密时需将空格和用户名一起加密。
              */
@@ -80,15 +86,16 @@ public class UserAuth {
             int replyType = DataTypeConvert.bytes2int(replyData);
             //返回0表示成功
             if (replyType != UdmConstants.UDM_LOGIN_SUCCESS) {
-                datagramSocket = null;
+                isSuccessful = false;
                 System.out.println("login fail.");
             } else {
+                isSuccessful = true;
                 System.out.println("login successful");
             }
         } catch (IOException ex) {
-            datagramSocket = null;
+
         }
-        return datagramSocket;
+        return isSuccessful;
     }
 
     /**
@@ -97,7 +104,7 @@ public class UserAuth {
      * @param str
      * @return
      */
-    private String str2HexString(String str) {
+    private static String str2HexString(String str) {
         char[] chars = "0123456789ABCDEF".toCharArray();
         StringBuilder sb = new StringBuilder("");
         byte[] bs = str.getBytes();

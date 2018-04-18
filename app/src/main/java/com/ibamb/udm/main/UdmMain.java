@@ -143,7 +143,7 @@ public class UdmMain {
 //                System.out.print(Integer.toHexString(replyData[i]) + " ");
 //            }
 //            System.out.println(Arrays.toString(replyData));
-            datagramSocket = userAuth.login(userName, password, mac);
+//            datagramSocket = userAuth.login(userName, password, mac);
 //            byte[] replyBytes = Login.login(datagramSocket,broadcastIp, mac, userName, password);
             IParameterReaderWriter readerWriter = new ParameterReaderWriter();
 
