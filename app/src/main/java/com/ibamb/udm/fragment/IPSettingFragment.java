@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.task.IPSettingParamReadAsyncTask;
+import com.ibamb.udm.task.ParameterReaderAsyncTask;
 
 /**
  * IP 设置
@@ -27,12 +29,12 @@ public class IPSettingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String ip;
+    private String mac;
 
     private TextView textView;
     private OnFragmentInteractionListener mListener;
-
+    private View ipSetingView;
     public IPSettingFragment() {
         // Required empty public constructor
     }
@@ -56,21 +58,32 @@ public class IPSettingFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        //读取IP设置参数
+        IPSettingParamReadAsyncTask readerAsyncTask = new IPSettingParamReadAsyncTask(ipSetingView);
+        readerAsyncTask.execute(mac);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            ip = getArguments().getString(ARG_PARAM1);
+            mac = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ipsetting, container, false);
-        view.findViewById(R.id.id_ip_obtain).requestFocus();
-        return view;
+        ipSetingView = inflater.inflate(R.layout.fragment_ipsetting, container, false);
+        ipSetingView.findViewById(R.id.id_ip_obtain).requestFocus();
+
+        return ipSetingView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

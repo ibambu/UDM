@@ -5,6 +5,7 @@
     <item android:id="@+id/udm_search"
         android:title="search"
         app:showAsAction="always"
+        app:queryBackground="@android:color/white"
         app:actionViewClass="android.support.v7.widget.SearchView" />
     <!-- 同级的item有几个则在toolbar右边显示几个 -->
     <!--

@@ -114,7 +114,7 @@
     </string-array>
 
     <string-array name="opt_ip_obtain">
-        <item>Manual IP</item>
-        <item>DHCP IP</item>
+        <item>Userconfig</item>
+        <item>Obtain Automatically</item>
     </string-array>
 </resources>

@@ -8,6 +8,15 @@ public class ParameterItem {
     private String paramId;
     private String paramValue;
     private String remoteParamId;
+    private String displayValue;
+
+    public String getDisplayValue() {
+        return displayValue;
+    }
+
+    public void setDisplayValue(String displayValue) {
+        this.displayValue = displayValue;
+    }
 
     public ParameterItem(String paramId, String paramValue, String remoteParamId) {
         this.paramId = paramId;

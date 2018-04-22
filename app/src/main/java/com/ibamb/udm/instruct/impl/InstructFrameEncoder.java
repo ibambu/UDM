@@ -6,7 +6,7 @@ import com.ibamb.udm.core.ParameterMappingManager;
 import com.ibamb.udm.instruct.beans.Information;
 import com.ibamb.udm.instruct.beans.InstructFrame;
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.instruct.beans.ParameterMapping;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.util.DataTypeConvert;
 import java.util.List;
 
@@ -18,14 +18,13 @@ public class InstructFrameEncoder implements IEncoder {
     @Override
     public byte[] encode(InstructFrame instructFrame) {
 
-        ParameterMapping parameterMapping = ParameterMappingManager.getInstance();
         byte[] byteFrame = new byte[instructFrame.getLength()];
         // frame of control
-        byteFrame[0] = DataTypeConvert.intToUnsignedByte(instructFrame.getControl());
+        byteFrame[0] = (byte)instructFrame.getControl();
         // frame of id
-        byteFrame[1] = DataTypeConvert.intToUnsignedByte(instructFrame.getId());
+        byteFrame[1] = (byte)instructFrame.getId();
         // frame for length
-        byte[] frameLength = DataTypeConvert.shortToBytes(DataTypeConvert.intToUnsignedShort(instructFrame.getLength()));
+        byte[] frameLength = DataTypeConvert.shortToBytes((short)instructFrame.getLength());
         byteFrame[2] = frameLength[0];
         byteFrame[3] = frameLength[1];
         //frame of ip
@@ -49,13 +48,13 @@ public class InstructFrameEncoder implements IEncoder {
         for (int i = 0; i < infoList.size(); i++) {
             Information info = infoList.get(i);
             System.out.println(info.toString());
-            Parameter parameter = parameterMapping.getMapping(info.getType());
+            Parameter parameter = ParameterMapping.getMapping(info.getType());
             System.out.println(parameter.toString());
-            byte[] typeBytes = DataTypeConvert.shortToBytes(DataTypeConvert.intToUnsignedShort(parameter.getDecId()));
+            byte[] typeBytes = DataTypeConvert.shortToBytes((short)parameter.getDecId());
             byteFrame[pos++] = typeBytes[0];// bit 16
             byteFrame[pos++] = typeBytes[1];// bit 17
             // information of length
-            byteFrame[pos++] = DataTypeConvert.intToUnsignedByte(info.getLength());
+            byteFrame[pos++] = (byte)info.getLength();
             // information of data
             String data = info.getData();
             //读参数的时候参数值为null，所以长度为0. 
@@ -64,17 +63,17 @@ public class InstructFrameEncoder implements IEncoder {
                     - UdmConstants.UDM_SUB_FRAME_LENGTH : 0;
             switch (dataLength) {
                 case 1: {
-                    byteFrame[pos++] = DataTypeConvert.intToUnsignedByte((Integer.parseInt(data)));
+                    byteFrame[pos++] = (byte)Integer.parseInt(data);
                     break;
                 }
                 case 2: {
-                    byte[] dataBytes = DataTypeConvert.shortToBytes(DataTypeConvert.intToUnsignedShort(Integer.parseInt(data)));
+                    byte[] dataBytes = DataTypeConvert.shortToBytes((short)(Integer.parseInt(data)));
                     byteFrame[pos++] = dataBytes[0];
                     byteFrame[pos++] = dataBytes[1];
                     break;
                 }
                 case 4: {
-                    byte[] dataBytes = DataTypeConvert.int2bytes(DataTypeConvert.LongToUnsignedInt(Long.parseLong(data)));
+                    byte[] dataBytes = DataTypeConvert.int2bytes((int)(Long.parseLong(data)));
                     byteFrame[pos++] = dataBytes[0];
                     byteFrame[pos++] = dataBytes[1];
                     byteFrame[pos++] = dataBytes[2];

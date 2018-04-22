@@ -22,7 +22,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.UdmActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -38,7 +39,6 @@
         <activity
             android:name=".activity.UdmMainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
 
         <service

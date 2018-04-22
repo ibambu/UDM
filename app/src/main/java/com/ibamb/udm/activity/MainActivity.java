@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -33,6 +34,7 @@ import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
 import com.ibamb.udm.net.LocalNetScanner;
 import com.ibamb.udm.service.DeviceSearchService;
+import com.ibamb.udm.task.UdmInitAsyncTask;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
@@ -72,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // 绑定Service，绑定后就会调用mConnetion里的onServiceConnected方法
-        Intent bindIntent = new Intent(MainActivity.this, DeviceSearchService.class);
-        bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
+//        // 绑定Service，绑定后就会调用mConnetion里的onServiceConnected方法
+//        Intent bindIntent = new Intent(MainActivity.this, DeviceSearchService.class);
+//        bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
 
@@ -94,11 +96,6 @@ public class MainActivity extends AppCompatActivity {
         //绑定菜单点击事件
         mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener());
 
-        //此处已经优化,将请求网络资源的操作放在一个单独的线程里面执行.避免网络延时界面假死.
-        /*if (Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }*/
         //沉静式工具栏,将任务栏的背景改为与Toolbar背景一致.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
@@ -124,7 +121,11 @@ public class MainActivity extends AppCompatActivity {
         tabDeviceList.setOnClickListener(bottomMenuClickListener);
         tabSetting.setOnClickListener(bottomMenuClickListener);
         tabDeviceList.requestFocus();
-
+        //初始化应用基础数据
+        AssetManager mAssetManger = getAssets();
+        UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask();
+        initAsyncTask.execute(mAssetManger);
+        //判断WIFI是否开启
         try {
             ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

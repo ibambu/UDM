@@ -1,9 +1,15 @@
 package com.ibamb.udm.core;
 
+import android.content.res.AssetManager;
+
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.instruct.beans.ParameterMapping;
 import com.ibamb.udm.instruct.beans.ValueMapping;
 import com.ibamb.udm.util.FileReader;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,47 +20,55 @@ import java.util.Map;
  */
 public class ParameterMappingManager {
 
-    private static ParameterMapping parameterMapping;
 
-    private static void loadParameterMapping() {
-        parameterMapping = new ParameterMapping();
+
+    public static Map<String,Parameter> loadParameterMapping(AssetManager assetManager) {
         Map<String,Parameter> mapping = new HashMap();
-        parameterMapping.setParameterMap(mapping);
-        String usrdir = System.getProperty("user.dir");
-        List<String> dataLines = FileReader.readTxtFileToList(usrdir+"/conextop-parameter-mapping.txt", true);
-        for (String dataLine : dataLines) {
-            String[] dataArray = dataLine.split("#");
-            Parameter param = new Parameter();
-            param.setId(dataArray[0]);
-            param.setDecId(Integer.parseInt(dataArray[1]));
-            param.setHexId(Integer.parseInt(dataArray[2],16));
-            System.out.println(param.getHexId());
-            param.setByteLength(Integer.parseInt(dataArray[3]));
-            param.setViewId(Integer.parseInt(dataArray[4]));
-            param.setCovertType(Integer.parseInt(dataArray[5]));
-            
-            List<ValueMapping> vMappings = new ArrayList<>();
-            param.setValueMappings(vMappings);
-            
-            if (param.getCovertType() == 1) {
-                String[] displayEnumValues = dataArray[6].split(",");
-                String[] enumValues = dataArray[7].split(",");
-                for (int i = 0; i < displayEnumValues.length; i++) {
-                     ValueMapping vmapping = new ValueMapping();
-                     vmapping.setDisplayValue(displayEnumValues[i]);
-                     vmapping.setValue(enumValues[i]);
-                     vMappings.add(vmapping);
-                     vmapping.setParamId(param.getId());
+        BufferedReader bufreader = null;
+        try {
+            InputStream in = assetManager.open("conextop-parameter-mapping.txt");
+            bufreader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            String readline = null;
+            while ((readline = bufreader.readLine()) != null) {
+                String[] dataArray = readline.split("#");
+                int cellCount = 0;
+                Parameter param = new Parameter();
+                param.setParamType(Integer.parseInt(dataArray[cellCount++]));//参数类型
+                param.setChannelId(Integer.parseInt(dataArray[cellCount++]));//通道ID
+                param.setId(dataArray[cellCount++]);//字符参数ID
+                param.setViewTagId(dataArray[cellCount++]);//现实参数的界面控件ID
+                param.setElementType(Integer.parseInt(dataArray[cellCount++]));//界面控件类型
+                param.setDecId(Integer.parseInt(dataArray[cellCount++]));//参数对应的十进制ID
+                param.setHexId(Integer.parseInt(dataArray[cellCount++],16));//参数对应的十六进制ID
+                param.setCovertType(Integer.parseInt(dataArray[cellCount++]));//参数转换类型
+                param.setByteLength(Integer.parseInt(dataArray[cellCount++]));//参数所占长度
+                List<ValueMapping> vMappings = new ArrayList<>();
+                param.setValueMappings(vMappings);
+                //如果是枚举值，则将枚举值对应的显示值都放入VaueMapping对象中。
+                if (param.getCovertType() == 1) {
+                    String[] enumValues = dataArray[cellCount++].split(",");
+                    String[] displayEnumValues = dataArray[cellCount++].split(",");
+                    for (int i = 0; i < enumValues.length; i++) {
+                        ValueMapping vmapping = new ValueMapping();
+                        vmapping.setValue(enumValues[i]);
+                        vmapping.setDisplayValue(displayEnumValues[i]);
+                        vMappings.add(vmapping);
+                        vmapping.setParamId(param.getId());
+                    }
+                }
+                mapping.put(param.getId(), param);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(bufreader!=null){
+                try {
+                    bufreader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-            mapping.put(param.getId(), param);
         }
-    }
-
-    public static ParameterMapping getInstance() {
-        if (parameterMapping == null) {
-            ParameterMappingManager.loadParameterMapping();
-        }
-        return parameterMapping;
+        return mapping;
     }
 }

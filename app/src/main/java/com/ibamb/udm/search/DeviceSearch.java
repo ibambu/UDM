@@ -5,31 +5,28 @@
  */
 package com.ibamb.udm.search;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.ibamb.udm.beans.DeviceInfo;
 import com.ibamb.udm.constants.UdmControl;
 import com.ibamb.udm.net.UDPMessageSender;
 import com.ibamb.udm.util.DataTypeConvert;
+
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
- *
  * @author Luo Tao
  */
 public class DeviceSearch {
 
     public static ArrayList<DeviceInfo> searchDevice() {
-        DatagramSocket datagramSocket;
+        DatagramSocket datagramSocket = null;
         UDPMessageSender sender = new UDPMessageSender();
         ArrayList<DeviceInfo> deviceList = new ArrayList<>();
         try {
             datagramSocket = new DatagramSocket();
+            datagramSocket.setSoTimeout(3000);
             byte[] serachBytes = new byte[14];
             serachBytes[0] = DataTypeConvert.intToUnsignedByte(UdmControl.SEARCH_DEVICE);
             serachBytes[1] = DataTypeConvert.intToUnsignedByte(0xff);
@@ -89,12 +86,17 @@ public class DeviceSearch {
                     macBuffer.deleteCharAt(macBuffer.length() - 1);
                     DeviceInfo devinfo = new DeviceInfo(ipBuffer.toString(), macBuffer.toString());
                     System.out.println(devinfo.toString());
-                    devinfo.setIndex(deviceList.size()+1);
+                    devinfo.setIndex(deviceList.size() + 1);
                     deviceList.add(devinfo);
 
                 }
             }
         } catch (SocketException ex) {
+                ex.printStackTrace();
+        } finally {
+            if (datagramSocket != null) {
+                datagramSocket.close();
+            }
         }
         return deviceList;
     }

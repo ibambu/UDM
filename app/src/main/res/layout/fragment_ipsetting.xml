@@ -37,13 +37,15 @@
                 android:layout_marginRight="2sp"
                 android:text="IP Obtain" />
 
-            <Spinner
+            <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/id_ip_obtain"
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:entries="@array/opt_ip_obtain" />
+                android:spinnerMode="dialog"
+                android:entries="@array/opt_ip_obtain"
+                android:tag="@string/tag_eth_auto_obtain_ip"/>
 
             <TextView
                 android:layout_columnSpan="6"
@@ -58,7 +60,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_eth_ip_addr"/>
 
             <TextView
                 android:layout_columnSpan="6"
@@ -73,7 +76,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_eth_netmask_addr"/>
 
             <TextView
                 android:layout_columnSpan="6"
@@ -88,7 +92,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_eth_gateway_addr"/>
 
             <TextView
                 android:layout_columnSpan="6"
@@ -103,7 +108,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_preferred_dns_server"/>
 
             <TextView
                 android:layout_columnSpan="6"
@@ -118,7 +124,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_alternate_dns_serve"/>
 
 
             <TextView
@@ -143,7 +150,8 @@
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:textOff="off"
-                android:textOn="on" />
+                android:textOn="on"
+                android:tag="@string/tag_basic_web_console"/>
 
             <TextView
                 android:layout_columnSpan="3"
@@ -157,7 +165,8 @@
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:textOff="off"
-                android:textOn="on" />
+                android:textOn="on"
+                android:tag="@string/tag_basic_telnet_console"/>
 
             <TextView
                 android:layout_columnSpan="3"
@@ -171,7 +180,8 @@
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:textOff="off"
-                android:textOn="on" />
+                android:textOn="on"
+                android:tag="@string/tag_basic_cloud_console"/>
 
             <TextView
                 android:layout_columnSpan="3"
@@ -185,7 +195,8 @@
                 android:layout_columnSpan="3"
                 android:layout_gravity="fill"
                 android:textOff="off"
-                android:textOn="on" />
+                android:textOn="on"
+                android:tag="@string/tag_basic_cmd_tcp_consol"/>
 
             <TextView
                 style="@style/theme_title_bar_style"
@@ -209,7 +220,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_basic_timer_server"/>
 
             <TextView
                 android:layout_columnSpan="6"
@@ -224,7 +236,8 @@
                 android:layout_gravity="fill"
                 android:layout_marginLeft="2sp"
                 android:layout_marginRight="2sp"
-                android:background="@drawable/border_background" />
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_basic_rtc_time"/>
 
             <Button
                 android:id="@+id/id_conect_setting_commit"

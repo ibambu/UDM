@@ -127,6 +127,14 @@ public class DataTypeConvert {
         return retValue;
     }
 
+    public static long bytesToLong(byte[] buffer) {
+        long  values = 0;
+        for (int i = 0; i < 8; i++) {
+            values <<= 8; values|= (buffer[i] & 0xff);
+        }
+        return values;
+    }
+
     /**
      * 将16进制字符串转换为byte[]
      *

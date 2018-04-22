@@ -41,4 +41,10 @@ public class UdmConstants {
     //写参数
     public static final int UDM_PARAM_WRITE = 1;
 
+    //界面控件类型常量
+    public static final int UDM_UI_EDIT_TEXT = 1;
+    public static final int UDM_UI_UDMSPINNER = 2;
+    public static final int UDM_UI_SWITCH = 3;
+    //IP参数类型
+    public static final int UDM_IP_SETTING_CHNL = 0;
 }

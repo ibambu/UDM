@@ -5,44 +5,43 @@
  */
 package com.ibamb.udm.security;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.os.Parcel;
+import android.util.Base64;
 
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.constants.UdmControl;
 import com.ibamb.udm.net.UDPMessageSender;
+import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.util.DataTypeConvert;
+
 import java.io.IOException;
 import java.net.DatagramSocket;
-import java.util.Base64;
+import java.util.Arrays;
 
 /**
- *
  * @author Luo Tao
  */
 public class UserAuth {
 
     /**
-     * 登录成功返回 TRUE,登录失败返回 FALSE
+     * 登录成功返回 UDP 连接,登录失败返回 NULL
+     *
      * @param userName
      * @param password
      * @param devMac
-     * @param datagramSocket
      * @return
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static boolean login(String userName, String password, String devMac,DatagramSocket datagramSocket) {
+    public static DatagramSocket login(String userName, String password, String devMac) {
         boolean isSuccessful = false;
-        Base64.Encoder encoder = Base64.getEncoder();
+        DatagramSocket socket=null;
         try {
-            if(datagramSocket == null){
-                datagramSocket = new DatagramSocket();
-            }
+            socket = new DatagramSocket();
+
             /**
              * 将用户名和密码采用BASE64加密并转成字节数组。注意用户名和密码之间要留一个空格，加密时需将空格和用户名一起加密。
              */
-            String enUserName = encoder.encodeToString((userName + " ").getBytes("UTF-8"));
-            String enPassword = encoder.encodeToString(password.getBytes("UTF-8"));
+            String enUserName = Base64.encodeToString((userName + " ").getBytes("UTF-8"),Base64.NO_WRAP);
+            String enPassword = Base64.encodeToString(password.getBytes("UTF-8"),Base64.NO_WRAP);
             byte[] byteUserName = DataTypeConvert.hexStringtoBytes(str2HexString(enUserName));
             byte[] bytePassword = DataTypeConvert.hexStringtoBytes(str2HexString(enPassword));
             //将目标设备mac地址转成字节数组
@@ -82,20 +81,21 @@ public class UserAuth {
              * 发送认证
              */
             UDPMessageSender sender = new UDPMessageSender();
-            byte[] replyData = sender.send(datagramSocket, loginFrame, 4);
-            int replyType = DataTypeConvert.bytes2int(replyData);
+            byte[] replyData = sender.send(socket, loginFrame, 4);
+            int replyType = DataTypeConvert.bytes2int(Arrays.copyOfRange(replyData,0,4));
             //返回0表示成功
             if (replyType != UdmConstants.UDM_LOGIN_SUCCESS) {
                 isSuccessful = false;
                 System.out.println("login fail.");
+                socket = null;
             } else {
                 isSuccessful = true;
                 System.out.println("login successful");
             }
         } catch (IOException ex) {
-
+            socket = null;
         }
-        return isSuccessful;
+        return socket;
     }
 
     /**

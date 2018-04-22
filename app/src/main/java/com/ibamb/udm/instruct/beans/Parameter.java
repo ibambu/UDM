@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class Parameter {
+    private int channelId;
     private String id;
     private int decId;
     private int hexId;
@@ -16,6 +17,42 @@ public class Parameter {
     private int viewId;
 
     private int covertType;
+
+    private int elementType;
+    private int paramType;
+    private String viewTagId;
+
+    public String getViewTagId() {
+        return viewTagId;
+    }
+
+    public void setViewTagId(String viewTagId) {
+        this.viewTagId = viewTagId;
+    }
+
+    public int getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(int paramType) {
+        this.paramType = paramType;
+    }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
+    }
+
+    public int getElementType() {
+        return elementType;
+    }
+
+    public void setElementType(int elementType) {
+        this.elementType = elementType;
+    }
 
     public int getCovertType() {
         return covertType;
@@ -78,7 +115,9 @@ public class Parameter {
 
     public String getDisplayValue(String value){
         String displayValue = value;
+        System.out.println("real value ===="+value);
         for(ValueMapping mapping:valueMappings){
+            System.out.println("display value ===="+mapping.getDisplayValue());
             if(mapping.getValue().equalsIgnoreCase(value)){
                 displayValue = mapping.getDisplayValue();
                 break;

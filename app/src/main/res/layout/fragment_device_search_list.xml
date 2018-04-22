@@ -21,10 +21,10 @@
         android:scrollbars="horizontal|vertical"
         android:transcriptMode="alwaysScroll" />
 
-    <include layout="@layout/content_float_button" />
+    <!--<include layout="@layout/content_float_button" />-->
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/udm_search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"

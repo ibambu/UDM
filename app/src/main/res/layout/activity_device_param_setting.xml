@@ -38,6 +38,8 @@
             android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/tab_name_connect_setting" />
 
+
+
     </LinearLayout>
 
     <View

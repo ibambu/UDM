@@ -7,21 +7,21 @@
 
     <TextView
         android:id="@+id/device_index"
-        android:layout_width="60dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/device_ip"
-        android:layout_width="140dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/device_mac"
@@ -30,7 +30,8 @@
         android:gravity="left"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="18dp"
+        android:tag="aaaaaaaaaaaaaa"/>
 </LinearLayout>
 
 

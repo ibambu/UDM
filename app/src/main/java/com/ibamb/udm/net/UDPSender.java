@@ -1,6 +1,7 @@
 package com.ibamb.udm.net;
 
 import com.ibamb.udm.constants.UdmConstants;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IEncoder;
 import com.ibamb.udm.instruct.IParser;
 import com.ibamb.udm.core.ParameterMappingManager;
@@ -39,7 +40,7 @@ public class UDPSender {
 
                 instructFrame.setId(seq++);
 
-                Parameter param = ParameterMappingManager.getInstance().getMapping(instructFrame.getInformation().getType());
+                Parameter param = ParameterMapping.getMapping(instructFrame.getInformation().getType());
                 byte[] sendData = encoder.encode(instructFrame);
 
                 byte[] retData = send(datagramSocket, address, UdmConstants.UDM_UDP_SERVER_PORT, sendData, param.getByteLength()

@@ -33,4 +33,20 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!--IP SETTING TAG-->
+
+    <string name="tag_eth_auto_obtain_ip">eth_auto_obtain_ip</string>
+    <string name="tag_preferred_dns_server">preferred_dns_server</string>
+    <string name="tag_alternate_dns_serve">alternate_dns_serve</string>
+    <string name="tag_basic_web_console">basic_web_console</string>
+    <string name="tag_basic_rtc_time">basic_rtc_time</string>
+    <string name="tag_eth_ip_addr">eth_ip_addr</string>
+    <string name="tag_eth_netmask_addr">eth_netmask_addr</string>
+    <string name="tag_eth_gateway_addr">eth_gateway_addr</string>
+    <string name="tag_basic_telnet_console">basic_telnet_console</string>
+    <string name="tag_basic_cloud_console">basic_cloud_console</string>
+    <string name="tag_basic_cmd_tcp_consol">basic_cmd_tcp_consol</string>
+    <string name="tag_basic_timer_server">basic_timer_server</string>
+
 </resources>

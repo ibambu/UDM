@@ -24,7 +24,7 @@ public class UDPMessageSender {
     public byte[] send(DatagramSocket datagramSocket, byte[] sendData, int replyBytesLength) {
 
         InetAddress address;
-        byte[] recevBuffer = new byte[replyBytesLength];
+        byte[] recevBuffer = new byte[1024];
         DatagramPacket recevPacket = new DatagramPacket(recevBuffer, recevBuffer.length);
         try {
             address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
@@ -38,7 +38,7 @@ public class UDPMessageSender {
             System.out.println("");
             // 接收数据
             try {
-                Thread.sleep(100);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
             }
             datagramSocket.receive(recevPacket);

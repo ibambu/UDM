@@ -23,6 +23,7 @@ import com.ibamb.udm.beans.UDPChannelParameter;
 import com.ibamb.udm.fragment.ConnectSettingFragment;
 import com.ibamb.udm.fragment.IPSettingFragment;
 import com.ibamb.udm.instruct.IParameterReaderWriter;
+import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.service.DeviceParameterService;
 import com.ibamb.udm.service.DeviceSearchService;
 
@@ -46,16 +47,18 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
     @Override
     protected void onStart() {
         super.onStart();
-        // 绑定Service，绑定后就会调用mConnetion里的onServiceConnected方法
-        Intent bindIntent = new Intent(DeviceParamSettingActivity.this, DeviceParameterService.class);
-        bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
+//        // 绑定Service，绑定后就会调用mConnetion里的onServiceConnected方法
+//        Intent bindIntent = new Intent(DeviceParamSettingActivity.this, DeviceParameterService.class);
+//        bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//设置无标题
         setContentView(R.layout.activity_device_param_setting);
+        datagramSocket = UdmDatagramSocket.getDatagramSocket();
         bindView();
         Bundle bundle = getIntent().getExtras();
         ip = (String)bundle.get("HOST_ADDRESS");
@@ -63,7 +66,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         if(ipSettingFragment ==null){
-            ipSettingFragment = IPSettingFragment.newInstance("ip setting",null);
+            ipSettingFragment = IPSettingFragment.newInstance(ip,mac);
             transaction.add(R.id.param_fragment_container,ipSettingFragment);
         }else{
             transaction.show(ipSettingFragment);
@@ -148,6 +151,11 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
             parameterServiceBinder = (DeviceParameterService.DeviceParameterServiceBinder) service;
         }
     };
+
+    @Override
+    public void finish() {
+        super.finish();
+    }
 
     @Override
     public ChannelParameter readChannelParam(DatagramSocket datagramSocket,ChannelParameter channelParameter) {

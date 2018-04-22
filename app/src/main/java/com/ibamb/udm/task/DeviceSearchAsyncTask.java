@@ -37,17 +37,15 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<
         if (deviceList != null) {
             deviceList.clear();
         }
-//        deviceList = DeviceSearch.searchDevice();
+        deviceList = DeviceSearch.searchDevice();
         if (deviceList == null) {
             deviceList = new ArrayList<>();
         }
         try {
-            Thread.sleep(3000);
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        DeviceInfo deviceInfo = new DeviceInfo("192.168.1.110", "AC:45:68:0F:2A:3C");
-        deviceList.add(deviceInfo);
         publishProgress(deviceList.size());
 
         return deviceList;
@@ -71,7 +69,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
-        Snackbar.make(searchButton, "Device:" + Arrays.toString(values), Snackbar.LENGTH_LONG)
+        Snackbar.make(searchButton, "Device:" + String.valueOf(values[0]), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

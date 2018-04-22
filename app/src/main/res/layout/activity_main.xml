@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     tools:context="com.ibamb.udm.activity.MainActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/top_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/udm_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright"
+            android:elevation="1dp"
+            android:fitsSystemWindows="true"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
     <LinearLayout
         android:id="@+id/tab_bottom_menu"
         android:layout_width="match_parent"
@@ -26,29 +41,31 @@
             android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/menu_device_list" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/tab_other1"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:clickable="true"-->
-            <!--android:drawablePadding="3dp"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="@drawable/udm_color_menu_text_selector"-->
-            <!--android:background="@drawable/udm_color_menu_bg_selector"-->
-            <!--android:text="@string/menu_other_1" />-->
+        <TextView
+            android:id="@+id/tab_other1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:background="@drawable/udm_color_menu_bg_selector"
+            android:text="@string/menu_other_1"
+            android:visibility="gone"/>
 
-        <!--<TextView-->
-            <!--android:id="@+id/tab_other2"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:clickable="true"-->
-            <!--android:drawablePadding="3dp"-->
-            <!--android:gravity="center"-->
-            <!--android:textColor="@drawable/udm_color_menu_text_selector"-->
-            <!--android:background="@drawable/udm_color_menu_bg_selector"-->
-            <!--android:text="@string/menu_other_2" />-->
+        <TextView
+            android:id="@+id/tab_other2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:background="@drawable/udm_color_menu_bg_selector"
+            android:text="@string/menu_other_2"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tab_setting"
@@ -60,7 +77,8 @@
             android:gravity="center"
             android:textColor="@drawable/udm_color_menu_text_selector"
             android:background="@drawable/udm_color_menu_bg_selector"
-            android:text="@string/menu_setting" />
+            android:text="@string/menu_setting"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

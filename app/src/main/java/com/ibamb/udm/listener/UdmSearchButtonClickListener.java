@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
+import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
 
 /**
@@ -18,6 +19,7 @@ public class UdmSearchButtonClickListener implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         //通过异步任务开启工作线程在后台搜索设备。
+
         DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(searchButton,mListView,inflater);
         task.execute();
     }

@@ -11,9 +11,10 @@ import com.ibamb.udm.core.ParameterMappingManager;
 import com.ibamb.udm.instruct.beans.Information;
 import com.ibamb.udm.instruct.beans.InstructFrame;
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.instruct.beans.ParameterMapping;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.ReplyFrame;
 import com.ibamb.udm.net.UDPMessageSender;
+
 import java.net.DatagramSocket;
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * Created by luotao on 18-3-26.
  */
 public class ParameterReaderWriter implements IParameterReaderWriter {
+
 
     /**
      * 一次读取指定通道多个参数值.返回通道参数对象.建议参数个数不要过多,避免传输过程中丢数据包.
@@ -58,7 +60,6 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
      */
     private ChannelParameter sendStructure(DatagramSocket datagramSocket, ChannelParameter channelParameter, int readOrWrite) {
         UDPMessageSender sender = new UDPMessageSender();
-        ParameterMapping parameterMapping = ParameterMappingManager.getInstance();
         List<ParameterItem> parameterItems = channelParameter.getParamItems();
         IEncoder encoder = new InstructFrameEncoder();
         IParser parser = new ReplyFrameParser();
@@ -83,7 +84,7 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
         int replyFrameLength = mainStructLen;//期望返回帧的总长度。
         //遍历通道参数，将要读/写参数存入帧对象中。
         for (ParameterItem parameterItem : parameterItems) {
-            Parameter param = parameterMapping.getMapping(parameterItem.getParamId());
+            Parameter param = ParameterMapping.getMapping(parameterItem.getParamId());
             String typeId = param.getId();
             //读的时候参数值设置为NULL.
             String typeValue = readOrWrite == UdmConstants.UDM_PARAM_WRITE ? param.getValue(parameterItem.getParamValue()) : null;
@@ -96,6 +97,7 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
             }
             sendFrameLength += dataField.getLength();//增加发送的主帧长度
             replyFrameLength += subStructLen + param.getByteLength();//增加返回帧的长度
+            System.out.println("add data field=" + dataField.toString());
             informationList.add(dataField);
         }
         instructFrame.setLength(sendFrameLength);
@@ -108,8 +110,10 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
         for (ParameterItem parameterItem : parameterItems) {
             for (Information info : replyFrame.getInfoList()) {
                 if (parameterItem.getParamId().equals(info.getType())) {
-                    Parameter parm = parameterMapping.getMapping(parameterItem.getParamId());
-                    parameterItem.setParamValue(parm.getDisplayValue(info.getData()));
+                    Parameter paramDef = ParameterMapping.getMapping(parameterItem.getParamId());
+                    parameterItem.setParamValue(info.getData());
+                    parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
+                    System.out.println("pppp:"+parameterItem.toString());
                     break;
                 }
             }
@@ -117,11 +121,11 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
         return channelParameter;
     }
 
-    private ChannelParameter createTestData(){
+    private ChannelParameter createTestData() {
         ChannelParameter channelParameter = new ChannelParameter();
         channelParameter.setChannelId("1");
         channelParameter.setMac("");
-        ParameterItem parameterItem = new ParameterItem("","");
+        ParameterItem parameterItem = new ParameterItem("", "");
         return channelParameter;
     }
 }
