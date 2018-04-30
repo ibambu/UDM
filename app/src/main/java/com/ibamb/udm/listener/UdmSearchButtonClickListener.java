@@ -4,6 +4,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
@@ -16,11 +17,12 @@ public class UdmSearchButtonClickListener implements View.OnClickListener{
     private ListView mListView;
     private LayoutInflater inflater;
     private FloatingActionButton searchButton;
+    private TextView vSearchNotice;
     @Override
     public void onClick(View v) {
         //通过异步任务开启工作线程在后台搜索设备。
 
-        DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(searchButton,mListView,inflater);
+        DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(searchButton,mListView,vSearchNotice,inflater);
         task.execute();
     }
 
@@ -30,9 +32,11 @@ public class UdmSearchButtonClickListener implements View.OnClickListener{
      * @param mListView
      * @param inflater
      */
-    public UdmSearchButtonClickListener(FloatingActionButton searchButton,ListView mListView, LayoutInflater inflater) {
+    public UdmSearchButtonClickListener(FloatingActionButton searchButton,ListView mListView,
+                                        TextView vSearchNotice, LayoutInflater inflater) {
         this.mListView = mListView;
         this.inflater = inflater;
         this.searchButton = searchButton;
+        this.vSearchNotice = vSearchNotice;
     }
 }

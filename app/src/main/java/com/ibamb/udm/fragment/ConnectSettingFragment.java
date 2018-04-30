@@ -9,16 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.beans.ChannelParameter;
+import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.dto.ParameterTransfer;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IParameterReaderWriter;
-import com.ibamb.udm.instruct.beans.ChannelParamsID;
-import com.ibamb.udm.tag.UdmButtonTextEdit;
+import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.instruct.impl.ParameterReaderWriter;
 import com.ibamb.udm.tag.UdmSpinner;
+import com.ibamb.udm.task.ChannelParamReadAsyncTask;
+import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.util.ViewElementDataUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConnectSettingFragment extends Fragment {
@@ -37,16 +43,32 @@ public class ConnectSettingFragment extends Fragment {
     private UdmSpinner toSetUdpDataMode;
     private Button commitButton;
 
+    // UDP 相关的参数
+    private String[] udpParams = {"conn_udp_data_mode", "conn_udp_tmp_host_en",
+            "conn_udp_uni_host_ip0", "conn_udp_mul_remote_ip", "conn_udp_acception",
+            "conn_udp_uni_local_port", "conn_udp_uni_host_port0", "conn_udp_mul_remote_port", "conn_udp_mul_local_port",
+            "lab_conn_udp_acception", "lab_conn_udp_data_mode", "lab_conn_udp_tmp_host_en", "lab_conn_udp_uni_local_port",
+            "lab_conn_udp_uni_host_port0", "lab_conn_udp_uni_host_ip0", "lab_conn_udp_mul_local_port",
+            "lab_conn_udp_mul_remote_port", "lab_conn_udp_mul_remote_ip"};
+
+    // TCP 相关的参数
+    private String[] tcpParams = {"conn_tcp_conn_respons", "conn_tcp_host_ip0", "conn_tcp_work_mode",
+            "conn_tcp_host_port0", "conn_tcp_local_port",
+            "lab_conn_tcp_conn_respons", "lab_conn_tcp_host_ip0", "lab_conn_tcp_work_mode",
+            "lab_conn_tcp_host_port0", "lab_conn_tcp_local_port"};
+
+    //UDP 单播参数
+    private String[] udpUniParams = {"conn_udp_uni_host_ip0", "conn_udp_uni_local_port", "conn_udp_uni_host_port0",
+            "lab_conn_udp_uni_local_port", "lab_conn_udp_uni_host_port0", "lab_conn_udp_uni_host_ip0"};
+
+    //UDP 多播参数
+    private String[] udpMulParams = {"conn_udp_mul_remote_ip","conn_udp_mul_remote_port","conn_udp_mul_local_port",
+            "lab_conn_udp_mul_local_port","lab_conn_udp_mul_remote_port", "lab_conn_udp_mul_remote_ip"};
+
+    //用于保存当前通道的参数值，随着界面通道改变，该值也会发生改变。
     private ChannelParameter channelParameter;
 
 
-    private class CommitButtonListener implements Button.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
 
 
     public ConnectSettingFragment() {
@@ -71,6 +93,21 @@ public class ConnectSettingFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
+        channelParameter = new ChannelParameter(mac, UdmConstants.UDM_DEFAULT_CHNL);
+        List<Parameter> parameters = ParameterMapping.getChannelParamDef(Integer.parseInt(UdmConstants.UDM_DEFAULT_CHNL));
+        List<ParameterItem> items = new ArrayList<>();
+        for (Parameter parameter : parameters) {
+            items.add(new ParameterItem(parameter.getId(), null));
+        }
+        channelParameter.setParamItems(items);
+        ChannelParamReadAsyncTask task = new ChannelParamReadAsyncTask(currentView,channelParameter);
+        task.execute(mac, UdmConstants.UDM_DEFAULT_CHNL);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -82,31 +119,29 @@ public class ConnectSettingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         currentView = inflater.inflate(R.layout.fragment_connect_setting, container, false);
+
         toSetProtocol = (UdmSpinner) currentView.findViewById(R.id.udm_conn_net_protocol_set);
         toSetChannel = (UdmSpinner) currentView.findViewById(R.id.udm_connect_channel_set);
         toSetUdpDataMode = (UdmSpinner) currentView.findViewById(R.id.udm_conn_udp_data_mode);
         commitButton = currentView.findViewById(R.id.id_conect_setting_commit);
-
-        String[] parmaIds = ChannelParamsID.getTcpParamsId("1");// read default channel 1. default protocol tcp.
-        ChannelParameter initChannelParam = null;//parameterReaderWriter.readChannelParam("1",parmaIds);
-//        ParameterTransfer.transTcpParamToView(currentView,initChannelParam);
-//        initParamView("TCP");// init param view element.
-        bindParamChangeEvent();// init event.
+        /**
+         * 初始化时默认显示TCP连接相关的参数。
+         */
+        for (String tagId : udpParams) {
+            currentView.findViewWithTag(tagId).setVisibility(View.GONE);// UDP 相关的参数隐藏
+        }
+        toSetProtocol.setValue("TCP");
+        toSetChannel.setValue("1");
+        //界面参数事件绑定
+        bindParamChangeEvent();
         commitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter channelParameter = null;
-                if (UdmConstants.CONN_NET_PROTOCOL_TCP.equals(toSetProtocol.getValue())) {
-                    channelParameter = ParameterTransfer.getTcpParamFromView(currentView, channelParameter);
-//                    channelParameter = parameterReaderWriter.writeChannelParam(channelParameter);
-                    ParameterTransfer.transTcpParamToView(currentView, channelParameter);
-                } else if (UdmConstants.CONN_NET_PROTOCOL_UDP.equals(toSetProtocol.getValue())) {
-                    channelParameter = ParameterTransfer.getUdpParamFromView(currentView, channelParameter);
-//                    channelParameter = parameterReaderWriter.writeChannelParam(channelParameter);
-                    ParameterTransfer.transUdpParamToView(currentView, channelParameter);
-                }
+                String channelId = toSetChannel.getValue();
+                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
+                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
+                task.execute(channelParameter,changedParam);
             }
         });
         return currentView;
@@ -131,56 +166,11 @@ public class ConnectSettingFragment extends Fragment {
     }
 
 
-    /**
-     * 控制TCP/UDP协议切换控制面部分元素显示,部分控件隐藏.
-     * @param seletedProtocl
-     */
-    private void switchTcpOrUdpView(String seletedProtocl){
-        switch(seletedProtocl){
-            case UdmConstants.CONN_NET_PROTOCOL_TCP:{
 
-                currentView.findViewById(R.id.label_work_as).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.udm_conn_tcp_work_mode).setVisibility(View.VISIBLE);
 
-                currentView.findViewById(R.id.label_accepting_income).setVisibility(View.GONE);
-                currentView.findViewById(R.id.udm_conn_udp_acception).setVisibility(View.GONE);
-
-                currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.GONE);
-                currentView.findViewById(R.id.udm_conn_udp_data_mode).setVisibility(View.GONE);
-
-                currentView.findViewById(R.id.udm_conn_tcp_conn_respons).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.id_tcp_conn_respons).setVisibility(View.VISIBLE);
-
-                currentView.findViewById(R.id.udm_conn_udp_tmp_host_en).setVisibility(View.GONE);
-                currentView.findViewById(R.id.id_udp_tmp_host_en).setVisibility(View.GONE);
-
-                break;
-            }
-            case UdmConstants.CONN_NET_PROTOCOL_UDP:{
-                currentView.findViewById(R.id.label_accepting_income).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.udm_conn_udp_acception).setVisibility(View.VISIBLE);
-
-                currentView.findViewById(R.id.label_connect_uni_multi).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.udm_conn_udp_data_mode).setVisibility(View.VISIBLE);
-
-                currentView.findViewById(R.id.udm_conn_tcp_work_mode).setVisibility(View.GONE);
-                currentView.findViewById(R.id.label_work_as).setVisibility(View.GONE);
-
-                currentView.findViewById(R.id.id_tcp_conn_respons).setVisibility(View.GONE);
-                currentView.findViewById(R.id.udm_conn_tcp_conn_respons).setVisibility(View.GONE);
-
-                currentView.findViewById(R.id.id_udp_tmp_host_en).setVisibility(View.VISIBLE);
-                currentView.findViewById(R.id.udm_conn_udp_tmp_host_en).setVisibility(View.VISIBLE);
-                break;
-            }
-        }
-    }
-    private void initParamView(String seletedProtocol){
-        switchTcpOrUdpView(seletedProtocol);
-    }
     private void bindParamChangeEvent() {
         /**
-         * When TCP or UDP switched , parameters must to reload.
+         * 界面切换TCP或者UDP的时候，需要重新读取参数值。
          */
         toSetProtocol.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -195,23 +185,30 @@ public class ConnectSettingFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String[] paramIds = null;
-                switchTcpOrUdpView(s.toString());
-                if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_TCP)) {
-                    paramIds = ChannelParamsID.getTcpParamsId(toSetChannel.getValue());
-                } else if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
-                    paramIds = ChannelParamsID.getTcpParamsId(toSetChannel.getValue());
-                }
-//                channelParameter = parameterReaderWriter.readChannelParam(toSetChannel.getValue(), mac,paramIds);
-                if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_TCP)) {
-                    ParameterTransfer.transTcpParamToView(currentView, channelParameter);
-                } else if (s.toString().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
-                    ParameterTransfer.transUdpParamToView(currentView, channelParameter);
+                String protocol = s.toString();//当前选择的协议类型
+                toSetChannel.setValue(UdmConstants.UDM_DEFAULT_CHNL);
+                /**
+                 * 如果选择的是TDP协议，则读取TCP连接参数，并隐藏UDP连接参数控件。
+                 */
+                if (UdmConstants.CONN_NET_PROTOCOL_TCP.equals(protocol)) {
+                    for (String tagId : udpParams) {
+                        currentView.findViewWithTag(tagId).setVisibility(View.GONE);// UDP 相关的参数隐藏
+                    }
+                    for (String tagId : tcpParams) {
+                        currentView.findViewWithTag(tagId).setVisibility(View.VISIBLE);
+                    }
+                } else if (UdmConstants.CONN_NET_PROTOCOL_UDP.equals(protocol)) {
+                    for (String tagId : tcpParams) {
+                        currentView.findViewWithTag(tagId).setVisibility(View.GONE);//TCP 相关的参数隐藏
+                    }
+                    for (String tagId : udpParams) {
+                        currentView.findViewWithTag(tagId).setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
         /**
-         * When channel changed , parameters must to reload.
+         * 如果通道发生改变，则读取通道的参数值。
          */
         toSetChannel.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -223,72 +220,14 @@ public class ConnectSettingFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 String channelId = s.toString();
-                String[] paramIds = null;
-
-                if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_TCP)) {
-                    paramIds = ChannelParamsID.getTcpParamsId(channelId);
-                } else if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
-                    paramIds = ChannelParamsID.getTcpParamsId(channelId);
-                }
-//                channelParameter = parameterReaderWriter.readChannelParam(channelId,mac, paramIds);
-                if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_TCP)) {
-                    ParameterTransfer.transTcpParamToView(currentView, channelParameter);
-                } else if (toSetProtocol.getValue().equals(UdmConstants.CONN_NET_PROTOCOL_UDP)) {
-                    ParameterTransfer.transUdpParamToView(currentView, channelParameter);
-                }
-            }
-        });
-        /**
-         * When UDP data mode changed , parameters must to change display.
-         */
-        toSetUdpDataMode.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String channelId = toSetChannel.getValue();
-                UdmSpinner udpDataMode = (UdmSpinner) currentView.findViewById(R.id.udm_conn_udp_data_mode);
-                if (UdmConstants.UDP_DATA_MODE_UNI.equals(udpDataMode.getValue())) {
-                    ParameterTransfer.updateChannelUdpMutilParams(currentView,channelParameter);
-
-                    String value = channelParameter.getParamValueById("CONN" + channelId + "_UDP_UNI_LOCAL_PORT");
-                    ((UdmButtonTextEdit) currentView.findViewById(R.id.udm_conn_local_port)).setValue(value);//
-
-                    value = channelParameter.getParamValueById("CONN" + channelId + "_UDP_UNI_HOST_IP0");
-                    ((EditText) currentView.findViewById(R.id.udm_conn_host_ip0)).setText(value);//
-
-                    value = channelParameter.getParamValueById("CONN" + channelId + "_UDP_UNI_HOST_PORT0");
-                    ((EditText) currentView.findViewById(R.id.udm_conn_host_port0)).setText(value);//
-
-
-                } else if (UdmConstants.UDP_DATA_MODE_MUL.equals(udpDataMode.getValue())) {
-                    ParameterTransfer.updateChannelUdpUniParams(currentView,channelParameter);
-
-                    String value = channelParameter.getParamValueById("CONN" + channelId + "_UDP_MUL_LOCAL_PORT");
-                    ((UdmButtonTextEdit) currentView.findViewById(R.id.udm_conn_local_port)).setValue(value);
-
-                    value = channelParameter.getParamValueById("CONN" + channelId + "_UDP_MUL_REMOTE_PORT");
-                    ((UdmButtonTextEdit) currentView.findViewById(R.id.udm_conn_host_port0)).setValue(value);
-
-                    value = channelParameter.getParamValueById("CONN" + channelId + "_UDP_MUL_REMOTE_IP");
-                    ((UdmButtonTextEdit) currentView.findViewById(R.id.udm_conn_host_ip0)).setValue(value);
-                }
+                ChannelParamReadAsyncTask task = new ChannelParamReadAsyncTask(currentView,channelParameter);
+                task.execute(mac, channelId);
             }
         });
     }
-
 
 
 }

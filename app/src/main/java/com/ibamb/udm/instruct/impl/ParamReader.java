@@ -4,76 +4,40 @@ import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.constants.UdmControl;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IEncoder;
-import com.ibamb.udm.instruct.IParameterReaderWriter;
+import com.ibamb.udm.instruct.IParamReader;
 import com.ibamb.udm.instruct.IParser;
 import com.ibamb.udm.instruct.beans.Information;
 import com.ibamb.udm.instruct.beans.InstructFrame;
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.ReplyFrame;
 import com.ibamb.udm.net.IPUtil;
 import com.ibamb.udm.net.UDPMessageSender;
 
 import java.net.DatagramSocket;
 import java.util.ArrayList;
-
 import java.util.List;
 
 /**
- * Created by luotao on 18-3-26.
+ * Created by luotao on 18-4-30.
  */
-public class ParameterReaderWriter implements IParameterReaderWriter {
 
-
-    /**
-     * 一次读取指定通道多个参数值.返回通道参数对象.建议参数个数不要过多,避免传输过程中丢数据包.
-     *
-     * @param datagramSocket
-     * @param channelParameter
-     * @return
-     */
+public class ParamReader implements IParamReader {
     @Override
     public ChannelParameter readChannelParam(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
-        return this.sendStructure(datagramSocket, channelParameter, UdmConstants.UDM_PARAM_READ);
+        return this.sendStructure(datagramSocket, channelParameter);
     }
-
     /**
-     * 一次设置指定通道多个参数值.返回设置设备当前最新的参数值.建议参数个数不要过多,避免传输过程中丢数据包.
      *
      * @param datagramSocket
      * @param channelParameter
      * @return
      */
-    @Override
-    public ChannelParameter writeChannelParam(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
-        /**
-         * 修改成功后需要重新读取一次参数，因为读参数和写参数返回的参数值高位和低位的位置不一样，所以写完之后再读一次。
-         */
-        channelParameter = sendStructure(datagramSocket, channelParameter, UdmConstants.UDM_PARAM_WRITE);
-        if(channelParameter.isSuccessful()){
-            channelParameter = sendStructure(datagramSocket, channelParameter, UdmConstants.UDM_PARAM_READ);
-        }
-        return channelParameter;
-    }
-
-    /**
-     * 发送读/写参数指令
-     *
-     * @param datagramSocket
-     * @param channelParameter
-     * @param readOrWrite
-     * @return
-     */
-    private ChannelParameter sendStructure(DatagramSocket datagramSocket, ChannelParameter channelParameter, int readOrWrite) {
+    private ChannelParameter sendStructure(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
         try {
-            //根据传入的读/写标志设置控制位。
-            int control = readOrWrite == UdmConstants.UDM_PARAM_WRITE ? UdmControl.SET_PARAMETERS : UdmControl.GET_PARAMETERS;
             UDPMessageSender sender = new UDPMessageSender();
             List<ParameterItem> parameterItems = channelParameter.getParamItems();
-//            if(control== UdmConstants.UDM_PARAM_WRITE){
-//                parameterItems = channelParameter.getChangedParams();
-//            }
             IEncoder encoder = new ParamReadEncoder();
             IParser parser = new ReplyFrameParser();
             //主帧固定结构长度
@@ -88,7 +52,7 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
             List<Information> informationList = new ArrayList<>();//存放本次读/写的所有参数
 
             //先生成帧对象
-            InstructFrame instructFrame = new InstructFrame(control, channelParameter.getMac());
+            InstructFrame instructFrame = new InstructFrame(UdmControl.GET_PARAMETERS, channelParameter.getMac());
             instructFrame.setInfoList(informationList);
             instructFrame.setId(1);
 
@@ -98,33 +62,21 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
             for (ParameterItem parameterItem : parameterItems) {
                 Parameter param = ParameterMapping.getMapping(parameterItem.getParamId());
                 String typeId = param.getId();
-                //读的时候参数值设置为NULL.
-                String typeValue = readOrWrite == UdmConstants.UDM_PARAM_WRITE ? param.getValue(parameterItem.getParamValue()) : null;
-                Information dataField = new Information(typeId, typeValue);
+
+                Information dataField = new Information(typeId, null);
                 //如果是读取参数值，则参数值长度设置为0. 如果是写参数，则参数值的长度设置约定长度。
-                if (UdmConstants.UDM_PARAM_WRITE == readOrWrite) {
-                    dataField.setLength(subStructLen + param.getByteLength());
-                } else {
-                    dataField.setLength(subStructLen);
-                }
+                dataField.setLength(subStructLen);
                 sendFrameLength += dataField.getLength();//增加发送的主帧长度
                 replyFrameLength += subStructLen + param.getByteLength();//增加返回帧的长度
                 informationList.add(dataField);
             }
             instructFrame.setLength(sendFrameLength);
             //生成发送报文
-            byte[] sendData = encoder.encode(instructFrame,control);
+            byte[] sendData = encoder.encode(instructFrame,UdmControl.GET_PARAMETERS);
             //发送报文
             byte[] replyData = sender.send(datagramSocket, sendData, replyFrameLength);
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
-            /**
-             * 对于修改参数值值的时候，2,4字节长度高位和低位位置是反的，
-             * 所以对于读取参数只判断返回码是否成功即可，后面再重新读取一次。
-             */
-            boolean isSuccessful = replyFrame.getControl()==0?true:false;
-            channelParameter.setSuccessful(isSuccessful);
-
             for (ParameterItem parameterItem : parameterItems) {
                 for (Information info : replyFrame.getInfoList()) {
                     if (parameterItem.getParamId().equals(info.getType())) {

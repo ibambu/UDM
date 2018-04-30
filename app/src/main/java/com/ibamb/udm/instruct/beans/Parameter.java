@@ -115,9 +115,7 @@ public class Parameter {
 
     public String getDisplayValue(String value){
         String displayValue = value;
-        System.out.println("real value ===="+value);
         for(ValueMapping mapping:valueMappings){
-            System.out.println("display value ===="+mapping.getDisplayValue());
             if(mapping.getValue().equalsIgnoreCase(value)){
                 displayValue = mapping.getDisplayValue();
                 break;

@@ -7,11 +7,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.task.IPSettingParamReadAsyncTask;
-import com.ibamb.udm.task.ParameterReaderAsyncTask;
+import com.ibamb.udm.beans.ChannelParameter;
+import com.ibamb.udm.beans.ParameterItem;
+import com.ibamb.udm.constants.UdmConstants;
+import com.ibamb.udm.core.ParameterMapping;
+import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.task.ChannelParamReadAsyncTask;
+import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.util.ViewElementDataUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * IP 设置
@@ -32,9 +42,12 @@ public class IPSettingFragment extends Fragment {
     private String ip;
     private String mac;
 
+    private ChannelParameter channelParameter;
     private TextView textView;
     private OnFragmentInteractionListener mListener;
     private View ipSetingView;
+    private Button commitButton;
+
     public IPSettingFragment() {
         // Required empty public constructor
     }
@@ -61,8 +74,16 @@ public class IPSettingFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //读取IP设置参数
-        IPSettingParamReadAsyncTask readerAsyncTask = new IPSettingParamReadAsyncTask(ipSetingView);
-        readerAsyncTask.execute(mac);
+        //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
+        channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL);
+        List<Parameter> parameters = ParameterMapping.getChannelParamDef(Integer.parseInt(UdmConstants.UDM_IP_SETTING_CHNL));
+        List<ParameterItem> items = new ArrayList<>();
+        for (Parameter parameter : parameters) {
+            items.add(new ParameterItem(parameter.getId(), null));
+        }
+        channelParameter.setParamItems(items);
+        ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(ipSetingView,channelParameter);
+        readerAsyncTask.execute(mac, UdmConstants.UDM_IP_SETTING_CHNL);
     }
 
     @Override
@@ -82,7 +103,16 @@ public class IPSettingFragment extends Fragment {
         // Inflate the layout for this fragment
         ipSetingView = inflater.inflate(R.layout.fragment_ipsetting, container, false);
         ipSetingView.findViewById(R.id.id_ip_obtain).requestFocus();
-
+        commitButton = ipSetingView.findViewById(R.id.id_conect_setting_commit);
+        commitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(ipSetingView,channelParameter,
+                        UdmConstants.UDM_IP_SETTING_CHNL);
+                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(ipSetingView);
+                task.execute(channelParameter,changedParam);
+            }
+        });
         return ipSetingView;
     }
 

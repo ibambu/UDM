@@ -82,15 +82,13 @@ public class DataTypeConvert {
         short s0 = (short) (bytes[0] & 0xff);//最低位
         short s1 = (short) (bytes[1] & 0xff);
         s0 <<= 8;
-        s = (short) (s0 | s1);
+        s = (short) (s1 | s0);
         return s;
     }
 
     public static byte intToUnsignedByte(int value) {
         byte retValue = (byte) value;
-        if (value > Byte.MAX_VALUE) {
-            retValue = (byte) (value - Byte.MAX_VALUE + Byte.MIN_VALUE - 1);
-        }
+
         return retValue;
     }
 
@@ -102,13 +100,28 @@ public class DataTypeConvert {
         return retValue;
     }
 
+    //char转化为byte
+    public static byte[] charToByte(char c) {
+        byte[] b = new byte[2];
+        b[0] = (byte) ((c & 0xFF00) >> 8);
+        b[1] = (byte) (c & 0xFF);
+        return b;
+    }
+
+    //byte转换为char
+    public static char byteToChar(byte[] b) {
+        char c = (char) (((b[0] & 0xFF) << 8) | (b[1] & 0xFF));
+        return c;
+    }
+
     /**
      * 将单字节转成十六进制字符串
+     *
      * @param value
      * @return
      */
     public static String toHexString(byte value) {
-       return String.format("%02x",value);
+        return String.format("%02x", value);
     }
 
     public static short intToUnsignedShort(int value) {
@@ -128,9 +141,10 @@ public class DataTypeConvert {
     }
 
     public static long bytesToLong(byte[] buffer) {
-        long  values = 0;
+        long values = 0;
         for (int i = 0; i < 8; i++) {
-            values <<= 8; values|= (buffer[i] & 0xff);
+            values <<= 8;
+            values |= (buffer[i] & 0xff);
         }
         return values;
     }

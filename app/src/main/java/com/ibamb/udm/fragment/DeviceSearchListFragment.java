@@ -48,6 +48,7 @@ public class DeviceSearchListFragment extends Fragment {
     private TextView noticeView;
     DatagramSocket datagramSocket;
     private String selectedMac;
+    private TextView vSearchNotice;
 
     /**
      * 设备列表中点击事件，触发登录远程设备。
@@ -85,7 +86,7 @@ public class DeviceSearchListFragment extends Fragment {
                     loginAsyncTask.execute(loginInfo);
                     System.out.println("start new exc.....");
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(800);
                         datagramSocket = UdmDatagramSocket.getDatagramSocket();
                         System.out.println("start new sock....."+datagramSocket);
                         if (datagramSocket != null) {
@@ -165,8 +166,10 @@ public class DeviceSearchListFragment extends Fragment {
         //取得界面浮动搜索按钮和列表控件
         searchButton = (FloatingActionButton) view.findViewById(R.id.udm_search_button);
         mListView = (ListView) view.findViewById(R.id.search_device_list);
+        vSearchNotice = view.findViewById(R.id.search_notice_info);
+
         //浮动按钮添加搜索事件，通过搜索事件触发搜索设备，并异步更新列表控件。
-        UdmSearchButtonClickListener searchClickListener = new UdmSearchButtonClickListener(searchButton, mListView, inflater);
+        UdmSearchButtonClickListener searchClickListener = new UdmSearchButtonClickListener(searchButton, mListView, vSearchNotice,inflater);
         searchButton.setOnClickListener(searchClickListener);
         //给列表项添加点击事件，触发登录设备。
         mListView.setOnItemClickListener(itemOnclickListener);

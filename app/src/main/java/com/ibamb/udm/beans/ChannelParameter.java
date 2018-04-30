@@ -9,9 +9,19 @@ import java.util.List;
 
 public class ChannelParameter {
 
+
+    private boolean isSuccessful;
     private String mac;
     private String channelId;
     private List<ParameterItem> paramItems;
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
+    }
 
     public String getParamValueById(String paramId){
         String value="";
@@ -42,6 +52,7 @@ public class ChannelParameter {
     }
     public ChannelParameter(String mac,String channelId){
         this.mac = mac;
+        this.channelId = channelId;
         paramItems = new ArrayList<>();
     }
     public String getChannelId() {

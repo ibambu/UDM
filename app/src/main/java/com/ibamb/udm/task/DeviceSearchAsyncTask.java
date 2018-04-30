@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
@@ -20,12 +21,13 @@ import java.util.Arrays;
  * Created by luotao on 18-4-14.
  */
 
-public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<DeviceInfo>> {
+public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<DeviceInfo>> {
 
     private ListView mListView;
     private LayoutInflater inflater;
     private FloatingActionButton searchButton;
     private ArrayList<DeviceInfo> deviceList;
+    private TextView  vSearchNotice;
 
     /**
      * 后台搜索设备（工作线程执行）
@@ -37,6 +39,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<
         if (deviceList != null) {
             deviceList.clear();
         }
+        publishProgress("searching...");
         deviceList = DeviceSearch.searchDevice();
         if (deviceList == null) {
             deviceList = new ArrayList<>();
@@ -46,7 +49,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        publishProgress(deviceList.size());
+        publishProgress(String.valueOf(deviceList.size()));
 
         return deviceList;
     }
@@ -58,8 +61,12 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<
     @Override
     protected void onPostExecute(ArrayList<DeviceInfo> dataList) {
         super.onPostExecute(dataList);
+        mListView.setVisibility(View.VISIBLE);
         ListAdapter adapter = new InetAddressListAdapter(R.layout.item_device_layout, inflater, deviceList);
         mListView.setAdapter(adapter);
+        Snackbar.make(searchButton, "Device:" + String.valueOf(dataList.size()), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+        vSearchNotice.setVisibility(View.GONE);
     }
 
     /**
@@ -67,15 +74,18 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, Integer, ArrayList<
      * @param values
      */
     @Override
-    protected void onProgressUpdate(Integer... values) {
+    protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-        Snackbar.make(searchButton, "Device:" + String.valueOf(values[0]), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        mListView.setVisibility(View.GONE);
+        vSearchNotice.setVisibility(View.VISIBLE);
+        vSearchNotice.setText(values[0]);
     }
 
-    public DeviceSearchAsyncTask(FloatingActionButton searchButton,ListView mListView, LayoutInflater inflater) {
+    public DeviceSearchAsyncTask(FloatingActionButton searchButton, ListView mListView,
+                                 TextView vSearchNotice, LayoutInflater inflater) {
         this.mListView = mListView;
         this.inflater = inflater;
         this.searchButton = searchButton;
+        this.vSearchNotice = vSearchNotice;
     }
 }

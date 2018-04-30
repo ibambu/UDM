@@ -142,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
                             + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
                 }
             }
-            LocalNetScanner scanner = new LocalNetScanner();
-            broadcastAddress = scanner.findBroadCastAddress(wifiIp);
 
         } catch (Exception e) {
             e.printStackTrace();

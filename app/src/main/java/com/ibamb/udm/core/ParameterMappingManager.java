@@ -45,16 +45,24 @@ public class ParameterMappingManager {
                 List<ValueMapping> vMappings = new ArrayList<>();
                 param.setValueMappings(vMappings);
                 //如果是枚举值，则将枚举值对应的显示值都放入VaueMapping对象中。
-                if (param.getCovertType() == 1) {
-                    String[] enumValues = dataArray[cellCount++].split(",");
-                    String[] displayEnumValues = dataArray[cellCount++].split(",");
-                    for (int i = 0; i < enumValues.length; i++) {
-                        ValueMapping vmapping = new ValueMapping();
-                        vmapping.setValue(enumValues[i]);
-                        vmapping.setDisplayValue(displayEnumValues[i]);
-                        vMappings.add(vmapping);
-                        vmapping.setParamId(param.getId());
+                System.out.println("loading param ..."+dataArray.length+" "+param.getDecId()+" "+param.getViewTagId());
+                if(dataArray.length>9){
+                    String enumValues = dataArray[cellCount++];
+                    String displayEnumValues = dataArray[cellCount++];
+                    if (enumValues!=null && displayEnumValues!=null) {
+                        String[] values = enumValues.split(",");
+                        String[] names = displayEnumValues.split(",");
+                        if(values.length==names.length){
+                            for (int i = 0; i < values.length; i++) {
+                                ValueMapping vmapping = new ValueMapping();
+                                vmapping.setValue(values[i]);
+                                vmapping.setDisplayValue(names[i]);
+                                vMappings.add(vmapping);
+                                vmapping.setParamId(param.getId());
+                            }
+                        }
                     }
+
                 }
                 mapping.put(param.getId(), param);
             }

@@ -20,7 +20,12 @@
         android:listSelector="@color/transparent"
         android:scrollbars="horizontal|vertical"
         android:transcriptMode="alwaysScroll" />
-
+    <TextView
+        android:id="@+id/search_notice_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:visibility="gone"/>
     <!--<include layout="@layout/content_float_button" />-->
 
     <android.support.design.widget.FloatingActionButton

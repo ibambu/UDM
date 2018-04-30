@@ -4,11 +4,10 @@ import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IEncoder;
 import com.ibamb.udm.instruct.IParser;
-import com.ibamb.udm.core.ParameterMappingManager;
 import com.ibamb.udm.instruct.beans.InstructFrame;
 import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.instruct.beans.ReplyFrame;
-import com.ibamb.udm.instruct.impl.InstructFrameEncoder;
+import com.ibamb.udm.instruct.impl.ParamReadEncoder;
 import com.ibamb.udm.instruct.impl.ReplyFrameParser;
 
 import java.io.IOException;
@@ -27,7 +26,7 @@ import java.util.List;
 public class UDPSender {
 
     public List<ReplyFrame> sendInstruct(String broadcastIp, List<InstructFrame> instructFrames) {
-        IEncoder encoder = new InstructFrameEncoder();
+        IEncoder encoder = new ParamReadEncoder();
         IParser parser = new ReplyFrameParser();
 
         DatagramSocket datagramSocket = null;
@@ -41,7 +40,7 @@ public class UDPSender {
                 instructFrame.setId(seq++);
 
                 Parameter param = ParameterMapping.getMapping(instructFrame.getInformation().getType());
-                byte[] sendData = encoder.encode(instructFrame);
+                byte[] sendData = encoder.encode(instructFrame,1);
 
                 byte[] retData = send(datagramSocket, address, UdmConstants.UDM_UDP_SERVER_PORT, sendData, param.getByteLength()
                         + UdmConstants.UDM_CONTROL_LENGTH

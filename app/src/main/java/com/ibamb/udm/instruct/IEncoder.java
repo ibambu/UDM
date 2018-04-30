@@ -7,6 +7,6 @@ import com.ibamb.udm.instruct.beans.InstructFrame;
  */
 
 public interface IEncoder {
-    public byte[] encode(InstructFrame instructFrame);
+    public byte[] encode(InstructFrame instructFrame,int control);
 
 }

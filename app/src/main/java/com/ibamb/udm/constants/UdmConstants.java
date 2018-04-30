@@ -14,8 +14,8 @@ public class UdmConstants {
     public static final String TCP_WORK_MODE_BOTH = "3";
 
     //NET CONNECT PROTOCOL
-    public static final String CONN_NET_PROTOCOL_TCP = "1";
-    public static final String CONN_NET_PROTOCOL_UDP = "2";
+    public static final String CONN_NET_PROTOCOL_TCP = "TCP";
+    public static final String CONN_NET_PROTOCOL_UDP = "UDP";
     public static final String CONN_NET_PROTOCOL_BOTH = "3";
     //CONN UDP ACCEPTION
     public static final String CONN_UDP_ACCEPTION_ON = "1";
@@ -42,9 +42,23 @@ public class UdmConstants {
     public static final int UDM_PARAM_WRITE = 1;
 
     //界面控件类型常量
+    public static final int UDM_UI_SPECIAL = 0;
     public static final int UDM_UI_EDIT_TEXT = 1;
     public static final int UDM_UI_UDMSPINNER = 2;
     public static final int UDM_UI_SWITCH = 3;
-    //IP参数类型
-    public static final int UDM_IP_SETTING_CHNL = 0;
+    public static final int UDM_UI_BUTTON_TEXT = 4;
+
+
+    //连接设置界面初始化时默认通道
+    public static final String UDM_DEFAULT_CHNL = "1";
+    public static final String UDM_IP_SETTING_CHNL = "0";
+
+    public static final String UDM_SWITCH_ON="1";
+    public static final String UDM_SWITCH_OFF="0";
+
+
+    public static final int UDM_PARAM_TYPE_NUMBER=1;
+    public static final int UDM_PARAM_TYPE_IPADDR=2;
+    public static final int UDM_PARAM_TYPE_TIME=3;
+    public static final int UDM_PARAM_TYPE_CHAR=4;
 }

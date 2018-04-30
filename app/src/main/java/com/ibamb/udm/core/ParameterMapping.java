@@ -15,7 +15,6 @@ public class ParameterMapping {
     private static Map<String,Parameter> parameterMap;
 
     public static void setParameterMap(Map<String, Parameter> parameterMap) {
-        System.out.println("parameterMap==="+parameterMap);
         ParameterMapping.parameterMap = parameterMap;
     }
 
@@ -48,5 +47,16 @@ public class ParameterMapping {
         }
         return parameter;
     }
-
+    public static Parameter getMappingByTagId(String tagId){
+        Parameter parameter = null;
+        for(Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext();){
+            String paramId = it.next();
+            Parameter parameter1 = parameterMap.get(paramId);
+            if(parameter1.getViewTagId().equals(tagId)){
+                parameter = parameter1;
+                break;
+            }
+        }
+        return parameter;
+    }
 }

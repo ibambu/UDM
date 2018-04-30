@@ -29,6 +29,7 @@ public class UDPMessageSender {
         try {
             address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
+            datagramSocket.setBroadcast(true);
             // 发送数据
             System.out.print("send:");
             datagramSocket.send(sendDataPacket);
@@ -38,7 +39,7 @@ public class UDPMessageSender {
             System.out.println("");
             // 接收数据
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
             }
             datagramSocket.receive(recevPacket);
