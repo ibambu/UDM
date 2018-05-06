@@ -1,6 +1,7 @@
 package com.ibamb.udm.core;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.instruct.beans.ValueMapping;
@@ -45,7 +46,6 @@ public class ParameterMappingManager {
                 List<ValueMapping> vMappings = new ArrayList<>();
                 param.setValueMappings(vMappings);
                 //如果是枚举值，则将枚举值对应的显示值都放入VaueMapping对象中。
-                System.out.println("loading param ..."+dataArray.length+" "+param.getDecId()+" "+param.getViewTagId());
                 if(dataArray.length>9){
                     String enumValues = dataArray[cellCount++];
                     String displayEnumValues = dataArray[cellCount++];
@@ -62,12 +62,11 @@ public class ParameterMappingManager {
                             }
                         }
                     }
-
                 }
                 mapping.put(param.getId(), param);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(ParameterMappingManager.class.getName(),e.getMessage());
         }finally {
             if(bufreader!=null){
                 try {

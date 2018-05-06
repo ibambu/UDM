@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.core.ParameterMapping;
+import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.instruct.beans.ValueMapping;
+
+import java.util.List;
 
 /**
  * Created by luotao on 18-3-17.
@@ -24,17 +30,31 @@ public class UdmSpinner extends LinearLayout {
 
     public UdmSpinner(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        int attrCount = attrs.getAttributeCount();
-        for(int i =0;i<attrCount;i++){
-            String name = attrs.getAttributeName(i);
-            String value = attrs.getAttributeValue(i);
-            if("entries".equals(name)){
-                optitions = getResources().getStringArray(Integer.parseInt(value.replaceAll("@","")));
-                break;
+        if(getTag()!=null){
+            Parameter parameter = ParameterMapping.getMappingByTagId(getTag().toString().toUpperCase());
+            if (parameter != null) {
+                List<ValueMapping> displayEnumValues = parameter.getValueMappings();
+                if (displayEnumValues != null && !displayEnumValues.isEmpty()) {
+                    optitions = new String[displayEnumValues.size()];
+                    for (int i = 0; i < displayEnumValues.size(); i++) {
+                        optitions[i] = displayEnumValues.get(i).getDisplayValue();
+                    }
+                }
+            }
+        }else{
+            int attrCount = attrs.getAttributeCount();
+            for(int i =0;i<attrCount;i++){
+                String name = attrs.getAttributeName(i);
+                String value = attrs.getAttributeValue(i);
+
+                if("entries".equals(name)){
+                    optitions = getResources().getStringArray(Integer.parseInt(value.replaceAll("@","")));
+                    break;
+                }
             }
         }
         View view = LayoutInflater.from(context).inflate(R.layout.tag_udm_spinner_layout, this);
-        editText = (EditText)view.findViewById(R.id.tag_udm_edit_text);
+        editText = (EditText) view.findViewById(R.id.tag_udm_edit_text);
         button = (Button) view.findViewById(R.id.tag_udm_btn_spinner);
         button.setOnClickListener(new OnClickListener() {
             @Override
@@ -42,7 +62,7 @@ public class UdmSpinner extends LinearLayout {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setItems(optitions, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which){
+                    public void onClick(DialogInterface dialog, int which) {
                         editText.setText(optitions[which]);
                     }
                 });
@@ -59,10 +79,11 @@ public class UdmSpinner extends LinearLayout {
         this.editText = editText;
     }
 
-    public String getValue(){
+    public String getValue() {
         return editText.getText().toString();
     }
-    public void setValue(String value){
+
+    public void setValue(String value) {
         editText.setText(value);
     }
 

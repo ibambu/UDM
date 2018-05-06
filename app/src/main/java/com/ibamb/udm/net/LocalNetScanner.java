@@ -1,6 +1,8 @@
 package com.ibamb.udm.net;
 
 
+import android.util.Log;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -74,7 +76,7 @@ public class LocalNetScanner {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getName(),e.getMessage());
         }
         return broadcastAddress;
     }

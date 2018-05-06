@@ -25,6 +25,7 @@ public class UDPMessageSender {
 
         InetAddress address;
         byte[] recevBuffer = new byte[1024];
+        byte[] recevData = null;
         DatagramPacket recevPacket = new DatagramPacket(recevBuffer, recevBuffer.length);
         try {
             address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
@@ -43,15 +44,10 @@ public class UDPMessageSender {
             } catch (InterruptedException ex) {
             }
             datagramSocket.receive(recevPacket);
-            byte[] recevData = recevPacket.getData();
-            System.out.print("reply:");
-            for (int i = 0; i < recevData.length; i++) {
-                System.out.print(Integer.toHexString(recevData[i]) + " ");
-            }
-            System.out.println("");
+            recevData = recevPacket.getData();
         } catch (UnknownHostException ex) {
         } catch (IOException ex) {
         }
-        return recevPacket.getData();
+        return recevData;
     }
 }

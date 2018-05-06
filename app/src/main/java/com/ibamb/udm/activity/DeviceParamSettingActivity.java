@@ -1,39 +1,23 @@
 package com.ibamb.udm.activity;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.TCPChannelParameter;
-import com.ibamb.udm.beans.UDPChannelParameter;
 import com.ibamb.udm.fragment.ConnectSettingFragment;
 import com.ibamb.udm.fragment.IPSettingFragment;
-import com.ibamb.udm.instruct.IParameterReaderWriter;
 import com.ibamb.udm.net.UdmDatagramSocket;
-import com.ibamb.udm.service.DeviceParameterService;
-import com.ibamb.udm.service.DeviceSearchService;
 
 import java.net.DatagramSocket;
-import java.util.List;
 
 /**
  * 登录设备后进入的主界面
  */
-public class DeviceParamSettingActivity extends AppCompatActivity implements IParameterReaderWriter {
+public class DeviceParamSettingActivity extends AppCompatActivity  {
 
     private TextView tabIpSetting;
     private TextView tabConnectSetting;
@@ -41,15 +25,20 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
     private ConnectSettingFragment connectSettingFragment;
     private String ip;
     private String mac;
-    private DeviceParameterService.DeviceParameterServiceBinder parameterServiceBinder;
     private DatagramSocket datagramSocket;
+
+
+    /**
+     * 参数分类设置导航
+     */
+    private TextView topLinkIp;
+    private TextView topLinkTcp;
+    private TextView topLinkUdp;
+    private TextView topLinkSerial;
 
     @Override
     protected void onStart() {
         super.onStart();
-//        // 绑定Service，绑定后就会调用mConnetion里的onServiceConnected方法
-//        Intent bindIntent = new Intent(DeviceParamSettingActivity.this, DeviceParameterService.class);
-//        bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
 
@@ -84,7 +73,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
             hideAllFragment(transaction);
             switch(v.getId()){
                 case R.id.menu_ip_setting:
-                    selected();
+                    resetSelected();
                     tabIpSetting.setSelected(true);
 //                    tabIpSetting.setBackgroundColor(Color.LTGRAY);
 //                    tabConnectSetting.setBackgroundColor(Color.WHITE);
@@ -97,7 +86,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
                     break;
 
                 case R.id.menu_connect_setting:
-                    selected();
+                    resetSelected();
                     tabConnectSetting.setSelected(true);
 //                    tabConnectSetting.setBackgroundColor(Color.LTGRAY);
 //                    tabIpSetting.setBackgroundColor(Color.WHITE);
@@ -126,7 +115,7 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
 
     }
     //重置所有文本的选中状态
-    public void selected(){
+    public void resetSelected(){
         tabIpSetting.setSelected(false);
         tabConnectSetting.setSelected(false);
     }
@@ -141,29 +130,10 @@ public class DeviceParamSettingActivity extends AppCompatActivity implements IPa
         }
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            parameterServiceBinder = (DeviceParameterService.DeviceParameterServiceBinder) service;
-        }
-    };
 
     @Override
     public void finish() {
         super.finish();
     }
 
-    @Override
-    public ChannelParameter readChannelParam(DatagramSocket datagramSocket,ChannelParameter channelParameter) {
-        return null;//parameterServiceBinder.readChannelParameter(mac,channelId,paramIds);
-    }
-
-    @Override
-    public ChannelParameter writeChannelParam(DatagramSocket datagramSocket,ChannelParameter channelParameter) {
-        return null;//parameterServiceBinder.writeChannelParameter(mac,channelParameter);
-    }
 }

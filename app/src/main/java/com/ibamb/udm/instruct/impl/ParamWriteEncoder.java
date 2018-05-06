@@ -100,9 +100,8 @@ public class ParamWriteEncoder implements IEncoder {
                         }
                         default: {
                             char[] cData = data.toCharArray();
-                            byte[] cBytes = new byte[cData.length];
-                            for (int k = 0; k < cBytes.length; k++) {
-                                cBytes[k] = (byte) cData[k];
+                            for (int k = 0; k < cData.length; k++) {
+                                byteFrame[pos++] = (byte) cData[k];
                             }
                             break;
                         }

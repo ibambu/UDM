@@ -2,6 +2,7 @@ package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 
 import com.ibamb.udm.R;
@@ -43,7 +44,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
             IParamReader reader = new ParamReader();
             oldParams = reader.readChannelParam(UdmDatagramSocket.getDatagramSocket(),oldParams);
         }catch (Exception e){
-
+            Log.e(this.getClass().getName(),e.getMessage());
         }
         return oldParams;
     }

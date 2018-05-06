@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,6 @@ public class DeviceSearchListFragment extends Fragment {
             TextView macView =  view.findViewById(R.id.device_mac);
             //绑定登录设备事件。
             selectedMac = macView.getText().toString();
-            System.out.println("mac mac mac 00="+selectedMac);
             final String ip = ((TextView) view.findViewById(R.id.device_mac)).getText().toString();
 
             Button sigInInButton = loginView.findViewById(R.id.alter_sign_in_button);
@@ -80,15 +80,12 @@ public class DeviceSearchListFragment extends Fragment {
                     if(datagramSocket!=null){
                         datagramSocket.close();
                     }
-                    System.out.println("start new task.....");
                     UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
                     String[] loginInfo = {userName, password, selectedMac};
                     loginAsyncTask.execute(loginInfo);
-                    System.out.println("start new exc.....");
                     try {
                         Thread.sleep(800);
                         datagramSocket = UdmDatagramSocket.getDatagramSocket();
-                        System.out.println("start new sock....."+datagramSocket);
                         if (datagramSocket != null) {
                             UdmDatagramSocket.setDatagramSocket(datagramSocket);
                             dialog.dismiss();
@@ -106,9 +103,10 @@ public class DeviceSearchListFragment extends Fragment {
                             }
                             noticeView.setVisibility(View.VISIBLE);
                             noticeView.setText("login fail.");
+                            datagramSocket = null;
                         }
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(this.getClass().getName(),e.getMessage());
                     }
                 }
             });
@@ -117,10 +115,8 @@ public class DeviceSearchListFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (datagramSocket != null) {
-            System.out.println("close socket.....");
             datagramSocket.close();
         }
     }

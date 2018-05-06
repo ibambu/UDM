@@ -1,10 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ibamb.udm.activity.DeviceParamSettingActivity">
+
+    <LinearLayout
+        android:id="@+id/top_link_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">>
+
+        <LinearLayout
+            android:id="@+id/top_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_bright">
+
+            <TextView
+                android:id="@+id/base_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="IP"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+            <TextView
+                android:id="@+id/tcp_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="TCP"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+            <TextView
+                android:id="@+id/udp_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="UDP"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+            <TextView
+                android:id="@+id/serial_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="Serial"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+            <TextView
+                android:id="@+id/channel_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="Channel"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+
+        </LinearLayout>
+        <View
+            android:id="@+id/top_link_line"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_above="@id/tab_param_setting"
+            android:background="@color/text_gray" />
+        <LinearLayout
+            android:id="@+id/top_sub_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/ip_sub_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="IP"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+            <TextView
+                android:id="@+id/access_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="Access"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+            <TextView
+                android:id="@+id/tcp_sub_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="TCP"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+
+            <TextView
+                android:id="@+id/udp_sub_setting"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+
+                android:background="@drawable/udm_color_menu_bg_selector"
+                android:clickable="true"
+                android:drawablePadding="3dp"
+                android:gravity="center"
+                android:text="UDP"
+                android:textColor="@drawable/udm_color_menu_text_selector" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/tab_param_setting"
@@ -18,12 +159,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:textColor="@drawable/udm_color_menu_text_selector"
-            android:background="@drawable/udm_color_menu_bg_selector"
-            android:text="@string/tab_name_ip_setting" />
+            android:text="@string/tab_name_ip_setting"
+            android:textColor="@drawable/udm_color_menu_text_selector" />
 
         <TextView
             android:id="@+id/menu_connect_setting"
@@ -31,30 +172,27 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:textColor="@drawable/udm_color_menu_text_selector"
-            android:background="@drawable/udm_color_menu_bg_selector"
-            android:text="@string/tab_name_connect_setting" />
-
-
+            android:text="@string/tab_name_connect_setting"
+            android:textColor="@drawable/udm_color_menu_text_selector" />
 
     </LinearLayout>
-
     <View
         android:id="@+id/div_tab_bar"
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:layout_above="@id/tab_param_setting"
-        android:background="@color/text_gray" />
-
+        android:background="@color/udm_gree_light" />
     <FrameLayout
         android:id="@+id/param_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/tab_param_setting">
-        
+        android:layout_above="@id/tab_param_setting"
+        android:layout_below="@id/top_link_container">
+
     </FrameLayout>
 
 </RelativeLayout>

@@ -1,10 +1,7 @@
 package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,14 +9,12 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.StrictMode;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -27,18 +22,14 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.DeviceInfo;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
-import com.ibamb.udm.net.LocalNetScanner;
-import com.ibamb.udm.service.DeviceSearchService;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 
 import java.lang.reflect.Method;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 /**
  * 应用程序主入口
@@ -54,22 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private BlankFragment f2, f3, f4;
 
     private InetAddress broadcastAddress;
-    /**
-     * 存储搜索到的设备列表
-     */
-    private ArrayList<DeviceInfo> inetAddresses = new ArrayList<>();
-
-    private DeviceSearchService.DeviceSearchServiceBinder searchServiceBinder;
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            searchServiceBinder = (DeviceSearchService.DeviceSearchServiceBinder) service;
-        }
-    };
 
     @Override
     protected void onStart() {
@@ -144,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(this.getClass().getName(),e.getMessage());
         }
     }
 
@@ -170,16 +145,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 在设备列表的Fragment需要调用此方法刷新设备列表.
-     *
-     * @return
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public ArrayList<DeviceInfo> getInetAddresses() {
-//        return inetAddresses = searchServiceBinder.searchDeviceByBroadcast(broadcastAddress);
-        return inetAddresses;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

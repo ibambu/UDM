@@ -44,6 +44,26 @@ public class DeviceInfo {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DeviceInfo that = (DeviceInfo) o;
+
+        if (index != that.index) return false;
+        if (!ip.equals(that.ip)) return false;
+        return mac.equals(that.mac);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ip.hashCode();
+        result = 31 * result + mac.hashCode();
+        result = 31 * result + index;
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "DeviceInfo{" + "ip=" + ip + ", mac=" + mac + '}';
     }

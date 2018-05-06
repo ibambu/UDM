@@ -15,9 +15,7 @@ import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.instruct.IParameterReaderWriter;
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.instruct.impl.ParameterReaderWriter;
 import com.ibamb.udm.tag.UdmSpinner;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
@@ -32,7 +30,6 @@ public class ConnectSettingFragment extends Fragment {
     private static final String HOST_IP = "IP";
     private static final String HOST_MAC = "MAC";
 
-    private IParameterReaderWriter parameterReaderWriter;
     private View currentView;
 
     private String ip;
@@ -151,18 +148,18 @@ public class ConnectSettingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof IParameterReaderWriter) {
-            parameterReaderWriter = (IParameterReaderWriter) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+//        if (context instanceof IParameterReaderWriter) {
+//
+//        } else {
+//            throw new RuntimeException(context.toString()
+//                    + " must implement OnFragmentInteractionListener");
+//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        parameterReaderWriter = null;
+
     }
 
 

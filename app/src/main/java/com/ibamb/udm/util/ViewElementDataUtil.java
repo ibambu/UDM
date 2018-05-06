@@ -9,16 +9,12 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMappingManager;
-import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.net.IPUtil;
+import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.tag.UdmButtonTextEdit;
 import com.ibamb.udm.tag.UdmSpinner;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,7 +30,6 @@ public class ViewElementDataUtil {
      */
     public static void setData(ChannelParameter channelParameter, View view) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             for (ParameterItem item : channelParameter.getParamItems()) {
                 //根据 paramId 找对应的界面元素 ID，并赋值。
                 Parameter paramdef = ParameterMapping.getMapping(item.getParamId());
@@ -84,7 +79,6 @@ public class ViewElementDataUtil {
                     default:
                         break;
                 }
-                System.out.println("show param to display:" + paramdef.getViewTagId() + "->" + item.getDisplayValue());
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -153,7 +147,6 @@ public class ViewElementDataUtil {
                     //参数ID一致且值不一样，则认为是本次有修改的参数
                     if(parameterItem.getParamId().equals(parameter.getId())
                             && !parameterItem.getDisplayValue().equals(displayValue)){
-                        System.out.println("write param ...."+viewTagId+"->old:"+parameterItem.getDisplayValue()+" new:"+value);
                         items.add(new ParameterItem(parameter.getId(), value));
                         break;
                     }

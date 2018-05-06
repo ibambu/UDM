@@ -45,7 +45,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
             deviceList = new ArrayList<>();
         }
         try {
-            Thread.sleep(600);
+            Thread.sleep(450);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,7 @@
 package com.ibamb.udm.instruct.impl;
 
+import android.util.Log;
+
 import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
@@ -21,6 +23,7 @@ import java.util.List;
 
 /**
  * Created by luotao on 18-4-30.
+ *
  */
 
 public class ParamReader implements IParamReader {
@@ -113,7 +116,7 @@ public class ParamReader implements IParamReader {
                 }
             }
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(this.getClass().getName(),e.getMessage());
         }
         return channelParameter;
     }

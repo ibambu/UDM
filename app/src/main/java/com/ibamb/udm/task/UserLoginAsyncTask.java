@@ -22,8 +22,6 @@ public class UserLoginAsyncTask extends AsyncTask<String, Boolean, DatagramSocke
         //登录失败
         if (!values[0]) {
             String loginFail = "login fail.";
-//            noticeView.setVisibility(View.VISIBLE);
-//            noticeView.setText(loginFail);
         }
     }
 

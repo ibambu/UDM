@@ -41,7 +41,7 @@
         <item name="colorControlHighlight">#33CC99</item><!--覆盖色，按下的颜色  -->
         <item name="android:textSize">16sp</item>
         <item name="android:padding">1sp</item>
-        <item name="android:typeface">monospace</item>
+        <!--<item name="android:typeface">monospace</item>-->
     </style>
 
     <style name="theme_title_bar_style" parent="@style/AppTheme">
@@ -49,6 +49,6 @@
         <item name="android:background">#66CCCC</item>
         <item name="android:textSize">18sp</item>
         <item name="android:padding">1sp</item>
-        <item name="android:typeface">monospace</item>
+        <!--<item name="android:typeface">monospace</item>-->
     </style>
 </resources>

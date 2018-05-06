@@ -5,13 +5,11 @@
  */
 package com.ibamb.udm.security;
 
-import android.os.Parcel;
 import android.util.Base64;
 
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.constants.UdmControl;
 import com.ibamb.udm.net.UDPMessageSender;
-import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.util.DataTypeConvert;
 
 import java.io.IOException;

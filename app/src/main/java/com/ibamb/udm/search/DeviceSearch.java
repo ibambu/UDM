@@ -59,11 +59,11 @@ public class DeviceSearch {
             DatagramPacket sendDataPacket = new DatagramPacket(serachBytes, serachBytes.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
             datagramSocket.send(sendDataPacket);
             //打印发送数据
-            System.out.print("send:");
-            for (int i = 0; i < serachBytes.length; i++) {
-                System.out.print(Integer.toHexString(serachBytes[i]) + " ");
-            }
-            System.out.println("");
+//            System.out.print("send:");
+//            for (int i = 0; i < serachBytes.length; i++) {
+//                System.out.print(Integer.toHexString(serachBytes[i]) + " ");
+//            }
+//            System.out.println("");
             /**
              * 接收报文
              */
@@ -72,9 +72,16 @@ public class DeviceSearch {
             while (!datagramSocket.isClosed()) {
                 datagramSocket.receive(recevPacket);
                 byte[] replyData = recevPacket.getData();
-                System.out.println("read:"+Arrays.toString(replyData));
                 DeviceInfo deviceInfo = parse(replyData);
-                if (deviceInfo != null) {
+                deviceInfo.setIndex(deviceList.size()+1);
+                boolean isExists = false;
+                for(DeviceInfo deviceInfo1:deviceList){
+                    if(deviceInfo1.getMac().equalsIgnoreCase(deviceInfo.getMac())){
+                        isExists = true;
+                        break;
+                    }
+                }
+                if (!isExists) {
                     deviceList.add(deviceInfo);
                 }
             }

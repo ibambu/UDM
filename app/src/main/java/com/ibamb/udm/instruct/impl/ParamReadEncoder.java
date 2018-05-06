@@ -1,17 +1,12 @@
 package com.ibamb.udm.instruct.impl;
 
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.constants.UdmControl;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IEncoder;
-import com.ibamb.udm.core.ParameterMappingManager;
 import com.ibamb.udm.instruct.beans.Information;
 import com.ibamb.udm.instruct.beans.InstructFrame;
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.net.IPUtil;
 import com.ibamb.udm.util.DataTypeConvert;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/tag_udm_edit_text"
+        android:layout_width="100sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:background="@drawable/border_background"/>
+    <Spinner
+        android:id="@+id/tag_udm_spinner"
+        android:layout_width="100sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/border_background"
+        android:entries="@array/opt_connect_protocol"
+        />
+</LinearLayout>

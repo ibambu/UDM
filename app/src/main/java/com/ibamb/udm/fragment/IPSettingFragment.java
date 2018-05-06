@@ -89,7 +89,6 @@ public class IPSettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             ip = getArguments().getString(ARG_PARAM1);
             mac = getArguments().getString(ARG_PARAM2);

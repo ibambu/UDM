@@ -1,5 +1,7 @@
 package com.ibamb.udm.instruct.impl;
 
+import android.util.Log;
+
 import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
@@ -85,44 +87,8 @@ public class ParamWriter implements IParamWriter {
              */
             boolean isSuccessful = replyFrame.getControl()==0?true:false;
             channelParameter.setSuccessful(isSuccessful);
-
-//            for (ParameterItem parameterItem : parameterItems) {
-//                for (Information info : replyFrame.getInfoList()) {
-//                    if (parameterItem.getParamId().equals(info.getType())) {
-//                        String displayValue = info.getData();
-//                        Parameter paramDef = ParameterMapping.getMapping(parameterItem.getParamId());
-//                        /**
-//                         * 根据参数值的转换类型，对值进行转换。
-//                         */
-//                        String elementTagId = paramDef.getViewTagId().toLowerCase();
-//                        if (displayValue != null) {
-//                            int convertType = paramDef.getCovertType();
-//                            switch (convertType) {
-//                                case UdmConstants.UDM_PARAM_TYPE_NUMBER://数值类型
-//                                    parameterItem.setParamValue(info.getData());
-//                                    parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
-//                                    break;
-//                                case UdmConstants.UDM_PARAM_TYPE_IPADDR://IP地址
-//                                    displayValue = IPUtil.getIpFromLong(Long.parseLong(displayValue));
-//                                    parameterItem.setParamValue(info.getData());
-//                                    parameterItem.setDisplayValue(displayValue);
-//                                    break;
-//                                case UdmConstants.UDM_PARAM_TYPE_TIME://时间类型
-//                                    parameterItem.setParamValue(info.getData());
-//                                    parameterItem.setDisplayValue(displayValue);
-//                                    break;
-//                                default://字符类型
-//                                    parameterItem.setParamValue(info.getData());
-//                                    parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
-//                                    break;
-//                            }
-//                        }
-//                        break;
-//                    }
-//                }
-//            }
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(this.getClass().getName(),e.getMessage());
         }
         return channelParameter;
     }

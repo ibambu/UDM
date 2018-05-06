@@ -1,19 +1,14 @@
 package com.ibamb.udm.instruct.impl;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import com.ibamb.udm.constants.UdmConstants;
+import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IParser;
-import com.ibamb.udm.core.ParameterMappingManager;
 import com.ibamb.udm.instruct.beans.Information;
 import com.ibamb.udm.instruct.beans.Parameter;
-import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.ReplyFrame;
 import com.ibamb.udm.util.DataTypeConvert;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,10 +17,12 @@ import java.util.List;
  */
 public class ReplyFrameParser implements IParser {
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public ReplyFrame parse(byte[] replyData) {
         ReplyFrame replyFrame = new ReplyFrame();
+        if(replyData==null){
+            return replyFrame;
+        }
         replyFrame.setControl(replyData[0]);// 控制位
         replyFrame.setId(replyData[1]);// 通信ID
         replyFrame.setLength((int)DataTypeConvert.bytesToShort(Arrays.copyOfRange(replyData, 2, 4)));//帧总长度
@@ -65,15 +62,16 @@ public class ReplyFrameParser implements IParser {
                     default: {
                         //默认当作文本处理
                         StringBuilder buffer = new StringBuilder();
-                        for(int k=0;k<dataBytes.length;k++){
-                            char c = (char)dataBytes[k];
-                            buffer.append(c);
+                        for(int k=0;k<dataLength;k++){
+                            if(dataBytes[k]!=0){
+                                char c = (char)dataBytes[k];
+                                buffer.append(c);
+                            }
                         }
                         information.setData(buffer.toString());
                         break;
                     }
                 }
-                System.out.println("reply information:" + information.toString());
             }else{
                 break;//
             }
