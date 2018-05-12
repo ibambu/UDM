@@ -37,12 +37,12 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
             oldParams = channelParameters[0];
             changedParams = channelParameters[1];
             IParamWriter writer = new ParamWriter();
-            changedParams = writer.writeChannelParam(UdmDatagramSocket.getDatagramSocket(),changedParams);
+            changedParams = writer.writeChannelParam(changedParams);
             String retMessage = changedParams.isSuccessful()?"successful":"fail";
             onProgressUpdate(retMessage);
             //修改后要重新读取一次
             IParamReader reader = new ParamReader();
-            oldParams = reader.readChannelParam(UdmDatagramSocket.getDatagramSocket(),oldParams);
+            oldParams = reader.readChannelParam(oldParams);
         }catch (Exception e){
             Log.e(this.getClass().getName(),e.getMessage());
         }

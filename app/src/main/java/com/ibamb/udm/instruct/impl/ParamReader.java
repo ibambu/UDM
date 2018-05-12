@@ -28,16 +28,15 @@ import java.util.List;
 
 public class ParamReader implements IParamReader {
     @Override
-    public ChannelParameter readChannelParam(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
-        return this.sendStructure(datagramSocket, channelParameter);
+    public ChannelParameter readChannelParam(ChannelParameter channelParameter) {
+        return this.sendStructure(channelParameter);
     }
     /**
      *
-     * @param datagramSocket
      * @param channelParameter
      * @return
      */
-    private ChannelParameter sendStructure(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
+    private ChannelParameter sendStructure(ChannelParameter channelParameter) {
         try {
             UDPMessageSender sender = new UDPMessageSender();
             List<ParameterItem> parameterItems = channelParameter.getParamItems();
@@ -77,7 +76,7 @@ public class ParamReader implements IParamReader {
             //生成发送报文
             byte[] sendData = encoder.encode(instructFrame,UdmControl.GET_PARAMETERS);
             //发送报文
-            byte[] replyData = sender.send(datagramSocket, sendData, replyFrameLength);
+            byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength);
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
             for (ParameterItem parameterItem : parameterItems) {

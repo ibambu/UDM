@@ -6,6 +6,7 @@
 package com.ibamb.udm.security;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.constants.UdmControl;
@@ -29,17 +30,17 @@ public class UserAuth {
      * @param devMac
      * @return
      */
-    public static DatagramSocket login(String userName, String password, String devMac) {
+    public static boolean login(String userName, String password, String devMac) {
         boolean isSuccessful = false;
-        DatagramSocket socket=null;
+        DatagramSocket socket = null;
         try {
             socket = new DatagramSocket();
 
             /**
              * 将用户名和密码采用BASE64加密并转成字节数组。注意用户名和密码之间要留一个空格，加密时需将空格和用户名一起加密。
              */
-            String enUserName = Base64.encodeToString((userName + " ").getBytes("UTF-8"),Base64.NO_WRAP);
-            String enPassword = Base64.encodeToString(password.getBytes("UTF-8"),Base64.NO_WRAP);
+            String enUserName = Base64.encodeToString((userName + " ").getBytes("UTF-8"), Base64.NO_WRAP);
+            String enPassword = Base64.encodeToString(password.getBytes("UTF-8"), Base64.NO_WRAP);
             byte[] byteUserName = DataTypeConvert.hexStringtoBytes(str2HexString(enUserName));
             byte[] bytePassword = DataTypeConvert.hexStringtoBytes(str2HexString(enPassword));
             //将目标设备mac地址转成字节数组
@@ -79,8 +80,8 @@ public class UserAuth {
              * 发送认证
              */
             UDPMessageSender sender = new UDPMessageSender();
-            byte[] replyData = sender.send(socket, loginFrame, 4);
-            int replyType = DataTypeConvert.bytes2int(Arrays.copyOfRange(replyData,0,4));
+            byte[] replyData = sender.sendByUnicast(loginFrame, 4);
+            int replyType = DataTypeConvert.bytes2int(Arrays.copyOfRange(replyData, 0, 4));
             //返回0表示成功
             if (replyType != UdmConstants.UDM_LOGIN_SUCCESS) {
                 isSuccessful = false;
@@ -91,9 +92,13 @@ public class UserAuth {
                 System.out.println("login successful");
             }
         } catch (IOException ex) {
-            socket = null;
+            Log.e(UserAuth.class.getName(), ex.getMessage());
+        } finally {
+            if (socket != null) {
+                socket.close();
+            }
         }
-        return socket;
+        return isSuccessful;
     }
 
     /**

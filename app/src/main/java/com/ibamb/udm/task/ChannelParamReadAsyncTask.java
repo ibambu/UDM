@@ -35,7 +35,7 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
     protected ChannelParameter doInBackground(String... strings) {
         try {
             IParamReader reader = new ParamReader();
-            reader.readChannelParam(UdmDatagramSocket.getDatagramSocket(), channelParameter);
+            reader.readChannelParam(channelParameter);
         } catch (Exception e) {
 
         }

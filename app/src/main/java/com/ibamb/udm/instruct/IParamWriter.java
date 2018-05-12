@@ -9,5 +9,5 @@ import java.net.DatagramSocket;
  */
 
 public interface IParamWriter {
-    public ChannelParameter writeChannelParam(DatagramSocket datagramSocket, ChannelParameter channelParameter);
+    public ChannelParameter writeChannelParam(ChannelParameter channelParameter);
 }

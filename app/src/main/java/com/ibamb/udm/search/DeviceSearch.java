@@ -5,6 +5,8 @@
  */
 package com.ibamb.udm.search;
 
+import android.util.Log;
+
 import com.ibamb.udm.beans.DeviceInfo;
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.constants.UdmControl;
@@ -69,7 +71,7 @@ public class DeviceSearch {
              */
             byte[] recevBuffer = new byte[20];//如果需要返回更多信息需要重新拼帧。期望返回的长度也需要改变。
             DatagramPacket recevPacket = new DatagramPacket(recevBuffer, recevBuffer.length);
-            while (!datagramSocket.isClosed()) {
+            while (!datagramSocket.isConnected()) {
                 datagramSocket.receive(recevPacket);
                 byte[] replyData = recevPacket.getData();
                 DeviceInfo deviceInfo = parse(replyData);
@@ -86,11 +88,11 @@ public class DeviceSearch {
                 }
             }
         } catch (SocketException ex) {
-
+            Log.e("search device err",ex.getMessage());
         } catch (UnknownHostException e) {
-
+            Log.e("search device err",e.getMessage());
         } catch (IOException e) {
-
+            Log.e("search device err",e.getMessage());
         } finally {
             if (datagramSocket != null) {
                 datagramSocket.close();

@@ -14,7 +14,7 @@ import java.util.Arrays;
  * Created by luotao on 18-4-18.
  */
 
-public class UserLoginAsyncTask extends AsyncTask<String, Boolean, DatagramSocket> {
+public class UserLoginAsyncTask extends AsyncTask<String, Boolean, Boolean> {
 
     @Override
     protected void onProgressUpdate(Boolean... values) {
@@ -25,23 +25,19 @@ public class UserLoginAsyncTask extends AsyncTask<String, Boolean, DatagramSocke
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected DatagramSocket doInBackground(String... strings) {
+    protected Boolean doInBackground(String... strings) {
         String userName = strings[0];
         String password = strings[1];
         String mac = strings[2];
-        System.out.println(Arrays.toString(strings));
-        DatagramSocket socket = UserAuth.login(userName, password, mac);
-        boolean isSuccess = socket != null;
-        UdmDatagramSocket.setDatagramSocket(socket);
+        boolean isSuccess = UserAuth.login(userName, password, mac);
         publishProgress(isSuccess);
-        return socket;
+        return isSuccess;
     }
 
     @Override
-    protected void onPostExecute(DatagramSocket datagramSocket) {
-        super.onPostExecute(datagramSocket);
+    protected void onPostExecute(Boolean isSuccess) {
+        super.onPostExecute(isSuccess);
     }
 
     public UserLoginAsyncTask() {

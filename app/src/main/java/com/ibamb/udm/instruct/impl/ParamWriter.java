@@ -26,19 +26,18 @@ import java.util.List;
 
 public class ParamWriter implements IParamWriter {
     @Override
-    public ChannelParameter writeChannelParam(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
-        channelParameter = sendStructure(datagramSocket, channelParameter);
+    public ChannelParameter writeChannelParam(ChannelParameter channelParameter) {
+        channelParameter = sendStructure(channelParameter);
         return channelParameter;
     }
 
     /**
      * 发送读/写参数指令
      *
-     * @param datagramSocket
      * @param channelParameter
      * @return
      */
-    private ChannelParameter sendStructure(DatagramSocket datagramSocket, ChannelParameter channelParameter) {
+    private ChannelParameter sendStructure(ChannelParameter channelParameter) {
         try {
             //根据传入的读/写标志设置控制位。
             UDPMessageSender sender = new UDPMessageSender();
@@ -77,7 +76,7 @@ public class ParamWriter implements IParamWriter {
             //生成发送报文
             byte[] sendData = encoder.encode(instructFrame,UdmControl.SET_PARAMETERS);
             //发送报文
-            byte[] replyData = sender.send(datagramSocket, sendData, replyFrameLength);
+            byte[] replyData = sender.sendByBroadcast( sendData, replyFrameLength);
             //解析返回报文
             IParser parser = new ReplyFrameParser();
             ReplyFrame replyFrame = parser.parse(replyData);

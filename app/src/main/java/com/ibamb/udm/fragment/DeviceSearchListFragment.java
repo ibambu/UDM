@@ -47,7 +47,6 @@ public class DeviceSearchListFragment extends Fragment {
     private FloatingActionButton searchButton;
     private View loginView;
     private TextView noticeView;
-    DatagramSocket datagramSocket;
     private String selectedMac;
     private TextView vSearchNotice;
 
@@ -77,17 +76,15 @@ public class DeviceSearchListFragment extends Fragment {
 
                     String userName = userNameView.getText().toString();
                     String password = passwordView.getText().toString();
-                    if(datagramSocket!=null){
-                        datagramSocket.close();
-                    }
+
                     UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
                     String[] loginInfo = {userName, password, selectedMac};
                     loginAsyncTask.execute(loginInfo);
+
                     try {
                         Thread.sleep(800);
-                        datagramSocket = UdmDatagramSocket.getDatagramSocket();
-                        if (datagramSocket != null) {
-                            UdmDatagramSocket.setDatagramSocket(datagramSocket);
+                        boolean isSuccess = loginAsyncTask.get();
+                        if (isSuccess) {
                             dialog.dismiss();
                             Intent intent = new Intent((MainActivity) getActivity(), DeviceParamSettingActivity.class);
                             Bundle params = new Bundle();
@@ -97,15 +94,12 @@ public class DeviceSearchListFragment extends Fragment {
                             startActivityForResult(intent, 1);
                         } else {
                             loginAsyncTask.cancel(true);
-                            loginAsyncTask = null;
-                            if(UdmDatagramSocket.getDatagramSocket()!=null){
-                                UdmDatagramSocket.getDatagramSocket().close();//由于延时可能又有赋值
-                            }
                             noticeView.setVisibility(View.VISIBLE);
                             noticeView.setText("login fail.");
-                            datagramSocket = null;
                         }
                     } catch (InterruptedException e) {
+                        Log.e(this.getClass().getName(),e.getMessage());
+                    } catch (ExecutionException e) {
                         Log.e(this.getClass().getName(),e.getMessage());
                     }
                 }
@@ -116,9 +110,6 @@ public class DeviceSearchListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (datagramSocket != null) {
-            datagramSocket.close();
-        }
     }
 
     private OnFragmentInteractionListener mListener;

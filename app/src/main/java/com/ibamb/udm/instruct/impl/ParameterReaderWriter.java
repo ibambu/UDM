@@ -117,7 +117,7 @@ public class ParameterReaderWriter implements IParameterReaderWriter {
             //生成发送报文
             byte[] sendData = encoder.encode(instructFrame,control);
             //发送报文
-            byte[] replyData = sender.send(datagramSocket, sendData, replyFrameLength);
+            byte[] replyData = sender.sendByBroadcast(sendData, replyFrameLength);
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
             /**
