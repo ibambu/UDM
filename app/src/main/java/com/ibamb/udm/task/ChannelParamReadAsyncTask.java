@@ -4,18 +4,9 @@ import android.os.AsyncTask;
 import android.view.View;
 
 import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.IParamReader;
-import com.ibamb.udm.instruct.IParameterReaderWriter;
-import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.instruct.impl.ParamReader;
-import com.ibamb.udm.instruct.impl.ParameterReaderWriter;
-import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.util.ViewElementDataUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by luotao on 18-4-21.
