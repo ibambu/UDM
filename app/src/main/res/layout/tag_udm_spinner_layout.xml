@@ -2,26 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <EditText
-        android:id="@+id/tag_udm_edit_text"
-        android:layout_width="145sp"
-        android:layout_height="30sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text=""
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:background="@drawable/border_background"
-        android:focusable="false"
-        />
-    <Button
-        android:id="@+id/tag_udm_btn_spinner"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="40sp"
-        android:layout_gravity="center"
-        android:textColor="@android:color/white"
-        android:textAlignment="center"
-        android:text="..." />
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <GridLayout
+        android:id="@+id/GridLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:horizontalSpacing="5sp"
+        android:numColumns="auto_fit"
+        android:orientation="horizontal"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="25sp">
+        <EditText
+            android:id="@+id/tag_udm_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_columnSpan="1"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:background="@drawable/border_background"
+            android:focusable="false"/>
+
+        <Button
+            android:id="@+id/tag_udm_btn_spinner"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_columnSpan="1"
+            android:layout_gravity="center"
+            android:layoutDirection="rtl"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:text="..." />
+    </GridLayout>
+
 </LinearLayout>

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceParamSettingActivity;
+import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.MainActivity;
 import com.ibamb.udm.listener.UdmSearchButtonClickListener;
 import com.ibamb.udm.net.UdmDatagramSocket;
@@ -61,7 +62,7 @@ public class DeviceSearchListFragment extends Fragment {
             TextView macView =  view.findViewById(R.id.device_mac);
             //绑定登录设备事件。
             selectedMac = macView.getText().toString();
-            final String ip = ((TextView) view.findViewById(R.id.device_mac)).getText().toString();
+            final String ip = ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
 
             Button sigInInButton = loginView.findViewById(R.id.alter_sign_in_button);
             noticeView = loginView.findViewById(R.id.notice_info);//显示登录结果
@@ -83,7 +84,8 @@ public class DeviceSearchListFragment extends Fragment {
                         boolean isSuccess = loginAsyncTask.get();
                         if (isSuccess) {
                             dialog.dismiss();
-                            Intent intent = new Intent((MainActivity) getActivity(), DeviceParamSettingActivity.class);
+//                            Intent intent = new Intent((MainActivity) getActivity(), DeviceParamSettingActivity.class);
+                            Intent intent = new Intent((MainActivity) getActivity(), DeviceProfileActivity.class);
                             Bundle params = new Bundle();
                             params.putString("HOST_ADDRESS", ip);
                             params.putString("HOST_MAC", selectedMac);
