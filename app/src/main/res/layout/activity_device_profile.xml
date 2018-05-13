@@ -78,7 +78,8 @@
                 android:layout_columnSpan="1"
                 android:layout_gravity="fill"
                 android:layout_marginTop="15dp"
-                android:scaleType="center"
+                android:layout_marginRight="120dp"
+                android:scaleType="fitEnd"
                 android:src="@drawable/udm_right_navg" />
 
             <View
@@ -107,7 +108,8 @@
                 android:layout_columnSpan="1"
                 android:layout_gravity="fill"
                 android:layout_marginTop="15dp"
-                android:scaleType="center"
+                android:layout_marginRight="120dp"
+                android:scaleType="fitEnd"
                 android:src="@drawable/udm_right_navg" />
 
             <View
@@ -135,7 +137,8 @@
                 android:layout_columnSpan="1"
                 android:layout_gravity="fill"
                 android:layout_marginTop="15dp"
-                android:scaleType="center"
+                android:layout_marginRight="120dp"
+                android:scaleType="fitEnd"
                 android:src="@drawable/udm_right_navg" />
 
             <View
@@ -163,7 +166,8 @@
                 android:layout_column="1"
                 android:layout_gravity="fill"
                 android:layout_marginTop="15dp"
-                android:scaleType="center"
+                android:layout_marginRight="120dp"
+                android:scaleType="fitEnd"
                 android:src="@drawable/udm_right_navg" />
 
             <View
