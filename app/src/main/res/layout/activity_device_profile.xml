@@ -22,39 +22,39 @@
             android:textAlignment="gravity"
             android:theme="@style/theme_param_setting"
             android:verticalSpacing="25sp">
-
-            <ImageView
-                android:id="@+id/profile_info"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:scaleType="center"
-                android:src="@drawable/ic_device_info" />
-
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_columnSpan="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/profile_ip"
-                    android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2">
+                <ImageView
+                    android:id="@+id/profile_info"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="fill"
-                    android:text="miss ip"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/profile_mac"
+                    android:layout_gravity="center"
+                    android:layout_weight="4"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_device_info" />
+                <LinearLayout
+                    android:layout_height="50dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill"
-                    android:text="miss mac"
-                    android:textColor="@color/text_gray"
-                    android:textSize="16dp" />
+                    android:layout_weight="6"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/profile_ip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="miss ip"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/profile_mac"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="miss mac"
+                        android:textColor="@color/text_gray"
+                        android:textSize="16dp" />
+                </LinearLayout>
             </LinearLayout>
-
             <View
                 android:layout_height="10dp"
                 android:layout_above="@id/tab_param_setting"

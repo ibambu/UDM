@@ -15,8 +15,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private String mac;
 
     private ImageView vSettingIp;
+
     private TextView vSettingConnect;
     private TextView vSettingOther;
+    private TextView vSettingAccess;
 
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
@@ -61,10 +63,12 @@ public class DeviceProfileActivity extends AppCompatActivity {
         vSettingIp = findViewById(R.id.profile_ip_more);
         vSettingConnect = findViewById(R.id.profile_connect_setting);
         vSettingOther = findViewById(R.id.profile_other_setting);
+        vSettingAccess = findViewById(R.id.profile_access_setting);
 
         vSettingIp.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
         vSettingOther.setOnClickListener(profileMenuClickListener);
+        vSettingAccess.setOnClickListener(profileMenuClickListener);
 
     }
 

@@ -39,9 +39,9 @@
     <style name="theme_param_setting" parent="@style/AppTheme">
         <item name="colorButtonNormal">#66CCCC</item><!--正常状态下的颜色  -->
         <item name="colorControlHighlight">#33CC99</item><!--覆盖色，按下的颜色  -->
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:padding">1sp</item>
-        <!--<item name="android:typeface">monospace</item>-->
+        <item name="android:typeface">serif</item>
     </style>
 
     <style name="theme_title_bar_style" parent="@style/AppTheme">

@@ -4,40 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-    <GridLayout
-        android:id="@+id/GridLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:horizontalSpacing="5sp"
-        android:numColumns="auto_fit"
-        android:orientation="horizontal"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="25sp">
-        <EditText
-            android:id="@+id/tag_udm_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_columnSpan="1"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text=""
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:background="@drawable/border_background"
-            android:focusable="false"/>
-
-        <Button
-            android:id="@+id/tag_udm_btn_spinner"
-            style="?android:attr/buttonStyleSmall"
+        <TextView
+            android:id="@+id/attr_value"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_columnSpan="1"
-            android:layout_gravity="center"
-            android:layoutDirection="rtl"
-            android:textColor="@android:color/white"
-            android:textAlignment="center"
-            android:text="..." />
-    </GridLayout>
+            android:layout_height="35dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="13dp"
+            android:gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="value"/>
+        <ImageView
+            android:id="@+id/show_more_icon"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="8"
+            android:scaleType="fitEnd"
+            android:src="@drawable/udm_right_navg" />
 
 </LinearLayout>

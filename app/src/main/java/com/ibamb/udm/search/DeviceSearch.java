@@ -31,6 +31,8 @@ public class DeviceSearch {
         DatagramSocket datagramSocket = null;
         UDPMessageSender sender = new UDPMessageSender();
         ArrayList<DeviceInfo> deviceList = new ArrayList<>();
+        DeviceInfo test = new DeviceInfo("192.168.0.110","aa:bb:cc:dd:ee:ff");
+        deviceList.add(test);
         try {
             datagramSocket = new DatagramSocket();
             datagramSocket.setBroadcast(true);
@@ -87,6 +89,7 @@ public class DeviceSearch {
                     deviceList.add(deviceInfo);
                 }
             }
+
         } catch (SocketException ex) {
             Log.e("search device err",ex.getMessage());
         } catch (UnknownHostException e) {

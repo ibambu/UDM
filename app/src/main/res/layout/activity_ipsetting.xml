@@ -38,7 +38,14 @@
                 android:spinnerMode="dialog"
                 android:entries="@array/opt_ip_obtain"
                 android:tag="@string/tag_eth_auto_obtain_ip"/>
+            <View
 
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_above="@id/tab_param_setting"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
             <TextView
                 android:layout_columnSpan="6"
                 android:layout_gravity="fill"
@@ -123,113 +130,113 @@
                 android:layout_marginRight="2sp"
                 android:background="@drawable/border_background"
                 android:tag="@string/tag_alternate_dns_serve"/>
-            <TextView
-                style="@style/theme_title_bar_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
+            <!--<TextView-->
+                <!--style="@style/theme_title_bar_style"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
 
-                android:background="@color/udm_gree_light"
-                android:text="Access Settings" />
-            <TextView
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="HTTP Access" />
-            <Switch
-                android:id="@+id/id_http_access"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:textOff="off"
-                android:textOn="on"
-                android:tag="@string/tag_basic_web_console"/>
-            <TextView
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Telnet Access" />
-            <Switch
-                android:id="@+id/id_telnet_access"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:textOff="off"
-                android:textOn="on"
-                android:tag="@string/tag_basic_telnet_console"/>
-            <TextView
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Cloud Access" />
-            <Switch
-                android:id="@+id/id_cloud_access"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:textOff="off"
-                android:textOn="on"
-                android:tag="@string/tag_basic_cloud_console"/>
-            <TextView
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Cmd TCP Access" />
+                <!--android:background="@color/udm_gree_light"-->
+                <!--android:text="Access Settings" />-->
+            <!--<TextView-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:text="HTTP Access" />-->
+            <!--<Switch-->
+                <!--android:id="@+id/id_http_access"-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:textOff="off"-->
+                <!--android:textOn="on"-->
+                <!--android:tag="@string/tag_basic_web_console"/>-->
+            <!--<TextView-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:text="Telnet Access" />-->
+            <!--<Switch-->
+                <!--android:id="@+id/id_telnet_access"-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:textOff="off"-->
+                <!--android:textOn="on"-->
+                <!--android:tag="@string/tag_basic_telnet_console"/>-->
+            <!--<TextView-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:text="Cloud Access" />-->
+            <!--<Switch-->
+                <!--android:id="@+id/id_cloud_access"-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:textOff="off"-->
+                <!--android:textOn="on"-->
+                <!--android:tag="@string/tag_basic_cloud_console"/>-->
+            <!--<TextView-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:text="Cmd TCP Access" />-->
 
-            <Switch
-                android:id="@+id/id_cmd_tcp_access"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:textOff="off"
-                android:textOn="on"
-                android:tag="@string/tag_basic_cmd_tcp_consol"/>
-            <TextView
-                style="@style/theme_title_bar_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@color/udm_gree_light"
-                android:text="Other Settings" />
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Time Server" />
-            <EditText
-                android:id="@+id/id_time_server"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_basic_timer_server"/>
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Local Time" />
-            <EditText
-                android:id="@+id/id_local_time"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_basic_rtc_time"/>
-            <Button
-                android:id="@+id/id_conect_setting_commit"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="#66CCCC"
-                android:gravity="center"
-                android:text="Submit"
-                android:textColor="#FFFFFF" />
+            <!--<Switch-->
+                <!--android:id="@+id/id_cmd_tcp_access"-->
+                <!--android:layout_columnSpan="3"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:textOff="off"-->
+                <!--android:textOn="on"-->
+                <!--android:tag="@string/tag_basic_cmd_tcp_consol"/>-->
+            <!--<TextView-->
+                <!--style="@style/theme_title_bar_style"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:background="@color/udm_gree_light"-->
+                <!--android:text="Other Settings" />-->
+            <!--<TextView-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:text="Time Server" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/id_time_server"-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:background="@drawable/border_background"-->
+                <!--android:tag="@string/tag_basic_timer_server"/>-->
+            <!--<TextView-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:text="Local Time" />-->
+            <!--<EditText-->
+                <!--android:id="@+id/id_local_time"-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_marginLeft="2sp"-->
+                <!--android:layout_marginRight="2sp"-->
+                <!--android:background="@drawable/border_background"-->
+                <!--android:tag="@string/tag_basic_rtc_time"/>-->
+            <!--<Button-->
+                <!--android:id="@+id/id_conect_setting_commit"-->
+                <!--style="@style/Widget.AppCompat.Button.Small"-->
+                <!--android:layout_columnSpan="6"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:background="#66CCCC"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Submit"-->
+                <!--android:textColor="#FFFFFF" />-->
         </GridLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

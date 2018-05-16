@@ -166,64 +166,64 @@ public class ConnectSettingFragment extends Fragment {
 
 
     private void bindParamChangeEvent() {
-        /**
-         * 界面切换TCP或者UDP的时候，需要重新读取参数值。
-         */
-        toSetProtocol.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String protocol = s.toString();//当前选择的协议类型
-                toSetChannel.setValue(UdmConstants.UDM_DEFAULT_CHNL);
-                /**
-                 * 如果选择的是TDP协议，则读取TCP连接参数，并隐藏UDP连接参数控件。
-                 */
-                if (UdmConstants.CONN_NET_PROTOCOL_TCP.equals(protocol)) {
-                    for (String tagId : udpParams) {
-                        currentView.findViewWithTag(tagId).setVisibility(View.GONE);// UDP 相关的参数隐藏
-                    }
-                    for (String tagId : tcpParams) {
-                        currentView.findViewWithTag(tagId).setVisibility(View.VISIBLE);
-                    }
-                } else if (UdmConstants.CONN_NET_PROTOCOL_UDP.equals(protocol)) {
-                    for (String tagId : tcpParams) {
-                        currentView.findViewWithTag(tagId).setVisibility(View.GONE);//TCP 相关的参数隐藏
-                    }
-                    for (String tagId : udpParams) {
-                        currentView.findViewWithTag(tagId).setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        /**
-         * 如果通道发生改变，则读取通道的参数值。
-         */
-        toSetChannel.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                String channelId = s.toString();
-                ChannelParamReadAsyncTask task = new ChannelParamReadAsyncTask(currentView,channelParameter);
-                task.execute(mac, channelId);
-            }
-        });
+//        /**
+//         * 界面切换TCP或者UDP的时候，需要重新读取参数值。
+//         */
+//        toSetProtocol.getEditText().addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String protocol = s.toString();//当前选择的协议类型
+//                toSetChannel.setValue(UdmConstants.UDM_DEFAULT_CHNL);
+//                /**
+//                 * 如果选择的是TDP协议，则读取TCP连接参数，并隐藏UDP连接参数控件。
+//                 */
+//                if (UdmConstants.CONN_NET_PROTOCOL_TCP.equals(protocol)) {
+//                    for (String tagId : udpParams) {
+//                        currentView.findViewWithTag(tagId).setVisibility(View.GONE);// UDP 相关的参数隐藏
+//                    }
+//                    for (String tagId : tcpParams) {
+//                        currentView.findViewWithTag(tagId).setVisibility(View.VISIBLE);
+//                    }
+//                } else if (UdmConstants.CONN_NET_PROTOCOL_UDP.equals(protocol)) {
+//                    for (String tagId : tcpParams) {
+//                        currentView.findViewWithTag(tagId).setVisibility(View.GONE);//TCP 相关的参数隐藏
+//                    }
+//                    for (String tagId : udpParams) {
+//                        currentView.findViewWithTag(tagId).setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+//        /**
+//         * 如果通道发生改变，则读取通道的参数值。
+//         */
+//        toSetChannel.getEditText().addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String channelId = s.toString();
+//                ChannelParamReadAsyncTask task = new ChannelParamReadAsyncTask(currentView,channelParameter);
+//                task.execute(mac, channelId);
+//            }
+//        });
     }
 
 

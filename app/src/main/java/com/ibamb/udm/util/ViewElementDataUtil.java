@@ -44,37 +44,47 @@ public class ViewElementDataUtil {
                         if ("CONN_NET_PROTOCOL".equalsIgnoreCase(paramdef.getViewTagId())) {
                             AppCompatCheckBox tcp = view.findViewById(R.id.udm_conn_net_protocol_tcp);
                             AppCompatCheckBox udp = view.findViewById(R.id.udm_conn_net_protocol_udp);
-                            if ("0".equalsIgnoreCase(value)) {
-                                udp.setChecked(true);
-                                tcp.setChecked(false);
-                            } else if ("1".equals(value)) {
-                                udp.setChecked(false);
-                                tcp.setChecked(true);
-                            } else if ("2".equals(value)) {
-                                udp.setChecked(true);
-                                tcp.setChecked(true);
+                            if(tcp!=null && udp!= null){
+                                if ("0".equalsIgnoreCase(value)) {
+                                    udp.setChecked(true);
+                                    tcp.setChecked(false);
+                                } else if ("1".equals(value)) {
+                                    udp.setChecked(false);
+                                    tcp.setChecked(true);
+                                } else if ("2".equals(value)) {
+                                    udp.setChecked(true);
+                                    tcp.setChecked(true);
+                                }
                             }
                         }
                         break;
                     case UdmConstants.UDM_UI_EDIT_TEXT:
                         EditText vEditText = view.findViewWithTag(elementTagId);
-                        vEditText.setText(item.getDisplayValue());
+                        if(vEditText!=null){
+                            vEditText.setText(item.getDisplayValue());
+                        }
                         break;
                     case UdmConstants.UDM_UI_UDMSPINNER:
                         UdmSpinner vSpinner = view.findViewWithTag(elementTagId);
-                        vSpinner.setValue(item.getDisplayValue());
+                        if(vSpinner!=null){
+                            vSpinner.setValue(item.getDisplayValue());
+                        }
                         break;
                     case UdmConstants.UDM_UI_SWITCH:
                         Switch vSwitch = view.findViewWithTag(elementTagId);
-                        if (UdmConstants.UDM_SWITCH_ON.equals(item.getParamValue())) {
-                            vSwitch.setChecked(true);
-                        } else {
-                            vSwitch.setChecked(false);
+                        if(vSwitch!=null){
+                            if (UdmConstants.UDM_SWITCH_ON.equals(item.getParamValue())) {
+                                vSwitch.setChecked(true);
+                            } else {
+                                vSwitch.setChecked(false);
+                            }
                         }
                         break;
                     case UdmConstants.UDM_UI_BUTTON_TEXT:
                         UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(elementTagId);
-                        buttonTextEdit.setValue(item.getDisplayValue());
+                        if(buttonTextEdit!=null){
+                            buttonTextEdit.setValue(item.getDisplayValue());
+                        }
                         break;
                     default:
                         break;
