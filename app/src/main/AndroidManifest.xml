@@ -63,7 +63,10 @@
         <activity android:name=".activity.DeviceProfileActivity" />
         <activity android:name=".activity.IPSettingActivity" />
         <activity android:name=".activity.ConnectSettingActivity" />
-        <activity android:name=".activity.OtherSettingActivity"></activity>
+        <activity android:name=".activity.OtherSettingActivity" />
+        <activity android:name=".activity.TCPConnectionActivity" />
+        <activity android:name=".activity.UDPConnectionActivity" />
+        <activity android:name=".activity.SerialActivity"></activity>
     </application>
 
 </manifest>
