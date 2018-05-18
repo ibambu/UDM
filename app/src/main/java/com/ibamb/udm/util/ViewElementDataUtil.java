@@ -1,6 +1,7 @@
 package com.ibamb.udm.util;
 
 import android.support.v7.widget.AppCompatCheckBox;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -42,8 +43,8 @@ public class ViewElementDataUtil {
                 switch (elementType) {
                     case UdmConstants.UDM_UI_SPECIAL:
                         if ("CONN_NET_PROTOCOL".equalsIgnoreCase(paramdef.getViewTagId())) {
-                            AppCompatCheckBox tcp = view.findViewById(R.id.udm_conn_net_protocol_tcp);
-                            AppCompatCheckBox udp = view.findViewById(R.id.udm_conn_net_protocol_udp);
+                            Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
+                            Switch udp = view.findViewById(R.id.udp_enanbled_switch);
                             if(tcp!=null && udp!= null){
                                 if ("0".equalsIgnoreCase(value)) {
                                     udp.setChecked(true);
@@ -91,7 +92,7 @@ public class ViewElementDataUtil {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Log.e(ViewElementDataUtil.class.getName(),ex.getMessage());
         }
     }
 

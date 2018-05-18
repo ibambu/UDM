@@ -83,6 +83,11 @@ public class UDPMessageSender {
             Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
+            System.out.print("replay:");
+            for (int i = 0; i < recevData.length; i++) {
+                System.out.print(Integer.toHexString(recevData[i]) + " ");
+            }
+            System.out.println("");
         } catch (UnknownHostException ex) {
             Log.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {

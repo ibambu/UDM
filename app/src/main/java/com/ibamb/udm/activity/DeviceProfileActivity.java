@@ -14,25 +14,39 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private String ip;
     private String mac;
 
-    private ImageView vSettingIp;
+    private ImageView icSettingIp;
 
+    private TextView vSettingIP;
     private TextView vSettingConnect;
     private TextView vSettingOther;
     private TextView vSettingAccess;
+
+    private ImageView icSettingConnect;
+    private ImageView icSettingOther;
+    private ImageView icSettingAccess;
 
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = null;
 
+            String channelId = "0";
             switch (v.getId()) {
                 case R.id.profile_ip_more:
+                case R.id.profile_ip_setting:
                     intent = new Intent(v.getContext(), IPSettingActivity.class);
                     break;
+                case R.id.profile_access_more:
+                case R.id.profile_access_setting:
+                    intent = new Intent(v.getContext(), AccessSettingActivity.class);
+                    break;
                 case R.id.profile_connect_setting:
+                case R.id.profile_connect_more:
                     intent = new Intent(v.getContext(), ConnectSettingActivity.class);
+                    channelId ="1";
                     break;
                 case R.id.profile_other_setting:
+                case R.id.profile_other_more:
                     intent = new Intent(v.getContext(), OtherSettingActivity.class);
                     break;
                 default:
@@ -41,8 +55,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
             Bundle params = new Bundle();
             params.putString("HOST_ADDRESS", ip);
             params.putString("HOST_MAC", mac);
-            intent.putExtras(params);
+            params.putString("CHNL_ID",channelId);
             if(intent!=null){
+                intent.putExtras(params);
                 startActivity(intent);
             }
         }
@@ -60,15 +75,25 @@ public class DeviceProfileActivity extends AppCompatActivity {
         vIp.setText(ip);
         vMac.setText(mac);
 
-        vSettingIp = findViewById(R.id.profile_ip_more);
+        vSettingIP = findViewById(R.id.profile_ip_setting);
         vSettingConnect = findViewById(R.id.profile_connect_setting);
         vSettingOther = findViewById(R.id.profile_other_setting);
         vSettingAccess = findViewById(R.id.profile_access_setting);
 
-        vSettingIp.setOnClickListener(profileMenuClickListener);
+        icSettingIp = findViewById(R.id.profile_ip_more);
+        icSettingConnect = findViewById(R.id.profile_connect_more);
+        icSettingOther=findViewById(R.id.profile_other_more);
+        icSettingAccess=findViewById(R.id.profile_access_more);
+
+        vSettingIP.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
         vSettingOther.setOnClickListener(profileMenuClickListener);
         vSettingAccess.setOnClickListener(profileMenuClickListener);
+
+        icSettingIp.setOnClickListener(profileMenuClickListener);
+        icSettingConnect.setOnClickListener(profileMenuClickListener);
+        icSettingOther.setOnClickListener(profileMenuClickListener);
+        icSettingAccess.setOnClickListener(profileMenuClickListener);
 
     }
 

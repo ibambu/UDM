@@ -12,51 +12,70 @@ import java.util.Map;
  */
 
 public class ParameterMapping {
-    private static Map<String,Parameter> parameterMap;
+    private static Map<String, Parameter> parameterMap;
 
     public static void setParameterMap(Map<String, Parameter> parameterMap) {
         ParameterMapping.parameterMap = parameterMap;
     }
 
-    public static List<Parameter> getChannelParamDef(int channelId){
+    public static List<Parameter> getChannelParamDef(int channelId) {
         List<Parameter> channelParamList = new ArrayList<>();
-        for(Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext();){
+        for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
             Parameter parameter = parameterMap.get(paramId);
-            if (parameter.getChannelId()==channelId){
+            if (parameter.getChannelId() == channelId) {
                 channelParamList.add(parameter);
             }
         }
         return channelParamList;
     }
-    
 
-    public static Parameter getMapping(String paramId){
+
+    public static Parameter getMapping(String paramId) {
         return parameterMap.get(paramId);
     }
-    
-    public static Parameter getMappingByDecId(int decId){
+
+    public static Parameter getMappingByDecId(int decId) {
         Parameter parameter = null;
-        for(Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext();){
+        for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
             Parameter parameter1 = parameterMap.get(paramId);
-            if(parameter1.getDecId()==decId){
+            if (parameter1.getDecId() == decId) {
                 parameter = parameter1;
                 break;
             }
         }
         return parameter;
     }
-    public static Parameter getMappingByTagId(String tagId){
+
+    public static Parameter getMappingByTagId(String tagId,String channelId) {
         Parameter parameter = null;
-        for(Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext();){
+        for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
             Parameter parameter1 = parameterMap.get(paramId);
-            if(parameter1.getViewTagId().equals(tagId)){
+            if (parameter1.getViewTagId().equals(tagId)&&
+                    String.valueOf(parameter1.getChannelId()).equals(channelId)) {
                 parameter = parameter1;
                 break;
             }
         }
         return parameter;
+    }
+
+    public static List<Parameter> getMappingByTags(String[] tagIds,String channelId) {
+        List<Parameter> paramList = new ArrayList<>();
+
+        for (String tagId : tagIds) {
+            for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
+                String paramId = it.next();
+                Parameter parameter1 = parameterMap.get(paramId);
+                if (parameter1.getViewTagId().equals(tagId)
+                        &&String.valueOf(parameter1.getChannelId()).equals(channelId)) {
+                    paramList.add(parameter1);
+                    break;
+                }
+            }
+        }
+        return paramList;
     }
 }
