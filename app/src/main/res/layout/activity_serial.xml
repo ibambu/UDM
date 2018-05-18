@@ -6,4 +6,217 @@
     android:layout_height="match_parent"
     tools:context=".activity.SerialActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="6"
+            android:horizontalSpacing="5sp"
+
+            android:numColumns="auto_fit"
+            android:orientation="horizontal"
+            android:stretchMode="columnWidth"
+            android:theme="@style/theme_param_setting"
+            android:verticalSpacing="25sp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:gravity="left|center"
+                android:height="30dp"
+                android:background="#ebeaea"
+                android:text="Serial Settings" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Protocol" />
+
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_serial_protocol"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_protocol"
+                android:tag="@string/tag_serial_protocol" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Baud Rate" />
+
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_uart_bdrate"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:entries="@array/opt_serial_baud_rate"
+                android:tag="@string/tag_uart_bdrate" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Data Bits" />
+
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_uart_databit"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_data_bits"
+                android:tag="@string/tag_uart_databit" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Stop Bits" />
+
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_uart_stopbit"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_stop_bits"
+                android:tag="@string/tag_uart_stopbit" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Flow Control" />
+
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_uart_flowrnt"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_flow_control"
+                android:tag="@string/tag_uart_flowrnt" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Parity" />
+
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_uart_parity"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_serial_parity"
+                android:tag="@string/tag_uart_parity" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Uart ldle Time(ms)" />
+
+            <com.ibamb.udm.tag.UdmButtonTextEdit
+                android:id="@+id/udm_uart_idle_time_packingr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3"
+                android:tag="@string/tag_uart_idle_time_packing" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Uart Out IFG(ms)" />
+
+            <com.ibamb.udm.tag.UdmButtonTextEdit
+                android:id="@+id/udm_conn_uart_out_ifg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3"
+                android:tag="@string/tag_conn_uart_out_ifg" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Link Latch(ms)" />
+
+            <com.ibamb.udm.tag.UdmButtonTextEdit
+                android:id="@+id/udm_conn_link_latch_timeout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3"
+                android:tag="@string/tag_conn_link_latch_timeout" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+        </GridLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

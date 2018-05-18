@@ -5,5 +5,125 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.TCPConnectionActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="6"
+            android:horizontalSpacing="5sp"
+            android:numColumns="auto_fit"
+            android:orientation="horizontal"
+            android:stretchMode="columnWidth"
+            android:theme="@style/theme_param_setting"
+            android:verticalSpacing="25sp">
+            <!-- TCP -->
+            <TextView
+                android:id="@+id/label_work_as"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Work As"
+                android:tag="lab_conn_tcp_work_mode"/>
+            <!-- TCP -->
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_conn_tcp_work_mode"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_work_role"
+                android:tag="@string/tag_conn_tcp_work_mode" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:id="@+id/id_tcp_conn_respons"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:gravity="left|center"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Optition"
+                android:tag="lab_conn_tcp_conn_respons"/>
 
+            <com.ibamb.udm.tag.UdmSpinner
+                android:id="@+id/udm_conn_tcp_conn_respons"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:entries="@array/opt_connect_rts"
+                android:tag="@string/tag_conn_tcp_conn_respons" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Local Port"
+                android:tag="lab_conn_tcp_local_port"/>
+
+            <com.ibamb.udm.tag.UdmButtonTextEdit
+                android:id="@+id/udm_conn_tcp_local_port"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3"
+                android:tag="@string/tag_conn_tcp_local_port" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:gravity="left|center"
+                android:text="Remote Port"
+                android:tag="lab_conn_tcp_host_port0"/>
+
+            <com.ibamb.udm.tag.UdmButtonTextEdit
+                android:id="@+id/udm_conn_tcp_host_port0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:columnCount="3"
+                android:tag="@string/tag_conn_tcp_host_port0" />
+            <TextView
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:text="Remote Host"
+                android:tag="lab_conn_tcp_host_ip0"/>
+            <!--BOTH-->
+            <EditText
+                android:id="@+id/udm_conn_tcp_host_ip0"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:height="50dp"
+                android:background="@drawable/border_background"
+                android:tag="@string/tag_conn_tcp_host_ip0" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+        </GridLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

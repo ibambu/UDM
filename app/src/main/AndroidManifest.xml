@@ -66,7 +66,8 @@
         <activity android:name=".activity.OtherSettingActivity" />
         <activity android:name=".activity.TCPConnectionActivity" />
         <activity android:name=".activity.UDPConnectionActivity" />
-        <activity android:name=".activity.SerialActivity"></activity>
+        <activity android:name=".activity.SerialActivity" />
+        <activity android:name=".activity.AccessSettingActivity"></activity>
     </application>
 
 </manifest>

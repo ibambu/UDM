@@ -9,15 +9,13 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="left"
-            android:layout_marginTop="13dp"
-            android:gravity="center_vertical"
+            android:gravity="left|center"
             android:layout_weight="2"
-            android:text="value"/>
+            android:text=""/>
         <ImageView
             android:id="@+id/show_more_icon"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="8"
             android:scaleType="fitEnd"
             android:src="@drawable/udm_right_navg" />

@@ -116,8 +116,8 @@ public class ViewElementDataUtil {
             switch (vElementType) {
                 case UdmConstants.UDM_UI_SPECIAL:
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
-                        AppCompatCheckBox tcp = view.findViewById(R.id.udm_conn_net_protocol_tcp);
-                        AppCompatCheckBox udp = view.findViewById(R.id.udm_conn_net_protocol_tcp);
+                        Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
+                        Switch udp = view.findViewById(R.id.udp_enanbled_switch);
                         if (tcp.isChecked() && udp.isChecked()) {
                             value = "2";
                         } else if (tcp.isChecked()) {

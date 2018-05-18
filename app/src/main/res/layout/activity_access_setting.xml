@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AccessSettingActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            android:id="@+id/GridLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="6"
+            android:horizontalSpacing="5sp"
+            android:numColumns="auto_fit"
+            android:orientation="horizontal"
+            android:stretchMode="columnWidth"
+            android:theme="@style/theme_param_setting"
+            android:verticalSpacing="25sp">
+
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:height="40dp"
+                android:gravity="left|center"
+                android:text="HTTP Access" />
+
+            <Switch
+                android:id="@+id/id_http_access"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:height="40dp"
+                android:gravity="right|center"
+                android:textOff="off"
+                android:textOn="on"
+                android:tag="@string/tag_basic_web_console"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:height="40dp"
+                android:gravity="left|center"
+                android:text="Telnet Access" />
+
+            <Switch
+                android:id="@+id/id_telnet_access"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:textOff="off"
+                android:textOn="on"
+                android:height="40dp"
+                android:gravity="right|center"
+                android:tag="@string/tag_basic_telnet_console"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:height="40dp"
+                android:gravity="left|center"
+                android:text="Cloud Access" />
+
+            <Switch
+                android:id="@+id/id_cloud_access"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:textOff="off"
+                android:textOn="on"
+                android:height="40dp"
+                android:gravity="right|center"
+                android:tag="@string/tag_basic_cloud_console"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+            <TextView
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:height="40dp"
+                android:gravity="left|center"
+                android:text="Cmd TCP Access" />
+
+            <Switch
+                android:id="@+id/id_cmd_tcp_access"
+                android:layout_columnSpan="3"
+                android:layout_gravity="fill"
+                android:textOff="off"
+                android:textOn="on"
+                android:height="40dp"
+                android:gravity="right|center"
+                android:tag="@string/tag_basic_cmd_tcp_consol"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_columnSpan="6"
+                android:layout_gravity="fill"
+                android:background="#ebeaea" />
+
+        </GridLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
