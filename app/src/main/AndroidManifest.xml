@@ -37,7 +37,8 @@
         <activity
             android:name=".activity.DeviceParamSettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.UserProfileActivity" />
+        <activity android:name=".activity.UserProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.UdmMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -60,14 +61,31 @@
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.TestActivity" />
-        <activity android:name=".activity.DeviceProfileActivity" />
-        <activity android:name=".activity.IPSettingActivity" />
-        <activity android:name=".activity.ConnectSettingActivity" />
-        <activity android:name=".activity.OtherSettingActivity" />
-        <activity android:name=".activity.TCPConnectionActivity" />
-        <activity android:name=".activity.UDPConnectionActivity" />
-        <activity android:name=".activity.SerialActivity" />
-        <activity android:name=".activity.AccessSettingActivity"></activity>
+        <activity android:name=".activity.DeviceProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.IPSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ConnectSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.OtherSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.TCPConnectionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.UDPConnectionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.SerialActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.AccessSettingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

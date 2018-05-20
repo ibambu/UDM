@@ -5,238 +5,269 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.UDPConnectionActivity">
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <GridLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/top_title_nav" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="6"
-            android:horizontalSpacing="5sp"
-            android:numColumns="auto_fit"
-            android:orientation="horizontal"
-            android:stretchMode="columnWidth"
-            android:theme="@style/theme_param_setting"
-            android:verticalSpacing="25sp">
+            android:layout_height="match_parent">
 
-
-            <TextView
-                android:id="@+id/label_accepting_income"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Accept Incoming"
-                android:height="40dp"
-                android:gravity="left|center"
-                android:typeface="serif"
-                android:tag="lab_conn_udp_acception"/>
-
-            <Switch
-                android:id="@+id/udm_conn_udp_acception"
-                android:layout_columnSpan="3"
-                android:layout_gravity="right"
-                android:gravity="right|center"
-                android:height="40dp"
-                android:tag="@string/tag_conn_udp_acception"
-                android:textOff="off"
-                android:textOn="on" />
-            <View
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
-
-            <TextView
-                android:id="@+id/id_conn_udp_tmp_host_en"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:text="Optition"
-                android:tag="lab_conn_udp_tmp_host_en"/>
-
-            <com.ibamb.udm.tag.UdmSpinner
-                android:id="@+id/udm_conn_udp_tmp_host_en"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="right|center"
-                android:entries="@array/opt_connect_rts"
-                android:tag="@string/tag_conn_udp_tmp_host_en" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
-            <TextView
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:text="Uni/Multi"
-                android:typeface="serif" />
-
-            <com.ibamb.udm.tag.UdmSpinner
-                android:id="@+id/udm_conn_udp_data_mode"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="right|center"
-                android:entries="@array/opt_connect_uni_multi"
-                android:tag="@string/tag_conn_udp_data_mode" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@android:color/background_light" />
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:gravity="left|center"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:height="30dp"
-                android:text="Unicast Setting"
-                android:background="#ebeaea"
-                android:typeface="serif" />
-            <TextView
-                android:id="@+id/id_conn_uni_local_port"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:text="Local Port"
-                android:tag="lab_conn_udp_uni_local_port"/>
-
-            <com.ibamb.udm.tag.UdmButtonTextEdit
-                android:id="@+id/udm_conn_uni_local_port"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="right|center"
-                android:columnCount="3"
-                android:tag="@string/tag_conn_udp_uni_local_port" />
+                android:columnCount="6"
+                android:horizontalSpacing="5sp"
+                android:numColumns="auto_fit"
+                android:orientation="horizontal"
+                android:stretchMode="columnWidth"
+                android:theme="@style/theme_param_setting"
+                android:verticalSpacing="25sp">
 
-            <TextView
-                android:id="@+id/id_conn_uni_host_port0"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:text="Remote Port"
-                android:tag="lab_conn_udp_uni_host_port0"/>
 
-            <com.ibamb.udm.tag.UdmButtonTextEdit
-                android:id="@+id/id_conn_host_port0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="right|center"
-                android:columnCount="3"
-                android:tag="@string/tag_conn_udp_uni_host_port0" />
+                <TextView
+                    android:id="@+id/label_accepting_income"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="40dp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_acception"
+                    android:text="Accept Incoming"
+                    android:typeface="serif" />
 
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Remote Host"
-                android:tag="lab_conn_udp_uni_host_ip0"/>
+                <Switch
+                    android:id="@+id/udm_conn_udp_acception"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="right"
+                    android:height="40dp"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_acception"
+                    android:textOff="off"
+                    android:textOn="on" />
 
-            <EditText
-                android:id="@+id/id_conn_udp_uni_host_ip0"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:height="50dp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_conn_udp_uni_host_ip0" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@android:color/background_light"/>
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:height="30dp"
-                android:text="Multicast Setting"
-                android:background="#ebeaea"
-                android:typeface="serif" />
-            <TextView
-                android:id="@+id/id_conn_mul_local_port"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:text="Local Port"
-                android:tag="lab_conn_udp_mul_local_port"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <com.ibamb.udm.tag.UdmButtonTextEdit
-                android:id="@+id/udm_conn_mul_local_port"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:gravity="right|center"
-                android:columnCount="3"
-                android:tag="@string/tag_conn_udp_mul_local_port" />
+                <TextView
+                    android:id="@+id/id_conn_udp_tmp_host_en"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_tmp_host_en"
+                    android:text="Optition" />
 
-            <TextView
-                android:id="@+id/id_conn_mul_host_port0"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:text="Remote Port"
-                android:tag="lab_conn_udp_mul_remote_port"/>
+                <com.ibamb.udm.tag.UdmSpinner
+                    android:id="@+id/udm_conn_udp_tmp_host_en"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:entries="@array/opt_connect_rts"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_tmp_host_en" />
 
-            <com.ibamb.udm.tag.UdmButtonTextEdit
-                android:id="@+id/udm_conn_host_port0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:columnCount="3"
-                android:gravity="right|center"
-                android:tag="@string/tag_conn_udp_mul_remote_port" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <TextView
-                android:id="@+id/id_conn_udp_mul_remote_ip"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Muti Address"
-                android:tag="lab_conn_udp_mul_remote_ip"/>
+                <TextView
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:text="Uni/Multi"
+                    android:typeface="serif" />
 
-            <EditText
-                android:id="@+id/udm_conn_udp_mul_remote_ip"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:height="50dp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_conn_udp_mul_remote_ip"/>
+                <com.ibamb.udm.tag.UdmSpinner
+                    android:id="@+id/udm_conn_udp_data_mode"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:entries="@array/opt_connect_uni_multi"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_data_mode" />
 
-        </GridLayout>
-    </ScrollView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/background_light" />
+
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="30dp"
+                    android:background="#ebeaea"
+                    android:gravity="left|center"
+                    android:text="Unicast Setting"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/id_conn_uni_local_port"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_uni_local_port"
+                    android:text="Local Port" />
+
+                <com.ibamb.udm.tag.UdmButtonTextEdit
+                    android:id="@+id/udm_conn_uni_local_port"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill"
+                    android:columnCount="3"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_uni_local_port" />
+
+                <TextView
+                    android:id="@+id/id_conn_uni_host_port0"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_uni_host_port0"
+                    android:text="Remote Port" />
+
+                <com.ibamb.udm.tag.UdmButtonTextEdit
+                    android:id="@+id/id_conn_host_port0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill"
+                    android:columnCount="3"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_uni_host_port0" />
+
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:tag="lab_conn_udp_uni_host_ip0"
+                    android:text="Remote Host" />
+
+                <EditText
+                    android:id="@+id/id_conn_udp_uni_host_ip0"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="50dp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_conn_udp_uni_host_ip0" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/background_light" />
+
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="30dp"
+                    android:background="#ebeaea"
+                    android:gravity="left|center"
+                    android:text="Multicast Setting"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:id="@+id/id_conn_mul_local_port"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_mul_local_port"
+                    android:text="Local Port" />
+
+                <com.ibamb.udm.tag.UdmButtonTextEdit
+                    android:id="@+id/udm_conn_mul_local_port"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill"
+                    android:columnCount="3"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_mul_local_port" />
+
+                <TextView
+                    android:id="@+id/id_conn_mul_host_port0"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_mul_remote_port"
+                    android:text="Remote Port" />
+
+                <com.ibamb.udm.tag.UdmButtonTextEdit
+                    android:id="@+id/udm_conn_host_port0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="fill"
+                    android:columnCount="3"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_mul_remote_port" />
+
+                <TextView
+                    android:id="@+id/id_conn_udp_mul_remote_ip"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:tag="lab_conn_udp_mul_remote_ip"
+                    android:text="Muti Address" />
+
+                <EditText
+                    android:id="@+id/udm_conn_udp_mul_remote_ip"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="50dp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_conn_udp_mul_remote_ip" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+                <View
+                    android:id="@+id/anchor"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

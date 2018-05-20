@@ -1,18 +1,28 @@
 package com.ibamb.udm.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.core.ParameterMapping;
+
+import java.util.List;
 
 public class DeviceProfileActivity extends AppCompatActivity {
 
     private String ip;
     private String mac;
+    private String[] supportedChannels;
+    private Context currentContext;
+
+    private TextView back;
 
     private ImageView icSettingIp;
 
@@ -24,41 +34,64 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private ImageView icSettingConnect;
     private ImageView icSettingOther;
     private ImageView icSettingAccess;
-
+    private String channelId = "0";
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = null;
-
-            String channelId = "0";
             switch (v.getId()) {
                 case R.id.profile_ip_more:
                 case R.id.profile_ip_setting:
-                    intent = new Intent(v.getContext(), IPSettingActivity.class);
+                    //不涉及某个通道，IP相关的参数当作是0通道。
+                    Intent intent1 = new Intent(v.getContext(), IPSettingActivity.class);
+                    Bundle params = new Bundle();
+                    params.putString("HOST_ADDRESS", ip);
+                    params.putString("HOST_MAC", mac);
+                    params.putString("CHNL_ID", channelId);
+                    intent1.putExtras(params);
+                    startActivity(intent1);
                     break;
                 case R.id.profile_access_more:
                 case R.id.profile_access_setting:
-                    intent = new Intent(v.getContext(), AccessSettingActivity.class);
+                    //不涉及某个通道
+                    Intent intent2 = new Intent(v.getContext(), AccessSettingActivity.class);
+                    Bundle params2 = new Bundle();
+                    params2.putString("HOST_ADDRESS", ip);
+                    params2.putString("HOST_MAC", mac);
+                    params2.putString("CHNL_ID", channelId);
+                    intent2.putExtras(params2);
+                    startActivity(intent2);
                     break;
                 case R.id.profile_connect_setting:
                 case R.id.profile_connect_more:
-                    intent = new Intent(v.getContext(), ConnectSettingActivity.class);
-                    channelId ="1";
+                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    builder.setTitle("Select Channel");
+                    builder.setItems(supportedChannels, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Bundle params = new Bundle();
+                            params.putString("HOST_ADDRESS", ip);
+                            params.putString("HOST_MAC", mac);
+                            params.putString("CHNL_ID", supportedChannels[which]);
+                            Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
+                            intent.putExtras(params);
+                            startActivity(intent);
+                        }
+                    });
+                    builder.show();
                     break;
                 case R.id.profile_other_setting:
                 case R.id.profile_other_more:
-                    intent = new Intent(v.getContext(), OtherSettingActivity.class);
+                    //不涉及某个通道
+                    Intent intent3 = new Intent(v.getContext(), OtherSettingActivity.class);
+                    Bundle params3 = new Bundle();
+                    params3.putString("HOST_ADDRESS", ip);
+                    params3.putString("HOST_MAC", mac);
+                    params3.putString("CHNL_ID", channelId);
+                    intent3.putExtras(params3);
+                    startActivity(intent3);
                     break;
                 default:
                     break;
-            }
-            Bundle params = new Bundle();
-            params.putString("HOST_ADDRESS", ip);
-            params.putString("HOST_MAC", mac);
-            params.putString("CHNL_ID",channelId);
-            if(intent!=null){
-                intent.putExtras(params);
-                startActivity(intent);
             }
         }
     };
@@ -67,6 +100,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_profile);
+
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");
         mac = (String) bundle.get("HOST_MAC");
@@ -75,6 +109,14 @@ public class DeviceProfileActivity extends AppCompatActivity {
         vIp.setText(ip);
         vMac.setText(mac);
 
+        back = findViewById(R.id.go_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         vSettingIP = findViewById(R.id.profile_ip_setting);
         vSettingConnect = findViewById(R.id.profile_connect_setting);
         vSettingOther = findViewById(R.id.profile_other_setting);
@@ -82,8 +124,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
 
         icSettingIp = findViewById(R.id.profile_ip_more);
         icSettingConnect = findViewById(R.id.profile_connect_more);
-        icSettingOther=findViewById(R.id.profile_other_more);
-        icSettingAccess=findViewById(R.id.profile_access_more);
+        icSettingOther = findViewById(R.id.profile_other_more);
+        icSettingAccess = findViewById(R.id.profile_access_more);
 
         vSettingIP.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
@@ -94,8 +136,19 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingConnect.setOnClickListener(profileMenuClickListener);
         icSettingOther.setOnClickListener(profileMenuClickListener);
         icSettingAccess.setOnClickListener(profileMenuClickListener);
-
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentContext = this;
+        /**
+         * 读取支持的通道
+         */
+        List<String> suppChannels = ParameterMapping.getSupportedChannels();
+        supportedChannels = new String[suppChannels.size()];
+        for (int i = 0; i < supportedChannels.length; i++) {
+            supportedChannels[i] = suppChannels.get(i);
+        }
+    }
 }

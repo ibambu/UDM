@@ -6,180 +6,216 @@
     android:layout_height="match_parent"
     tools:context=".activity.DeviceProfileActivity">
 
-    <ScrollView
-        android:id="@+id/device_profile_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <GridLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:horizontalSpacing="5sp"
-            android:numColumns="auto_fit"
-            android:orientation="horizontal"
-            android:stretchMode="columnWidth"
-            android:textAlignment="gravity"
-            android:theme="@style/theme_param_setting"
-            android:verticalSpacing="25sp">
-            <LinearLayout
+            android:background="@color/udm_nav_color"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/go_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_columnSpan="2">
-                <ImageView
-                    android:id="@+id/profile_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="4"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_device_info" />
-                <LinearLayout
-                    android:layout_height="50dp"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="6"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/profile_ip"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="miss ip"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/profile_mac"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="miss mac"
-                        android:textColor="@color/text_gray"
-                        android:textSize="16dp" />
-                </LinearLayout>
-            </LinearLayout>
-            <View
-                android:layout_height="10dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                android:layout_weight="1"
+                android:height="45dp"
+                android:gravity="center"
+                android:text="BACK"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/profile_ip_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:text="IP Setting"
-                android:textSize="16dp" />
-
-            <ImageView
-                android:id="@+id/profile_ip_more"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="120dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:height="45dp"
+                android:gravity="center"
+                android:text="Device Profile"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
-            <View
+        </LinearLayout>
 
+        <ScrollView
+            android:id="@+id/device_profile_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:horizontalSpacing="5sp"
+                android:numColumns="auto_fit"
+                android:orientation="horizontal"
+                android:stretchMode="columnWidth"
+                android:textAlignment="gravity"
+                android:theme="@style/theme_param_setting"
+                android:verticalSpacing="25sp">
 
-            <TextView
-                android:id="@+id/profile_access_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="2">
 
-                android:layout_marginTop="15dp"
-                android:text="Access Setting"
-                android:textSize="16dp" />
+                    <ImageView
+                        android:id="@+id/profile_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="4"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_device_info" />
 
-            <ImageView
-                android:id="@+id/profile_access_more"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="120dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="6"
+                        android:orientation="vertical">
 
-            <View
+                        <TextView
+                            android:id="@+id/profile_ip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="18dp" />
 
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                        <TextView
+                            android:id="@+id/profile_mac"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="miss mac"
+                            android:textColor="@color/text_gray"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/profile_connect_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:text="Connect Setting"
-                android:textSize="16dp" />
+                <View
+                    android:layout_height="10dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <ImageView
-                android:id="@+id/profile_connect_more"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="120dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                <TextView
+                    android:id="@+id/profile_ip_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="15dp"
+                    android:text="IP Setting" />
 
-            <View
+                <ImageView
+                    android:id="@+id/profile_ip_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="120dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
 
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                <View
 
-            <TextView
-                android:id="@+id/profile_other_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:text="Other Setting"
-                android:textSize="16dp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <ImageView
-                android:id="@+id/profile_other_more"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_column="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="120dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                <TextView
+                    android:id="@+id/profile_access_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
-        </GridLayout>
+                    android:layout_marginTop="15dp"
+                    android:text="Access Setting" />
 
-    </ScrollView>
+                <ImageView
+                    android:id="@+id/profile_access_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="120dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
+
+                <View
+
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+
+                <TextView
+                    android:id="@+id/profile_connect_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="15dp"
+                    android:text="Connect Setting" />
+
+                <ImageView
+                    android:id="@+id/profile_connect_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="120dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
+
+                <View
+
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+
+                <TextView
+                    android:id="@+id/profile_other_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="15dp"
+                    android:text="Other Setting" />
+
+                <ImageView
+                    android:id="@+id/profile_other_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_column="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="120dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

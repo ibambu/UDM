@@ -74,9 +74,9 @@ public class ParamWriter implements IParamWriter {
             instructFrame.setLength(sendFrameLength);
             IEncoder encoder = new ParamWriteEncoder();
             //生成发送报文
-            byte[] sendData = encoder.encode(instructFrame,UdmControl.SET_PARAMETERS);
+            byte[] sendData = encoder.encode(instructFrame, UdmControl.SET_PARAMETERS);
             //发送报文
-            byte[] replyData = sender.sendByBroadcast( sendData, replyFrameLength);
+            byte[] replyData = sender.sendByBroadcast(sendData, replyFrameLength);
             //解析返回报文
             IParser parser = new ReplyFrameParser();
             ReplyFrame replyFrame = parser.parse(replyData);
@@ -84,10 +84,10 @@ public class ParamWriter implements IParamWriter {
              * 对于修改参数值值的时候，2,4字节长度高位和低位位置是反的，
              * 所以对于读取参数只判断返回码是否成功即可，后面再重新读取一次。
              */
-            boolean isSuccessful = replyFrame.getControl()==0?true:false;
+            boolean isSuccessful = replyFrame.getControl() == UdmControl.ACKNOWLEDGE ? true : false;
             channelParameter.setSuccessful(isSuccessful);
-        }catch (Exception e){
-            Log.e(this.getClass().getName(),e.getMessage());
+        } catch (Exception e) {
+            Log.e(this.getClass().getName(), e.getMessage());
         }
         return channelParameter;
     }

@@ -457,7 +457,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill"
                 android:columnCount="3"
-                android:tag="@string/tag_uart_idle_time_packing" />
+                android:tag="@string/tag_uart_idle_time_packingr" />
 
             <TextView
                 android:layout_columnSpan="3"

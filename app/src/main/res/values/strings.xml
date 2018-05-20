@@ -54,7 +54,7 @@
     <string name="tag_conn_tcp_host_ip0">conn_tcp_host_ip0</string>
     <string name="tag_uart_stopbit">uart_stopbit</string>
     <string name="tag_uart_flowrnt">uart_flowrnt</string>
-    <string name="tag_uart_idle_time_packing">uart_idle_time_packing</string>
+    <string name="tag_uart_idle_time_packingr">uart_idle_time_packingr</string>
     <string name="tag_conn_tcp_work_mode">conn_tcp_work_mode</string>
     <string name="tag_conn_tcp_host_port0">conn_tcp_host_port0</string>
     <string name="tag_conn_tcp_local_port">conn_tcp_local_port</string>

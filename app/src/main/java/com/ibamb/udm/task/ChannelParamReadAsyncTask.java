@@ -1,8 +1,10 @@
 package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.ibamb.udm.R;
 import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.instruct.IParamReader;
 import com.ibamb.udm.instruct.impl.ParamReader;
@@ -25,6 +27,7 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
     @Override
     protected ChannelParameter doInBackground(String... strings) {
         try {
+
             IParamReader reader = new ParamReader();
             reader.readChannelParam(channelParameter);
         } catch (Exception e) {
@@ -37,7 +40,14 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
     protected void onPostExecute(ChannelParameter channelParameter) {
         super.onPostExecute(channelParameter);
         //更新界面数据
-        ViewElementDataUtil.setData(channelParameter, view);
+        String notice = "";
+        if(!channelParameter.isSuccessful()){
+            notice = "Possible network delay. Please click title try again.";
+            Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }else{
+            ViewElementDataUtil.setData(channelParameter, view);
+        }
     }
 
     @Override

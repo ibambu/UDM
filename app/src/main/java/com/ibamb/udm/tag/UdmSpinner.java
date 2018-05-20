@@ -5,11 +5,8 @@ import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,7 +31,7 @@ public class UdmSpinner extends LinearLayout {
     public UdmSpinner(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         if (getTag() != null) {
-            Parameter parameter = ParameterMapping.getMappingByTagId(getTag().toString().toUpperCase(),"1");
+            Parameter parameter = ParameterMapping.getMappingByTagId(getTag().toString().toUpperCase(),null);
             if (parameter != null) {
                 List<ValueMapping> displayEnumValues = parameter.getValueMappings();
                 if (displayEnumValues != null && !displayEnumValues.isEmpty()) {

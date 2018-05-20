@@ -35,12 +35,7 @@ public class UDPMessageSender {
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
             datagramSocket.setBroadcast(true);
             // 发送数据
-            System.out.print("send:");
             datagramSocket.send(sendDataPacket);
-            for (int i = 0; i < sendData.length; i++) {
-                System.out.print(Integer.toHexString(sendData[i]) + " ");
-            }
-            System.out.println("");
             // 接收数据
             Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
@@ -70,24 +65,15 @@ public class UDPMessageSender {
         DatagramSocket datagramSocket = null;
         try {
             datagramSocket = new DatagramSocket();
+            datagramSocket.setSoTimeout(1000);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
             address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
             // 发送数据
-            System.out.print("send:");
             datagramSocket.send(sendDataPacket);
-            for (int i = 0; i < sendData.length; i++) {
-                System.out.print(Integer.toHexString(sendData[i]) + " ");
-            }
-            System.out.println("");
             // 接收数据
             Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
-            System.out.print("replay:");
-            for (int i = 0; i < recevData.length; i++) {
-                System.out.print(Integer.toHexString(recevData[i]) + " ");
-            }
-            System.out.println("");
         } catch (UnknownHostException ex) {
             Log.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {

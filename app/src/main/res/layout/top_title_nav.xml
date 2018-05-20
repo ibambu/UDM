@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/udm_nav_color"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:height="45dp"
+            android:gravity="center"
+            android:text="BACK"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:height="45dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text=""
+            android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/do_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:height="45dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="SAVE"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

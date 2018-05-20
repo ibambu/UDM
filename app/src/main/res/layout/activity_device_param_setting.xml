@@ -10,13 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <LinearLayout
             android:id="@+id/top_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/holo_blue_bright">
-
             <TextView
                 android:id="@+id/base_setting"
                 android:layout_width="0dp"

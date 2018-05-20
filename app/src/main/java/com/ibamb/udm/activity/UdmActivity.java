@@ -55,7 +55,7 @@ public class UdmActivity extends AppCompatActivity {
         //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //绑定菜单点击事件
-        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener());
+        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this));
 
         //此处需要优化,将请求网络资源的操作放在一个单独的线程里面执行.避免网络延时界面假死.
         if (Build.VERSION.SDK_INT > 9) {

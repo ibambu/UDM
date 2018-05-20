@@ -19,15 +19,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.constants.UdmConstants;
+import com.ibamb.udm.core.TryUser;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
+import com.ibamb.udm.security.AECryptStrategy;
+import com.ibamb.udm.security.ICryptStrategy;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 
@@ -49,9 +58,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        // 绑定Service，绑定后就会调用mConnetion里的onServiceConnected方法
-//        Intent bindIntent = new Intent(MainActivity.this, DeviceSearchService.class);
-//        bindService(bindIntent, connection, Context.BIND_AUTO_CREATE);
+        FileInputStream inputStream = null;
+        try {
+            StringBuilder strbuffer = new StringBuilder();
+            inputStream = openFileInput(UdmConstants.TRY_USER_FILE);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                strbuffer.append(line);
+            }
+            ICryptStrategy aes = new AECryptStrategy();
+            String content = strbuffer.toString();//aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
+            String[] tryUsers = content.split("&");
+            TryUser.setTryUser(tryUsers);
+
+        } catch (Exception e) {
+            Log.e(this.getClass().getName(), e.getMessage());
+        }finally {
+            if (inputStream!=null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
@@ -67,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         //设置右上角的填充菜单
         mToolbar.inflateMenu(R.menu.tool_bar_menu);
         //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //绑定菜单点击事件
-        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener());
+        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this));
 
         //沉静式工具栏,将任务栏的背景改为与Toolbar背景一致.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

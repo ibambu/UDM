@@ -5,73 +5,93 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.OtherSettingActivity">
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <GridLayout
-            android:id="@+id/GridLayout1"
+        <include layout="@layout/top_title_nav" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="6"
-            android:horizontalSpacing="5sp"
-            android:numColumns="auto_fit"
-            android:orientation="horizontal"
-            android:stretchMode="columnWidth"
-            android:theme="@style/theme_param_setting"
-            android:verticalSpacing="25sp">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_height="40dp"
-                android:gravity="left|center"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Time Server" />
-
-            <EditText
-                android:id="@+id/id_time_server"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:layout_height="40dp"
-                android:gravity="right|center"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_basic_timer_server"/>
-            <View
+            <GridLayout
+                android:id="@+id/GridLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                android:layout_height="wrap_content"
+                android:columnCount="6"
+                android:horizontalSpacing="5sp"
+                android:numColumns="auto_fit"
+                android:orientation="horizontal"
+                android:stretchMode="columnWidth"
+                android:theme="@style/theme_param_setting"
+                android:verticalSpacing="25sp">
 
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:layout_height="40dp"
-                android:gravity="left|center"
-                android:text="Local Time" />
+                <TextView
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:text="Time Server" />
 
-            <EditText
-                android:id="@+id/id_local_time"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:layout_height="40dp"
-                android:gravity="right|center"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_basic_rtc_time"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
-        </GridLayout>
-    </ScrollView>
+                <EditText
+                    android:id="@+id/id_time_server"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:background="@drawable/border_background"
+                    android:gravity="left|center"
+                    android:tag="@string/tag_basic_timer_server" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+
+                <TextView
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:text="Local Time" />
+
+                <EditText
+                    android:id="@+id/id_local_time"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:background="@drawable/border_background"
+                    android:gravity="left|center"
+                    android:tag="@string/tag_basic_rtc_time" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <View
+                    android:id="@+id/anchor"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

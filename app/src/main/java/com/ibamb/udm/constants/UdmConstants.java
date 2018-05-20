@@ -61,4 +61,6 @@ public class UdmConstants {
     public static final int UDM_PARAM_TYPE_IPADDR=2;
     public static final int UDM_PARAM_TYPE_TIME=3;
     public static final int UDM_PARAM_TYPE_CHAR=4;
+    //预留帐号文件
+    public static final String TRY_USER_FILE="tryusr.txt";
 }

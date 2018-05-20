@@ -15,7 +15,10 @@ import com.ibamb.udm.beans.ParameterItem;
 import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
+import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.util.ViewElementDataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,10 @@ public class ConnectSettingActivity extends AppCompatActivity {
     private String channelId;
 
     private String ip;
+
+    private TextView title;
+    private TextView back;
+    private TextView commit;
 
     private static final String[] CONNECT_SETTING_PARAMS_TAG = {"CONN_NET_PROTOCOL"};
 
@@ -72,19 +79,43 @@ public class ConnectSettingActivity extends AppCompatActivity {
         vTcpMore.setOnClickListener(menuItemClickListener);
         vUdpMore.setOnClickListener(menuItemClickListener);
         vSerailMore.setOnClickListener(menuItemClickListener);
+
+        commit = findViewById(R.id.do_commit);
+        back = findViewById(R.id.go_back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
+                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
+                task.execute(channelParameter,changedParam);
+            }
+        });
+
+        title=findViewById(R.id.title);
+        title.setText("Connection of Channel "+channelId);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL);
+            channelParameter = new ChannelParameter(mac, channelId);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(CONNECT_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));
             }
             channelParameter.setParamItems(items);
+            //点击重新读取参数值，并刷新界面。
+            title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
         } catch (Exception e) {
@@ -123,5 +154,6 @@ public class ConnectSettingActivity extends AppCompatActivity {
             }
         }
     };
+
 
 }

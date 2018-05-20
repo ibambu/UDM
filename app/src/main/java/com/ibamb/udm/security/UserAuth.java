@@ -81,16 +81,19 @@ public class UserAuth {
              */
             UDPMessageSender sender = new UDPMessageSender();
             byte[] replyData = sender.sendByUnicast(loginFrame, 4);
-            int replyType = DataTypeConvert.bytes2int(Arrays.copyOfRange(replyData, 0, 4));
-            //返回0表示成功
-            if (replyType != UdmConstants.UDM_LOGIN_SUCCESS) {
+            if(replyData==null){
                 isSuccessful = false;
-                System.out.println("login fail.");
-                socket = null;
-            } else {
-                isSuccessful = true;
-                System.out.println("login successful");
+            }else{
+                int replyType = DataTypeConvert.bytes2int(Arrays.copyOfRange(replyData, 0, 4));
+                //返回0表示成功
+                if (replyType != UdmConstants.UDM_LOGIN_SUCCESS) {
+                    isSuccessful = false;
+                    socket = null;
+                } else {
+                    isSuccessful = true;
+                }
             }
+
         } catch (IOException ex) {
             Log.e(UserAuth.class.getName(), ex.getMessage());
         } finally {

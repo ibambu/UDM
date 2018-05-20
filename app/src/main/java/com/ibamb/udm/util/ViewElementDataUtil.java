@@ -118,40 +118,50 @@ public class ViewElementDataUtil {
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
                         Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
                         Switch udp = view.findViewById(R.id.udp_enanbled_switch);
-                        if (tcp.isChecked() && udp.isChecked()) {
-                            value = "2";
-                        } else if (tcp.isChecked()) {
-                            value = "1";
-                        } else if (udp.isChecked()) {
-                            value = "0";
+                        if(tcp!=null && udp!=null){
+                            if (tcp.isChecked() && udp.isChecked()) {
+                                value = "2";
+                            } else if (tcp.isChecked()) {
+                                value = "1";
+                            } else if (udp.isChecked()) {
+                                value = "0";
+                            }
                         }
                     }
                     break;
                 case UdmConstants.UDM_UI_EDIT_TEXT:
                     EditText vEditText = view.findViewWithTag(viewTagId);
-                    value = parameter.getValue(vEditText.getText().toString());
+                    if(vEditText!=null){
+                        value = parameter.getValue(vEditText.getText().toString());
+                    }
                     break;
                 case UdmConstants.UDM_UI_UDMSPINNER:
                     UdmSpinner vSpinner = view.findViewWithTag(viewTagId);
-                    value = parameter.getValue(vSpinner.getValue());
+                    if(vSpinner!=null){
+                        value = parameter.getValue(vSpinner.getValue());
+                    }
                     break;
                 case UdmConstants.UDM_UI_SWITCH:
                     Switch vSwitch = view.findViewWithTag(viewTagId);
-                    if (vSwitch.isChecked()) {
-                        value = UdmConstants.UDM_SWITCH_ON;
-                    } else {
-                        value = UdmConstants.UDM_SWITCH_OFF;
+                    if(vSwitch!=null){
+                        if (vSwitch.isChecked()) {
+                            value = UdmConstants.UDM_SWITCH_ON;
+                        } else {
+                            value = UdmConstants.UDM_SWITCH_OFF;
+                        }
                     }
                     break;
                 case UdmConstants.UDM_UI_BUTTON_TEXT:
                     UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(viewTagId);
-                    value = parameter.getValue(buttonTextEdit.getValue());
+                    if(buttonTextEdit!=null){
+                        value = parameter.getValue(buttonTextEdit.getValue());
+                    }
                     break;
                 default:
                     break;
             }
             displayValue = parameter.getDisplayValue(value);
-
+            System.out.println("check changed param:"+oldChannelParam.getChannelId()+"--"+channelId);
             if (oldChannelParam != null && oldChannelParam.getChannelId().equals(channelId)) {
                 List<ParameterItem> paramItems = oldChannelParam.getParamItems();
                 for (ParameterItem parameterItem : paramItems) {
@@ -159,6 +169,7 @@ public class ViewElementDataUtil {
                     if(parameterItem.getParamId().equals(parameter.getId())
                             && !parameterItem.getDisplayValue().equals(displayValue)){
                         items.add(new ParameterItem(parameter.getId(), value));
+                        System.out.println(parameterItem.getParamId()+" changed ("+parameterItem.getDisplayValue()+"->"+displayValue+")");
                         break;
                     }
                 }

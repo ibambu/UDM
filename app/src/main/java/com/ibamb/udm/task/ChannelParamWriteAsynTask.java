@@ -48,7 +48,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-        Snackbar.make(view.findViewById(R.id.id_conect_setting_commit),  String.valueOf(values[0]), Snackbar.LENGTH_LONG)
+        Snackbar.make(view.findViewById(R.id.anchor),  String.valueOf(values[0]), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 

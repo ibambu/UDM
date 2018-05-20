@@ -79,41 +79,47 @@ public class ParamReader implements IParamReader {
             byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength);
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
-            for (ParameterItem parameterItem : parameterItems) {
-                for (Information info : replyFrame.getInfoList()) {
-                    if (parameterItem.getParamId().equals(info.getType())) {
-                        String displayValue = info.getData();
-                        Parameter paramDef = ParameterMapping.getMapping(parameterItem.getParamId());
-                        /**
-                         * 根据参数值的转换类型，对值进行转换。
-                         */
-                        String elementTagId = paramDef.getViewTagId().toLowerCase();
-                        if (displayValue != null) {
-                            int convertType = paramDef.getCovertType();
-                            switch (convertType) {
-                                case UdmConstants.UDM_PARAM_TYPE_NUMBER://数值类型
-                                    parameterItem.setParamValue(info.getData());
-                                    parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
-                                    break;
-                                case UdmConstants.UDM_PARAM_TYPE_IPADDR://IP地址
-                                    displayValue = IPUtil.getIpFromLong(Long.parseLong(displayValue));
-                                    parameterItem.setParamValue(info.getData());
-                                    parameterItem.setDisplayValue(displayValue);
-                                    break;
-                                case UdmConstants.UDM_PARAM_TYPE_TIME://时间类型
-                                    parameterItem.setParamValue(info.getData());
-                                    parameterItem.setDisplayValue(displayValue);
-                                    break;
-                                default://字符类型
-                                    parameterItem.setParamValue(info.getData());
-                                    parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
-                                    break;
+            if(replyFrame.getControl()==UdmControl.ACKNOWLEDGE){
+                channelParameter.setSuccessful(true);
+                for (ParameterItem parameterItem : parameterItems) {
+                    for (Information info : replyFrame.getInfoList()) {
+                        if (parameterItem.getParamId().equals(info.getType())) {
+                            String displayValue = info.getData();
+                            Parameter paramDef = ParameterMapping.getMapping(parameterItem.getParamId());
+                            /**
+                             * 根据参数值的转换类型，对值进行转换。
+                             */
+                            String elementTagId = paramDef.getViewTagId().toLowerCase();
+                            if (displayValue != null) {
+                                int convertType = paramDef.getCovertType();
+                                switch (convertType) {
+                                    case UdmConstants.UDM_PARAM_TYPE_NUMBER://数值类型
+                                        parameterItem.setParamValue(info.getData());
+                                        parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
+                                        break;
+                                    case UdmConstants.UDM_PARAM_TYPE_IPADDR://IP地址
+                                        displayValue = IPUtil.getIpFromLong(Long.parseLong(displayValue));
+                                        parameterItem.setParamValue(info.getData());
+                                        parameterItem.setDisplayValue(displayValue);
+                                        break;
+                                    case UdmConstants.UDM_PARAM_TYPE_TIME://时间类型
+                                        parameterItem.setParamValue(info.getData());
+                                        parameterItem.setDisplayValue(displayValue);
+                                        break;
+                                    default://字符类型
+                                        parameterItem.setParamValue(info.getData());
+                                        parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
+                                        break;
+                                }
                             }
+                            break;
                         }
-                        break;
                     }
                 }
+            }else{
+                channelParameter.setSuccessful(false);
             }
+
         }catch (Exception e){
             Log.e(this.getClass().getName(),e.getMessage());
         }

@@ -20,14 +20,15 @@ public class ReplyFrameParser implements IParser {
     @Override
     public ReplyFrame parse(byte[] replyData) {
         ReplyFrame replyFrame = new ReplyFrame();
+        List<Information> informationList = new ArrayList<>();//存放本次返回的所有参数
+        replyFrame.setInfoList(informationList);
         if(replyData==null){
             return replyFrame;
         }
         replyFrame.setControl(replyData[0]);// 控制位
         replyFrame.setId(replyData[1]);// 通信ID
         replyFrame.setLength((int)DataTypeConvert.bytesToShort(Arrays.copyOfRange(replyData, 2, 4)));//帧总长度
-        List<Information> informationList = new ArrayList<>();//存放本次返回的所有参数
-        replyFrame.setInfoList(informationList);
+
         int offset = 0;
         for (int i = offset; i < replyData.length; i = i + offset) {
             Information information = new Information();

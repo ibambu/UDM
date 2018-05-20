@@ -5,161 +5,182 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.IPSettingActivity">
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <GridLayout
-            android:id="@+id/GridLayout1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/top_title_nav" />
+        <ScrollView
+            android:id="@+id/ip_setting_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="6"
-            android:horizontalSpacing="5sp"
-            android:numColumns="auto_fit"
-            android:orientation="horizontal"
-            android:stretchMode="columnWidth"
-            android:theme="@style/theme_param_setting"
-            android:verticalSpacing="25sp">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <GridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:gravity="left|center"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="IP Obtain" />
-            <com.ibamb.udm.tag.UdmSpinner
-                android:id="@+id/id_ip_obtain"
-                android:layout_columnSpan="3"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:gravity="left|center"
-                android:spinnerMode="dialog"
-                android:entries="@array/opt_ip_obtain"
-                android:tag="@string/tag_eth_auto_obtain_ip"/>
-            <View
+                android:columnCount="6"
+                android:horizontalSpacing="5sp"
+                android:numColumns="auto_fit"
+                android:orientation="horizontal"
+                android:stretchMode="columnWidth"
+                android:theme="@style/theme_param_setting"
+                android:verticalSpacing="25sp">
 
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="IP Address" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:text="IP Obtain" />
+                <com.ibamb.udm.tag.UdmSpinner
+                    android:id="@+id/id_ip_obtain"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:spinnerMode="dialog"
+                    android:entries="@array/opt_ip_obtain"
+                    android:tag="@string/tag_eth_auto_obtain_ip"/>
+                <View
 
-            <EditText
-                android:id="@+id/id_address"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:height="50dp"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_eth_ip_addr"/>
-            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:text="IP Address" />
 
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@android:color/white" />
+                <EditText
+                    android:id="@+id/id_address"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="50dp"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_eth_ip_addr"/>
+                <View
 
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Subnet" />
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
 
-            <EditText
-                android:id="@+id/id_subnet"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:height="50dp"
-                android:layout_marginRight="2sp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_eth_netmask_addr"/>
-            <View
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:text="Subnet" />
 
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@android:color/white" />
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="Gateway" />
+                <EditText
+                    android:id="@+id/id_subnet"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:height="50dp"
+                    android:layout_marginRight="2sp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_eth_netmask_addr"/>
+                <View
 
-            <EditText
-                android:id="@+id/id_getway"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:height="50dp"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_eth_gateway_addr"/>
-            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:text="Gateway" />
 
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@android:color/white" />
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="DNS1" />
+                <EditText
+                    android:id="@+id/id_getway"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="50dp"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_eth_gateway_addr"/>
+                <View
 
-            <EditText
-                android:id="@+id/id_dns_1"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:height="50dp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_preferred_dns_server"/>
-            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:text="DNS1" />
 
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:background="@android:color/white" />
-            <TextView
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:text="DNS2" />
+                <EditText
+                    android:id="@+id/id_dns_1"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="50dp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_preferred_dns_server"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+                <TextView
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:text="DNS2" />
 
-            <EditText
-                android:id="@+id/id_dns_2"
-                android:layout_columnSpan="6"
-                android:layout_gravity="fill"
-                android:height="50dp"
-                android:layout_marginLeft="2sp"
-                android:layout_marginRight="2sp"
-                android:background="@drawable/border_background"
-                android:tag="@string/tag_alternate_dns_serve"/>
-        </GridLayout>
-    </ScrollView>
+                <EditText
+                    android:id="@+id/id_dns_2"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="50dp"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:background="@drawable/border_background"
+                    android:tag="@string/tag_alternate_dns_serve"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+                <View
+                    android:id="@+id/anchor"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

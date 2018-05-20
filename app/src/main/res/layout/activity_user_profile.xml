@@ -6,4 +6,378 @@
     android:layout_height="match_parent"
     tools:context="com.ibamb.udm.activity.UserProfileActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/top_title_nav" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="6"
+                android:horizontalSpacing="5sp"
+                android:numColumns="6"
+                android:orientation="horizontal"
+                android:stretchMode="columnWidth"
+                android:theme="@style/theme_param_setting"
+                android:verticalSpacing="25sp">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="30dp"
+                    android:background="#ebeaea"
+                    android:gravity="left|center"
+                    android:text="Try User 1"
+                    android:theme="@style/theme_param_setting" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:gravity="left|center"
+                    android:text="User" />
+
+                <EditText
+                    android:id="@+id/try_user1"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:gravity="left|center"
+                    android:text="Password" />
+
+                <EditText
+                    android:id="@+id/try_password1"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:inputType="textPassword"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="30dp"
+                    android:background="#ebeaea"
+                    android:gravity="left|center"
+                    android:text="Try User 2"
+                    android:theme="@style/theme_param_setting" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:height="35dp"
+                    android:text="User" />
+
+                <EditText
+                    android:id="@+id/try_user2"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:height="35dp"
+                    android:text="Password" />
+
+                <EditText
+                    android:id="@+id/try_password2"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:inputType="textPassword"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="30dp"
+                    android:background="#ebeaea"
+                    android:gravity="left|center"
+                    android:text="Try User 3"
+                    android:theme="@style/theme_param_setting" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:height="35dp"
+                    android:text="User" />
+
+                <EditText
+                    android:id="@+id/try_user3"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:gravity="left|center"
+                    android:text="Password" />
+
+                <EditText
+                    android:id="@+id/try_password3"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:inputType="textPassword"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:height="30dp"
+                    android:background="#ebeaea"
+                    android:gravity="left|center"
+                    android:text="Cloud Login"
+                    android:theme="@style/theme_param_setting" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:gravity="left|center"
+                    android:text="Cloud Server" />
+
+                <EditText
+                    android:id="@+id/id_dns_1"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:height="35dp"
+                    android:text="Remote Port" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:gravity="left|center"
+                    android:text="User" />
+
+                <EditText
+                    android:id="@+id/cloud_user"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:gravity="left|center"
+                    android:text="Password" />
+
+                <EditText
+                    android:id="@+id/cloud_password"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:height="35dp"
+                    android:inputType="textPassword"
+                    android:background="@drawable/border_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <Button
+                    android:id="@+id/login_cloud_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_columnSpan="6"
+                    android:layout_gravity="fill"
+                    android:gravity="center"
+                    android:text="Login Cloud"
+                    android:textColor="#FFFFFF" />
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

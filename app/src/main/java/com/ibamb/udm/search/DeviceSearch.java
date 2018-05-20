@@ -31,8 +31,7 @@ public class DeviceSearch {
         DatagramSocket datagramSocket = null;
         UDPMessageSender sender = new UDPMessageSender();
         ArrayList<DeviceInfo> deviceList = new ArrayList<>();
-        DeviceInfo test = new DeviceInfo("192.168.0.110","aa:bb:cc:dd:ee:ff");
-        deviceList.add(test);
+
         try {
             datagramSocket = new DatagramSocket();
             datagramSocket.setBroadcast(true);
@@ -62,12 +61,6 @@ public class DeviceSearch {
             InetAddress address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
             DatagramPacket sendDataPacket = new DatagramPacket(serachBytes, serachBytes.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
             datagramSocket.send(sendDataPacket);
-            //打印发送数据
-//            System.out.print("send:");
-//            for (int i = 0; i < serachBytes.length; i++) {
-//                System.out.print(Integer.toHexString(serachBytes[i]) + " ");
-//            }
-//            System.out.println("");
             /**
              * 接收报文
              */

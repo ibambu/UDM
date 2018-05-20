@@ -22,11 +22,13 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceParamSettingActivity;
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.MainActivity;
+import com.ibamb.udm.core.TryUser;
 import com.ibamb.udm.listener.UdmSearchButtonClickListener;
 import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
 import java.net.DatagramSocket;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -46,6 +48,7 @@ public class DeviceSearchListFragment extends Fragment {
     private View loginView;
     private TextView noticeView;
     private String selectedMac;
+    private String ip;
     private TextView vSearchNotice;
 
     /**
@@ -55,54 +58,81 @@ public class DeviceSearchListFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            loginView = LayoutInflater.from(view.getContext()).inflate(R.layout.alter_login_layout, null);
-            builder.setView(loginView);
-            final AlertDialog dialog = builder.show();
             TextView macView =  view.findViewById(R.id.device_mac);
             //绑定登录设备事件。
             selectedMac = macView.getText().toString();
-            final String ip = ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
-
-            Button sigInInButton = loginView.findViewById(R.id.alter_sign_in_button);
-            noticeView = loginView.findViewById(R.id.notice_info);//显示登录结果
-            sigInInButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AutoCompleteTextView userNameView = loginView.findViewById(R.id.dev_user_name);
-                    EditText passwordView = loginView.findViewById(R.id.dev_password);
-
-                    String userName = userNameView.getText().toString();
-                    String password = passwordView.getText().toString();
-
+            ip= ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
+            /**
+             * 尝试登陆
+             */
+            try{
+                boolean trySuccess = false;
+                for(int i=0;i<TryUser.getUserCount();i++){
                     UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
-                    String[] loginInfo = {userName, password, selectedMac};
+                    String [] tryUser = TryUser.getUser(i+1);
+                    String[] loginInfo = {tryUser[0], tryUser[1], selectedMac};
+                    System.out.println("USER INFO:"+ Arrays.toString(loginInfo));
                     loginAsyncTask.execute(loginInfo);
-
-                    try {
-                        Thread.sleep(800);
-                        boolean isSuccess = loginAsyncTask.get();
-                        if (isSuccess) {
-                            dialog.dismiss();
-//                            Intent intent = new Intent((MainActivity) getActivity(), DeviceParamSettingActivity.class);
-                            Intent intent = new Intent((MainActivity) getActivity(), DeviceProfileActivity.class);
-                            Bundle params = new Bundle();
-                            params.putString("HOST_ADDRESS", ip);
-                            params.putString("HOST_MAC", selectedMac);
-                            intent.putExtras(params);
-                            startActivityForResult(intent, 1);
-                        } else {
-                            loginAsyncTask.cancel(true);
-                            noticeView.setVisibility(View.VISIBLE);
-                            noticeView.setText("login fail.");
-                        }
-                    } catch (InterruptedException e) {
-                        Log.e(this.getClass().getName(),e.getMessage());
-                    } catch (ExecutionException e) {
-                        Log.e(this.getClass().getName(),e.getMessage());
+                    trySuccess = loginAsyncTask.get();
+                    if(trySuccess){
+                        break;
                     }
                 }
-            });
+                if(trySuccess){
+                    Intent intent = new Intent((MainActivity) getActivity(), DeviceProfileActivity.class);
+                    Bundle params = new Bundle();
+                    params.putString("HOST_ADDRESS", ip);
+                    params.putString("HOST_MAC", selectedMac);
+                    intent.putExtras(params);
+                    startActivityForResult(intent, 1);
+                }else{
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    loginView = LayoutInflater.from(view.getContext()).inflate(R.layout.alter_login_layout, null);
+                    builder.setView(loginView);
+                    final AlertDialog dialog = builder.show();
+                    Button sigInInButton = loginView.findViewById(R.id.alter_sign_in_button);
+                    noticeView = loginView.findViewById(R.id.notice_info);//显示登录结果
+                    sigInInButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AutoCompleteTextView userNameView = loginView.findViewById(R.id.dev_user_name);
+                            EditText passwordView = loginView.findViewById(R.id.dev_password);
+
+                            String userName = userNameView.getText().toString();
+                            String password = passwordView.getText().toString();
+
+                            UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
+                            String[] loginInfo = {userName, password, selectedMac};
+                            loginAsyncTask.execute(loginInfo);
+
+                            try {
+                                Thread.sleep(800);
+                                boolean isSuccess = loginAsyncTask.get();
+                                if (isSuccess) {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent((MainActivity) getActivity(), DeviceProfileActivity.class);
+                                    Bundle params = new Bundle();
+                                    params.putString("HOST_ADDRESS", ip);
+                                    params.putString("HOST_MAC", selectedMac);
+                                    intent.putExtras(params);
+                                    startActivityForResult(intent, 1);
+                                } else {
+                                    loginAsyncTask.cancel(true);
+                                    noticeView.setVisibility(View.VISIBLE);
+                                    noticeView.setText("login fail.");
+                                }
+                            } catch (InterruptedException e) {
+                                Log.e(this.getClass().getName(),e.getMessage());
+                            } catch (ExecutionException e) {
+                                Log.e(this.getClass().getName(),e.getMessage());
+                            }
+                        }
+                    });
+                }
+
+            }catch (Exception e){
+                Log.e(this.getClass().getName(),e.getMessage());
+            }
         }
     };
 

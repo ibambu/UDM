@@ -11,4 +11,6 @@
     <color name="toolbar_bgcolor">#e0e0e0</color>
     <color name="float_button_color">#da3b8d</color>
     <color name="udm_green_light">#4bc569</color>
+    <color name="udm_nav_color">#04c7d5</color>
+    <color name="udm_dgreen_color">#e0f1ee</color>
 </resources>

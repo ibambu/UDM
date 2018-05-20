@@ -2,6 +2,8 @@ package com.ibamb.udm.tag;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TextEdit center with reduce button left and add button right.
@@ -67,5 +72,33 @@ public class UdmButtonTextEdit extends LinearLayout {
 
         incrButton.setOnClickListener(new ButtonOnclickListener());
         decrButton.setOnClickListener(new ButtonOnclickListener());
+
+        valueEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //如果输入的字符不数字则自动截掉。
+                if(!isNumeric(s.toString())){
+                    valueEditText.setText(s.subSequence(0,start));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+    /**
+     * * 判断字符串是否为数字
+     */
+    public static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        return isNum.matches();
     }
 }

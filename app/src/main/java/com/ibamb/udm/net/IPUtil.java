@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Luo Tao
@@ -17,6 +19,23 @@ import java.util.Map;
 public class IPUtil {
 
 
+    /**
+     * 校验IP地址格式
+     * @param ipAddress
+     * @return
+     */
+    public static boolean isIPAddress(String ipAddress){
+        if((ipAddress==null)||ipAddress.trim().length() < 7
+                || ipAddress.trim().length() > 15) {
+            return false;
+        }
+        //IP格式和范围
+        String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
+        Pattern pattern = Pattern.compile(rexp);
+        Matcher matcher = pattern.matcher(ipAddress);
+        return matcher.find();
+
+    }
     /**
      * 把long类型的Ip转为一般Ip类型：xx.xx.xx.xx
      *

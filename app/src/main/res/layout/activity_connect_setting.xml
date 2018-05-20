@@ -6,155 +6,170 @@
     android:layout_height="match_parent"
     tools:context=".activity.ConnectSettingActivity">
 
-    <ScrollView
-        android:id="@+id/connection_setting_item"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <GridLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/top_title_nav" />
+        <ScrollView
+            android:id="@+id/connection_setting_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:horizontalSpacing="5sp"
-            android:numColumns="auto_fit"
-            android:orientation="horizontal"
-            android:stretchMode="columnWidth"
-            android:textAlignment="gravity"
-            android:theme="@style/theme_param_setting"
-            android:verticalSpacing="25sp">
-            <TextView
-                android:id="@+id/tcp_eanbled"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_marginTop="15dp"
-                android:text="TCP Enabled"
-                android:textSize="16dp" />
-            <Switch
-                android:id="@+id/tcp_enanbled_switch"
-                android:layout_columnSpan="1"
-                android:layout_gravity="right"
-                android:layout_marginRight="200dp"
-                android:layout_marginTop="15dp"
-                android:tag="@string/tag_conn_udp_acception"
-                android:textOff="off"
-                android:textOn="on" />
-            <View
+            android:layout_height="match_parent">
+
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
-            <TextView
-                android:id="@+id/udp_eanbled"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_marginTop="15dp"
-                android:text="UDP Enabled"
-                android:textSize="16dp" />
-            <Switch
-                android:id="@+id/udp_enanbled_switch"
-                android:layout_columnSpan="1"
-                android:layout_gravity="right"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="200dp"
-                android:tag="@string/tag_conn_udp_acception"
-                android:textOff="off"
-                android:textOn="on" />
-            <View
-                android:layout_height="10dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:horizontalSpacing="5sp"
+                android:numColumns="auto_fit"
+                android:orientation="horizontal"
+                android:stretchMode="columnWidth"
+                android:textAlignment="gravity"
+                android:theme="@style/theme_param_setting"
+                android:verticalSpacing="25sp">
 
-            <TextView
-                android:id="@+id/tcp_connection_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:text="TCP Connection Setting"
-                android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/tcp_eanbled"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_marginTop="15dp"
+                    android:text="TCP Enabled" />
 
-            <ImageView
-                android:id="@+id/tcp_connection_more"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="200dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                <Switch
+                    android:id="@+id/tcp_enanbled_switch"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="200dp"
+                    android:layout_marginTop="15dp"
+                    android:tag="@string/tag_conn_udp_acception"
+                    android:textOff="off"
+                    android:textOn="on" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <TextView
-                android:id="@+id/udp_connection_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
+                <TextView
+                    android:id="@+id/udp_eanbled"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_marginTop="15dp"
+                    android:text="UDP Enabled" />
 
-                android:layout_marginTop="15dp"
-                android:text="UDP Connection Setting"
-                android:textSize="16dp" />
+                <Switch
+                    android:id="@+id/udp_enanbled_switch"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="200dp"
+                    android:layout_marginTop="15dp"
+                    android:tag="@string/tag_conn_udp_acception"
+                    android:textOff="off"
+                    android:textOn="on" />
 
-            <ImageView
-                android:id="@+id/udp_connection_more"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="200dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                <View
+                    android:layout_height="10dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <View
+                <TextView
+                    android:id="@+id/tcp_connection_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="15dp"
+                    android:text="TCP Connection Setting" />
 
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                <ImageView
+                    android:id="@+id/tcp_connection_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="200dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
 
-            <TextView
-                android:id="@+id/serial_setting"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:text="Serial Settings"
-                android:textSize="16dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
 
-            <ImageView
-                android:id="@+id/serial_setting_more"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_columnSpan="1"
-                android:layout_gravity="fill"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="200dp"
-                android:scaleType="fitEnd"
-                android:src="@drawable/udm_right_navg" />
+                <TextView
+                    android:id="@+id/udp_connection_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
 
-            <View
+                    android:layout_marginTop="15dp"
+                    android:text="UDP Connection Setting" />
 
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_above="@id/tab_param_setting"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill"
-                android:background="#ebeaea" />
+                <ImageView
+                    android:id="@+id/udp_connection_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="200dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
 
-        </GridLayout>
-    </ScrollView>
+                <View
+
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+
+                <TextView
+                    android:id="@+id/serial_setting"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginTop="15dp"
+                    android:text="Serial Settings" />
+
+                <ImageView
+                    android:id="@+id/serial_setting_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_columnSpan="1"
+                    android:layout_gravity="fill"
+                    android:layout_marginRight="200dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="@android:color/white" />
+
+                <View
+                    android:id="@+id/anchor"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_above="@id/tab_param_setting"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="fill"
+                    android:background="#ebeaea" />
+            </GridLayout>
+        </ScrollView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
