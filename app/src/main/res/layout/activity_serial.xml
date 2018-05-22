@@ -13,7 +13,9 @@
         <include layout="@layout/top_title_nav" />
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -26,16 +28,6 @@
                 android:stretchMode="columnWidth"
                 android:theme="@style/theme_param_setting"
                 android:verticalSpacing="25sp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:height="30dp"
-                    android:background="#ebeaea"
-                    android:gravity="left|center"
-                    android:text="Serial Settings" />
 
                 <TextView
                     android:layout_columnSpan="3"

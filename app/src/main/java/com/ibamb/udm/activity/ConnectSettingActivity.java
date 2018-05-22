@@ -18,6 +18,7 @@ import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.util.TaskBarQuiet;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class ConnectSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_setting);
         currentView = getWindow().getDecorView();
+        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");
         mac = (String) bundle.get("HOST_MAC");

@@ -70,8 +70,10 @@ public class DeviceSearchListFragment extends Fragment {
                 for(int i=0;i<TryUser.getUserCount();i++){
                     UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
                     String [] tryUser = TryUser.getUser(i+1);
+                    if(tryUser==null){
+                        continue;
+                    }
                     String[] loginInfo = {tryUser[0], tryUser[1], selectedMac};
-                    System.out.println("USER INFO:"+ Arrays.toString(loginInfo));
                     loginAsyncTask.execute(loginInfo);
                     trySuccess = loginAsyncTask.get();
                     if(trySuccess){
@@ -109,6 +111,8 @@ public class DeviceSearchListFragment extends Fragment {
                                 Thread.sleep(800);
                                 boolean isSuccess = loginAsyncTask.get();
                                 if (isSuccess) {
+                                    String[] tryUser = {userName,password};
+                                    TryUser.setTryUser(tryUser);
                                     dialog.dismiss();
                                     Intent intent = new Intent((MainActivity) getActivity(), DeviceProfileActivity.class);
                                     Bundle params = new Bundle();
@@ -131,6 +135,7 @@ public class DeviceSearchListFragment extends Fragment {
                 }
 
             }catch (Exception e){
+                e.printStackTrace();
                 Log.e(this.getClass().getName(),e.getMessage());
             }
         }

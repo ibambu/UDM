@@ -15,6 +15,7 @@ import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.util.TaskBarQuiet;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class TCPConnectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tcpconnection);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");

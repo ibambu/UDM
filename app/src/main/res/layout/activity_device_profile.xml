@@ -17,27 +17,7 @@
             android:background="@color/udm_nav_color"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/go_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:height="45dp"
-                android:gravity="center"
-                android:text="BACK"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:height="45dp"
-                android:gravity="center"
-                android:text="Device Profile"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+            <include layout="@layout/top_title_nav" />
 
         </LinearLayout>
 
@@ -63,36 +43,54 @@
                     android:layout_height="wrap_content"
                     android:layout_columnSpan="2">
 
-                    <ImageView
-                        android:id="@+id/profile_info"
+                    <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="4"
-                        android:scaleType="center"
-                        android:src="@drawable/ic_device_info" />
+                        android:columnCount="6"
+                        android:horizontalSpacing="5sp"
+                        android:numColumns="auto_fit"
+                        android:orientation="horizontal"
+                        android:stretchMode="columnWidth"
+                        android:textAlignment="gravity"
+                        android:theme="@style/theme_param_setting"
+                        android:verticalSpacing="25sp">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_weight="6"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/profile_ip"
+                        <ImageView
+                            android:id="@+id/profile_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18dp" />
+                            android:layout_rowSpan="3"
+                            android:layout_columnSpan="2"
+                            android:layout_gravity="center"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_device_info" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_rowSpan="3"
+                            android:layout_columnSpan="4"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/profile_mac"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="miss mac"
-                            android:textColor="@color/text_gray"
-                            android:textSize="16dp" />
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/profile_ip"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="left|center"
+                                android:text=""
+                                android:textSize="18dp" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@id/tab_param_setting"
+                                android:layout_gravity="fill"
+                                android:background="#ebeaea" />
+                            <TextView
+                                android:id="@+id/profile_mac"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textSize="18dp" />
+                        </LinearLayout>
+                    </GridLayout>
                 </LinearLayout>
 
                 <View
@@ -125,7 +123,6 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="2"
                     android:layout_gravity="fill"
                     android:background="#ebeaea" />

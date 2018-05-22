@@ -13,4 +13,5 @@
     <color name="udm_green_light">#4bc569</color>
     <color name="udm_nav_color">#04c7d5</color>
     <color name="udm_dgreen_color">#e0f1ee</color>
+    <color name="udm_list_item_select_color">#ecf6eb</color>
 </resources>

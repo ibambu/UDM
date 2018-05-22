@@ -1,6 +1,7 @@
 package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
@@ -9,8 +10,10 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +37,7 @@ import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
 import com.ibamb.udm.security.AECryptStrategy;
 import com.ibamb.udm.security.ICryptStrategy;
 import com.ibamb.udm.task.UdmInitAsyncTask;
+import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -98,15 +104,12 @@ public class MainActivity extends AppCompatActivity {
         //设置右上角的填充菜单
         mToolbar.inflateMenu(R.menu.tool_bar_menu);
         //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //绑定菜单点击事件
         mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this));
 
-        //沉静式工具栏,将任务栏的背景改为与Toolbar背景一致.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
+        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);//修改任务栏背景颜色
+
         //默认显示第一个界面
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         tabDeviceList.setOnClickListener(bottomMenuClickListener);
         tabSetting.setOnClickListener(bottomMenuClickListener);
         tabDeviceList.requestFocus();
+        tabDeviceList.setSelected(true);
         //初始化应用基础数据
         AssetManager mAssetManger = getAssets();
         UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask();
@@ -198,4 +202,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onPrepareOptionsPanel(view, menu);
     }
+
+
 }

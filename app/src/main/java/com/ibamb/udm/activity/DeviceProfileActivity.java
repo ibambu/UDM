@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
+import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private Context currentContext;
 
     private TextView back;
+    private TextView commit;
+    private TextView title;
 
     private ImageView icSettingIp;
 
@@ -100,6 +104,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_profile);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");
@@ -116,6 +121,13 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        commit = findViewById(R.id.do_commit);
+        commit.setText("OK");
+
+
+        title = findViewById(R.id.title);
+        title.setText("Device Profile");
 
         vSettingIP = findViewById(R.id.profile_ip_setting);
         vSettingConnect = findViewById(R.id.profile_connect_setting);

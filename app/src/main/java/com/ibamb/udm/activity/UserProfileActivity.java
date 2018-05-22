@@ -14,6 +14,7 @@ import com.ibamb.udm.core.TryUser;
 import com.ibamb.udm.security.AECryptStrategy;
 import com.ibamb.udm.security.DefualtECryptValue;
 import com.ibamb.udm.security.ICryptStrategy;
+import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,6 +76,8 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+
         currentView = getWindow().getDecorView();
         filesDir = getFilesDir();
         try {
@@ -117,7 +120,6 @@ public class UserProfileActivity extends AppCompatActivity {
                         outputStream.write(content.getBytes());//写入新文件
 
                     } catch (Exception e) {
-                        e.printStackTrace();
                         Log.e(this.getClass().getName(), e.getMessage());
                     } finally {
                         if (outputStream != null) {

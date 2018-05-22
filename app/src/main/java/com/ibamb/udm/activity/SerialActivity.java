@@ -9,11 +9,13 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.beans.ChannelParameter;
 import com.ibamb.udm.beans.ParameterItem;
+import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.util.TaskBarQuiet;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class SerialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
         channelId = bundle.getString("CHNL_ID");

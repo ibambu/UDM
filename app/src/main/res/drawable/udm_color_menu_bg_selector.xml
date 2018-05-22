@@ -4,11 +4,11 @@
     <item android:state_selected="true">
         <shape>
             <!-- 设置背景填充色为黑色 -->
-            <solid android:color="@color/udm_gree_light"/>
+            <solid android:color="@color/udm_nav_color"/>
             <!-- 设置边框宽度为1dp，边框颜色为白色 -->
-            <stroke android:width="1dp" android:color="@android:color/white" />
+            <!--<stroke android:width="1dp" android:color="@android:color/white" />-->
             <!-- 设置按钮圆角半径为5dp -->
-            <corners android:radius="5dp" />
+            <!--<corners android:radius="5dp" />-->
             <!-- 设置按钮中间文字距上下左右都为10dp的间距 -->
             <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
         </shape>
@@ -19,9 +19,9 @@
             <!-- 设置背景填充色为白色 -->
             <solid android:color="@android:color/white"/>
             <!-- 设置边框宽度为1dp，边框颜色为黑色 -->
-            <!--<stroke android:width="1dp" android:color="@android:color/black" />-->
+            <!--<stroke android:width="1dp" android:color="@android:color/white" />-->
             <!-- 设置按钮圆角半径为5dp -->
-            <corners android:radius="1dp" />
+            <!--<corners android:radius="1dp" />-->
             <!-- 设置按钮中间文字距上下左右都为10dp的间距 -->
             <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
         </shape>

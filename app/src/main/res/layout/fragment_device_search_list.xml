@@ -14,12 +14,12 @@
         android:cacheColorHint="@android:color/white"
         android:divider="@color/transparent"
         android:dividerHeight="1dp"
-        android:showDividers="middle"
         android:fadingEdge="none"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
-        android:listSelector="@color/transparent"
+        android:listSelector="@color/udm_list_item_select_color"
         android:scrollbars="horizontal|vertical"
+        android:showDividers="middle"
         android:transcriptMode="alwaysScroll" />
     <TextView
         android:id="@+id/search_notice_info"
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@color/float_button_color"
+        app:backgroundTint="@color/udm_nav_color"
         app:elevation="5dp"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 </android.support.design.widget.CoordinatorLayout>

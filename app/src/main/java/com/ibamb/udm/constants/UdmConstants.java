@@ -53,14 +53,16 @@ public class UdmConstants {
     public static final String UDM_DEFAULT_CHNL = "1";
     public static final String UDM_IP_SETTING_CHNL = "0";
 
-    public static final String UDM_SWITCH_ON="1";
-    public static final String UDM_SWITCH_OFF="0";
+    public static final String UDM_SWITCH_ON = "1";
+    public static final String UDM_SWITCH_OFF = "0";
 
 
-    public static final int UDM_PARAM_TYPE_NUMBER=1;
-    public static final int UDM_PARAM_TYPE_IPADDR=2;
-    public static final int UDM_PARAM_TYPE_TIME=3;
-    public static final int UDM_PARAM_TYPE_CHAR=4;
+    public static final int UDM_PARAM_TYPE_NUMBER = 1;
+    public static final int UDM_PARAM_TYPE_IPADDR = 2;
+    public static final int UDM_PARAM_TYPE_TIME = 3;
+    public static final int UDM_PARAM_TYPE_CHAR = 4;
     //预留帐号文件
-    public static final String TRY_USER_FILE="tryusr.txt";
+    public static final String TRY_USER_FILE = "tryusr.txt";
+
+    public static final int TASK_BAR_COLOR = 0xFF04C7D5;
 }
