@@ -43,6 +43,7 @@ public class ReplyFrameParser implements IParser {
                         i + 7 + information.getLength()
                                 - UdmConstants.UDM_TYPE_LENGTH - UdmConstants.UDM_SUB_FRAME_LENGTH);
                 int dataLength = dataBytes.length;//实际参数取值长度
+
                 /**
                  * 对于长度不超过4个字节的参数先按照数值类型处理，超过4个字节的则根据字节则按照字符文本处理。
                  */
@@ -57,7 +58,21 @@ public class ReplyFrameParser implements IParser {
                         break;
                     }
                     case 4: {
-                        information.setData(String.valueOf(DataTypeConvert.bytes2int(dataBytes)));
+
+                        if(parameter.getCovertType()!=UdmConstants.UDM_PARAM_TYPE_CHAR){
+                            information.setData(String.valueOf(DataTypeConvert.bytes2int(dataBytes)));
+                        }else{
+                            //有些参数存储IP地址是当作字符串的。
+                            StringBuilder buffer = new StringBuilder();
+                            for(int k=0;k<dataLength;k++){
+                                if(dataBytes[k]!=0){
+                                    char c = (char)dataBytes[k];
+                                    buffer.append(c);
+                                }
+                            }
+                            information.setData(buffer.toString());
+                        }
+
                         break;
                     }
                     default: {

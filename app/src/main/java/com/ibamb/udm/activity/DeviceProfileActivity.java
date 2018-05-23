@@ -109,8 +109,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");
         mac = (String) bundle.get("HOST_MAC");
-        TextView vIp = findViewById(R.id.profile_ip);
-        TextView vMac = findViewById(R.id.profile_mac);
+        TextView vIp = findViewById(R.id.host_ip);
+        TextView vMac = findViewById(R.id.host_mac);
         vIp.setText(ip);
         vMac.setText(mac);
 

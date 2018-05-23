@@ -46,7 +46,7 @@
                     android:gravity="right|center"
                     android:tag="@string/tag_basic_web_console"
                     android:textOff="off"
-                    android:textOn="on" />
+                    android:textOn="on"/>
 
                 <View
                     android:layout_width="match_parent"

@@ -38,7 +38,7 @@ public class AECryptStrategy implements ICryptStrategy {
             /**
              * 2.按128位随机源初始化密钥
              */
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            SecureRandom random = SecureRandom.getInstance("AES");
             random.setSeed(key.getBytes());
             kgen.init(DefualtECryptValue.ERYPT_LENGTH, random);
             /**
@@ -53,11 +53,11 @@ public class AECryptStrategy implements ICryptStrategy {
             /**
              * 6.根据指定算法AES自成密码器
              */
-            Cipher cipher = Cipher.getInstance(KEY_AES);// 创建密码器
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");// 创建密码器
             /**
              * 7.初始化密码器，对明文加密。
              */
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec,new IvParameterSpec(new byte[cipher.getBlockSize()]));
             byte[] result = cipher.doFinal(content);
             resultStr = transByte2HexStr(result);
         } catch (Exception e) {
@@ -83,11 +83,11 @@ public class AECryptStrategy implements ICryptStrategy {
             /**
              * 1.构造密钥生成器，指定为AES算法,不区分大小写
              */
-            KeyGenerator kgen = KeyGenerator.getInstance(KEY_AES);
+            KeyGenerator kgen = KeyGenerator.getInstance("AES");
             /**
              * 2.按128位随机源初始化密钥
              */
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            SecureRandom random = SecureRandom.getInstance("AES");
             random.setSeed(key.getBytes());
             kgen.init(128, random);
             /**g
@@ -102,11 +102,11 @@ public class AECryptStrategy implements ICryptStrategy {
             /**
              * 6.根据指定算法AES自成密码器
              */
-            Cipher cipher = Cipher.getInstance(KEY_AES);// 创建密码器
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");// 创建密码器
             /**
              * 7.初始化密码器，对密文解密。
              */
-            cipher.init(Cipher.DECRYPT_MODE, keySpec);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec,new IvParameterSpec(new byte[cipher.getBlockSize()]));
             byte[] result = cipher.doFinal(content);
             resultStr = new String(result, DefualtECryptValue.CHARSET);
         } catch (Exception e) {

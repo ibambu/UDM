@@ -1,6 +1,7 @@
 package com.ibamb.udm.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -49,15 +50,16 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             ICryptStrategy aes = new AECryptStrategy();
 
-            String content = strbuffer.toString();//aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
+            String content = strbuffer.toString();//aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);//strbuffer.toString();
             String[] tryUsers = content.split("&");
-            if(tryUsers.length>5){
-                ((EditText)findViewById(R.id.try_user1)).setText(tryUsers[0]);
-                ((EditText)findViewById(R.id.try_password1)).setText(tryUsers[1]);
-                ((EditText)findViewById(R.id.try_user2)).setText(tryUsers[2]);
-                ((EditText)findViewById(R.id.try_password2)).setText(tryUsers[3]);
-                ((EditText)findViewById(R.id.try_user3)).setText(tryUsers[4]);
-                ((EditText)findViewById(R.id.try_password3)).setText(tryUsers[5]);
+            int count = 0;
+            for(int i=0;i<tryUsers.length;i++){
+                if(i%2==0){
+                    count++;
+                    ((EditText)currentView.findViewWithTag("try_user"+(count))).setText(tryUsers[i]);
+                }else {
+                    ((EditText)currentView.findViewWithTag("try_password"+(count))).setText(tryUsers[i]);
+                }
             }
         } catch (Exception e) {
             Log.e(this.getClass().getName(), e.getMessage());
@@ -94,6 +96,7 @@ public class UserProfileActivity extends AppCompatActivity {
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    boolean isSuccess = true;
                     FileOutputStream outputStream = null;
                     try {
                         String userName1 = ((EditText) currentView.findViewById(R.id.try_user1)).getText().toString();
@@ -120,6 +123,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         outputStream.write(content.getBytes());//写入新文件
 
                     } catch (Exception e) {
+                        isSuccess = false;
                         Log.e(this.getClass().getName(), e.getMessage());
                     } finally {
                         if (outputStream != null) {
@@ -130,6 +134,9 @@ public class UserProfileActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    String notice = isSuccess? "successful.":"fail";
+                    Snackbar.make(currentView.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
             });
             //设置标题
@@ -146,6 +153,7 @@ public class UserProfileActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e(this.getClass().getName(), e.getMessage());
         }
     }

@@ -88,11 +88,19 @@ public class ParamWriteEncoder implements IEncoder {
                             break;
                         }
                         case 4: {
-                            byte[] dataBytes = DataTypeConvert.int2bytes((int) (Long.parseLong(data)));
-                            byteFrame[pos++] = dataBytes[0];
-                            byteFrame[pos++] = dataBytes[1];
-                            byteFrame[pos++] = dataBytes[2];
-                            byteFrame[pos++] = dataBytes[3];
+                            if(convertType!=UdmConstants.UDM_PARAM_TYPE_CHAR){
+                                byte[] dataBytes = DataTypeConvert.int2bytes((int) (Long.parseLong(data)));
+                                byteFrame[pos++] = dataBytes[0];
+                                byteFrame[pos++] = dataBytes[1];
+                                byteFrame[pos++] = dataBytes[2];
+                                byteFrame[pos++] = dataBytes[3];
+                            }else{
+                                //有些参数会把IP地址当作字符串存储
+                                char[] cData = data.toCharArray();
+                                for (int k = 0; k < cData.length; k++) {
+                                    byteFrame[pos++] = (byte) cData[k];
+                                }
+                            }
                             break;
                         }
                         case 8: {

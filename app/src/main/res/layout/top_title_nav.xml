@@ -14,7 +14,7 @@
             android:layout_weight="1"
             android:height="45dp"
             android:gravity="center"
-            android:text="COLSE"
+            android:text="BACK"
             android:textStyle="bold"
             android:textColor="@android:color/white" />
         <TextView

@@ -52,44 +52,93 @@
                         android:orientation="horizontal"
                         android:stretchMode="columnWidth"
                         android:textAlignment="gravity"
-                        android:theme="@style/theme_param_setting"
                         android:verticalSpacing="25sp">
-
-                        <ImageView
-                            android:id="@+id/profile_info"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_rowSpan="3"
-                            android:layout_columnSpan="2"
-                            android:layout_gravity="center"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_device_info" />
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_rowSpan="3"
-                            android:layout_columnSpan="4"
-                            android:orientation="vertical">
+                            android:layout_columnSpan="3"
+                            android:layout_gravity="fill"
+                            android:layout_marginLeft="2sp"
+                            android:layout_marginRight="2sp"
+                            android:height="45dp"
+                            android:gravity="left|center"
+                            android:text="IP" />
 
-                            <TextView
-                                android:id="@+id/profile_ip"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="left|center"
-                                android:text=""
-                                android:textSize="18dp" />
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_above="@id/tab_param_setting"
-                                android:layout_gravity="fill"
-                                android:background="#ebeaea" />
-                            <TextView
-                                android:id="@+id/profile_mac"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textSize="18dp" />
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/host_ip"
+                            android:layout_width="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_gravity="fill"
+                            android:layout_marginLeft="2sp"
+                            android:layout_marginRight="2sp"
+                            android:gravity="left|center"
+                            android:height="45dp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:layout_columnSpan="6"
+                            android:layout_gravity="fill"
+                            android:background="@android:color/white" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_gravity="fill"
+                            android:layout_marginLeft="2sp"
+                            android:layout_marginRight="2sp"
+                            android:height="45dp"
+                            android:gravity="left|center"
+                            android:text="MAC" />
+
+                        <TextView
+                            android:id="@+id/host_mac"
+                            android:layout_width="wrap_content"
+                            android:layout_columnSpan="3"
+                            android:layout_gravity="fill"
+                            android:layout_marginLeft="2sp"
+                            android:layout_marginRight="2sp"
+                            android:gravity="left|center"
+                            android:height="45dp" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="4dp"
+                            android:layout_columnSpan="6"
+                            android:layout_gravity="fill"
+                            android:background="@android:color/white" />
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/profile_info"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_rowSpan="3"-->
+                            <!--android:layout_columnSpan="2"-->
+                            <!--android:layout_gravity="center"-->
+                            <!--android:scaleType="center"-->
+                            <!--android:src="@drawable/ic_device_info" />-->
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_rowSpan="3"-->
+                            <!--android:layout_columnSpan="4"-->
+                            <!--android:orientation="vertical">-->
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/profile_ip"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:gravity="left|center"-->
+                                <!--android:text=""-->
+                                <!--android:textSize="18dp" />-->
+                            <!--<View-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_above="@id/tab_param_setting"-->
+                                <!--android:layout_gravity="fill"-->
+                                <!--android:background="#ebeaea" />-->
+                            <!--<TextView-->
+                                <!--android:id="@+id/profile_mac"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text=""-->
+                                <!--android:textSize="18dp" />-->
+                        <!--</LinearLayout>-->
                     </GridLayout>
                 </LinearLayout>
 
