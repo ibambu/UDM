@@ -30,7 +30,7 @@ public class UserAuth {
      * @param devMac
      * @return
      */
-    public static boolean login(String userName, String password, String devMac) {
+    public static boolean login(String userName, String password, String devMac,String ip) {
         boolean isSuccessful = false;
         DatagramSocket socket = null;
         try {
@@ -80,7 +80,7 @@ public class UserAuth {
              * 发送认证
              */
             UDPMessageSender sender = new UDPMessageSender();
-            byte[] replyData = sender.sendByUnicast(loginFrame, 4);
+            byte[] replyData = sender.sendByUnicast(loginFrame, 4,ip);
             if(replyData==null){
                 isSuccessful = false;
             }else{

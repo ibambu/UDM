@@ -110,7 +110,7 @@ public class ConnectSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, channelId);
+            channelParameter = new ChannelParameter(mac, channelId,ip);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(CONNECT_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

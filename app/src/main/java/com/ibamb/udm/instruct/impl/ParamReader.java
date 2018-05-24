@@ -76,7 +76,7 @@ public class ParamReader implements IParamReader {
             //生成发送报文
             byte[] sendData = encoder.encode(instructFrame,UdmControl.GET_PARAMETERS);
             //发送报文
-            byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength);
+            byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength,channelParameter.getIp());
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
             if(replyFrame.getControl()==UdmControl.ACKNOWLEDGE){

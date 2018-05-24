@@ -104,7 +104,8 @@ public class ViewElementDataUtil {
      * @return
      */
     public static ChannelParameter getChangedData(View view, ChannelParameter oldChannelParam, String channelId) {
-        ChannelParameter channelParameter = new ChannelParameter(oldChannelParam.getMac(),oldChannelParam.getChannelId());
+        ChannelParameter channelParameter = new ChannelParameter(oldChannelParam.getMac(),
+                oldChannelParam.getChannelId(),oldChannelParam.getIp());
         List<Parameter> parameters = ParameterMapping.getChannelParamDef(Integer.parseInt(channelId));
         List<ParameterItem> items = new ArrayList<>();
         channelParameter.setParamItems(items);
@@ -161,7 +162,6 @@ public class ViewElementDataUtil {
                     break;
             }
             displayValue = parameter.getDisplayValue(value);
-            System.out.println("check changed param:"+oldChannelParam.getChannelId()+"--"+channelId);
             if (oldChannelParam != null && oldChannelParam.getChannelId().equals(channelId)) {
                 List<ParameterItem> paramItems = oldChannelParam.getParamItems();
                 for (ParameterItem parameterItem : paramItems) {
@@ -169,7 +169,6 @@ public class ViewElementDataUtil {
                     if(parameterItem.getParamId().equals(parameter.getId())
                             && !parameterItem.getDisplayValue().equals(displayValue)){
                         items.add(new ParameterItem(parameter.getId(), value));
-                        System.out.println(parameterItem.getParamId()+" changed ("+parameterItem.getDisplayValue()+"->"+displayValue+")");
                         break;
                     }
                 }

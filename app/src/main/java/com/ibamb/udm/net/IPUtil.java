@@ -6,6 +6,7 @@ package com.ibamb.udm.net;
  * and open the template in the editor.
  */
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +26,16 @@ public class IPUtil {
      * @return
      */
     public static boolean isIPAddress(String ipAddress){
-        if((ipAddress==null)||ipAddress.trim().length() < 7
-                || ipAddress.trim().length() > 15) {
-            return false;
+        boolean isIp = false;
+        try{
+           InetAddress address = InetAddress.getByName(ipAddress);
+           if(address!=null){
+               isIp =true;
+           }
+        }catch (Exception e){
+            isIp = false;
         }
-        //IP格式和范围
-        String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
-        Pattern pattern = Pattern.compile(rexp);
-        Matcher matcher = pattern.matcher(ipAddress);
-        return matcher.find();
-
+        return isIp;
     }
     /**
      * 把long类型的Ip转为一般Ip类型：xx.xx.xx.xx

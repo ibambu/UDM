@@ -1,9 +1,11 @@
 package com.ibamb.udm.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
@@ -13,6 +15,7 @@ import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
+import com.ibamb.udm.net.IPUtil;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -25,6 +28,7 @@ public class IPSettingActivity extends AppCompatActivity {
 
     private ChannelParameter channelParameter;
     private String mac;
+    private String ip;
     private View currentView;
 
     private TextView commit;
@@ -43,6 +47,7 @@ public class IPSettingActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
+        ip = bundle.getString("HOST_ADDRESS");
         currentView = getWindow().getDecorView();
 
         commit = findViewById(R.id.do_commit);
@@ -58,14 +63,25 @@ public class IPSettingActivity extends AppCompatActivity {
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,UdmConstants.UDM_IP_SETTING_CHNL);
-                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                task.execute(channelParameter,changedParam);
+                int errId = checkData();
+                if(errId==0){
+                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,UdmConstants.UDM_IP_SETTING_CHNL);
+                    ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
+                    task.execute(channelParameter,changedParam);
+                }else{
+                    EditText editText = findViewById(errId);
+                    editText.requestFocus();
+                    String notice = editText.getText().toString()+" is invalid.";
+                    Snackbar.make(v,  notice, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
 
         title=findViewById(R.id.title);
         title.setText("IP Setting");
+
+
     }
 
     @Override
@@ -73,7 +89,7 @@ public class IPSettingActivity extends AppCompatActivity {
         super.onStart();
         //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
         try {
-            channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL);
+            channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL,ip);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(IP_SETTING_PARAMS_TAG, UdmConstants.UDM_IP_SETTING_CHNL);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
@@ -91,8 +107,29 @@ public class IPSettingActivity extends AppCompatActivity {
 
     }
 
-    private void bindEvents(){
+    private int checkData(){
+        EditText ethIpAddress = ((EditText)findViewById(R.id.id_address));
+        EditText subnet = ((EditText)findViewById(R.id.id_subnet));
+        EditText gateway = ((EditText)findViewById(R.id.id_getway));
+        EditText dns1 = ((EditText)findViewById(R.id.id_dns_1));
+        EditText dns2 = ((EditText)findViewById(R.id.id_dns_2));
 
+        if(!IPUtil.isIPAddress(ethIpAddress.getText().toString())){
+           return R.id.id_address;
+        }
+        if(!IPUtil.isIPAddress(subnet.getText().toString())){
+            return R.id.id_subnet;
+        }
+        if(!IPUtil.isIPAddress(gateway.getText().toString())){
+            return R.id.id_getway;
+        }
+        if(!IPUtil.isIPAddress(dns1.getText().toString())){
+            return R.id.id_dns_1;
+        }
+        if(!IPUtil.isIPAddress(dns2.getText().toString())){
+            return R.id.id_dns_2;
+        }
+        return 0;
     }
 
 }

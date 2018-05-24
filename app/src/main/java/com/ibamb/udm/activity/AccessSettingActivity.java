@@ -26,6 +26,7 @@ public class AccessSettingActivity extends AppCompatActivity {
     private ChannelParameter channelParameter;
     private View currentView;
     private String mac;
+    private String ip;
     private String channelId;
 
 
@@ -43,6 +44,7 @@ public class AccessSettingActivity extends AppCompatActivity {
         TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
+        ip = bundle.getString("HOST_ADDRESS");
         channelId = bundle.getString("CHNL_ID");
         currentView = getWindow().getDecorView();
 
@@ -75,7 +77,7 @@ public class AccessSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try{
-            channelParameter = new ChannelParameter(mac,channelId);
+            channelParameter = new ChannelParameter(mac,channelId,ip);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(ACCESS_SETTING_PARAMS_TAG,channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

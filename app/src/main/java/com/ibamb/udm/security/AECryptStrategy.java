@@ -1,7 +1,9 @@
 package com.ibamb.udm.security;
 
+import android.os.Build;
 import android.util.Log;
 
+import java.net.InetAddress;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -154,6 +156,7 @@ public class AECryptStrategy implements ICryptStrategy {
     }
 
     public static void main(String[] args) throws Exception {
+
         AECryptStrategy aaa = new AECryptStrategy();
         String content = "{'repairPhone':'18547854787','customPhone':'12365478965','captchav':'58m7'}";
         System.out.println("加密前：" + content);

@@ -12,6 +12,7 @@ public class ChannelParameter {
 
     private boolean isSuccessful;
     private String mac;
+    private String ip;
     private String channelId;
     private List<ParameterItem> paramItems;
 
@@ -55,6 +56,21 @@ public class ChannelParameter {
         this.channelId = channelId;
         paramItems = new ArrayList<>();
     }
+
+    public ChannelParameter(String mac, String ip, String channelId) {
+        this.mac = mac;
+        this.ip = ip;
+        this.channelId = channelId;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
     public String getChannelId() {
         return channelId;
     }

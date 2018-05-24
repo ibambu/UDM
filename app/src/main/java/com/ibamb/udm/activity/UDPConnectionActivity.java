@@ -1,9 +1,11 @@
 package com.ibamb.udm.activity;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
@@ -13,6 +15,7 @@ import com.ibamb.udm.constants.UdmConstants;
 import com.ibamb.udm.core.ParameterMapping;
 import com.ibamb.udm.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
+import com.ibamb.udm.net.IPUtil;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -26,6 +29,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
     private View currentView;
     private String mac;
     private String channelId;
+    private String ip;
 
     private TextView commit;
     private TextView back;
@@ -51,6 +55,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
         getSupportActionBar();
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
+        ip = bundle.getString("HOST_ADDRESS");
         channelId = bundle.getString("CHNL_ID");
         currentView = getWindow().getDecorView();
 
@@ -58,9 +63,19 @@ public class UDPConnectionActivity extends AppCompatActivity {
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
-                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                task.execute(channelParameter,changedParam);
+                int errId =checkData();
+                if(errId==0){
+                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
+                    ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
+                    task.execute(channelParameter,changedParam);
+                }else {
+                    EditText editText = findViewById(errId);
+                    editText.requestFocus();
+                    String notice = editText.getText().toString() + " is invalid.";
+                    Snackbar.make(editText, notice, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
             }
         });
 
@@ -80,7 +95,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, channelId);
+            channelParameter = new ChannelParameter(mac, channelId,ip);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(UDP_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
@@ -99,5 +114,19 @@ public class UDPConnectionActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+    }
+
+    private int checkData() {
+        EditText remoteHost = ((EditText) findViewById(R.id.id_conn_udp_uni_host_ip0));
+        EditText multiAddress = ((EditText) findViewById(R.id.udm_conn_udp_mul_remote_ip));
+
+        if (!IPUtil.isIPAddress(remoteHost.getText().toString())) {
+            return R.id.id_conn_udp_uni_host_ip0;
+        }
+
+        if (!IPUtil.isIPAddress(multiAddress.getText().toString())) {
+            return R.id.udm_conn_udp_mul_remote_ip;
+        }
+        return 0;
     }
 }

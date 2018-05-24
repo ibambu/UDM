@@ -73,7 +73,7 @@ public class DeviceSearchListFragment extends Fragment {
                     if(tryUser==null){
                         continue;
                     }
-                    String[] loginInfo = {tryUser[0], tryUser[1], selectedMac};
+                    String[] loginInfo = {tryUser[0], tryUser[1], selectedMac,ip};
                     loginAsyncTask.execute(loginInfo);
                     trySuccess = loginAsyncTask.get();
                     if(trySuccess){
@@ -104,7 +104,7 @@ public class DeviceSearchListFragment extends Fragment {
                             String password = passwordView.getText().toString();
 
                             UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
-                            String[] loginInfo = {userName, password, selectedMac};
+                            String[] loginInfo = {userName, password, selectedMac,ip};
                             loginAsyncTask.execute(loginInfo);
 
                             try {

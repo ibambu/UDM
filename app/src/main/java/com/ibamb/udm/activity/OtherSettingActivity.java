@@ -25,6 +25,7 @@ public class OtherSettingActivity extends AppCompatActivity {
     private ChannelParameter channelParameter;
     private View currentView;
     private String mac;
+    private String ip;
     private String channelId;
 
     private TextView commit;
@@ -41,6 +42,7 @@ public class OtherSettingActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
+        ip = bundle.getString("HOST_ADDRESS");
         channelId = bundle.getString("CHNL_ID");
         currentView = getWindow().getDecorView();
 
@@ -72,7 +74,7 @@ public class OtherSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL);
+            channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL,ip);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(OTH_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

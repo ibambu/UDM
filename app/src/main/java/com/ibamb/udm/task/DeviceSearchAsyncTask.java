@@ -64,7 +64,13 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         mListView.setVisibility(View.VISIBLE);
         ListAdapter adapter = new InetAddressListAdapter(R.layout.item_device_layout, inflater, deviceList);
         mListView.setAdapter(adapter);
-        Snackbar.make(searchButton, "Device:" + String.valueOf(dataList.size()), Snackbar.LENGTH_LONG)
+        String notice ="";
+        if(dataList.size()==0){
+            notice = "Possible network delay. Please try again.";
+        }else{
+            notice = "Device:" + String.valueOf(dataList.size());
+        }
+        Snackbar.make(searchButton, notice, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         vSearchNotice.setVisibility(View.GONE);
     }

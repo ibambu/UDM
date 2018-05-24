@@ -26,6 +26,7 @@ public class SerialActivity extends AppCompatActivity {
     private ChannelParameter channelParameter;
     private View currentView;
     private String mac;
+    private String ip;
     private String channelId;
 
     private TextView commit;
@@ -44,7 +45,7 @@ public class SerialActivity extends AppCompatActivity {
         mac = bundle.getString("HOST_MAC");
         channelId = bundle.getString("CHNL_ID");
         currentView = getWindow().getDecorView();
-
+        ip = bundle.getString("HOST_ADDRESS");
         commit = findViewById(R.id.do_commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +71,7 @@ public class SerialActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try{
-            channelParameter = new ChannelParameter(mac, channelId);
+            channelParameter = new ChannelParameter(mac, channelId,ip);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(SERIAL_SETTING_PARAMS_TAG,channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

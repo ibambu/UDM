@@ -9,6 +9,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 /**
  * Created by luotao on 18-3-15.
@@ -55,9 +56,10 @@ public class UDPMessageSender {
      *
      * @param sendData
      * @param expectReplyLenth
+     * @param ip
      * @return
      */
-    public byte[] sendByUnicast(byte[] sendData, int expectReplyLenth) {
+    public byte[] sendByUnicast(byte[] sendData, int expectReplyLenth,String ip) {
         InetAddress address;
         byte[] recevBuffer = new byte[1024];
         byte[] recevData = null;

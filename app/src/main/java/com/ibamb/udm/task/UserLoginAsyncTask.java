@@ -3,6 +3,7 @@ package com.ibamb.udm.task;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.security.UserAuth;
@@ -27,11 +28,17 @@ public class UserLoginAsyncTask extends AsyncTask<String, Boolean, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... strings) {
-        String userName = strings[0];
-        String password = strings[1];
-        String mac = strings[2];
-        boolean isSuccess = UserAuth.login(userName, password, mac);
-        publishProgress(isSuccess);
+        boolean isSuccess = false;
+        try{
+            String userName = strings[0];
+            String password = strings[1];
+            String mac = strings[2];
+            String ip = strings[3];
+            isSuccess = UserAuth.login(userName, password, mac,ip);
+            publishProgress(isSuccess);
+        }catch (Exception e){
+            Log.e(this.getClass().getName(),e.getMessage());
+        }
         return isSuccess;
     }
 
