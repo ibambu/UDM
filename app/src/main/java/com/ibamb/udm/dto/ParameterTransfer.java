@@ -1,19 +1,11 @@
 package com.ibamb.udm.dto;
 
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Switch;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.instruct.beans.ChannelParamsID;
-import com.ibamb.udm.tag.UdmButtonTextEdit;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.instruct.beans.ChannelParamsID;
 import com.ibamb.udm.tag.UdmSpinner;
-
-import java.util.List;
 
 /**
  * Created by luotao on 18-3-18.

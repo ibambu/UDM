@@ -6,16 +6,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
-import com.ibamb.udm.net.IPUtil;
+import com.ibamb.udm.module.net.IPUtil;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -31,8 +32,8 @@ public class UDPConnectionActivity extends AppCompatActivity {
     private String channelId;
     private String ip;
 
-    private TextView commit;
-    private TextView back;
+    private ImageView commit;
+    private ImageView back;
     private TextView title;
 
     private static final String[] UDP_SETTING_PARAMS_TAG = {
@@ -95,7 +96,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, channelId,ip);
+            channelParameter = new ChannelParameter(mac, ip,channelId);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(UDP_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

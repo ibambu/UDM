@@ -6,16 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
-import com.ibamb.udm.net.IPUtil;
+import com.ibamb.udm.module.net.IPUtil;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -31,8 +32,8 @@ public class IPSettingActivity extends AppCompatActivity {
     private String ip;
     private View currentView;
 
-    private TextView commit;
-    private TextView back;
+    private ImageView commit;
+    private ImageView back;
     private TextView title;
 
     private static final String[] IP_SETTING_PARAMS_TAG = {"ETH_AUTO_OBTAIN_IP", "ETH_IP_ADDR",
@@ -66,6 +67,7 @@ public class IPSettingActivity extends AppCompatActivity {
                 int errId = checkData();
                 if(errId==0){
                     ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,UdmConstants.UDM_IP_SETTING_CHNL);
+                    changedParam.pinrtParam();
                     ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
                     task.execute(channelParameter,changedParam);
                 }else{
@@ -89,7 +91,7 @@ public class IPSettingActivity extends AppCompatActivity {
         super.onStart();
         //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
         try {
-            channelParameter = new ChannelParameter(mac, UdmConstants.UDM_IP_SETTING_CHNL,ip);
+            channelParameter = new ChannelParameter(mac, ip,UdmConstants.UDM_IP_SETTING_CHNL);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(IP_SETTING_PARAMS_TAG, UdmConstants.UDM_IP_SETTING_CHNL);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

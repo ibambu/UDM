@@ -1,19 +1,15 @@
 package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
@@ -21,21 +17,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.TryUser;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
-import com.ibamb.udm.security.AECryptStrategy;
-import com.ibamb.udm.security.ICryptStrategy;
+import com.ibamb.udm.module.security.AECryptStrategy;
+import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -98,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //将ActionBar位置改放Toolbar.
         mToolbar = (Toolbar) findViewById(R.id.udm_toolbar);
-        mToolbar.setTitle("udm");
+//        mToolbar.setTitle("udm");
         setSupportActionBar(mToolbar);
 
         //设置右上角的填充菜单

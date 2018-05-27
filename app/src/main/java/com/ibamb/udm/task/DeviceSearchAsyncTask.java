@@ -11,11 +11,10 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
-import com.ibamb.udm.beans.DeviceInfo;
-import com.ibamb.udm.search.DeviceSearch;
+import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.search.DeviceSearch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by luotao on 18-4-14.

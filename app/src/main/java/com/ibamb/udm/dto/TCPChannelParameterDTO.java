@@ -1,16 +1,9 @@
 package com.ibamb.udm.dto;
 
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
-import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.beans.TCPChannelParameter;
-import com.ibamb.udm.tag.UdmButtonTextEdit;
-import com.ibamb.udm.tag.UdmSpinner;
+import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.beans.TCPChannelParameter;
 
 import java.util.ArrayList;
 

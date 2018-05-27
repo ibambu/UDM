@@ -5,9 +5,9 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.instruct.IParamReader;
-import com.ibamb.udm.instruct.impl.ParamReader;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.instruct.IParamReader;
+import com.ibamb.udm.module.instruct.impl.ParamReader;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
 /**

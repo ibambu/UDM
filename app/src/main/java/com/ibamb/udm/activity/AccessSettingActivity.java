@@ -4,14 +4,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
@@ -30,8 +31,8 @@ public class AccessSettingActivity extends AppCompatActivity {
     private String channelId;
 
 
-    private TextView commit;
-    private TextView back;
+    private ImageView commit;
+    private ImageView back;
     private TextView title;
 
 
@@ -77,7 +78,7 @@ public class AccessSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try{
-            channelParameter = new ChannelParameter(mac,channelId,ip);
+            channelParameter = new ChannelParameter(mac,ip,channelId);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(ACCESS_SETTING_PARAMS_TAG,channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

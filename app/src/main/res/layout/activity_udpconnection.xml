@@ -15,7 +15,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/udm_base_bgcolor">
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -28,6 +29,7 @@
                 android:theme="@style/theme_param_setting"
                 android:verticalSpacing="25sp"
                 android:focusable="true"
+                android:background="@android:color/white"
                 android:focusableInTouchMode="true">
 
 
@@ -58,7 +60,7 @@
                     android:layout_height="1dp"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+                    android:background="@color/udm_base_bgcolor" />
 
                 <TextView
                     android:id="@+id/id_conn_udp_tmp_host_en"
@@ -85,7 +87,7 @@
                     android:layout_height="1dp"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+                    android:background="@color/udm_base_bgcolor" />
 
                 <TextView
                     android:layout_columnSpan="3"
@@ -119,7 +121,7 @@
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
                     android:height="30dp"
-                    android:background="#ebeaea"
+                    android:background="@color/udm_base_bgcolor"
                     android:gravity="left|center"
                     android:text="Unicast Setting"
                     android:typeface="serif" />
@@ -193,7 +195,7 @@
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
                     android:height="30dp"
-                    android:background="#ebeaea"
+                    android:background="@color/udm_base_bgcolor"
                     android:gravity="left|center"
                     android:text="Multicast Setting"
                     android:typeface="serif" />
@@ -254,22 +256,15 @@
                     android:height="50dp"
                     android:background="@drawable/border_background"
                     android:tag="@string/tag_conn_udp_mul_remote_ip" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="@android:color/white" />
-                <View
-                    android:id="@+id/anchor"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+
+
             </GridLayout>
         </ScrollView>
+        <View
+            android:id="@+id/anchor"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_gravity="fill"
+            android:background="@color/udm_base_bgcolor" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

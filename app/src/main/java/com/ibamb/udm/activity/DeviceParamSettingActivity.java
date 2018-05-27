@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.fragment.ConnectSettingFragment;
 import com.ibamb.udm.fragment.IPSettingFragment;
-import com.ibamb.udm.net.UdmDatagramSocket;
+import com.ibamb.udm.module.net.UdmDatagramSocket;
 
 import java.net.DatagramSocket;
 

@@ -9,258 +9,224 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:background="@color/udm_base_bgcolor">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/udm_nav_color"
             android:orientation="horizontal">
-
             <include layout="@layout/top_title_nav" />
-
         </LinearLayout>
-
-        <ScrollView
-            android:id="@+id/device_profile_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <GridLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:theme="@style/udm_device_profile_style">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:horizontalSpacing="5sp"
-                android:numColumns="auto_fit"
-                android:orientation="horizontal"
-                android:stretchMode="columnWidth"
-                android:textAlignment="gravity"
-                android:theme="@style/theme_param_setting"
-                android:verticalSpacing="25sp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                android:background="@android:color/white">
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_columnSpan="2">
+                    android:layout_weight="1"
+                    android:height="45dp"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="5dp"
+                    android:text="IP" />
+                <TextView
+                    android:id="@+id/host_ip"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="left|center"
+                    android:height="45dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="left|center"
+                    android:text="MAC" />
+                <TextView
+                    android:id="@+id/host_mac"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="left|center"
+                    android:height="45dp"/>
+            </LinearLayout>
 
-                    <GridLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:columnCount="6"
-                        android:horizontalSpacing="5sp"
-                        android:numColumns="auto_fit"
-                        android:orientation="horizontal"
-                        android:stretchMode="columnWidth"
-                        android:textAlignment="gravity"
-                        android:verticalSpacing="25sp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_columnSpan="3"
-                            android:layout_gravity="fill"
-                            android:layout_marginLeft="2sp"
-                            android:layout_marginRight="2sp"
-                            android:height="45dp"
-                            android:gravity="left|center"
-                            android:text="IP" />
-
-                        <TextView
-                            android:id="@+id/host_ip"
-                            android:layout_width="wrap_content"
-                            android:layout_columnSpan="3"
-                            android:layout_gravity="fill"
-                            android:layout_marginLeft="2sp"
-                            android:layout_marginRight="2sp"
-                            android:gravity="left|center"
-                            android:height="45dp"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="4dp"
-                            android:layout_columnSpan="6"
-                            android:layout_gravity="fill"
-                            android:background="@android:color/white" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_columnSpan="3"
-                            android:layout_gravity="fill"
-                            android:layout_marginLeft="2sp"
-                            android:layout_marginRight="2sp"
-                            android:height="45dp"
-                            android:gravity="left|center"
-                            android:text="MAC" />
-
-                        <TextView
-                            android:id="@+id/host_mac"
-                            android:layout_width="wrap_content"
-                            android:layout_columnSpan="3"
-                            android:layout_gravity="fill"
-                            android:layout_marginLeft="2sp"
-                            android:layout_marginRight="2sp"
-                            android:gravity="left|center"
-                            android:height="45dp" />
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="4dp"
-                            android:layout_columnSpan="6"
-                            android:layout_gravity="fill"
-                            android:background="@android:color/white" />
-
-                        <!--<ImageView-->
-                            <!--android:id="@+id/profile_info"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_rowSpan="3"-->
-                            <!--android:layout_columnSpan="2"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:scaleType="center"-->
-                            <!--android:src="@drawable/ic_device_info" />-->
-                        <!--<LinearLayout-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_rowSpan="3"-->
-                            <!--android:layout_columnSpan="4"-->
-                            <!--android:orientation="vertical">-->
-
-                            <!--<TextView-->
-                                <!--android:id="@+id/profile_ip"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:gravity="left|center"-->
-                                <!--android:text=""-->
-                                <!--android:textSize="18dp" />-->
-                            <!--<View-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:layout_above="@id/tab_param_setting"-->
-                                <!--android:layout_gravity="fill"-->
-                                <!--android:background="#ebeaea" />-->
-                            <!--<TextView-->
-                                <!--android:id="@+id/profile_mac"-->
-                                <!--android:layout_width="match_parent"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text=""-->
-                                <!--android:textSize="18dp" />-->
-                        <!--</LinearLayout>-->
-                    </GridLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_height="10dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="2"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white">
 
                 <TextView
                     android:id="@+id/profile_ip_setting"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:height="45dp"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="5dp"
                     android:text="IP Setting" />
 
                 <ImageView
                     android:id="@+id/profile_ip_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginRight="120dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
                     android:scaleType="fitEnd"
                     android:src="@drawable/udm_right_navg" />
-
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_columnSpan="2"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
-
-                <TextView
-                    android:id="@+id/profile_access_setting"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-
-                    android:layout_marginTop="15dp"
-                    android:text="Access Setting" />
-
-                <ImageView
-                    android:id="@+id/profile_access_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginRight="120dp"
-                    android:layout_marginTop="15dp"
-                    android:scaleType="fitEnd"
-                    android:src="@drawable/udm_right_navg" />
-
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="2"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
-
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white">
                 <TextView
                     android:id="@+id/profile_connect_setting"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginTop="15dp"
-                    android:text="Connect Setting" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:height="45dp"
+                    android:gravity="left|center"
+                    android:text="Connect Setting"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/arial"/>
 
                 <ImageView
                     android:id="@+id/profile_connect_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginRight="120dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
                     android:scaleType="fitEnd"
                     android:src="@drawable/udm_right_navg" />
-
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="2"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white">
 
                 <TextView
-                    android:id="@+id/profile_other_setting"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginTop="15dp"
-                    android:text="Other Setting" />
-
+                    android:id="@+id/profile_access_setting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:height="45dp"
+                    android:gravity="left|center"
+                    android:layout_marginLeft="5dp"
+                    android:text="Access Setting" />
                 <ImageView
-                    android:id="@+id/profile_other_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_column="1"
-                    android:layout_gravity="fill"
-                    android:layout_marginRight="120dp"
-                    android:layout_marginTop="15dp"
+                    android:id="@+id/profile_access_more"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
                     android:scaleType="fitEnd"
                     android:src="@drawable/udm_right_navg" />
+            </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="2"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
-            </GridLayout>
-        </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white">
+                <TextView
+                    android:id="@+id/profile_other_setting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="left|center"
+                    android:text="Other Setting" />
+                <ImageView
+                    android:id="@+id/profile_other_more"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/udm_right_navg" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!--<ScrollView-->
+            <!--android:id="@+id/device_profile_list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+
+            <!--<GridLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:columnCount="2"-->
+                <!--android:horizontalSpacing="5sp"-->
+                <!--android:numColumns="auto_fit"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:stretchMode="columnWidth"-->
+                <!--android:textAlignment="gravity"-->
+                <!--android:theme="@style/theme_param_setting"-->
+                <!--android:verticalSpacing="25sp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_columnSpan="2">-->
+
+                    <!--<GridLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:columnCount="6"-->
+                        <!--android:horizontalSpacing="5sp"-->
+                        <!--android:numColumns="auto_fit"-->
+                        <!--android:orientation="horizontal"-->
+                        <!--android:stretchMode="columnWidth"-->
+                        <!--android:textAlignment="gravity"-->
+                        <!--android:verticalSpacing="25sp">-->
+                        <!--<View-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="2dp"-->
+                            <!--android:layout_columnSpan="6"-->
+                            <!--android:layout_gravity="fill"-->
+                            <!--android:background="@color/udm_base_bgcolor" />-->
+
+                    <!--</GridLayout>-->
+                <!--</LinearLayout>-->
+
+
+
+                <!--<View-->
+
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="25dp"-->
+                    <!--android:layout_above="@id/tab_param_setting"-->
+                    <!--android:layout_columnSpan="2"-->
+                    <!--android:layout_gravity="fill"-->
+                    <!--android:background="@color/udm_base_bgcolor" />-->
+
+
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:minHeight="@dimen/activity_vertical_margin"-->
+                    <!--android:layout_above="@id/tab_param_setting"-->
+                    <!--android:layout_columnSpan="2"-->
+                    <!--android:layout_gravity="fill"-->
+                    <!--android:background="@color/udm_base_bgcolor" />-->
+            <!--</GridLayout>-->
+        <!--</ScrollView>-->
     </LinearLayout>
 
 

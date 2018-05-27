@@ -1,15 +1,9 @@
 package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.ibamb.udm.net.UdmDatagramSocket;
-import com.ibamb.udm.security.UserAuth;
-
-import java.net.DatagramSocket;
-import java.util.Arrays;
+import com.ibamb.udm.module.security.UserAuth;
 
 /**
  * Created by luotao on 18-4-18.

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
 
 /**

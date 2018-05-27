@@ -7,15 +7,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 
-import com.ibamb.udm.beans.DeviceInfo;
-import com.ibamb.udm.search.DeviceSearch;
+import com.ibamb.udm.module.beans.DeviceInfo;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.ibamb.udm.search.DeviceSearch.searchDevice;
+import static com.ibamb.udm.module.search.DeviceSearch.searchDevice;
 
 public class DeviceSearchService extends Service {
 

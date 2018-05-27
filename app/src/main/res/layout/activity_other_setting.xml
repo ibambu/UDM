@@ -9,27 +9,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/udm_base_bgcolor"
         android:orientation="vertical">
 
         <include layout="@layout/top_title_nav" />
 
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
 
             <GridLayout
                 android:id="@+id/GridLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/white"
                 android:columnCount="6"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:horizontalSpacing="5sp"
                 android:numColumns="auto_fit"
                 android:orientation="horizontal"
                 android:stretchMode="columnWidth"
                 android:theme="@style/theme_param_setting"
-                android:verticalSpacing="25sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:verticalSpacing="25sp">
 
                 <TextView
                     android:layout_height="40dp"
@@ -67,33 +71,40 @@
                     android:gravity="left|center"
                     android:text="Local Time" />
 
-                <EditText
-                    android:id="@+id/id_local_time"
-                    android:layout_height="40dp"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="3"
                     android:layout_marginLeft="2sp"
-                    android:layout_marginRight="2sp"
-                    android:background="@drawable/border_background"
-                    android:gravity="left|center"
-                    android:tag="@string/tag_basic_rtc_time" />
+                    android:layout_marginRight="2sp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="@android:color/white" />
+                    <EditText
+                        android:id="@+id/id_local_date"
+                        android:layout_height="40dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center"
+                        android:inputType="datetime"
+                        android:tag="@string/tag_basic_rtc_time" />
 
-                <View
-                    android:id="@+id/anchor"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+                    <EditText
+                        android:id="@+id/id_local_time"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="left|center"
+                        android:inputType="datetime"
+                        android:tag="@string/tag_basic_rtc_time" />
+                </LinearLayout>
 
             </GridLayout>
         </ScrollView>
+
+        <View
+            android:id="@+id/anchor"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_gravity="fill"
+            android:background="@color/udm_base_bgcolor" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

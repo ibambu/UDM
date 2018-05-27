@@ -3,7 +3,7 @@ package com.ibamb.udm.listener;
 import android.util.Log;
 import android.view.View;
 
-import com.ibamb.udm.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 
 public class UdmReloadParamsClickListener implements View.OnClickListener{

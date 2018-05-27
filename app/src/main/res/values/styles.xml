@@ -4,7 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@android:color/holo_blue_light</item>
         <!-- 加入toolbar溢出【弹出】菜单的风格 -->
         <!--<item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>-->
     </style>
@@ -37,11 +37,11 @@
     </style>
 
     <style name="theme_param_setting" parent="@style/AppTheme">
-        <item name="colorButtonNormal">#66CCCC</item><!--正常状态下的颜色  -->
-        <item name="colorControlHighlight">#33CC99</item><!--覆盖色，按下的颜色  -->
+        <!--<item name="colorButtonNormal">#FFECECEC</item>&lt;!&ndash;正常状态下的颜色  &ndash;&gt;-->
+        <!--<item name="colorControlHighlight">#666666</item>&lt;!&ndash;覆盖色，按下的颜色  &ndash;&gt;-->
         <item name="android:textSize">14sp</item>
         <item name="android:padding">1sp</item>
-        <item name="android:typeface">serif</item>
+        <item name="android:typeface">normal</item>
     </style>
 
     <style name="theme_title_bar_style" parent="@style/AppTheme">
@@ -50,5 +50,14 @@
         <item name="android:textSize">18sp</item>
         <item name="android:padding">1sp</item>
         <!--<item name="android:typeface">monospace</item>-->
+    </style>
+
+    <style name="udm_device_profile_style" parent="@style/AppTheme">
+        <item name="android:textSize">14sp</item>
+        <item name="android:typeface">normal</item>
+    </style>
+    <style name="udm_style_list_item" parent="@style/udm_device_profile_style">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:background">@android:color/white</item>
     </style>
 </resources>

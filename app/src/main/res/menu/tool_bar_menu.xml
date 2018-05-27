@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/udm_search"
-        android:title="search"
-        app:showAsAction="always"
-        app:queryBackground="@android:color/white"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+    <!--<item android:id="@+id/udm_search"-->
+        <!--android:title="search"-->
+        <!--app:showAsAction="always"-->
+        <!--app:queryBackground="@android:color/white"-->
+        <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
     <!-- 同级的item有几个则在toolbar右边显示几个 -->
     <!--
         id:之后设置点击事件的时候找到当前菜单项的唯一标识
@@ -28,6 +28,11 @@
                     android:id="@+id/id_menu_user_profile"
                     android:title="User Profile"
                     app:showAsAction="ifRoom" />
+                <item
+                    android:id="@+id/id_spec_search"
+                    android:title="Specially Search"
+                    app:showAsAction="ifRoom" />
+
                 <item
                     android:id="@+id/id_menu_or_code"
                     android:title="OR Code"

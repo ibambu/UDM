@@ -7,14 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.TryUser;
-import com.ibamb.udm.security.AECryptStrategy;
-import com.ibamb.udm.security.DefualtECryptValue;
-import com.ibamb.udm.security.ICryptStrategy;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.TryUser;
+import com.ibamb.udm.module.security.AECryptStrategy;
+import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;
@@ -23,12 +23,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private TextView back;
-    private TextView save;
+    private ImageView back;
+    private ImageView save;
     private TextView title;
     private Button loginCloud;
 

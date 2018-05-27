@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#ff4081</color>
+    <color name="colorAccent">#64dd17</color>
 
     <color name="text_gray">#E0E0E0</color>
     <color name="text_blue">#2a5caa</color>
@@ -14,4 +14,7 @@
     <color name="udm_nav_color">#04c7d5</color>
     <color name="udm_dgreen_color">#e0f1ee</color>
     <color name="udm_list_item_select_color">#ecf6eb</color>
+    <color name="udm_light_black">#fb303132</color>
+    <color name="udm_gray_light">#ececec</color>
+    <color name="udm_base_bgcolor">#efeeee</color>
 </resources>

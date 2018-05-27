@@ -17,7 +17,7 @@
             android:id="@+id/udm_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/udm_nav_color"
+            android:background="@color/udm_light_black"
             android:elevation="1dp"
             android:fitsSystemWindows="true"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
@@ -35,12 +35,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:clickable="true"
             android:drawablePadding="1dp"
             android:gravity="center"
-            android:textColor="@drawable/udm_color_menu_text_selector"
-            android:background="@drawable/udm_color_menu_bg_selector"
-            android:text="@string/menu_device_list" />
+            android:text="@string/menu_device_list"
+            android:textColor="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/tab_other1"

@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceInfo;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 
 /**

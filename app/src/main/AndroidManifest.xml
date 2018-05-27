@@ -23,9 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.UdmActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -38,9 +35,6 @@
             android:name=".activity.DeviceParamSettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.UserProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.UdmMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
@@ -56,11 +50,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity
-            android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.TestActivity" />
         <activity android:name=".activity.DeviceProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

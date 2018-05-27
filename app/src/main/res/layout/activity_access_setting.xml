@@ -15,7 +15,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/udm_base_bgcolor"
+            android:layout_marginTop="20dp">
 
             <GridLayout
                 android:id="@+id/GridLayout1"
@@ -27,7 +29,8 @@
                 android:orientation="horizontal"
                 android:stretchMode="columnWidth"
                 android:theme="@style/theme_param_setting"
-                android:verticalSpacing="25sp">
+                android:background="@android:color/white"
+                android:verticalSpacing="40sp">
 
                 <TextView
                     android:layout_columnSpan="3"
@@ -126,30 +129,22 @@
                     android:textOff="off"
                     android:textOn="on" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="4dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
 
-                <View
-                    android:id="@+id/anchor"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="#ebeaea" />
+
             </GridLayout>
         </ScrollView>
+        <View
+            android:id="@+id/anchor"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_gravity="fill"
+            android:background="@color/udm_base_bgcolor" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.ViewElementDataUtil;

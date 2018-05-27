@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMapping;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.List;
@@ -24,8 +24,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private String[] supportedChannels;
     private Context currentContext;
 
-    private TextView back;
-    private TextView commit;
+    private ImageView back;
+    private ImageView commit;
     private TextView title;
 
     private ImageView icSettingIp;
@@ -123,7 +123,6 @@ public class DeviceProfileActivity extends AppCompatActivity {
         });
 
         commit = findViewById(R.id.do_commit);
-        commit.setText("OK");
 
 
         title = findViewById(R.id.title);

@@ -1,17 +1,16 @@
 package com.ibamb.udm.util;
 
-import android.support.v7.widget.AppCompatCheckBox;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.ChannelParameter;
-import com.ibamb.udm.beans.ParameterItem;
-import com.ibamb.udm.constants.UdmConstants;
-import com.ibamb.udm.core.ParameterMapping;
-import com.ibamb.udm.instruct.beans.Parameter;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.tag.UdmButtonTextEdit;
 import com.ibamb.udm.tag.UdmSpinner;
 
@@ -62,7 +61,21 @@ public class ViewElementDataUtil {
                     case UdmConstants.UDM_UI_EDIT_TEXT:
                         EditText vEditText = view.findViewWithTag(elementTagId);
                         if(vEditText!=null){
-                            vEditText.setText(item.getDisplayValue());
+
+                            if(elementTagId.equalsIgnoreCase("basic_rtc_time")){
+                                EditText vDate = view.findViewById(R.id.id_local_date);
+                                EditText vTime = view.findViewById(R.id.id_local_time);
+                                if(item.getDisplayValue()!=null && item.getDisplayValue().length()>10){
+                                    if(vDate!=null){
+                                        vDate.setText(item.getDisplayValue().substring(0,10));
+                                    }
+                                    if(vTime!=null){
+                                        vTime.setText(item.getDisplayValue().substring(10,item.getDisplayValue().length()));
+                                    }
+                                }
+                            }else{
+                                vEditText.setText(item.getDisplayValue());
+                            }
                         }
                         break;
                     case UdmConstants.UDM_UI_UDMSPINNER:
@@ -134,6 +147,16 @@ public class ViewElementDataUtil {
                     EditText vEditText = view.findViewWithTag(viewTagId);
                     if(vEditText!=null){
                         value = parameter.getValue(vEditText.getText().toString());
+                        if(parameter.getViewTagId().equalsIgnoreCase("basic_rtc_time")){
+                            EditText vDate = view.findViewById(R.id.id_local_date);
+                            EditText vTime = view.findViewById(R.id.id_local_time);
+                            if(vDate!=null){
+                                value = vDate.getText().toString();
+                            }
+                            if(vTime!=null){
+                                value +=" "+ vTime.getText().toString();
+                            }
+                        }
                     }
                     break;
                 case UdmConstants.UDM_UI_UDMSPINNER:
@@ -166,9 +189,11 @@ public class ViewElementDataUtil {
                 List<ParameterItem> paramItems = oldChannelParam.getParamItems();
                 for (ParameterItem parameterItem : paramItems) {
                     //参数ID一致且值不一样，则认为是本次有修改的参数
+
                     if(parameterItem.getParamId().equals(parameter.getId())
                             && !parameterItem.getDisplayValue().equals(displayValue)){
                         items.add(new ParameterItem(parameter.getId(), value));
+                        System.out.println("changed:"+parameter.getViewTagId()+" ->"+value);
                         break;
                     }
                 }

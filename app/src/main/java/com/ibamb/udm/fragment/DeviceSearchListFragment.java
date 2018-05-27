@@ -19,19 +19,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.activity.DeviceParamSettingActivity;
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.MainActivity;
-import com.ibamb.udm.core.TryUser;
+import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.listener.UdmSearchButtonClickListener;
-import com.ibamb.udm.net.UdmDatagramSocket;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
-import java.net.DatagramSocket;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class DeviceSearchListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
