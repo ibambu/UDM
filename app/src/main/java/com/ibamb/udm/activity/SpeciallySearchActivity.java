@@ -65,7 +65,10 @@ public class SpeciallySearchActivity extends AppCompatActivity {
         inflater.inflate(R.menu.spec_search_menu, menu);
         specSearch = (SearchView) menu.findItem(R.id.sv_specially_search).getActionView();
         specSearch.setSubmitButtonEnabled(true);
-        specSearch.setIconifiedByDefault(false);
+        specSearch.setIconifiedByDefault(true);
+        specSearch.setFocusable(true);
+        specSearch.setIconified(false);
+        specSearch.requestFocusFromTouch();
         specSearch.setOnQueryTextListener(this.searchViewListener);
         return super.onCreateOptionsMenu(menu);
     }
