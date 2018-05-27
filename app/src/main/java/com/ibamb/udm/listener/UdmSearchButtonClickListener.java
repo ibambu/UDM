@@ -17,12 +17,21 @@ public class UdmSearchButtonClickListener implements View.OnClickListener{
     private LayoutInflater inflater;
     private FloatingActionButton searchButton;
     private TextView vSearchNotice;
+    private String keyword;
     @Override
     public void onClick(View v) {
         //通过异步任务开启工作线程在后台搜索设备。
 
         DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(searchButton,mListView,vSearchNotice,inflater);
         task.execute();
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     /**

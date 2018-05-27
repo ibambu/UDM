@@ -26,10 +26,11 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
     private LayoutInflater inflater;
     private FloatingActionButton searchButton;
     private ArrayList<DeviceInfo> deviceList;
-    private TextView  vSearchNotice;
+    private TextView vSearchNotice;
 
     /**
      * 后台搜索设备（工作线程执行）
+     *
      * @param strings
      * @return
      */
@@ -38,8 +39,10 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         if (deviceList != null) {
             deviceList.clear();
         }
+
+        String keyword = strings != null && strings.length > 0 ? strings[0] : null;
         publishProgress("searching...");
-        deviceList = DeviceSearch.searchDevice();
+        deviceList = DeviceSearch.searchDevice(keyword);
         if (deviceList == null) {
             deviceList = new ArrayList<>();
         }
@@ -55,6 +58,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
 
     /**
      * 将搜索到的设备更新界面列表（主线程执行）
+     *
      * @param dataList
      */
     @Override
@@ -63,10 +67,10 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         mListView.setVisibility(View.VISIBLE);
         ListAdapter adapter = new InetAddressListAdapter(R.layout.item_device_layout, inflater, deviceList);
         mListView.setAdapter(adapter);
-        String notice ="";
-        if(dataList.size()==0){
+        String notice = "";
+        if (dataList.size() == 0) {
             notice = "Possible network delay. Please try again.";
-        }else{
+        } else {
             notice = "Device:" + String.valueOf(dataList.size());
         }
         Snackbar.make(searchButton, notice, Snackbar.LENGTH_LONG)
@@ -76,6 +80,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
 
     /**
      * 搜索进度
+     *
      * @param values
      */
     @Override

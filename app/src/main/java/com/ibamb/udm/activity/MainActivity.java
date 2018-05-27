@@ -2,12 +2,14 @@ package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
@@ -28,6 +31,7 @@ import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
 import com.ibamb.udm.module.security.AECryptStrategy;
 import com.ibamb.udm.module.security.ICryptStrategy;
+import com.ibamb.udm.task.DeviceSearchAsyncTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tabSetting;
 
 
-    private DeviceSearchListFragment f1;
+    private DeviceSearchListFragment searchListFragment;
     private BlankFragment f2, f3, f4;
 
     private InetAddress broadcastAddress;
@@ -90,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //将ActionBar位置改放Toolbar.
         mToolbar = (Toolbar) findViewById(R.id.udm_toolbar);
-//        mToolbar.setTitle("udm");
         setSupportActionBar(mToolbar);
 
         //设置右上角的填充菜单
@@ -106,19 +109,20 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideAllFragment(transaction);
-        if (f1 == null) {
-            f1 = DeviceSearchListFragment.newInstance("第一个Fragment", null);
-            transaction.add(R.id.fragment_container, f1);
-            transaction.show(f1);
+        if (searchListFragment == null) {
+            searchListFragment = DeviceSearchListFragment.newInstance("第一个Fragment", null);
+            transaction.add(R.id.fragment_container, searchListFragment);
+            transaction.show(searchListFragment);
         } else {
-            transaction.show(f1);
+            transaction.show(searchListFragment);
 
         }
         transaction.commit();
         //底部菜单绑定点击事件,实现界面切换.
         tabDeviceList = (TextView) this.findViewById(R.id.tab_device_list);
         tabSetting = (TextView) this.findViewById(R.id.tab_setting);
-        UdmBottomMenuClickListener bottomMenuClickListener = new UdmBottomMenuClickListener(fragmentManager,f1,tabDeviceList,tabSetting);
+        UdmBottomMenuClickListener bottomMenuClickListener = new UdmBottomMenuClickListener(fragmentManager,searchListFragment,
+                tabDeviceList,tabSetting);
         tabDeviceList.setOnClickListener(bottomMenuClickListener);
         tabSetting.setOnClickListener(bottomMenuClickListener);
         tabDeviceList.requestFocus();
@@ -158,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
     //隐藏所有Fragment
     public void hideAllFragment(FragmentTransaction transaction) {
-        if (f1 != null) {
-            transaction.hide(f1);
+        if (searchListFragment != null) {
+            transaction.hide(searchListFragment);
         }
         if (f2 != null) {
             transaction.hide(f2);
@@ -195,5 +199,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onPrepareOptionsPanel(view, menu);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==1){
+            if(data!=null){
+                String searchKewWord = data.getStringExtra("SEARCH_KEY_WORD");
+                View view = searchListFragment.getView();
+                FloatingActionButton searchButton = view.findViewById(R.id.udm_search_button);
+                ListView mListView = (ListView) view.findViewById(R.id.search_device_list);
+                TextView vSearchNotice = view.findViewById(R.id.search_notice_info);
+                DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(searchButton,mListView,vSearchNotice,
+                        searchListFragment.getLayoutInflater());
+                task.execute(searchKewWord);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

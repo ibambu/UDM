@@ -34,23 +34,12 @@
         <activity
             android:name=".activity.DeviceParamSettingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.UserProfileActivity"
+        <activity
+            android:name=".activity.UserProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service
-            android:name=".service.UDPService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".service.DeviceSearchService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".service.DeviceParameterService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <activity android:name=".activity.DeviceProfileActivity"
+        <activity
+            android:name=".activity.DeviceProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.IPSettingActivity"
@@ -74,6 +63,10 @@
             android:name=".activity.AccessSettingActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
+        </activity>
+        <activity
+            android:name=".activity.SpeciallySearchActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

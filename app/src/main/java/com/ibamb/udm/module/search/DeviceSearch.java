@@ -27,15 +27,22 @@ import java.util.Arrays;
  */
 public class DeviceSearch {
 
-    public static ArrayList<DeviceInfo> searchDevice() {
+    public static ArrayList<DeviceInfo> searchDevice(String keyword) {
         DatagramSocket datagramSocket = null;
         UDPMessageSender sender = new UDPMessageSender();
         ArrayList<DeviceInfo> deviceList = new ArrayList<>();
-        for(int i=0;i<8;i++){
-            DeviceInfo test = new DeviceInfo("192.168.0.110","aa:3d:3f:aa:00:hh");
-            test.setIndex(i+1);
-            deviceList.add(test);
-        }
+//        for(int i=0;i<8;i++){
+//
+//            DeviceInfo test = new DeviceInfo("192.168.0.110","aa:3d:3f:aa:00:hh");
+//            test.setIndex(i+1);
+//            if(keyword!=null && keyword.trim().length()>0){
+//                if(test.getMac().contains(keyword)||test.getIp().contains(keyword)){
+//                    deviceList.add(test);
+//                }
+//            }else{
+//                deviceList.add(test);
+//            }
+//        }
         try {
             datagramSocket = new DatagramSocket();
             datagramSocket.setBroadcast(true);
@@ -83,7 +90,13 @@ public class DeviceSearch {
                     }
                 }
                 if (!isExists) {
-                    deviceList.add(deviceInfo);
+                    if(keyword!=null && keyword.trim().length()>0){
+                        if((deviceInfo.getIp().contains(keyword) || deviceInfo.getMac().contains(keyword))){
+                            deviceList.add(deviceInfo);
+                        }
+                    }else{
+                        deviceList.add(deviceInfo);
+                    }
                 }
             }
 
