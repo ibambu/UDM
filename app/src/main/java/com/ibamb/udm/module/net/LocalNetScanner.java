@@ -3,6 +3,8 @@ package com.ibamb.udm.module.net;
 
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -76,7 +78,7 @@ public class LocalNetScanner {
                 }
             }
         } catch (Exception e) {
-            Log.e(this.getClass().getName(),e.getMessage());
+            UdmLog.e(this.getClass().getName(),e.getMessage());
         }
         return broadcastAddress;
     }

@@ -1,6 +1,7 @@
 package com.ibamb.udm.module.instruct.impl;
 
 import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.UdmControl;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.IParser;
 import com.ibamb.udm.module.instruct.beans.Information;
@@ -23,6 +24,7 @@ public class ReplyFrameParser implements IParser {
         List<Information> informationList = new ArrayList<>();//存放本次返回的所有参数
         replyFrame.setInfoList(informationList);
         if(replyData==null){
+            replyFrame.setControl(UdmControl.NO_DATA_REPLY);
             return replyFrame;
         }
         replyFrame.setControl(replyData[0]);// 控制位

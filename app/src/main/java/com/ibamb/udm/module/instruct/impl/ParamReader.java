@@ -2,6 +2,7 @@ package com.ibamb.udm.module.instruct.impl;
 
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.UdmConstants;
@@ -22,7 +23,6 @@ import java.util.List;
 
 /**
  * Created by luotao on 18-4-30.
- *
  */
 
 public class ParamReader implements IParamReader {
@@ -30,8 +30,8 @@ public class ParamReader implements IParamReader {
     public ChannelParameter readChannelParam(ChannelParameter channelParameter) {
         return this.sendStructure(channelParameter);
     }
+
     /**
-     *
      * @param channelParameter
      * @return
      */
@@ -73,12 +73,13 @@ public class ParamReader implements IParamReader {
             }
             instructFrame.setLength(sendFrameLength);
             //生成发送报文
-            byte[] sendData = encoder.encode(instructFrame,UdmControl.GET_PARAMETERS);
+            byte[] sendData = encoder.encode(instructFrame, UdmControl.GET_PARAMETERS);
             //发送报文
-            byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength,channelParameter.getIp());
+            byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength, channelParameter.getIp());
+
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
-            if(replyFrame.getControl()==UdmControl.ACKNOWLEDGE){
+            if (replyFrame.getControl() == UdmControl.ACKNOWLEDGE) {
                 channelParameter.setSuccessful(true);
                 for (ParameterItem parameterItem : parameterItems) {
                     for (Information info : replyFrame.getInfoList()) {
@@ -115,12 +116,12 @@ public class ParamReader implements IParamReader {
                         }
                     }
                 }
-            }else{
+            } else {
                 channelParameter.setSuccessful(false);
             }
 
-        }catch (Exception e){
-            Log.e(this.getClass().getName(),e.getMessage());
+        } catch (Exception e) {
+            UdmLog.e(this.getClass().getName(), e.getMessage());
         }
         return channelParameter;
     }

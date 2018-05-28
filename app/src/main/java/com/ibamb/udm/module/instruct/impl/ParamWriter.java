@@ -2,6 +2,7 @@ package com.ibamb.udm.module.instruct.impl;
 
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.UdmConstants;
@@ -87,7 +88,7 @@ public class ParamWriter implements IParamWriter {
             channelParameter.setSuccessful(isSuccessful);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(this.getClass().getName(), e.getMessage());
+            UdmLog.e(this.getClass().getName(), e.getMessage());
         }
         return channelParameter;
     }

@@ -7,6 +7,7 @@ package com.ibamb.udm.module.search;
 
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.DeviceInfo;
 import com.ibamb.udm.module.constants.UdmConstants;
 import com.ibamb.udm.module.constants.UdmControl;
@@ -101,11 +102,11 @@ public class DeviceSearch {
             }
 
         } catch (SocketException ex) {
-            Log.e("search device err",ex.getMessage());
+            UdmLog.e("search device err",ex.getMessage());
         } catch (UnknownHostException e) {
-            Log.e("search device err",e.getMessage());
+            UdmLog.e("search device err",e.getMessage());
         } catch (IOException e) {
-            Log.e("search device err",e.getMessage());
+            UdmLog.e("search device err",e.getMessage());
         } finally {
             if (datagramSocket != null) {
                 datagramSocket.close();

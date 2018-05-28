@@ -19,8 +19,8 @@
                 android:layout_weight="1"
                 android:height="45dp"
                 android:gravity="left|center"
-                android:scaleType="fitEnd"
-                android:src="@drawable/ic_arrow_back_white_18dp"/>
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_arrow_back"/>
 
             <TextView
                 android:id="@+id/title"
@@ -29,7 +29,7 @@
                 android:layout_weight="10"
                 android:height="45dp"
                 android:gravity="center"
-                android:text=""
+                android:text="qqq"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -40,12 +40,12 @@
                 android:layout_weight="1"
                 android:height="45dp"
                 android:gravity="left|center"
-                android:scaleType="fitEnd"
-                android:src="@drawable/ic_check_white_18dp"/>
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_arrow_check"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:background="@color/udm_light_black">
 
         </View>

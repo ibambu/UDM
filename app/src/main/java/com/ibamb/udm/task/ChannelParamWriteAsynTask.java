@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.instruct.IParamReader;
 import com.ibamb.udm.module.instruct.IParamWriter;
@@ -40,7 +41,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
             IParamReader reader = new ParamReader();
             oldParams = reader.readChannelParam(oldParams);
         }catch (Exception e){
-            Log.e(this.getClass().getName(),e.getMessage());
+            UdmLog.e(this.getClass().getName(),e.getMessage());
         }
         return oldParams;
     }
@@ -55,6 +56,15 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
     @Override
     protected void onPostExecute(ChannelParameter channelParameter) {
         super.onPostExecute(channelParameter);
+        //更新界面数据
+        String notice = "";
+        if(!channelParameter.isSuccessful()){
+            notice = "Possible network delay. Please click title try again.";
+            Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }else{
+            ViewElementDataUtil.setData(channelParameter, view);
+        }
         //更新界面数据
         ViewElementDataUtil.setData(channelParameter, view);
     }

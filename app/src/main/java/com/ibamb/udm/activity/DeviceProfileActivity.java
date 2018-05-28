@@ -69,7 +69,14 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 case R.id.profile_connect_more:
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setTitle("Select Channel");
-                    builder.setItems(supportedChannels, new DialogInterface.OnClickListener() {
+                    int checkItemIdx = 0;
+                    for(int i=0;i<supportedChannels.length;i++){
+                        if(supportedChannels[i].equalsIgnoreCase(vSettingConnect.getText().toString())){
+                            checkItemIdx = i;
+                            break;
+                        }
+                    }
+                    builder.setSingleChoiceItems(supportedChannels, checkItemIdx,new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Bundle params = new Bundle();
@@ -78,6 +85,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                             params.putString("CHNL_ID", supportedChannels[which]);
                             Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
                             intent.putExtras(params);
+                            dialog.dismiss();
                             startActivity(intent);
                         }
                     });

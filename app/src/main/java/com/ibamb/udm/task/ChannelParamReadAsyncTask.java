@@ -3,9 +3,11 @@ package com.ibamb.udm.task;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.constants.UdmConstants;
 import com.ibamb.udm.module.instruct.IParamReader;
 import com.ibamb.udm.module.instruct.impl.ParamReader;
 import com.ibamb.udm.util.ViewElementDataUtil;
@@ -29,7 +31,17 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
         try {
 
             IParamReader reader = new ParamReader();
+            int tryCount = 0;
+            /**
+             * 如果无数据返回，重试3次。
+             */
             reader.readChannelParam(channelParameter);
+            while (!channelParameter.isSuccessful() && tryCount < 3) {
+                publishProgress(UdmConstants.WAIT_READ_PARAM);
+                reader.readChannelParam(channelParameter);
+                tryCount++;
+            }
+
         } catch (Exception e) {
 
         }
@@ -48,10 +60,19 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
         }else{
             ViewElementDataUtil.setData(channelParameter, view);
         }
+        TextView title = view.findViewById(R.id.title);
+        if(title!=null){
+            String titleValue = title.getText().toString();
+            title.setText(titleValue.replaceAll(UdmConstants.WAIT_READ_PARAM,""));
+        }
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
+        TextView title = view.findViewById(R.id.title);
+        if(title!=null){
+            title.setText(title.getText().toString()+UdmConstants.WAIT_READ_PARAM);
+        }
         super.onProgressUpdate(values);
     }
 }

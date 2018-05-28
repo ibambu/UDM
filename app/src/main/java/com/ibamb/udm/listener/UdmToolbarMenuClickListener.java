@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.activity.LoadParamDefActivity;
 import com.ibamb.udm.activity.SpeciallySearchActivity;
 import com.ibamb.udm.activity.UDPConnectionActivity;
 import com.ibamb.udm.activity.UserProfileActivity;
@@ -36,9 +37,13 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
 
         } else if (menuItemId == R.id.id_menu_join_cloud) {
 
-        }else if (menuItemId == R.id.id_spec_search) {
+        } else if (menuItemId == R.id.id_spec_search) {
             Intent intent = new Intent(activity, SpeciallySearchActivity.class);
-            activity.startActivityForResult(intent,1);
+            activity.startActivityForResult(intent, 1);
+
+        } else if (menuItemId == R.id.id_load_param_def) {
+            Intent intent = new Intent(activity, LoadParamDefActivity.class);
+            activity.startActivity(intent);
 
         } else if (menuItemId == R.id.id_upgrade_device) {
 

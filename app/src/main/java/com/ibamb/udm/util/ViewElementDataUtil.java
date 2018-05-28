@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.UdmConstants;
@@ -105,7 +106,7 @@ public class ViewElementDataUtil {
                 }
             }
         } catch (Exception ex) {
-            Log.e(ViewElementDataUtil.class.getName(),ex.getMessage());
+            UdmLog.e(ViewElementDataUtil.class.getName(),ex.getMessage());
         }
     }
 

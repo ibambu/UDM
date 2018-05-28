@@ -2,6 +2,7 @@ package com.ibamb.udm.module.net;
 
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.UdmConstants;
 
 import java.io.IOException;
@@ -42,11 +43,11 @@ public class UDPMessageSender {
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
         } catch (UnknownHostException ex) {
-            Log.e(this.getClass().getName(), ex.getMessage());
+            UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {
-            Log.e(this.getClass().getName(), ex.getMessage());
+            UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (InterruptedException ex) {
-            Log.e(this.getClass().getName(), ex.getMessage());
+            UdmLog.e(this.getClass().getName(), ex.getMessage());
         }
         return recevData;
     }
@@ -67,24 +68,22 @@ public class UDPMessageSender {
         DatagramSocket datagramSocket = null;
         try {
             datagramSocket = new DatagramSocket();
-            datagramSocket.setSoTimeout(1000);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
+            datagramSocket.setSoTimeout(1500);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
             address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
             // 发送数据
-            System.out.println("send:"+Arrays.toString(sendData));
+//            System.out.println("send:"+Arrays.toString(sendData));
             datagramSocket.send(sendDataPacket);
             // 接收数据
-            Thread.sleep(200);//延迟200ms，然后再读取数据。
+//            Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
-            System.out.println("reply:"+Arrays.toString(recevData));
+//            System.out.println("reply:"+Arrays.toString(recevData));
         } catch (UnknownHostException ex) {
-            Log.e(this.getClass().getName(), ex.getMessage());
+            UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {
-            Log.e(this.getClass().getName(), ex.getMessage());
-        } catch (InterruptedException e) {
-            Log.e(this.getClass().getName(), e.getMessage());
-        } finally {
+            UdmLog.e(this.getClass().getName(), ex.getMessage());
+        }  finally {
             if (datagramSocket != null) {
                 datagramSocket.close();
             }

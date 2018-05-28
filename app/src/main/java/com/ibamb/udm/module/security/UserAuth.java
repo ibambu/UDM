@@ -8,6 +8,7 @@ package com.ibamb.udm.module.security;
 import android.util.Base64;
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.UdmConstants;
 import com.ibamb.udm.module.constants.UdmControl;
 import com.ibamb.udm.module.net.UDPMessageSender;
@@ -95,7 +96,7 @@ public class UserAuth {
             }
 
         } catch (IOException ex) {
-            Log.e(UserAuth.class.getName(), ex.getMessage());
+            UdmLog.e(UserAuth.class.getName(), ex.getMessage());
         } finally {
             if (socket != null) {
                 socket.close();

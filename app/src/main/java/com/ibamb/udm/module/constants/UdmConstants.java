@@ -65,4 +65,6 @@ public class UdmConstants {
     public static final String TRY_USER_FILE = "tryusr";
 
     public static final int TASK_BAR_COLOR = 0xFB303132;
+
+    public static final String WAIT_READ_PARAM=" loading...";
 }

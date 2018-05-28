@@ -60,10 +60,18 @@ public class UdmSpinner extends LinearLayout {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setItems(optitions, new DialogInterface.OnClickListener() {
+                int checkItemIdx = 0;
+                for(int i=0;i<optitions.length;i++){
+                    if(optitions[i].equalsIgnoreCase(vAttrValue.getText().toString())){
+                        checkItemIdx = i;
+                        break;
+                    }
+                }
+                builder.setSingleChoiceItems(optitions, checkItemIdx,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         vAttrValue.setText(optitions[which]);
+                        dialog.dismiss();
                     }
                 });
                 builder.show();
@@ -73,10 +81,18 @@ public class UdmSpinner extends LinearLayout {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setItems(optitions, new DialogInterface.OnClickListener() {
+                int checkItemIdx = 0;
+                for(int i=0;i<optitions.length;i++){
+                    if(optitions[i].equalsIgnoreCase(vAttrValue.getText().toString())){
+                        checkItemIdx = i;
+                        break;
+                    }
+                }
+                builder.setSingleChoiceItems(optitions, checkItemIdx,new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         vAttrValue.setText(optitions[which]);
+                        dialog.dismiss();
                     }
                 });
                 builder.show();

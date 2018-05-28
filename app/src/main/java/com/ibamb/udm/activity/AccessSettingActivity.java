@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.UdmConstants;
@@ -90,7 +91,7 @@ public class AccessSettingActivity extends AppCompatActivity {
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView,channelParameter);
             readerAsyncTask.execute(mac);
         }catch (Exception e){
-            Log.e(AccessSettingActivity.class.getName(),e.getMessage());
+            UdmLog.e(AccessSettingActivity.class.getName(),e.getMessage());
         }
 
     }

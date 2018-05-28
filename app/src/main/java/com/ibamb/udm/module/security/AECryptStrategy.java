@@ -2,6 +2,8 @@ package com.ibamb.udm.module.security;
 
 import android.util.Log;
 
+import com.ibamb.udm.log.UdmLog;
+
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -62,7 +64,7 @@ public class AECryptStrategy implements ICryptStrategy {
             resultStr = transByte2HexStr(result);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(this.getClass().getName(), e.getMessage());
+            UdmLog.e(this.getClass().getName(), e.getMessage());
         }
         return resultStr;
     }
@@ -111,7 +113,7 @@ public class AECryptStrategy implements ICryptStrategy {
             resultStr = new String(result, DefualtECryptValue.CHARSET);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(this.getClass().getName(), e.getMessage());
+            UdmLog.e(this.getClass().getName(), e.getMessage());
         }
         return resultStr;
     }

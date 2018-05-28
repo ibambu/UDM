@@ -36,10 +36,16 @@
                     android:id="@+id/id_upgrade_device"
                     android:title="Device Upgrade"
                     app:showAsAction="ifRoom" />
+
+                <item
+                    android:id="@+id/id_load_param_def"
+                    android:title="Import Type File"
+                    app:showAsAction="ifRoom" />
                 <item
                     android:id="@+id/id_menu_or_code"
                     android:title="OR Code"
                     app:showAsAction="ifRoom" />
+
                 <item
                     android:id="@+id/id_menu_join_cloud"
                     android:title="Join Cloud"
@@ -47,7 +53,8 @@
                 <item
                     android:id="@+id/id_menu_exit"
                     android:title="Exit"
-                    app:showAsAction="never" />
+                    app:showAsAction="never"
+                    />
             </group>
         </menu>
     </item>

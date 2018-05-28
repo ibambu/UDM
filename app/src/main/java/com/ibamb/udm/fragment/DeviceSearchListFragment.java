@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.MainActivity;
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.listener.UdmSearchButtonClickListener;
 import com.ibamb.udm.task.UserLoginAsyncTask;
@@ -120,9 +121,9 @@ public class DeviceSearchListFragment extends Fragment {
                                     noticeView.setText("login fail.");
                                 }
                             } catch (InterruptedException e) {
-                                Log.e(this.getClass().getName(),e.getMessage());
+                                UdmLog.e(this.getClass().getName(),e.getMessage());
                             } catch (ExecutionException e) {
-                                Log.e(this.getClass().getName(),e.getMessage());
+                                UdmLog.e(this.getClass().getName(),e.getMessage());
                             }
                         }
                     });
@@ -130,7 +131,7 @@ public class DeviceSearchListFragment extends Fragment {
 
             }catch (Exception e){
                 e.printStackTrace();
-                Log.e(this.getClass().getName(),e.getMessage());
+                UdmLog.e(this.getClass().getName(),e.getMessage());
             }
         }
     };

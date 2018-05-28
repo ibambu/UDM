@@ -16,6 +16,7 @@ public class UdmControl {
     public static final int SEARCH_DEVICE = 0x81;
 
     //The response type is list below:
+    public static final byte NO_DATA_REPLY = -1;
     public static final byte ACKNOWLEDGE = 0x00;
     public static final byte NO_PERMISSION = 0x02;
     public static final byte OPTION_NOT_SUPPORT = 0x04;

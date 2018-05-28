@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.UdmConstants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.fragment.BlankFragment;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             TryUser.setTryUser(tryUsers);
 
         } catch (Exception e) {
-            Log.e(this.getClass().getName(), e.getMessage());
+            UdmLog.e(this.getClass().getName(), e.getMessage());
         }finally {
             if (inputStream!=null){
                 try {
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            Log.e(this.getClass().getName(),e.getMessage());
+            UdmLog.e(this.getClass().getName(),e.getMessage());
         }
     }
 
