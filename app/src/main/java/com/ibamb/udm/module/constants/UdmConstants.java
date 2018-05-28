@@ -67,4 +67,8 @@ public class UdmConstants {
     public static final int TASK_BAR_COLOR = 0xFB303132;
 
     public static final String WAIT_READ_PARAM=" loading...";
+
+    public static final int RET_SUCCESS =1;
+    public static final int RET_FAIL=0;
+
 }
