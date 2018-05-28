@@ -171,7 +171,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="10dp"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@color/udm_base_bgcolor" />
