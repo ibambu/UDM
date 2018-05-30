@@ -61,20 +61,23 @@ public class UdmSpinner extends LinearLayout {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 int checkItemIdx = 0;
-                for(int i=0;i<optitions.length;i++){
-                    if(optitions[i].equalsIgnoreCase(vAttrValue.getText().toString())){
-                        checkItemIdx = i;
-                        break;
+                if(optitions!=null){
+                    for(int i=0;i<optitions.length;i++){
+                        if(optitions[i].equalsIgnoreCase(vAttrValue.getText().toString())){
+                            checkItemIdx = i;
+                            break;
+                        }
                     }
+                    builder.setSingleChoiceItems(optitions, checkItemIdx,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            vAttrValue.setText(optitions[which]);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
                 }
-                builder.setSingleChoiceItems(optitions, checkItemIdx,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        vAttrValue.setText(optitions[which]);
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
+
             }
         });
         vAttrValue.setOnClickListener(new OnClickListener() {
@@ -82,20 +85,22 @@ public class UdmSpinner extends LinearLayout {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 int checkItemIdx = 0;
-                for(int i=0;i<optitions.length;i++){
-                    if(optitions[i].equalsIgnoreCase(vAttrValue.getText().toString())){
-                        checkItemIdx = i;
-                        break;
+                if(optitions!=null){
+                    for(int i=0;i<optitions.length;i++){
+                        if(optitions[i].equalsIgnoreCase(vAttrValue.getText().toString())){
+                            checkItemIdx = i;
+                            break;
+                        }
                     }
+                    builder.setSingleChoiceItems(optitions, checkItemIdx,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            vAttrValue.setText(optitions[which]);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
                 }
-                builder.setSingleChoiceItems(optitions, checkItemIdx,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        vAttrValue.setText(optitions[which]);
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
             }
         });
     }

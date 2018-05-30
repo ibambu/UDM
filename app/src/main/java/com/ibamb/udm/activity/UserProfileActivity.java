@@ -3,7 +3,6 @@ package com.ibamb.udm.activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +13,8 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.UdmConstants;
 import com.ibamb.udm.module.core.TryUser;
-import com.ibamb.udm.module.security.AECryptStrategy;
+import com.ibamb.udm.module.security.AESCrypt;
+import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -48,9 +48,9 @@ public class UserProfileActivity extends AppCompatActivity {
             while ((line = bufferedReader.readLine()) != null) {
                 strbuffer.append(line);
             }
-            ICryptStrategy aes = new AECryptStrategy();
+            ICryptStrategy aes = new AESCrypt();
 
-            String content = strbuffer.toString();//aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);//strbuffer.toString();
+            String content = aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);//strbuffer.toString();
             String[] tryUsers = content.split("&");
             int count = 0;
             for(int i=0;i<tryUsers.length;i++){
@@ -109,8 +109,8 @@ public class UserProfileActivity extends AppCompatActivity {
                         strBuffer.append(userName1).append("&").append(password1)
                                 .append("&").append(userName2).append("&").append(password2)
                                 .append("&").append(userName3).append("&").append(password3);
-                        ICryptStrategy aes = new AECryptStrategy();
-                        String content = strBuffer.toString();//aes.encode(strBuffer.toString(), DefualtECryptValue.KEY);
+                        ICryptStrategy aes = new AESCrypt();
+                        String content = aes.encode(strBuffer.toString(), DefualtECryptValue.KEY);
                         TryUser.setTryUser(content.split("&"));
                         File[] files = filesDir.listFiles();
                         for(File file:files){

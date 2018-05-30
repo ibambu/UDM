@@ -6,7 +6,6 @@
 package com.ibamb.udm.module.security;
 
 import android.util.Base64;
-import android.util.Log;
 
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.UdmConstants;

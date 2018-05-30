@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -30,7 +29,8 @@ import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
-import com.ibamb.udm.module.security.AECryptStrategy;
+import com.ibamb.udm.module.security.AESCrypt;
+import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
             while ((line = bufferedReader.readLine()) != null) {
                 strbuffer.append(line);
             }
-            ICryptStrategy aes = new AECryptStrategy();
-            String content = strbuffer.toString();//aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
+            ICryptStrategy aes = new AESCrypt();
+            String content = aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
             String[] tryUsers = content.split("&");
             TryUser.setTryUser(tryUsers);
 

@@ -1,7 +1,6 @@
 package com.ibamb.udm.module.core;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.instruct.beans.Parameter;
