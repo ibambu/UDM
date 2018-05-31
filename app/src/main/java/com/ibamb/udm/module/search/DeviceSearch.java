@@ -5,8 +5,6 @@
  */
 package com.ibamb.udm.module.search;
 
-import android.util.Log;
-
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.DeviceInfo;
 import com.ibamb.udm.module.constants.UdmConstants;
@@ -137,10 +135,8 @@ public class DeviceSearch {
                     ipBuffer.append(tempIp).append(".");
                 }
                 ipBuffer.deleteCharAt(ipBuffer.length() - 1);
-                byte[] macTypeId = Arrays.copyOfRange(data, 11, 13);//mac参数ID
-                System.out.println(Arrays.toString(macTypeId));
+//                byte[] macTypeId = Arrays.copyOfRange(data, 11, 13);//mac参数ID
                 byte[] macValue = Arrays.copyOfRange(data, 14, 20);//mac地址
-                System.out.println(Arrays.toString(macValue));
                 StringBuilder macBuffer = new StringBuilder();
                 for (int i = 0; i < macValue.length; i++) {
                     String macbit = DataTypeConvert.toHexString(macValue[i]);

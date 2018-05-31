@@ -29,7 +29,7 @@
                 android:layout_weight="10"
                 android:height="45dp"
                 android:gravity="center"
-                android:text="qqq"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 

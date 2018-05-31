@@ -34,6 +34,8 @@
                     android:layout_weight="1"
                     android:height="60dp"
                     android:gravity="left|center"
+                    android:drawablePadding="@dimen/fab_margin"
+                    android:drawableLeft="@mipmap/ic_action_lock_closed"
                     android:layout_marginLeft="2dp"
                     android:text="TCP Enabled" />
 
@@ -61,6 +63,8 @@
                     android:height="60dp"
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
+                    android:drawablePadding="@dimen/fab_margin"
+                    android:drawableLeft="@mipmap/ic_action_lock_closed"
                     android:text="UDP Enabled" />
 
                 <Switch
@@ -83,10 +87,12 @@
                     android:id="@+id/tcp_connection_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:height="60dp"
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
+                    android:drawableLeft="@mipmap/ic_action_tiles_small"
+                    android:drawablePadding="@dimen/fab_margin"
                     android:text="TCP Connection Setting" />
 
                 <ImageView
@@ -107,10 +113,12 @@
                     android:id="@+id/udp_connection_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:height="60dp"
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
+                    android:drawableLeft="@mipmap/ic_action_tag"
+                    android:drawablePadding="@dimen/fab_margin"
                     android:text="UDP Connection Setting" />
 
                 <ImageView
@@ -126,13 +134,16 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:layout_marginTop="1dp">
+
                 <TextView
                     android:id="@+id/serial_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:height="60dp"
                     android:layout_marginLeft="2dp"
+                    android:layout_weight="3"
+                    android:height="60dp"
+                    android:drawableLeft="@mipmap/ic_action_mist"
+                    android:drawablePadding="@dimen/fab_margin"
                     android:gravity="left|center"
                     android:text="Serial Settings" />
 

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,9 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.MainActivity;
+import com.ibamb.udm.listener.UdmSearchButtonClickListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.core.TryUser;
-import com.ibamb.udm.listener.UdmSearchButtonClickListener;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
 import java.util.concurrent.ExecutionException;
