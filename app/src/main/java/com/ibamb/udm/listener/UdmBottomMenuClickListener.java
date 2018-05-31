@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
-import com.ibamb.udm.fragment.UdmSettingFragment;
 
 /**
  * Created by luotao on 18-4-14.
@@ -22,7 +21,6 @@ public class UdmBottomMenuClickListener implements View.OnClickListener {
     FragmentManager fragmentManager;
 
     private Fragment defultFragment;
-    private UdmSettingFragment udmSettingFragment;
     private BlankFragment f2, f3, f4;
 
     public UdmBottomMenuClickListener() {

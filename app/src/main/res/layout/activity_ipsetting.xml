@@ -46,13 +46,11 @@
                     android:layout_marginRight="2sp"
                     android:gravity="left|center"
                     android:spinnerMode="dialog"
-                    android:entries="@array/opt_ip_obtain"
                     android:tag="@string/tag_eth_auto_obtain_ip"/>
                 <View
 
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="#ebeaea" />
@@ -76,7 +74,6 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
@@ -101,7 +98,6 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
@@ -125,7 +121,6 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
@@ -148,7 +143,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
@@ -171,7 +165,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="4dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
@@ -179,7 +172,6 @@
                     android:id="@+id/anchor"
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_above="@id/tab_param_setting"
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />

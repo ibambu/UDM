@@ -78,7 +78,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_connect_rts"
                     android:gravity="right|center"
                     android:tag="@string/tag_conn_udp_tmp_host_en" />
 
@@ -104,7 +103,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_connect_uni_multi"
                     android:gravity="right|center"
                     android:tag="@string/tag_conn_udp_data_mode" />
 

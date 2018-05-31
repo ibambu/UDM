@@ -45,7 +45,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_serial_protocol"
                     android:tag="@string/tag_serial_protocol" />
 
                 <View
@@ -69,7 +68,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_serial_baud_rate"
                     android:gravity="left|center"
                     android:tag="@string/tag_uart_bdrate" />
 
@@ -94,7 +92,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_serial_data_bits"
                     android:tag="@string/tag_uart_databit" />
 
                 <View
@@ -118,7 +115,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_serial_stop_bits"
                     android:tag="@string/tag_uart_stopbit" />
 
                 <View
@@ -142,7 +138,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_serial_flow_control"
                     android:tag="@string/tag_uart_flowrnt" />
 
                 <View
@@ -166,7 +161,6 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:entries="@array/opt_serial_parity"
                     android:tag="@string/tag_uart_parity" />
 
                 <View

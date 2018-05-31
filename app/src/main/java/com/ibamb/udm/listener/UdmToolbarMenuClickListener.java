@@ -43,7 +43,7 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
 
         } else if (menuItemId == R.id.id_load_param_def) {
             Intent intent = new Intent(activity, LoadParamDefActivity.class);
-            activity.startActivity(intent);
+           // activity.startActivity(intent);
 
         } else if (menuItemId == R.id.id_upgrade_device) {
 
