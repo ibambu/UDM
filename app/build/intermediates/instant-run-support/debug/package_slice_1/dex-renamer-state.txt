@@ -1,4 +1,0 @@
-#Thu Apr 12 23:33:42 CST 2018
-base.0=/home/luotao/h-work/apps/udm/app/build/intermediates/transforms/dexMerger/debug/609
-path.0=classes.dex
-renamed.0=classes.dex
