@@ -23,9 +23,10 @@ public class FileReader {
      */
     public static List<String> readTxtFileToList(String filename, boolean doDistinct) {
         List dslist = new ArrayList(1500);
+        BufferedReader bufreader = null;
         try {
             FileInputStream instream = new FileInputStream(filename);
-            BufferedReader bufreader = new BufferedReader(new InputStreamReader(instream, "UTF-8"), 50 * 1024 * 1024);
+            bufreader = new BufferedReader(new InputStreamReader(instream, "UTF-8"), 50 * 1024 * 1024);
             String readline = null;
             while ((readline = bufreader.readLine()) != null) {
                 if (!doDistinct) {
@@ -35,7 +36,15 @@ public class FileReader {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+
+        }finally {
+            if (bufreader!=null){
+                try {
+                    bufreader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return dslist;
     }

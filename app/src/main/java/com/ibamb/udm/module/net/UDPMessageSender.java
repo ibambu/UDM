@@ -38,11 +38,11 @@ public class UDPMessageSender {
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
         } catch (UnknownHostException ex) {
-            UdmLog.e(this.getClass().getName(), ex.getMessage());
+
         } catch (IOException ex) {
-            UdmLog.e(this.getClass().getName(), ex.getMessage());
+
         } catch (InterruptedException ex) {
-            UdmLog.e(this.getClass().getName(), ex.getMessage());
+
         }
         return recevData;
     }

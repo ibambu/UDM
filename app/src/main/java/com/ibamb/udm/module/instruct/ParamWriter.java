@@ -80,8 +80,7 @@ public class ParamWriter implements IParamWriter {
             boolean isSuccessful = replyFrame.getControl() == Control.ACKNOWLEDGE ? true : false;
             channelParameter.setSuccessful(isSuccessful);
         } catch (Exception e) {
-            e.printStackTrace();
-            UdmLog.e(this.getClass().getName(), e.getMessage());
+
         }
         return channelParameter;
     }

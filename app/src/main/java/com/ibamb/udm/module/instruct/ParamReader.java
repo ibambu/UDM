@@ -114,7 +114,7 @@ public class ParamReader implements IParamReader {
             }
 
         } catch (Exception e) {
-            UdmLog.e(this.getClass().getName(), e.getMessage());
+
         }
         return channelParameter;
     }

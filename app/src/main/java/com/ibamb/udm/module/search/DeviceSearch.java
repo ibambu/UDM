@@ -5,7 +5,6 @@
  */
 package com.ibamb.udm.module.search;
 
-import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.DeviceInfo;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
@@ -99,11 +98,11 @@ public class DeviceSearch {
             }
 
         } catch (SocketException ex) {
-            UdmLog.e("search device err",ex.getMessage());
+
         } catch (UnknownHostException e) {
-            UdmLog.e("search device err",e.getMessage());
+
         } catch (IOException e) {
-            UdmLog.e("search device err",e.getMessage());
+
         } finally {
             if (datagramSocket != null) {
                 datagramSocket.close();

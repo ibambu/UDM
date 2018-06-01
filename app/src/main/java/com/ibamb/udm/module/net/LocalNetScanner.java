@@ -38,7 +38,7 @@ public class LocalNetScanner {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
         return hostList;
     }
@@ -73,7 +73,7 @@ public class LocalNetScanner {
                 }
             }
         } catch (Exception e) {
-            UdmLog.e(this.getClass().getName(),e.getMessage());
+
         }
         return broadcastAddress;
     }

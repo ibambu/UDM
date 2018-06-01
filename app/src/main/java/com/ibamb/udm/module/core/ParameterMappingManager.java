@@ -2,7 +2,6 @@ package com.ibamb.udm.module.core;
 
 import android.content.res.AssetManager;
 
-import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.instruct.beans.ValueMapping;
@@ -63,7 +62,6 @@ public class ParameterMappingManager {
                 mapping.put(param.getId(), param);
             }
         } catch (IOException e) {
-            UdmLog.e(ParameterMappingManager.class.getName(),e.getMessage());
         }finally {
             if(bufreader!=null){
                 try {
