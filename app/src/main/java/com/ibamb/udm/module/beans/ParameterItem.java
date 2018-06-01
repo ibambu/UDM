@@ -1,8 +1,5 @@
 package com.ibamb.udm.module.beans;
 
-/**
- * Created by luotao on 18-2-4.
- */
 
 public class ParameterItem {
     private String paramId;

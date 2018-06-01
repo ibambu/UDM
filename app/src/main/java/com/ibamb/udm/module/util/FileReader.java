@@ -12,10 +12,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author luotao
- */
+
 public class FileReader {
         /**
      * 读取文本文件内容

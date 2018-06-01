@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * Created by luotao on 17-12-20.
- */
 
 public class NetScanTask implements Callable {
 

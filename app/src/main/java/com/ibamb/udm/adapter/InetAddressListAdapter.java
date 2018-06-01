@@ -13,9 +13,6 @@ import com.ibamb.udm.module.beans.DeviceInfo;
 
 import java.util.ArrayList;
 
-/**
- * Created by luotao on 18-1-17.
- */
 
 public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<DeviceInfo> data;
@@ -64,8 +61,8 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
         }
 
         DeviceInfo deviceInfo = (DeviceInfo) data.get(position);
-        //帮数据绑定到控件上
-        deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));
+        //数据绑定到控件上
+        deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));//三位数字
         deviceIP.setText(deviceInfo.getIp());
         deviceMac.setText(deviceInfo.getMac());
 

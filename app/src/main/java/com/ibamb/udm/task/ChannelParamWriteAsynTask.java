@@ -2,21 +2,19 @@ package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.IParamReader;
 import com.ibamb.udm.module.instruct.IParamWriter;
-import com.ibamb.udm.module.instruct.impl.ParamReader;
-import com.ibamb.udm.module.instruct.impl.ParamWriter;
+import com.ibamb.udm.module.instruct.ParamReader;
+import com.ibamb.udm.module.instruct.ParamWriter;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
-/**
- * Created by luotao on 18-4-30.
- */
+
 
 public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, String, ChannelParameter> {
 
@@ -35,7 +33,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
             changedParams = channelParameters[1];
             IParamWriter writer = new ParamWriter();
             changedParams = writer.writeChannelParam(changedParams);
-            String retMessage = changedParams.isSuccessful()?"successful":"fail";
+            String retMessage = changedParams.isSuccessful()?Constants.INFO_SUCCESS:Constants.INFO_FAIL;
             onProgressUpdate(retMessage);
             //修改后要重新读取一次
             IParamReader reader = new ParamReader();
@@ -59,7 +57,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
         //更新界面数据
         String notice = "";
         if(!channelParameter.isSuccessful()){
-            notice = "Possible network delay. Please click title try again.";
+            notice = Constants.INFO_READ_PARAM_FAIL;
             Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }else{

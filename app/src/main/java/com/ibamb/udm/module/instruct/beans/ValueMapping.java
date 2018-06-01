@@ -1,8 +1,5 @@
 package com.ibamb.udm.module.instruct.beans;
 
-/**
- * Created by luotao on 18-3-27.
- */
 
 public class ValueMapping {
     private String paramId;

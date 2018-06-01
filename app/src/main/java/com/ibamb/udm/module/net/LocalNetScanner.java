@@ -1,8 +1,6 @@
 package com.ibamb.udm.module.net;
 
 
-import android.util.Log;
-
 import com.ibamb.udm.log.UdmLog;
 
 import java.net.Inet4Address;
@@ -13,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-/**
- * Created by luotao on 17-12-18.
- */
 
 public class LocalNetScanner {
     public List<String> scanDevices(String wifiIp) {

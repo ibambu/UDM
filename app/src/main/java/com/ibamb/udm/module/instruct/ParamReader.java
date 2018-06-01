@@ -1,16 +1,11 @@
-package com.ibamb.udm.module.instruct.impl;
-
-import android.util.Log;
+package com.ibamb.udm.module.instruct;
 
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.UdmConstants;
-import com.ibamb.udm.module.constants.UdmControl;
+import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.IEncoder;
-import com.ibamb.udm.module.instruct.IParamReader;
-import com.ibamb.udm.module.instruct.IParser;
 import com.ibamb.udm.module.instruct.beans.Information;
 import com.ibamb.udm.module.instruct.beans.InstructFrame;
 import com.ibamb.udm.module.instruct.beans.Parameter;
@@ -21,11 +16,9 @@ import com.ibamb.udm.module.net.UDPMessageSender;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by luotao on 18-4-30.
- */
 
 public class ParamReader implements IParamReader {
+
     @Override
     public ChannelParameter readChannelParam(ChannelParameter channelParameter) {
         return this.sendStructure(channelParameter);
@@ -42,18 +35,18 @@ public class ParamReader implements IParamReader {
             IEncoder encoder = new ParamReadEncoder();
             IParser parser = new ReplyFrameParser();
             //主帧固定结构长度
-            int mainStructLen = UdmConstants.UDM_CONTROL_LENGTH
-                    + UdmConstants.UDM_ID_LENGTH
-                    + UdmConstants.UDM_MAIN_FRAME_LENGTH
-                    + UdmConstants.UDM_IP_LENGTH
-                    + UdmConstants.UDM_MAC_LENGTH;
+            int mainStructLen = Constants.UDM_CONTROL_LENGTH
+                    + Constants.UDM_ID_LENGTH
+                    + Constants.UDM_MAIN_FRAME_LENGTH
+                    + Constants.UDM_IP_LENGTH
+                    + Constants.UDM_MAC_LENGTH;
             //子帧固定结构长度
-            int subStructLen = UdmConstants.UDM_TYPE_LENGTH
-                    + UdmConstants.UDM_SUB_FRAME_LENGTH;
+            int subStructLen = Constants.UDM_TYPE_LENGTH
+                    + Constants.UDM_SUB_FRAME_LENGTH;
             List<Information> informationList = new ArrayList<>();//存放本次读/写的所有参数
 
             //先生成帧对象
-            InstructFrame instructFrame = new InstructFrame(UdmControl.GET_PARAMETERS, channelParameter.getMac());
+            InstructFrame instructFrame = new InstructFrame(Control.GET_PARAMETERS, channelParameter.getMac());
             instructFrame.setInfoList(informationList);
             instructFrame.setId(1);
 
@@ -73,13 +66,13 @@ public class ParamReader implements IParamReader {
             }
             instructFrame.setLength(sendFrameLength);
             //生成发送报文
-            byte[] sendData = encoder.encode(instructFrame, UdmControl.GET_PARAMETERS);
+            byte[] sendData = encoder.encode(instructFrame, Control.GET_PARAMETERS);
             //发送报文
             byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength, channelParameter.getIp());
 
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
-            if (replyFrame.getControl() == UdmControl.ACKNOWLEDGE) {
+            if (replyFrame.getControl() == Control.ACKNOWLEDGE) {
                 channelParameter.setSuccessful(true);
                 for (ParameterItem parameterItem : parameterItems) {
                     for (Information info : replyFrame.getInfoList()) {
@@ -93,16 +86,16 @@ public class ParamReader implements IParamReader {
                             if (displayValue != null) {
                                 int convertType = paramDef.getCovertType();
                                 switch (convertType) {
-                                    case UdmConstants.UDM_PARAM_TYPE_NUMBER://数值类型
+                                    case Constants.UDM_PARAM_TYPE_NUMBER://数值类型
                                         parameterItem.setParamValue(info.getData());
                                         parameterItem.setDisplayValue(paramDef.getDisplayValue(info.getData()));
                                         break;
-                                    case UdmConstants.UDM_PARAM_TYPE_IPADDR://IP地址
+                                    case Constants.UDM_PARAM_TYPE_IPADDR://IP地址
                                         displayValue = IPUtil.getIpFromLong(Long.parseLong(displayValue));
                                         parameterItem.setParamValue(info.getData());
                                         parameterItem.setDisplayValue(displayValue);
                                         break;
-                                    case UdmConstants.UDM_PARAM_TYPE_TIME://时间类型
+                                    case Constants.UDM_PARAM_TYPE_TIME://时间类型
                                         parameterItem.setParamValue(info.getData());
                                         parameterItem.setDisplayValue(displayValue);
                                         break;

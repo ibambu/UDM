@@ -7,9 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by luotao on 18-3-27.
- */
 
 public class ParameterMapping {
     private static Map<String, Parameter> parameterMap;

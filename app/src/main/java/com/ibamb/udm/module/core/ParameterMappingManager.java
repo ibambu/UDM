@@ -3,6 +3,7 @@ package com.ibamb.udm.module.core;
 import android.content.res.AssetManager;
 
 import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.instruct.beans.ValueMapping;
 
@@ -15,9 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by luotao on 18-3-27.
- */
 public class ParameterMappingManager {
 
 
@@ -26,11 +24,11 @@ public class ParameterMappingManager {
         Map<String,Parameter> mapping = new HashMap();
         BufferedReader bufreader = null;
         try {
-            InputStream in = assetManager.open("conextop-parameter-mapping.txt");
-            bufreader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            InputStream in = assetManager.open(Constants.FILE_PARAM_MAPPING);
+            bufreader = new BufferedReader(new InputStreamReader(in, Constants.DEFAULT_CHARSET));
             String readline = null;
             while ((readline = bufreader.readLine()) != null) {
-                String[] dataArray = readline.split("#");
+                String[] dataArray = readline.split(Constants.FILE_PARAM_MAPPING_COLUMN_SPLIT);
                 int cellCount = 0;
                 Parameter param = new Parameter();
                 param.setParamType(Integer.parseInt(dataArray[cellCount++]));//参数类型
@@ -49,8 +47,8 @@ public class ParameterMappingManager {
                     String enumValues = dataArray[cellCount++];
                     String displayEnumValues = dataArray[cellCount++];
                     if (enumValues!=null && displayEnumValues!=null) {
-                        String[] values = enumValues.split(",");
-                        String[] names = displayEnumValues.split(",");
+                        String[] values = enumValues.split(Constants.FILE_ENUM_VALUE_SPLIT);
+                        String[] names = displayEnumValues.split(Constants.FILE_ENUM_VALUE_SPLIT);
                         if(values.length==names.length){
                             for (int i = 0; i < values.length; i++) {
                                 ValueMapping vmapping = new ValueMapping();

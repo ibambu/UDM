@@ -2,9 +2,7 @@ package com.ibamb.udm.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -20,8 +18,8 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.MainActivity;
-import com.ibamb.udm.listener.UdmSearchButtonClickListener;
 import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
@@ -38,7 +36,7 @@ public class DeviceSearchListFragment extends Fragment {
     private String context;
 
     private ListView mListView;
-    private FloatingActionButton searchButton;
+//    private FloatingActionButton searchButton;
     private View loginView;
     private TextView noticeView;
     private String selectedMac;
@@ -117,7 +115,7 @@ public class DeviceSearchListFragment extends Fragment {
                                 } else {
                                     loginAsyncTask.cancel(true);
                                     noticeView.setVisibility(View.VISIBLE);
-                                    noticeView.setText("login fail.");
+                                    noticeView.setText(Constants.INFO_LOGIN_FAIL);
                                 }
                             } catch (InterruptedException e) {
                                 UdmLog.e(this.getClass().getName(),e.getMessage());
@@ -140,21 +138,11 @@ public class DeviceSearchListFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private OnFragmentInteractionListener mListener;
 
     public DeviceSearchListFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DeviceSearchListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DeviceSearchListFragment newInstance(String param1, String param2) {
         DeviceSearchListFragment fragment = new DeviceSearchListFragment();
         Bundle args = new Bundle();
@@ -179,57 +167,28 @@ public class DeviceSearchListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_device_search_list, container, false);
         //取得界面浮动搜索按钮和列表控件
-        searchButton = (FloatingActionButton) view.findViewById(R.id.udm_search_button);
+//        searchButton = (FloatingActionButton) view.findViewById(R.id.udm_search_button);
         mListView = (ListView) view.findViewById(R.id.search_device_list);
         vSearchNotice = view.findViewById(R.id.search_notice_info);
 
         //浮动按钮添加搜索事件，通过搜索事件触发搜索设备，并异步更新列表控件。
-        UdmSearchButtonClickListener searchClickListener = new UdmSearchButtonClickListener(searchButton, mListView, vSearchNotice,inflater);
-        searchButton.setOnClickListener(searchClickListener);
+//        UdmSearchButtonClickListener searchClickListener = new UdmSearchButtonClickListener(mListView, vSearchNotice,inflater);
+//        searchButton.setOnClickListener(searchClickListener);
         //给列表项添加点击事件，触发登录设备。
         mListView.setOnItemClickListener(itemOnclickListener);
         return view;
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        inetAddresses = ((MainActivity)getActivity()).getInetAddresses();
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
 }

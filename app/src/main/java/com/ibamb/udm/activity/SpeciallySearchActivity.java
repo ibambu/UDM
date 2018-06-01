@@ -12,14 +12,14 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 public class SpeciallySearchActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private SearchView specSearch;
-    private int resultCode = 0;
+    private int resultCode = 0;//返回主线程时会根据这个值判断是否是带关键字搜索设备。
 
     private SearchView.OnQueryTextListener searchViewListener = new SearchView.OnQueryTextListener() {
         @Override
@@ -32,7 +32,7 @@ public class SpeciallySearchActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(specSearch.getWindowToken(), 0); // 输入法如果是显示状态，那么就隐藏输入法
                 }
                 specSearch.clearFocus(); // 不获取焦点
-                resultCode =1;
+                resultCode = Constants.FLAG_SPECIALLY_SEARCH;//返回值，表示带关键字搜索。
                 finish();
             }
             return true;
@@ -55,7 +55,7 @@ public class SpeciallySearchActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
     }
 

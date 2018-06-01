@@ -1,20 +1,15 @@
 package com.ibamb.udm.module.net;
 
-import android.util.Log;
-
 import com.ibamb.udm.log.UdmLog;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
-/**
- * Created by luotao on 18-3-15.
- */
+
 public class UDPMessageSender {
 
     /**
@@ -33,8 +28,8 @@ public class UDPMessageSender {
         DatagramSocket datagramSocket = null;
         try {
             datagramSocket = new DatagramSocket();
-            address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
-            DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
+            address = InetAddress.getByName(Constants.UDM_BROADCAST_IP);
+            DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, Constants.UDM_UDP_SERVER_PORT);
             datagramSocket.setBroadcast(true);
             // 发送数据
             datagramSocket.send(sendDataPacket);
@@ -69,16 +64,14 @@ public class UDPMessageSender {
         try {
             datagramSocket = new DatagramSocket();
             datagramSocket.setSoTimeout(1500);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
-            address = InetAddress.getByName(UdmConstants.UDM_BROADCAST_IP);
-            DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, UdmConstants.UDM_UDP_SERVER_PORT);
+            address = InetAddress.getByName(Constants.UDM_BROADCAST_IP);
+            DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, Constants.UDM_UDP_SERVER_PORT);
             // 发送数据
-//            System.out.println("send:"+Arrays.toString(sendData));
             datagramSocket.send(sendDataPacket);
             // 接收数据
 //            Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
-//            System.out.println("reply:"+Arrays.toString(recevData));
         } catch (UnknownHostException ex) {
             UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {

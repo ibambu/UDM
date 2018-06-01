@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         FileInputStream inputStream = null;
         try {
             StringBuilder strbuffer = new StringBuilder();
-            inputStream = openFileInput(UdmConstants.TRY_USER_FILE);
+            inputStream = openFileInput(Constants.TRY_USER_FILE);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -101,17 +100,15 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.inflateMenu(R.menu.tool_bar_menu);
         //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //绑定菜单点击事件
-        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this));
 
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);//修改任务栏背景颜色
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
 
         //默认显示第一个界面
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideAllFragment(transaction);
         if (searchListFragment == null) {
-            searchListFragment = DeviceSearchListFragment.newInstance("第一个Fragment", null);
+            searchListFragment = DeviceSearchListFragment.newInstance(null, null);
             transaction.add(R.id.fragment_container, searchListFragment);
             transaction.show(searchListFragment);
         } else {
@@ -119,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
         transaction.commit();
+        //绑定菜单点击事件
+        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this,searchListFragment));
         //底部菜单绑定点击事件,实现界面切换.
         tabDeviceList = (TextView) this.findViewById(R.id.tab_device_list);
         tabSetting = (TextView) this.findViewById(R.id.tab_setting);
@@ -202,14 +201,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==1){
+        if(resultCode==Constants.FLAG_SPECIALLY_SEARCH){
             if(data!=null){
                 String searchKewWord = data.getStringExtra("SEARCH_KEY_WORD");
                 View view = searchListFragment.getView();
-                FloatingActionButton searchButton = view.findViewById(R.id.udm_search_button);
-                ListView mListView = (ListView) view.findViewById(R.id.search_device_list);
+                ListView mListView =  view.findViewById(R.id.search_device_list);
                 TextView vSearchNotice = view.findViewById(R.id.search_notice_info);
-                DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(searchButton,mListView,vSearchNotice,
+                DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(mListView,vSearchNotice,
                         searchListFragment.getLayoutInflater());
                 task.execute(searchKewWord);
             }

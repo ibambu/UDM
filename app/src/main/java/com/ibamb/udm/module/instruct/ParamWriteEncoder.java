@@ -1,20 +1,16 @@
-package com.ibamb.udm.module.instruct.impl;
+package com.ibamb.udm.module.instruct;
 
-import com.ibamb.udm.module.constants.UdmConstants;
-import com.ibamb.udm.module.constants.UdmControl;
+import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.IEncoder;
 import com.ibamb.udm.module.instruct.beans.Information;
 import com.ibamb.udm.module.instruct.beans.InstructFrame;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.net.IPUtil;
-import com.ibamb.udm.module.util.DataTypeConvert;
+import com.ibamb.udm.module.util.Convert;
 
 import java.util.List;
 
-/**
- * Created by luotao on 18-4-30.
- */
 
 public class ParamWriteEncoder implements IEncoder {
     @Override
@@ -26,7 +22,7 @@ public class ParamWriteEncoder implements IEncoder {
         // frame of id
         byteFrame[1] = (byte) instructFrame.getId();
         // frame for length
-        byte[] frameLength = DataTypeConvert.shortToBytes((short) instructFrame.getLength());
+        byte[] frameLength = Convert.shortToBytes((short) instructFrame.getLength());
         byteFrame[2] = frameLength[0];
         byteFrame[3] = frameLength[1];
         //frame of ip
@@ -35,7 +31,7 @@ public class ParamWriteEncoder implements IEncoder {
         byteFrame[6] = 0;
         byteFrame[7] = 0;
         //frame of mac
-        byte[] macBytes = DataTypeConvert.hexStringtoBytes(instructFrame.getMac().replaceAll(":", ""));
+        byte[] macBytes = Convert.hexStringtoBytes(instructFrame.getMac().replaceAll(":", ""));
         byteFrame[8] = macBytes[0];
         byteFrame[9] = macBytes[1];
         byteFrame[10] = macBytes[2];
@@ -51,29 +47,29 @@ public class ParamWriteEncoder implements IEncoder {
             Information info = infoList.get(i);
             Parameter parameter = ParameterMapping.getMapping(info.getType());
             int convertType = parameter.getCovertType();
-            byte[] typeBytes = DataTypeConvert.shortToBytes((short) parameter.getDecId());
+            byte[] typeBytes = Convert.shortToBytes((short) parameter.getDecId());
             byteFrame[pos++] = typeBytes[0];// bit 16
             byteFrame[pos++] = typeBytes[1];// bit 17
             // information of length
             byteFrame[pos++] = (byte) info.getLength();
             // information of data
             String data = info.getData();
-            if (control == UdmControl.SET_PARAMETERS) {
+            if (control == Control.SET_PARAMETERS) {
                 if (data != null) {
                     switch (convertType) {
-                        case UdmConstants.UDM_PARAM_TYPE_NUMBER://数值类型
+                        case Constants.UDM_PARAM_TYPE_NUMBER://数值类型
                             break;
-                        case UdmConstants.UDM_PARAM_TYPE_IPADDR://IP地址
+                        case Constants.UDM_PARAM_TYPE_IPADDR://IP地址
                             data = String.valueOf(IPUtil.getIpFromString(data));
                             break;
-                        case UdmConstants.UDM_PARAM_TYPE_TIME://时间类型
+                        case Constants.UDM_PARAM_TYPE_TIME://时间类型
                             break;
                         default://字符类型
                             break;
                     }
                     //读参数的时候参数值为null，所以长度为0.
-                    int dataLength = data != null ? info.getLength() - UdmConstants.UDM_TYPE_LENGTH
-                            - UdmConstants.UDM_SUB_FRAME_LENGTH : 0;
+                    int dataLength = data != null ? info.getLength() - Constants.UDM_TYPE_LENGTH
+                            - Constants.UDM_SUB_FRAME_LENGTH : 0;
 
                     switch (dataLength) {
                         case 1: {
@@ -81,14 +77,14 @@ public class ParamWriteEncoder implements IEncoder {
                             break;
                         }
                         case 2: {
-                            byte[] dataBytes = DataTypeConvert.shortToBytes((short) (Integer.parseInt(data)));
+                            byte[] dataBytes = Convert.shortToBytes((short) (Integer.parseInt(data)));
                             byteFrame[pos++] = dataBytes[0];
                             byteFrame[pos++] = dataBytes[1];
                             break;
                         }
                         case 4: {
-                            if(convertType!=UdmConstants.UDM_PARAM_TYPE_CHAR){
-                                byte[] dataBytes = DataTypeConvert.int2bytes((int) (Long.parseLong(data)));
+                            if(convertType!= Constants.UDM_PARAM_TYPE_CHAR){
+                                byte[] dataBytes = Convert.int2bytes((int) (Long.parseLong(data)));
                                 byteFrame[pos++] = dataBytes[0];
                                 byteFrame[pos++] = dataBytes[1];
                                 byteFrame[pos++] = dataBytes[2];

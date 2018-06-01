@@ -1,21 +1,18 @@
-package com.ibamb.udm.module.instruct.impl;
+package com.ibamb.udm.module.instruct;
 
-import com.ibamb.udm.module.constants.UdmConstants;
-import com.ibamb.udm.module.constants.UdmControl;
+import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.IParser;
 import com.ibamb.udm.module.instruct.beans.Information;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.instruct.beans.ReplyFrame;
-import com.ibamb.udm.module.util.DataTypeConvert;
+import com.ibamb.udm.module.util.Convert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by luotao on 18-3-14.
- */
+
 public class ReplyFrameParser implements IParser {
 
     @Override
@@ -24,17 +21,17 @@ public class ReplyFrameParser implements IParser {
         List<Information> informationList = new ArrayList<>();//存放本次返回的所有参数
         replyFrame.setInfoList(informationList);
         if(replyData==null){
-            replyFrame.setControl(UdmControl.NO_DATA_REPLY);
+            replyFrame.setControl(Control.NO_DATA_REPLY);
             return replyFrame;
         }
         replyFrame.setControl(replyData[0]);// 控制位
         replyFrame.setId(replyData[1]);// 通信ID
-        replyFrame.setLength((int)DataTypeConvert.bytesToShort(Arrays.copyOfRange(replyData, 2, 4)));//帧总长度
+        replyFrame.setLength((int) Convert.bytesToShort(Arrays.copyOfRange(replyData, 2, 4)));//帧总长度
 
         int offset = 0;
         for (int i = offset; i < replyData.length; i = i + offset) {
             Information information = new Information();
-            int decId = DataTypeConvert.bytesToShort(Arrays.copyOfRange(replyData, i + 4, i + 6));
+            int decId = Convert.bytesToShort(Arrays.copyOfRange(replyData, i + 4, i + 6));
             Parameter parameter = ParameterMapping.getMappingByDecId(decId);
 
             if (parameter != null) {
@@ -43,7 +40,7 @@ public class ReplyFrameParser implements IParser {
                 //读取返回数据
                 byte[] dataBytes = Arrays.copyOfRange(replyData, i + 7,
                         i + 7 + information.getLength()
-                                - UdmConstants.UDM_TYPE_LENGTH - UdmConstants.UDM_SUB_FRAME_LENGTH);
+                                - Constants.UDM_TYPE_LENGTH - Constants.UDM_SUB_FRAME_LENGTH);
                 int dataLength = dataBytes.length;//实际参数取值长度
 
                 /**
@@ -55,14 +52,14 @@ public class ReplyFrameParser implements IParser {
                         break;
                     }
                     case 2: {
-                        short value = DataTypeConvert.bytesToShort(dataBytes);
+                        short value = Convert.bytesToShort(dataBytes);
                         information.setData(String.valueOf((int) (value)));
                         break;
                     }
                     case 4: {
 
-                        if(parameter.getCovertType()!=UdmConstants.UDM_PARAM_TYPE_CHAR){
-                            information.setData(String.valueOf(DataTypeConvert.bytes2int(dataBytes)));
+                        if(parameter.getCovertType()!= Constants.UDM_PARAM_TYPE_CHAR){
+                            information.setData(String.valueOf(Convert.bytes2int(dataBytes)));
                         }else{
                             //有些参数存储IP地址是当作字符串的。
                             StringBuilder buffer = new StringBuilder();

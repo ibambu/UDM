@@ -18,9 +18,7 @@ import com.ibamb.udm.module.instruct.beans.ValueMapping;
 
 import java.util.List;
 
-/**
- * Created by luotao on 18-3-17.
- */
+
 
 public class UdmSpinner extends LinearLayout {
 

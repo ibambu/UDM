@@ -3,9 +3,6 @@ package com.ibamb.udm.module.instruct.beans;
 
 import java.util.List;
 
-/**
- * Created by luotao on 18-3-28.
- */
 
 public class Parameter {
     private int channelId;

@@ -1,24 +1,16 @@
 package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.security.UserAuth;
 
-/**
- * Created by luotao on 18-4-18.
- */
 
 public class UserLoginAsyncTask extends AsyncTask<String, Boolean, Boolean> {
 
     @Override
     protected void onProgressUpdate(Boolean... values) {
         super.onProgressUpdate(values);
-        //登录失败
-        if (!values[0]) {
-            String loginFail = "login fail.";
-        }
     }
 
     @Override

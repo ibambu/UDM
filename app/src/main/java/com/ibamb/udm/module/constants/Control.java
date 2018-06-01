@@ -1,10 +1,6 @@
 package com.ibamb.udm.module.constants;
 
-/**
- * Created by luotao on 18-3-27.
- */
-
-public class UdmControl {
+public class Control {
 
     //The command type is list below:
     public static final int GET_PARAMETERS = 0xC1;

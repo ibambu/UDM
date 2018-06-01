@@ -1,16 +1,11 @@
-package com.ibamb.udm.module.instruct.impl;
-
-import android.util.Log;
+package com.ibamb.udm.module.instruct;
 
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.UdmConstants;
-import com.ibamb.udm.module.constants.UdmControl;
+import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.IEncoder;
-import com.ibamb.udm.module.instruct.IParamWriter;
-import com.ibamb.udm.module.instruct.IParser;
 import com.ibamb.udm.module.instruct.beans.Information;
 import com.ibamb.udm.module.instruct.beans.InstructFrame;
 import com.ibamb.udm.module.instruct.beans.Parameter;
@@ -20,9 +15,7 @@ import com.ibamb.udm.module.net.UDPMessageSender;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by luotao on 18-4-30.
- */
+
 
 public class ParamWriter implements IParamWriter {
     @Override
@@ -43,18 +36,18 @@ public class ParamWriter implements IParamWriter {
             UDPMessageSender sender = new UDPMessageSender();
             List<ParameterItem> parameterItems = channelParameter.getParamItems();
             //主帧固定结构长度
-            int mainStructLen = UdmConstants.UDM_CONTROL_LENGTH
-                    + UdmConstants.UDM_ID_LENGTH
-                    + UdmConstants.UDM_MAIN_FRAME_LENGTH
-                    + UdmConstants.UDM_IP_LENGTH
-                    + UdmConstants.UDM_MAC_LENGTH;
+            int mainStructLen = Constants.UDM_CONTROL_LENGTH
+                    + Constants.UDM_ID_LENGTH
+                    + Constants.UDM_MAIN_FRAME_LENGTH
+                    + Constants.UDM_IP_LENGTH
+                    + Constants.UDM_MAC_LENGTH;
             //子帧固定结构长度
-            int subStructLen = UdmConstants.UDM_TYPE_LENGTH
-                    + UdmConstants.UDM_SUB_FRAME_LENGTH;
+            int subStructLen = Constants.UDM_TYPE_LENGTH
+                    + Constants.UDM_SUB_FRAME_LENGTH;
             List<Information> informationList = new ArrayList<>();//存放本次读/写的所有参数
 
             //先生成帧对象
-            InstructFrame instructFrame = new InstructFrame(UdmControl.SET_PARAMETERS, channelParameter.getMac());
+            InstructFrame instructFrame = new InstructFrame(Control.SET_PARAMETERS, channelParameter.getMac());
             instructFrame.setInfoList(informationList);
             instructFrame.setId(1);
 
@@ -74,7 +67,7 @@ public class ParamWriter implements IParamWriter {
             instructFrame.setLength(sendFrameLength);
             IEncoder encoder = new ParamWriteEncoder();
             //生成发送报文
-            byte[] sendData = encoder.encode(instructFrame, UdmControl.SET_PARAMETERS);
+            byte[] sendData = encoder.encode(instructFrame, Control.SET_PARAMETERS);
             //发送报文
             byte[] replyData = sender.sendByBroadcast(sendData, replyFrameLength);
             //解析返回报文
@@ -84,7 +77,7 @@ public class ParamWriter implements IParamWriter {
              * 对于修改参数值值的时候，2,4字节长度高位和低位位置是反的，
              * 所以对于读取参数只判断返回码是否成功即可，后面再重新读取一次。
              */
-            boolean isSuccessful = replyFrame.getControl() == UdmControl.ACKNOWLEDGE ? true : false;
+            boolean isSuccessful = replyFrame.getControl() == Control.ACKNOWLEDGE ? true : false;
             channelParameter.setSuccessful(isSuccessful);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,6 @@
 package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +11,16 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
 import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.search.DeviceSearch;
 
 import java.util.ArrayList;
 
-/**
- * Created by luotao on 18-4-14.
- */
 
 public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<DeviceInfo>> {
 
     private ListView mListView;
     private LayoutInflater inflater;
-    private FloatingActionButton searchButton;
     private ArrayList<DeviceInfo> deviceList;
     private TextView vSearchNotice;
 
@@ -41,7 +37,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         }
 
         String keyword = strings != null && strings.length > 0 ? strings[0] : null;
-        publishProgress("searching...");
+        publishProgress(Constants.INFO_SEARCH_PROGRESS);
         deviceList = DeviceSearch.searchDevice(keyword);
         if (deviceList == null) {
             deviceList = new ArrayList<>();
@@ -69,11 +65,11 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         mListView.setAdapter(adapter);
         String notice = "";
         if (dataList.size() == 0) {
-            notice = "Possible network delay. Please try again.";
+            notice = Constants.INFO_SEARCH_FAIL;
         } else {
             notice = "Device:" + String.valueOf(dataList.size());
         }
-        Snackbar.make(searchButton, notice, Snackbar.LENGTH_LONG)
+        Snackbar.make(mListView, notice, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         vSearchNotice.setVisibility(View.GONE);
     }
@@ -91,11 +87,9 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         vSearchNotice.setText(values[0]);
     }
 
-    public DeviceSearchAsyncTask(FloatingActionButton searchButton, ListView mListView,
-                                 TextView vSearchNotice, LayoutInflater inflater) {
+    public DeviceSearchAsyncTask(ListView mListView,TextView vSearchNotice, LayoutInflater inflater) {
         this.mListView = mListView;
         this.inflater = inflater;
-        this.searchButton = searchButton;
         this.vSearchNotice = vSearchNotice;
     }
 }

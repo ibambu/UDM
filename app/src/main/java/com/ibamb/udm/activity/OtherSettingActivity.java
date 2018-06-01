@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,7 +16,7 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
@@ -49,7 +48,7 @@ public class OtherSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_setting);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
@@ -78,7 +77,7 @@ public class OtherSettingActivity extends AppCompatActivity {
 
         title = findViewById(R.id.title);
 
-        title.setText("Other Setting");
+        title.setText(Constants.TITLE_OTHER_SETTING);
 
         localDate = findViewById(R.id.id_local_date);
         localDate.setOnTouchListener(new View.OnTouchListener() {
@@ -153,7 +152,7 @@ public class OtherSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, ip,UdmConstants.UDM_IP_SETTING_CHNL);
+            channelParameter = new ChannelParameter(mac, ip, Constants.UDM_IP_SETTING_CHNL);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(OTH_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

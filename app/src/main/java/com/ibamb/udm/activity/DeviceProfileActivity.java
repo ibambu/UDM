@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -112,7 +112,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_profile);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");
@@ -134,7 +134,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
 
 
         title = findViewById(R.id.title);
-        title.setText("Device Profile");
+        title.setText(Constants.TITLE_DEVICE_PROFILE);
 
         vSettingIP = findViewById(R.id.profile_ip_setting);
         vSettingConnect = findViewById(R.id.profile_connect_setting);

@@ -2,7 +2,6 @@ package com.ibamb.udm.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +10,7 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
@@ -41,7 +40,7 @@ public class SerialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
@@ -66,7 +65,7 @@ public class SerialActivity extends AppCompatActivity {
         });
 
         title = findViewById(R.id.title);
-        title.setText("Serial Setting");
+        title.setText(Constants.TITLE_SERIAL_SETTING);
     }
 
     @Override

@@ -10,10 +10,10 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 
-/**
- * Created by luotao on 18-4-14.
- */
 
+/**
+ * 根据需要可扩展底部菜单栏目
+ */
 public class UdmBottomMenuClickListener implements View.OnClickListener {
     private TextView tabDeviceList;
     private TextView tabAppSetting;

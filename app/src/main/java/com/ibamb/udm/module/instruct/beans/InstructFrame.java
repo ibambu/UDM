@@ -2,9 +2,7 @@ package com.ibamb.udm.module.instruct.beans;
 
 import java.util.List;
 
-/**
- * Created by luotao on 18-3-13.
- */
+
 public class InstructFrame {
 
     private int control;// 1 octet

@@ -7,14 +7,11 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.IParamReader;
-import com.ibamb.udm.module.instruct.impl.ParamReader;
+import com.ibamb.udm.module.instruct.ParamReader;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
-/**
- * Created by luotao on 18-4-21.
- */
 
 public class ChannelParamReadAsyncTask extends AsyncTask<String, String, ChannelParameter> {
 
@@ -37,7 +34,7 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
              */
             reader.readChannelParam(channelParameter);
             while (!channelParameter.isSuccessful() && tryCount < 3) {
-                publishProgress(UdmConstants.WAIT_READ_PARAM);
+                publishProgress(Constants.WAIT_READ_PARAM);
                 reader.readChannelParam(channelParameter);
                 tryCount++;
             }
@@ -63,15 +60,15 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
         TextView title = view.findViewById(R.id.title);
         if(title!=null){
             String titleValue = title.getText().toString();
-            title.setText(titleValue.replaceAll(UdmConstants.WAIT_READ_PARAM,""));
+            title.setText(titleValue.replaceAll(Constants.WAIT_READ_PARAM,""));
         }
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
         TextView title = view.findViewById(R.id.title);
-        if(title!=null){
-            title.setText(title.getText().toString()+UdmConstants.WAIT_READ_PARAM);
+        if(title!=null && !title.getText().toString().contains(Constants.WAIT_READ_PARAM)){
+            title.setText(title.getText().toString()+ Constants.WAIT_READ_PARAM);
         }
         super.onProgressUpdate(values);
     }

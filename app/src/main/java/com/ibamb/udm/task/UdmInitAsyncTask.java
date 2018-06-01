@@ -11,7 +11,6 @@ import java.util.Map;
 
 /**
  * 初始化应用数据
- * Created by luotao on 18-4-21.
  */
 
 public class UdmInitAsyncTask extends AsyncTask<AssetManager, Void, Map<String,Parameter>> {

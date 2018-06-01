@@ -2,9 +2,6 @@ package com.ibamb.udm.module.instruct.beans;
 
 import java.util.List;
 
-/**
- * Created by luotao on 18-3-14.
- */
 
 public class ReplyFrame {
     private int control;// 1 octet

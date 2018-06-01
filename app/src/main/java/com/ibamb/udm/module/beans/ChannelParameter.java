@@ -3,14 +3,11 @@ package com.ibamb.udm.module.beans;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by luotao on 18-3-16.
- */
 
 public class ChannelParameter {
 
 
-    private boolean isSuccessful;
+    private boolean isSuccessful;//读取参数值是否成功返回数据
     private String mac;
     private String ip;
     private String channelId;

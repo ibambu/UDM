@@ -3,15 +3,10 @@ package com.ibamb.udm.util;
 import android.app.Activity;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
-
-import com.ibamb.udm.R;
 
 public class TaskBarQuiet {
 

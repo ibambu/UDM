@@ -2,19 +2,18 @@ package com.ibamb.udm.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
-import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -31,7 +30,6 @@ public class AccessSettingActivity extends AppCompatActivity {
     private String ip;
     private String channelId;
 
-
     private ImageView commit;
     private ImageView back;
     private TextView title;
@@ -43,7 +41,7 @@ public class AccessSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_access_setting);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
         ip = bundle.getString("HOST_ADDRESS");
@@ -70,7 +68,7 @@ public class AccessSettingActivity extends AppCompatActivity {
         });
 
         title = findViewById(R.id.title);
-        title.setText("Access Setting");
+        title.setText(Constants.TITLE_ACCESS_SETTING);
 
 
     }

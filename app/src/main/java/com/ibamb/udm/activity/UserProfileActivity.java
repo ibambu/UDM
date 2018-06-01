@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.module.security.AESCrypt;
 import com.ibamb.udm.module.security.DefualtECryptValue;
@@ -42,7 +42,7 @@ public class UserProfileActivity extends AppCompatActivity {
         FileInputStream inputStream = null;
         try {
             StringBuilder strbuffer = new StringBuilder();
-            inputStream = openFileInput(UdmConstants.TRY_USER_FILE);
+            inputStream = openFileInput(Constants.TRY_USER_FILE);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -50,7 +50,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             ICryptStrategy aes = new AESCrypt();
 
-            String content = aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);//strbuffer.toString();
+            String content = aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
             String[] tryUsers = content.split("&");
             int count = 0;
             for(int i=0;i<tryUsers.length;i++){
@@ -78,7 +78,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         currentView = getWindow().getDecorView();
         filesDir = getFilesDir();
@@ -114,12 +114,12 @@ public class UserProfileActivity extends AppCompatActivity {
                         TryUser.setTryUser(content.split("&"));
                         File[] files = filesDir.listFiles();
                         for(File file:files){
-                            if(file.getName().equals(UdmConstants.TRY_USER_FILE)){
+                            if(file.getName().equals(Constants.TRY_USER_FILE)){
                                 file.delete();//删除已有文件
                                 break;
                             }
                         }
-                        outputStream = openFileOutput(UdmConstants.TRY_USER_FILE, MODE_APPEND);
+                        outputStream = openFileOutput(Constants.TRY_USER_FILE, MODE_APPEND);
                         outputStream.write(content.getBytes());//写入新文件
 
                     } catch (Exception e) {
@@ -134,14 +134,14 @@ public class UserProfileActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    String notice = isSuccess? "successful.":"fail";
+                    String notice = isSuccess? Constants.INFO_SUCCESS:Constants.INFO_FAIL;
                     Snackbar.make(currentView.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });
             //设置标题
             title = findViewById(R.id.title);
-            title.setText("User Profile");
+            title.setText(Constants.TITLE_USER_PROFILE);
 
             //登录云
             loginCloud = findViewById(R.id.login_cloud_btn);

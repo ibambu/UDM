@@ -3,7 +3,6 @@ package com.ibamb.udm.activity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,7 +12,7 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.UdmConstants;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
@@ -52,7 +51,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_udpconnection);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         getSupportActionBar();
         Bundle bundle = getIntent().getExtras();
@@ -90,7 +89,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
         });
 
         title = findViewById(R.id.title);
-        title.setText("UDP Connection");
+        title.setText(Constants.TITLE_UDP_CONNECTION);
     }
 
     @Override

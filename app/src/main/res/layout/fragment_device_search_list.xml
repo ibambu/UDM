@@ -29,15 +29,16 @@
         android:visibility="gone" />
     <!--<include layout="@layout/content_float_button" />-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/udm_search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:background="@android:color/background_light"
-        app:backgroundTint="@android:color/white"
-        app:elevation="0dp"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_search_category_default" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/udm_search_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="right|bottom"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:background="@android:color/background_light"-->
+        <!--app:backgroundTint="@android:color/white"-->
+        <!--app:elevation="0dp"-->
+        <!--app:fabSize="mini"-->
+        <!--android:visibility="gone"-->
+        <!--app:srcCompat="@android:drawable/ic_search_category_default" />-->
 </android.support.design.widget.CoordinatorLayout>

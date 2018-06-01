@@ -1,9 +1,5 @@
 package com.ibamb.udm.module.instruct.beans;
 
-/**
- * Created by luotao on 18-3-14.
- */
-
 public class Information {
     private String type;// 2 octets
     private int length;// 1 octet
