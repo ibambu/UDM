@@ -156,11 +156,5 @@ public class Convert {
         }
         return new String(byteWords);
     }
-
-    public static void main(String[] args) {
-        byte[] a = hexStringtoBytes("2c");
-        System.out.println(Arrays.toString(a));
-        System.out.println(hexStringtoBytes("a0c58932659a").length);
-//        System.out.println(toHexString(""));
-    }
+    
 }

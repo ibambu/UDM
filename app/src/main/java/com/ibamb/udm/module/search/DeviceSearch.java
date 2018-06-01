@@ -130,7 +130,7 @@ public class DeviceSearch {
                 byte[] ipValue = Arrays.copyOfRange(data, 7, 11);//IP地址
                 StringBuilder ipBuffer = new StringBuilder();
                 for (int i = 0; i < ipValue.length; i++) {
-                    String tempIp = String.valueOf((short)(ipValue[i]));
+                    String tempIp = String.valueOf(((int)ipValue[i])&0xff);
                     ipBuffer.append(tempIp).append(".");
                 }
                 ipBuffer.deleteCharAt(ipBuffer.length() - 1);

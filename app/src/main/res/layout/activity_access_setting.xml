@@ -37,7 +37,7 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="left|center"
                     android:text="HTTP Access" />
 
@@ -45,7 +45,7 @@
                     android:id="@+id/id_http_access"
                     android:layout_columnSpan="3"
                     android:layout_gravity="fill"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="right|center"
                     android:tag="@string/tag_basic_web_console"
                     android:textOff="off"
@@ -63,7 +63,7 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="left|center"
                     android:text="Telnet Access" />
 
@@ -71,7 +71,7 @@
                     android:id="@+id/id_telnet_access"
                     android:layout_columnSpan="3"
                     android:layout_gravity="fill"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="right|center"
                     android:tag="@string/tag_basic_telnet_console"
                     android:textOff="off"
@@ -89,7 +89,7 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="left|center"
                     android:text="Cloud Access" />
 
@@ -97,7 +97,7 @@
                     android:id="@+id/id_cloud_access"
                     android:layout_columnSpan="3"
                     android:layout_gravity="fill"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="right|center"
                     android:tag="@string/tag_basic_cloud_console"
                     android:textOff="off"
@@ -115,7 +115,7 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="left|center"
                     android:text="Cmd TCP Access" />
 
@@ -123,7 +123,7 @@
                     android:id="@+id/id_cmd_tcp_access"
                     android:layout_columnSpan="3"
                     android:layout_gravity="fill"
-                    android:height="40dp"
+                    android:height="60dp"
                     android:gravity="right|center"
                     android:tag="@string/tag_basic_cmd_tcp_consol"
                     android:textOff="off"
