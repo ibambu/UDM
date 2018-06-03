@@ -63,6 +63,7 @@ public class Constants {
     public static final String TITLE_TCP_CONNECTION = "TCP Connection";
     public static final String TITLE_UDP_CONNECTION = "UDP Connection";
     public static final String TITLE_USER_PROFILE = "User Profile";
+    public static final String TITLE_DEVICE_UPGRADE = "Device Upgrade";
 
 
     public static final String INFO_SUCCESS = "successful";

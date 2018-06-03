@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.activity.DeviceUpgradeActivity;
 import com.ibamb.udm.activity.LoadParamDefActivity;
 import com.ibamb.udm.activity.SpeciallySearchActivity;
 import com.ibamb.udm.activity.UDPConnectionActivity;
@@ -58,7 +59,8 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
            // activity.startActivity(intent);
 
         } else if (menuItemId == R.id.id_upgrade_device) {
-
+            Intent intent = new Intent(activity, DeviceUpgradeActivity.class);
+            activity.startActivityForResult(intent, 1);
 
         }else if (menuItemId == R.id.global_search) {
             View view = searchListFragment.getView();

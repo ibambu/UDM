@@ -39,11 +39,13 @@
 
                 <ImageView
                     android:id="@+id/img_device"
+                    android:layout_height="50dp"
                     android:layout_columnSpan="3"
-                    android:layout_rowSpan="2"
-                    android:scaleType="fitEnd"
                     android:layout_gravity="center"
-                    android:src="@mipmap/ic_device" />
+                    android:layout_rowSpan="2"
+
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/ic_action_laptop" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -57,8 +59,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:height="30dp"
-                        android:gravity="left|center"
+                        android:height="20dp"
+                        android:gravity="right|center"
                         android:text="IP" />
 
                     <TextView
@@ -66,7 +68,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:height="30dp"
+                        android:height="20dp"
                         android:gravity="left|center" />
                 </LinearLayout>
 
@@ -83,8 +85,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:height="30dp"
-                        android:gravity="left|center"
+                        android:height="20dp"
+                        android:gravity="right|center"
                         android:text="MAC" />
 
                     <TextView
@@ -92,7 +94,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:height="30dp"
+                        android:height="20dp"
                         android:gravity="left|center" />
                 </LinearLayout>
 

@@ -5,6 +5,15 @@ public class DeviceInfo {
     private String ip;
     private String mac;
     private int index;
+    private int upgradeProgress;
+
+    public int getUpgradeProgress() {
+        return upgradeProgress;
+    }
+
+    public void setUpgradeProgress(int upgradeProgress) {
+        this.upgradeProgress = upgradeProgress;
+    }
 
     public int getIndex() {
         return index;
@@ -55,8 +64,14 @@ public class DeviceInfo {
         return result;
     }
 
+
     @Override
     public String toString() {
-        return "DeviceInfo{" + "ip=" + ip + ", mac=" + mac + '}';
+        return "DeviceInfo{" +
+                "ip='" + ip + '\'' +
+                ", mac='" + mac + '\'' +
+                ", index=" + index +
+                ", upgradeProgress=" + upgradeProgress +
+                '}';
     }
 }
