@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#64dd17</color>
+    <color name="colorAccent">#3d5afe</color>
 
     <color name="text_gray">#E0E0E0</color>
     <color name="text_blue">#2a5caa</color>
@@ -17,4 +17,5 @@
     <color name="udm_light_black">#fb303132</color>
     <color name="udm_gray_light">#ececec</color>
     <color name="udm_base_bgcolor">#efeeee</color>
+    <color name="holo_blue_light">#304ffe</color>
 </resources>
