@@ -118,9 +118,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
         ip = (String) bundle.get("HOST_ADDRESS");
         mac = (String) bundle.get("HOST_MAC");
         TextView vIp = findViewById(R.id.host_ip);
-        TextView vMac = findViewById(R.id.host_mac);
-        vIp.setText(ip);
-        vMac.setText(mac);
+//        TextView vMac = findViewById(R.id.host_mac);
+        vIp.setText(ip+"/"+mac.toUpperCase());
+//        vMac.setText(mac);
 
         back = findViewById(R.id.go_back);
         back.setOnClickListener(new View.OnClickListener() {

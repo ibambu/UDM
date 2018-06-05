@@ -69,10 +69,10 @@
                 android:id="@+id/alter_sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/udm_nav_color"
-                android:textColor="@android:color/white"
-                android:text="@string/action_sign_in" />
+                android:layout_marginTop="2dp"
+                android:background="@color/udm_light_black"
+                android:text="@string/action_sign_in"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
     </ScrollView>

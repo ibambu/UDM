@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <Button
         android:id="@+id/decr_button"
         style="?android:attr/buttonStyleSmall"
@@ -11,7 +10,7 @@
         android:layout_height="40sp"
         android:layout_gravity="center"
         android:text="-"
-        android:textColor="@android:color/holo_blue_light" />
+        android:textColor="@android:color/black" />
 
     <EditText
         android:id="@+id/value_edit_text"
@@ -30,7 +29,7 @@
         android:layout_height="40sp"
         android:layout_gravity="center"
         android:text="+"
-        android:textColor="@android:color/holo_blue_light" />
+        android:textColor="@android:color/black" />
 
 
 </LinearLayout>

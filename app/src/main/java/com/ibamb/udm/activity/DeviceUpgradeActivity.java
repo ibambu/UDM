@@ -1,6 +1,14 @@
 package com.ibamb.udm.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,11 +19,16 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.service.DeviceUpgradeService;
 import com.ibamb.udm.task.DeviceUpgradeAsyncTask;
 import com.ibamb.udm.task.SearchUpgradeDeviceAsycTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
-public class DeviceUpgradeActivity extends AppCompatActivity {
+public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUpgradeService.OnServiceProgressListener{
+
+    private DeviceUpgradeService upgradeService;
+    private UpgradeMsgReceiver msgReceiver;
+    private Intent mIntent;
 
 
     private ImageView search;
@@ -33,6 +46,15 @@ public class DeviceUpgradeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_upgrade);
         TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+
+        /**
+         * 注册Service
+         */
+        msgReceiver = new UpgradeMsgReceiver();
+        IntentFilter filter = new IntentFilter("com.ibamb.udm.service");
+        filter.addAction("com.ibamb.udm.service.RECEIVER");
+        registerReceiver(msgReceiver, filter);
+//        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(msgReceiver, filter);
 
 
         mListView = findViewById(R.id.upgrade_device_list);
@@ -65,16 +87,59 @@ public class DeviceUpgradeActivity extends AppCompatActivity {
         upgradeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeviceUpgradeAsyncTask upgradeTask = new DeviceUpgradeAsyncTask(mListView);
-                upgradeTask.execute();
+                onCommunication(null);
+//                DeviceUpgradeAsyncTask upgradeTask = new DeviceUpgradeAsyncTask(mListView);
+//                upgradeTask.execute();
             }
         });
+        onBindService(null);
+    }
 
 
+    public void onBindService(View view) {
+        ServiceConnection connection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                upgradeService = ((DeviceUpgradeService.UpgradeServiceBinder) service).getService();
+                upgradeService.setOnServiceProgressChangedListener(DeviceUpgradeActivity.this);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        Intent intent = new Intent(this, DeviceUpgradeService.class);
+        bindService(intent, connection, BIND_AUTO_CREATE);
+    }
+
+    public void onCommunication(View view) {
+        upgradeService.upgrade();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onProgressChanged(int progress) {
+        //更新UI进度
+        title.setText(String.valueOf(progress));
+        System.out.println("......"+progress);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(msgReceiver);
+//        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(msgReceiver);
+    }
+    class UpgradeMsgReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String value = intent.getStringExtra("extra_data");
+
+            System.out.println("sssssssssssssssss=="+value);
+        }
     }
 }

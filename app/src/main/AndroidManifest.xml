@@ -68,6 +68,9 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".activity.DeviceUpgradeActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <service android:name="com.ibamb.udm.service.DeviceUpgradeService" >
+        </service>
     </application>
 
 </manifest>
