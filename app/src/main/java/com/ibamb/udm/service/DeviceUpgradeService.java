@@ -3,16 +3,18 @@ package com.ibamb.udm.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.ibamb.udm.module.beans.DeviceInfo;
+
+import java.util.ArrayList;
+
 public class DeviceUpgradeService extends Service {
 
-    private OnServiceProgressListener listener;
-    private Handler handler;
+    private ArrayList<DeviceInfo> deviceInfos;//待升级的设备列表
+    private static boolean isRuning = false;
 
     @Nullable
     @Override
@@ -24,9 +26,6 @@ public class DeviceUpgradeService extends Service {
         void onProgressChanged(int progress);
     }
 
-    public void setOnServiceProgressChangedListener(OnServiceProgressListener listener) {
-        this.listener = listener;
-    }
 
     public class UpgradeServiceBinder extends Binder{
         public DeviceUpgradeService getService(){
@@ -35,39 +34,25 @@ public class DeviceUpgradeService extends Service {
     }
 
     public void upgrade(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 10; i++) {
-                    try {
-                        handler.sendEmptyMessage(i);
-                       //广播机制通信
-                        Intent intent = new Intent("com.ibamb.udm.service");
-                        intent.putExtra("extra_data", String.valueOf(i));
-                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        if(!isRuning){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    isRuning = true;
+                    for (int i = 0; i < 100; i++) {
+                        try {
+                            //广播机制通信
+                            Intent intent = new Intent("com.ibamb.udm.service");
+                            intent.putExtra("extra_data", String.valueOf(i));
+                            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    isRuning = false;
                 }
-            }
-        }).start();
-        handler.sendEmptyMessage(100);
-        System.out.println("upgrade.....");
+            }).start();
+        }
     }
-
-    @Override
-    public void onCreate() {
-        //使用mainlooper 确保在UI线程执行
-        handler = new Handler(getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                if (listener != null) {
-                    listener.onProgressChanged(msg.what);
-                }
-            }
-        };
-    }
-
-
 }

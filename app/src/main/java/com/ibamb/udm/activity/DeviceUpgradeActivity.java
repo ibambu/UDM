@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,6 +41,15 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
 
     private Button upgradeButton;
 
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+                onProgressChanged(msg.what);
+        }
+    };
+
+    private ServiceConnection serviceConnection ;
+
     ListView mListView;
 
     @Override
@@ -53,8 +64,8 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         msgReceiver = new UpgradeMsgReceiver();
         IntentFilter filter = new IntentFilter("com.ibamb.udm.service");
         filter.addAction("com.ibamb.udm.service.RECEIVER");
-        registerReceiver(msgReceiver, filter);
-//        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(msgReceiver, filter);
+//        registerReceiver(msgReceiver, filter);
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(msgReceiver, filter);
 
 
         mListView = findViewById(R.id.upgrade_device_list);
@@ -97,24 +108,25 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
 
 
     public void onBindService(View view) {
-        ServiceConnection connection = new ServiceConnection() {
+        serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 upgradeService = ((DeviceUpgradeService.UpgradeServiceBinder) service).getService();
-                upgradeService.setOnServiceProgressChangedListener(DeviceUpgradeActivity.this);
-            }
+                System.out.println("get service instance:"+upgradeService);
 
+            }
             @Override
             public void onServiceDisconnected(ComponentName name) {
 
             }
         };
         Intent intent = new Intent(this, DeviceUpgradeService.class);
-        bindService(intent, connection, BIND_AUTO_CREATE);
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
 
     public void onCommunication(View view) {
         upgradeService.upgrade();
+
     }
 
     @Override
@@ -126,19 +138,19 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     public void onProgressChanged(int progress) {
         //更新UI进度
         title.setText(String.valueOf(progress));
-        System.out.println("......"+progress);
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(msgReceiver);
-//        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(msgReceiver);
+        unbindService(serviceConnection);
+//        unregisterReceiver(msgReceiver);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(msgReceiver);
     }
     class UpgradeMsgReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
             String value = intent.getStringExtra("extra_data");
-
+            title.setText(value);
             System.out.println("sssssssssssssssss=="+value);
         }
     }

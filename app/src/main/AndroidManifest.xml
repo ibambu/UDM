@@ -59,18 +59,18 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.AccessSettingActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.SpeciallySearchActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.LoadParamDefActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.DeviceUpgradeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.DeviceUpgradeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name="com.ibamb.udm.service.DeviceUpgradeService" >
-        </service>
+        <service android:name=".service.DeviceUpgradeService"></service>
     </application>
 
 </manifest>
