@@ -44,7 +44,8 @@
         android:indeterminate="false"
         android:max="100"
         android:progress="1"
-        android:progressDrawable="@drawable/progressbar" />
+        android:progressDrawable="@drawable/progressbar"
+        style="?android:progressBarStyleHorizontal"/>
 
     <TextView
         android:id="@+id/upgrade_progress"

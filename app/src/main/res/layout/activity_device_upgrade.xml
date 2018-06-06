@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/top_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/udm_base_bgcolor"
         android:orientation="vertical">
 
@@ -63,44 +63,26 @@
 
             </View>
         </LinearLayout>
+
         <ProgressBar
             android:id="@+id/upgrade_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/white"
             android:max="100"
             android:progress="1"
             android:layout_gravity="center"
             android:indeterminate="false"
             android:progressDrawable="@drawable/progressbar"
             style="@android:style/Widget.ProgressBar.Horizontal"/>
+
         <TextView
             android:id="@+id/upgrade_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"/>
-        <ListView
-            android:id="@+id/upgrade_device_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cacheColorHint="@android:color/white"
-            android:divider="@color/transparent"
-            android:dividerHeight="1dp"
-            android:fadingEdge="none"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:listSelector="@color/udm_gray_light"
-            android:scrollbars="horizontal|vertical"
-            android:showDividers="middle"
-            android:transcriptMode="alwaysScroll"
-            android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/search_notice_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
-            android:textColor="@android:color/darker_gray"
-            android:visibility="gone" />
 
     </LinearLayout>
 

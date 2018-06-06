@@ -109,8 +109,8 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
             @Override
             public void onClick(View v) {
                 onCommunication(null);
-//                DeviceUpgradeAsyncTask upgradeTask = new DeviceUpgradeAsyncTask(mListView);
-//                upgradeTask.execute();
+                DeviceUpgradeAsyncTask upgradeTask = new DeviceUpgradeAsyncTask(mListView);
+                upgradeTask.execute();
             }
         });
         onBindService(null);
