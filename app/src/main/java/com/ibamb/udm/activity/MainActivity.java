@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         tabSetting.setOnClickListener(bottomMenuClickListener);
         tabDeviceList.requestFocus();
         tabDeviceList.setSelected(true);
+
         //初始化应用基础数据
         AssetManager mAssetManger = getAssets();
         UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask();

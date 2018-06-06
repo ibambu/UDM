@@ -43,7 +43,7 @@ public class DeviceUpgradeService extends Service {
                         try {
                             //广播机制通信
                             Intent intent = new Intent("com.ibamb.udm.service");
-                            intent.putExtra("extra_data", String.valueOf(i));
+                            intent.putExtra("extra_data", String.valueOf(i+1));
                             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                             Thread.sleep(500);
                         } catch (InterruptedException e) {

@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +42,8 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     private TextView title;
     private TextView upgradeProgress;
     private TextView vSearchNotice;
+
+    private ProgressBar progressBar;
 
     private Button upgradeButton;
 
@@ -90,6 +96,10 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                 task.execute();
             }
         });
+        progressBar = findViewById(R.id.upgrade_progress_bar);
+        progressBar.setMax(100);
+//        ClipDrawable d = new ClipDrawable(new ColorDrawable(Color.YELLOW), Gravity.LEFT,ClipDrawable.HORIZONTAL);
+//        progressBar.setProgressDrawable(d);
 
         vSearchNotice = findViewById(R.id.search_notice_info);
 
@@ -137,7 +147,9 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     @Override
     public void onProgressChanged(int progress) {
         //更新UI进度
-        title.setText(String.valueOf(progress));
+        title.setText(Constants.TITLE_DEVICE_UPGRADE+"("+progress+")");
+        progressBar.setProgress(progress);
+        ((TextView)findViewById(R.id.upgrade_report)).setText("Success:"+progress);
     }
     @Override
     protected void onDestroy() {
@@ -150,8 +162,7 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         @Override
         public void onReceive(Context context, Intent intent) {
             String value = intent.getStringExtra("extra_data");
-            title.setText(value);
-            System.out.println("sssssssssssssssss=="+value);
+
         }
     }
 }

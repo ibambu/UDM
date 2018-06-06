@@ -31,35 +31,41 @@
             <group>
                 <item
                     android:id="@+id/id_menu_user_profile"
+                    android:icon="@mipmap/ic_action_key"
                     android:title="User Profile"
                     app:showAsAction="ifRoom" />
                 <item
                     android:id="@+id/id_spec_search"
+                    android:icon="@mipmap/ic_action_search"
                     android:title="Specially Search"
                     app:showAsAction="ifRoom" />
                 <item
                     android:id="@+id/id_upgrade_device"
+                    android:icon="@mipmap/ic_action_upload"
                     android:title="Device Upgrade"
                     app:showAsAction="ifRoom" />
 
                 <item
                     android:id="@+id/id_load_param_def"
+                    android:icon="@mipmap/ic_action_import"
                     android:title="Import Type File"
                     app:showAsAction="ifRoom" />
                 <item
                     android:id="@+id/id_menu_or_code"
+                    android:icon="@mipmap/ic_action_barcode_2"
                     android:title="OR Code"
                     app:showAsAction="ifRoom" />
 
                 <item
                     android:id="@+id/id_menu_join_cloud"
+                    android:icon="@mipmap/ic_action_cloud"
                     android:title="Join Cloud"
                     app:showAsAction="never" />
                 <item
                     android:id="@+id/id_menu_exit"
+                    android:icon="@mipmap/ic_action_exit"
                     android:title="Exit"
-                    app:showAsAction="never"
-                    />
+                    app:showAsAction="never" />
             </group>
         </menu>
     </item>

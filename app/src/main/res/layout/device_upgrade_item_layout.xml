@@ -5,36 +5,46 @@
 
     <TextView
         android:id="@+id/device_index"
-        android:layout_weight="2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_weight="2"
         android:height="45dp"
+        android:gravity="center"
         android:text=""
         android:textAlignment="center"
         android:textSize="16dp" />
 
     <TextView
         android:id="@+id/device_ip"
-        android:layout_weight="5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-
+        android:layout_weight="5"
         android:height="45dp"
+
+        android:gravity="center"
         android:textAlignment="center"
-        android:textSize="16dp"/>
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/device_mac"
-        android:layout_weight="6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="left|center"
+        android:layout_weight="6"
         android:height="45dp"
+        android:gravity="left|center"
         android:text=""
         android:textAlignment="center"
-        android:textSize="16dp"/>
+        android:textSize="16dp" />
+
+    <ProgressBar
+        android:id="@+id/upgrade_progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="1"
+        android:progressDrawable="@drawable/progressbar" />
 
     <TextView
         android:id="@+id/upgrade_progress"
@@ -47,5 +57,6 @@
         android:text="0%"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:visibility="gone" />
 </LinearLayout>

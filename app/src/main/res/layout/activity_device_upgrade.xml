@@ -63,7 +63,21 @@
 
             </View>
         </LinearLayout>
-
+        <ProgressBar
+            android:id="@+id/upgrade_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="100"
+            android:progress="1"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/progressbar"
+            style="@android:style/Widget.ProgressBar.Horizontal"/>
+        <TextView
+            android:id="@+id/upgrade_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"/>
         <ListView
             android:id="@+id/upgrade_device_list"
             android:layout_width="match_parent"
@@ -77,7 +91,8 @@
             android:listSelector="@color/udm_gray_light"
             android:scrollbars="horizontal|vertical"
             android:showDividers="middle"
-            android:transcriptMode="alwaysScroll" />
+            android:transcriptMode="alwaysScroll"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/search_notice_info"
