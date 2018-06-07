@@ -53,7 +53,7 @@
                 <item
                     android:id="@+id/id_menu_or_code"
                     android:icon="@mipmap/ic_action_barcode_2"
-                    android:title="OR Code"
+                    android:title="Scan QR Code"
                     app:showAsAction="ifRoom" />
 
                 <item
@@ -63,7 +63,7 @@
                     app:showAsAction="never" />
                 <item
                     android:id="@+id/id_menu_exit"
-                    android:icon="@mipmap/ic_action_exit"
+                    android:icon="@mipmap/ic_action_io"
                     android:title="Exit"
                     app:showAsAction="never" />
             </group>

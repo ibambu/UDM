@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/check_upgrade_search"
+        android:title="search"
+        android:visible="true"
+        android:icon="@mipmap/ic_action_search_white"
+        app:showAsAction="ifRoom"/>
+    <!--<item android:id="@+id/udm_search"-->
+    <!--android:title="search"-->
+    <!--app:showAsAction="always"-->
+    <!--app:queryBackground="@android:color/white"-->
+    <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
+    <!-- 同级的item有几个则在toolbar右边显示几个 -->
+    <!--
+        id:之后设置点击事件的时候找到当前菜单项的唯一标识
+        title:必填项，Toolbar栏的menu标题
+        [如果存在icon，则显示icon图标，不显示文字]
+        [如果不存在icon,则显示文字]
+        app:showAsAction = "ifRoom" ：显示为一个行为
+        android:showAsAction="ifRoom":icon失效显示图标为“3个竖立的点”
+    -->
+    <item
+        android:id="@+id/toolbar_r_img"
+        android:title="..."
+        android:icon="@mipmap/ic_action_overflow_white"
+        app:showAsAction="ifRoom">
+        <!-- item包含menu表示该menu是item下的子菜单 -->
+        <menu>
+            <!-- 将group中的菜单项放于一个组里面 -->
+            <group>
+                <item
+                    android:id="@+id/menu_upgrade_setting"
+                    android:icon="@mipmap/ic_action_tag"
+                    android:title="Upgrade Setting"
+                    app:showAsAction="ifRoom" />
+
+                <item
+                    android:id="@+id/menu_download_patch"
+                    android:icon="@mipmap/ic_action_download"
+                    android:title="Download Upgrade Patch"
+                    app:showAsAction="ifRoom" />
+            </group>
+        </menu>
+    </item>
+</menu>
