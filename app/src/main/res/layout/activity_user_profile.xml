@@ -386,6 +386,7 @@
                     android:background="@color/udm_light_black"
                     android:gravity="center"
                     android:text="Login Cloud"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white" />
             </GridLayout>
         </ScrollView>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--shape用于定义形状，有四种形状(矩形rectangle| 椭圆oval | 直线line | 圆形ring)-->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle" >
+            <!-- 高度40 -->
+            <size android:height="10dp"/>
+            <!-- 圆角弧度 20 -->
+            <corners android:radius="20dp"/>
+            <!-- 变化率 -->
+            <gradient
+                android:endColor="@color/udm_gray_light"
+                android:startColor="@color/text_gray" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="false">
+        <shape android:shape="rectangle" >
+            <!-- 高度40 -->
+            <size android:height="10dp"/>
+            <!-- 圆角弧度 20 -->
+            <corners android:radius="20dp"/>
+            <!-- 变化率 -->
+            <gradient
+                android:endColor="#EDEDED"
+                android:startColor="#EDEDED" />
+        </shape>
+    </item>
+</selector>

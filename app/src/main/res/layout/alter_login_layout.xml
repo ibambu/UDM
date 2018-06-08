@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:background="@color/udm_light_black"
+                android:textAllCaps="false"
                 android:text="@string/action_sign_in"
                 android:textColor="@android:color/white" />
 
