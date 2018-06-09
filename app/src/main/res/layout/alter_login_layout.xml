@@ -70,10 +70,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:background="@color/udm_light_black"
+                android:background="@drawable/udm_radius_button"
+                android:textColor="#636363"
                 android:textAllCaps="false"
-                android:text="@string/action_sign_in"
-                android:textColor="@android:color/white" />
+                style="?android:attr/borderlessButtonStyle"
+                android:text="@string/action_sign_in"/>
 
         </LinearLayout>
     </ScrollView>

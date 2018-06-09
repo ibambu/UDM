@@ -40,41 +40,36 @@
             android:visibility="gone"
             style="?android:attr/progressBarStyleLarge"/>
         <TextView
+            android:id="@+id/version_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:height="20dp"
             android:gravity="center"
-            android:text="New Vesion:1.0" />
+            android:text="" />
+        <TextView
+            android:id="@+id/upgrade_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:height="20dp"
+            android:gravity="center"
+            android:text=""
+            android:visibility="gone"/>
         <Button
-            android:id="@+id/btn_check_upgrade"
+            android:id="@+id/action_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="180dp"
             android:background="@drawable/udm_radius_button"
             android:gravity="center"
             android:text="Check for updates"
             android:textAllCaps="false"
             android:textColor="#636363"
             style="?android:attr/borderlessButtonStyle"/>
-        <Button
-            android:id="@+id/btn_upgrade_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/udm_radius_button"
-            android:gravity="center"
-            android:text="Upgrade All"
-            android:textColor="#636363"
-            android:textAllCaps="false"
-            style="?android:attr/borderlessButtonStyle"
-            android:visibility="gone"/>
     </LinearLayout>
 
 

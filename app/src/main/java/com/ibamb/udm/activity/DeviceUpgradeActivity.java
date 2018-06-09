@@ -7,67 +7,55 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.graphics.Color;
-import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.service.DeviceUpgradeService;
-import com.ibamb.udm.task.DeviceUpgradeAsyncTask;
-import com.ibamb.udm.task.SearchUpgradeDeviceAsycTask;
+import com.ibamb.udm.task.CheckForUpdatesAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.lang.reflect.Method;
 
 public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUpgradeService.OnServiceProgressListener{
 
-    private ImageView search;
-    private ImageView back;
-    private TextView title;
+    private View currentView;
 
     private DeviceUpgradeService upgradeService;
     private UpgradeMsgReceiver msgReceiver;
 
-    private Intent mIntent;
-    private ListView mListView;
 
     private Toolbar mToolbar;
 
-    private TextView upgradeProgress;
-    private TextView vSearchNotice;
+    //升级事件按钮
+    private Button actionButton;
+    //版本信息
+    private TextView versionInfo;
+    //最新版本
+    private int newVersion;
+    //当前版本
+    private int currentVesion;
 
-    private ProgressBar progressBar;
-
-    private Button upgradeButton;
-
+    //service 连接
     private ServiceConnection serviceConnection ;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_upgrade);
-
+        currentView = getWindow().getDecorView();
         //将ActionBar位置改放Toolbar.
         mToolbar =  findViewById(R.id.upgrade_toolbar);
         setSupportActionBar(mToolbar);
@@ -87,59 +75,34 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                 return true;
             }
         });
-
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
+        //修改任务栏背景颜色
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         /**
-         * 注册Service
+         * 注册 Service 服务
          */
         msgReceiver = new UpgradeMsgReceiver();
         IntentFilter filter = new IntentFilter("com.ibamb.udm.service");
         filter.addAction("com.ibamb.udm.service.RECEIVER");
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(msgReceiver, filter);
-        //绑定服务
+        //绑定 service 服务
         onBindService();
-//
-//
-//        back = findViewById(R.id.go_back);
-//
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//
-//        title = findViewById(R.id.title);
-//        title.setText(Constants.TITLE_DEVICE_UPGRADE);
-//
-//        search = findViewById(R.id.do_search);
-//        search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                TextView vSearchNotice = findViewById(R.id.search_notice_info);
-////                SearchUpgradeDeviceAsycTask task = new SearchUpgradeDeviceAsycTask(mListView,vSearchNotice,getLayoutInflater());
-////                task.execute();
-//            }
-//        });
-//        progressBar = findViewById(R.id.upgrade_progress_bar);
-//        progressBar.setMax(100);
-////        ClipDrawable d = new ClipDrawable(new ColorDrawable(Color.YELLOW), Gravity.LEFT,ClipDrawable.HORIZONTAL);
-////        progressBar.setProgressDrawable(d);
-//
-//        vSearchNotice = findViewById(R.id.search_notice_info);
-//
-//        upgradeProgress = findViewById(R.id.upgrade_progress);
-//        upgradeButton = findViewById(R.id.btn_upgrade_all);
-//        upgradeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onCommunication(null);
-//                DeviceUpgradeAsyncTask upgradeTask = new DeviceUpgradeAsyncTask(mListView);
-//                upgradeTask.execute();
-//            }
-//        });
 
+        actionButton = findViewById(R.id.action_button);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (versionInfo.getText().toString()==null||versionInfo.getText().toString().trim().length()==0) {
+                    CheckForUpdatesAsyncTask task = new CheckForUpdatesAsyncTask(currentView);
+                    task.execute();
+                }else{
+                    upgradeService.upgrade();
+                }
+            }
+        });
+        //最新版本信息
+        versionInfo = findViewById(R.id.version_info);
     }
 
 
@@ -148,7 +111,6 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 upgradeService = ((DeviceUpgradeService.UpgradeServiceBinder) service).getService();
-                System.out.println("get service instance:"+upgradeService);
 
             }
             @Override
@@ -160,21 +122,19 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
 
-    public void onCommunication(View view) {
-        upgradeService.upgrade();
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     @Override
     public void onProgressChanged(int progress) {
         //更新UI进度
-//        title.setText(Constants.TITLE_DEVICE_UPGRADE+"("+progress+")");
-//        progressBar.setProgress(progress);
-//        ((TextView)findViewById(R.id.upgrade_report)).setText("Success:"+progress);
+        TextView upgradeProgress = findViewById(R.id.upgrade_progress);
+        upgradeProgress.setVisibility(View.VISIBLE);
+        upgradeProgress.setText("Success:"+progress);
     }
     @Override
     protected void onDestroy() {
@@ -186,7 +146,8 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     class UpgradeMsgReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            String value = intent.getStringExtra("extra_data");
+            String value = intent.getStringExtra("UPGRADE_COUNT");
+            onProgressChanged(Integer.parseInt(value));
         }
     }
 

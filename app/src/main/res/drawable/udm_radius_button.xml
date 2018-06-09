@@ -4,9 +4,9 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle" >
             <!-- 高度40 -->
-            <size android:height="10dp"/>
+            <size android:height="8dp"/>
             <!-- 圆角弧度 20 -->
-            <corners android:radius="20dp"/>
+            <corners android:radius="25dp"/>
             <!-- 变化率 -->
             <gradient
                 android:endColor="@color/udm_gray_light"
@@ -17,9 +17,9 @@
     <item android:state_pressed="false">
         <shape android:shape="rectangle" >
             <!-- 高度40 -->
-            <size android:height="10dp"/>
+            <size android:height="8dp"/>
             <!-- 圆角弧度 20 -->
-            <corners android:radius="20dp"/>
+            <corners android:radius="25dp"/>
             <!-- 变化率 -->
             <gradient
                 android:endColor="#EDEDED"

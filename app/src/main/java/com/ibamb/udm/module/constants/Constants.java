@@ -74,4 +74,22 @@ public class Constants {
     public static final String INFO_LOGIN_FAIL = "login fail,try again.";
 
     public static final int FLAG_SPECIALLY_SEARCH = 1;
+
+    /**
+     * 设备升级相关常量
+     */
+    public static final int UPGRADE_REMOTE_PORT = 5001;
+    public static final int UPGRADE_TIME_OUT = 40000;
+    public static final String[] UPGRADE_SUCCESS_INFO = {"successful","ok"};
+    public static final String[] UPGRADE_FAIL_INFO = {"fail","error"};
+    public static final String UPGRADE_VLID_HOST = "AT!command model!OK";
+    public static final String UPGRADE_INDEX_FILE = "index.txt";
+    public static final String UPGRADE_RESTART_CODE = "at!r";
+
+    public static final int UPGRADE_MISS_PATCH_CODE = -1;
+    public static final int UPGRADE_SUCCESS_CODE = 1;
+    public static final int UPGRADE_MISS_FILE_CODE = 2;
+    public static final int UPGRADE_READ_INDEX_FILE_CODE = 3;
+    public static final int UPGRADE_FILE_SEND_FAIL_CODE = 4;
+    public static final int UPGRADE_FAIL_CODE = 0;
 }

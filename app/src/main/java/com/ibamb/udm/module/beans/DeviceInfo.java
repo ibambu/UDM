@@ -6,6 +6,15 @@ public class DeviceInfo {
     private String mac;
     private int index;
     private int upgradeProgress;
+    private int upgradeCode;
+
+    public int getUpgradeCode() {
+        return upgradeCode;
+    }
+
+    public void setUpgradeCode(int upgradeCode) {
+        this.upgradeCode = upgradeCode;
+    }
 
     public int getUpgradeProgress() {
         return upgradeProgress;
