@@ -13,11 +13,14 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceUpgradeActivity;
 import com.ibamb.udm.activity.LoadParamDefActivity;
+import com.ibamb.udm.activity.ScanQRCodeActivity;
 import com.ibamb.udm.activity.SpeciallySearchActivity;
 import com.ibamb.udm.activity.UDPConnectionActivity;
 import com.ibamb.udm.activity.UserProfileActivity;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
 /**
  * APP顶部导航菜单点击事件监听器
@@ -47,10 +50,16 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
 
         } else if (menuItemId == R.id.id_menu_or_code) {
 
+            Intent intent = new Intent(activity, ScanQRCodeActivity.class);
+//            Intent openCameraIntent = new Intent(MainActivity.this, CaptureActivity.class);
+//            startActivityForResult(openCameraIntent, 0);
+            activity.startActivityForResult(intent,-1);
+
 
         } else if (menuItemId == R.id.id_menu_join_cloud) {
 
         } else if (menuItemId == R.id.id_spec_search) {
+
             Intent intent = new Intent(activity, SpeciallySearchActivity.class);
             activity.startActivityForResult(intent, 1);
 

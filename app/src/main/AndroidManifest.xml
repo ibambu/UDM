@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ibamb.udm"
     android:versionCode="1"
     android:versionName="1.0.5">
@@ -9,6 +10,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
@@ -69,7 +73,20 @@
             android:name=".activity.DeviceUpgradeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".service.DeviceUpgradeService"></service>
+        <service android:name=".service.DeviceUpgradeService" />
+
+        <activity android:name=".activity.ScanQRCodeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            tools:replace="android:screenOrientation,android:theme">
+
+        </activity>
     </application>
 
 </manifest>

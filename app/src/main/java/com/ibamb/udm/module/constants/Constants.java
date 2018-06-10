@@ -74,6 +74,7 @@ public class Constants {
     public static final String INFO_LOGIN_FAIL = "login fail,try again.";
 
     public static final int FLAG_SPECIALLY_SEARCH = 1;
+    public static final int FLAG_SCAN_QR_CODE = -1;
 
     /**
      * 设备升级相关常量

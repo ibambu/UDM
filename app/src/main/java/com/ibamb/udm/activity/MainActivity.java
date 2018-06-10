@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("resultCode==="+resultCode);
         if(resultCode==Constants.FLAG_SPECIALLY_SEARCH){
             if(data!=null){
                 String searchKewWord = data.getStringExtra("SEARCH_KEY_WORD");
@@ -212,7 +213,14 @@ public class MainActivity extends AppCompatActivity {
                         searchListFragment.getLayoutInflater());
                 task.execute(searchKewWord);
             }
+        }else if(requestCode == RESULT_OK){
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            ((TextView)findViewById(R.id.tab_device_list)).setText(scanResult);
+            System.out.println("get qr code:"+scanResult);
+        }else{
+            super.onActivityResult(requestCode, resultCode, data);
+            System.out.println("sssss");
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
