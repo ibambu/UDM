@@ -33,6 +33,7 @@
                     android:id="@+id/dev_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:hint="@string/prompt_user_name"
                     android:inputType="textPersonName"
                     android:maxLines="1"
@@ -51,6 +52,7 @@
                     android:hint="@string/prompt_password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
+                    android:layout_marginTop="10dp"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -69,11 +71,11 @@
                 android:id="@+id/alter_sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/udm_radius_button"
-                android:textColor="#636363"
+                android:layout_marginTop="10dp"
+                android:background="@color/udm_light_black"
+                android:textColor="@android:color/white"
                 android:textAllCaps="false"
-                style="?android:attr/borderlessButtonStyle"
+
                 android:text="@string/action_sign_in"/>
 
         </LinearLayout>
