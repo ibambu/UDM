@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
-            android:focusableInTouchMode="true"
             android:background="@color/udm_base_bgcolor">
 
             <GridLayout
@@ -23,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:columnCount="6"
                 android:horizontalSpacing="5sp"
-
+                android:focusableInTouchMode="true"
                 android:numColumns="auto_fit"
                 android:orientation="horizontal"
                 android:stretchMode="columnWidth"
