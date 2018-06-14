@@ -25,18 +25,18 @@ public class DeviceSearch {
     public static ArrayList<DeviceInfo> searchDevice(String keyword) {
         DatagramSocket datagramSocket = null;
         ArrayList<DeviceInfo> deviceList = new ArrayList<>();
-        for(int i=0;i<10;i++){
-
-            DeviceInfo test = new DeviceInfo("192.168.0.110","aa:3d:3f:aa:00:5c");
-            test.setIndex(i+1);
-            if(keyword!=null && keyword.trim().length()>0){
-                if(test.getMac().contains(keyword)||test.getIp().contains(keyword)){
-                    deviceList.add(test);
-                }
-            }else{
-                deviceList.add(test);
-            }
-        }
+//        for(int i=0;i<10;i++){
+//
+//            DeviceInfo test = new DeviceInfo("192.168.0.110","aa:3d:3f:aa:00:5c");
+//            test.setIndex(i+1);
+//            if(keyword!=null && keyword.trim().length()>0){
+//                if(test.getMac().contains(keyword)||test.getIp().contains(keyword)){
+//                    deviceList.add(test);
+//                }
+//            }else{
+//                deviceList.add(test);
+//            }
+//        }
         try {
             datagramSocket = new DatagramSocket();
             datagramSocket.setBroadcast(true);
