@@ -65,6 +65,7 @@ public class UDPMessageSender {
             datagramSocket = new DatagramSocket();
             datagramSocket.setSoTimeout(1500);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
             address = InetAddress.getByName(Constants.UDM_BROADCAST_IP);
+
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, Constants.UDM_UDP_SERVER_PORT);
             // 发送数据
             datagramSocket.send(sendDataPacket);
@@ -72,6 +73,8 @@ public class UDPMessageSender {
 //            Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
+
+            System.out.println();
         } catch (UnknownHostException ex) {
             UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {

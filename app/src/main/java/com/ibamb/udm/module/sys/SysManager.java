@@ -62,13 +62,13 @@ public class SysManager {
                 return false;
             }
         } catch (NetworkOnMainThreadException e){
-
+            e.printStackTrace();
         }catch (SocketException ex) {
-
+            ex.printStackTrace();
         } catch (UnknownHostException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
-
+            e.printStackTrace();
         } finally {
             if (datagramSocket != null) {
                 datagramSocket.close();

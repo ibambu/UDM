@@ -94,6 +94,7 @@ public class ParamReader implements IParamReader {
                                         displayValue = IPUtil.getIpFromLong(Long.parseLong(displayValue));
                                         parameterItem.setParamValue(info.getData());
                                         parameterItem.setDisplayValue(displayValue);
+
                                         break;
                                     case Constants.UDM_PARAM_TYPE_TIME://时间类型
                                         parameterItem.setParamValue(info.getData());

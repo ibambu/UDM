@@ -15,6 +15,7 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.sys.SysManager;
+import com.ibamb.udm.task.SaveAndRebootAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.List;
@@ -44,6 +45,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private ImageView icSettingOther;
     private ImageView icSettingAccess;
     private String channelId = "0";
+
+
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -108,10 +111,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     startActivity(intent3);
                     break;
                 case R.id.profile_save_reboot:
-                    boolean isSuccess = SysManager.saveAndReboot(mac);
-                    String notice = isSuccess ? "successful":"fail";
-                    Snackbar.make(v,  notice, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    SaveAndRebootAsyncTask task = new SaveAndRebootAsyncTask(getWindow().getDecorView());
+                    task.execute(mac);
                     break;
                 default:
                     break;

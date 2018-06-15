@@ -18,6 +18,7 @@
             <include layout="@layout/top_title_nav" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/anchor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -131,7 +132,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="1dp"
                 android:background="@android:color/white">
 
                 <TextView

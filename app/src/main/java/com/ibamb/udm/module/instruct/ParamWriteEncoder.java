@@ -70,7 +70,6 @@ public class ParamWriteEncoder implements IEncoder {
                     //读参数的时候参数值为null，所以长度为0.
                     int dataLength = data != null ? info.getLength() - Constants.UDM_TYPE_LENGTH
                             - Constants.UDM_SUB_FRAME_LENGTH : 0;
-
                     switch (dataLength) {
                         case 1: {
                             byteFrame[pos++] = (byte) Integer.parseInt(data);
@@ -83,13 +82,13 @@ public class ParamWriteEncoder implements IEncoder {
                             break;
                         }
                         case 4: {
-                            if(convertType!= Constants.UDM_PARAM_TYPE_CHAR){
+                            if (convertType != Constants.UDM_PARAM_TYPE_CHAR) {
                                 byte[] dataBytes = Convert.int2bytes((int) (Long.parseLong(data)));
                                 byteFrame[pos++] = dataBytes[0];
                                 byteFrame[pos++] = dataBytes[1];
                                 byteFrame[pos++] = dataBytes[2];
                                 byteFrame[pos++] = dataBytes[3];
-                            }else{
+                            } else {
                                 //有些参数会把IP地址当作字符串存储
                                 char[] cData = data.toCharArray();
                                 for (int k = 0; k < cData.length; k++) {
@@ -105,6 +104,12 @@ public class ParamWriteEncoder implements IEncoder {
                             char[] cData = data.toCharArray();
                             for (int k = 0; k < cData.length; k++) {
                                 byteFrame[pos++] = (byte) cData[k];
+                            }
+
+                            if (dataLength > cData.length) {
+                                for (int j = 0; j < dataLength - cData.length; j++) {
+                                    byteFrame[pos++] = 0;
+                                }
                             }
                             break;
                         }
