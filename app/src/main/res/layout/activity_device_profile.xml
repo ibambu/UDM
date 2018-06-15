@@ -153,6 +153,43 @@
                     android:scaleType="fitEnd"
                     android:src="@mipmap/ic_right_navg" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white">
+                <TextView
+                    android:id="@+id/profile_save_reboot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="5"
+                    android:height="60dp"
+                    android:drawableLeft="@mipmap/ic_action_turn_right"
+                    android:drawablePadding="@dimen/fab_margin"
+                    android:gravity="left|center"
+                    android:text="Save with Reboot" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white">
+                <TextView
+                    android:id="@+id/profile_synchronize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="5"
+                    android:height="60dp"
+                    android:drawableLeft="@mipmap/ic_action_goright"
+                    android:drawablePadding="@dimen/fab_margin"
+                    android:gravity="left|center"
+                    android:text="Synchronize to Other Device" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

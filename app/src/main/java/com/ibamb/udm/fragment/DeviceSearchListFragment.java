@@ -102,7 +102,7 @@ public class DeviceSearchListFragment extends Fragment {
                             try {
                                 Thread.sleep(800);
                                 boolean isSuccess = loginAsyncTask.get();
-                                if (true) {
+                                if (isSuccess) {
                                     String[] tryUser = {userName,password};
                                     TryUser.setTryUser(tryUser);
                                     dialog.dismiss();

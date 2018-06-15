@@ -9,8 +9,8 @@
             <corners android:radius="25dp"/>
             <!-- 变化率 -->
             <gradient
-                android:endColor="@color/udm_gray_light"
-                android:startColor="@color/text_gray" />
+                android:endColor="@color/udm_light_black"
+                android:startColor="@color/udm_light_black" />
         </shape>
     </item>
 
@@ -22,8 +22,8 @@
             <corners android:radius="25dp"/>
             <!-- 变化率 -->
             <gradient
-                android:endColor="#EDEDED"
-                android:startColor="#EDEDED" />
+                android:endColor="@color/udm_light_black"
+                android:startColor="@color/udm_light_black" />
         </shape>
     </item>
 </selector>

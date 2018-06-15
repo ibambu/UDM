@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.sys.SysManager;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.List;
@@ -34,6 +36,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private TextView vSettingConnect;
     private TextView vSettingOther;
     private TextView vSettingAccess;
+
+    private TextView vSaveAndReboot;
+    private TextView vSyncToOther;
 
     private ImageView icSettingConnect;
     private ImageView icSettingOther;
@@ -102,6 +107,12 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     intent3.putExtras(params3);
                     startActivity(intent3);
                     break;
+                case R.id.profile_save_reboot:
+                    boolean isSuccess = SysManager.saveAndReboot(mac);
+                    String notice = isSuccess ? "successful":"fail";
+                    Snackbar.make(v,  notice, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    break;
                 default:
                     break;
             }
@@ -145,16 +156,20 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingConnect = findViewById(R.id.profile_connect_more);
         icSettingOther = findViewById(R.id.profile_other_more);
         icSettingAccess = findViewById(R.id.profile_access_more);
+        vSaveAndReboot = findViewById(R.id.profile_save_reboot);
 
         vSettingIP.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
         vSettingOther.setOnClickListener(profileMenuClickListener);
         vSettingAccess.setOnClickListener(profileMenuClickListener);
+        vSaveAndReboot.setOnClickListener(profileMenuClickListener);
 
         icSettingIp.setOnClickListener(profileMenuClickListener);
         icSettingConnect.setOnClickListener(profileMenuClickListener);
         icSettingOther.setOnClickListener(profileMenuClickListener);
         icSettingAccess.setOnClickListener(profileMenuClickListener);
+
+
     }
 
     @Override
