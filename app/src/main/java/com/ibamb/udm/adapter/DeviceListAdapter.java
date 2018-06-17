@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
@@ -13,12 +12,12 @@ import com.ibamb.udm.module.beans.DeviceInfo;
 
 import java.util.ArrayList;
 
-public class DeviceUpgradeListAdapter extends BaseAdapter implements ListAdapter {
+public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<DeviceInfo> data;
     private int id;
     private LayoutInflater inflater;
 
-    public DeviceUpgradeListAdapter(int item, LayoutInflater inflater, ArrayList<DeviceInfo> data) {
+    public DeviceListAdapter(int item, LayoutInflater inflater, ArrayList<DeviceInfo> data) {
         this.data = data;
         this.inflater = inflater;
         this.id = item;
@@ -52,10 +51,10 @@ public class DeviceUpgradeListAdapter extends BaseAdapter implements ListAdapter
             deviceIP = (TextView)view.findViewById(R.id.device_ip);
             deviceMac = (TextView)view.findViewById(R.id.device_mac);
             progressBar =(TextView) view.findViewById(R.id.upgrade_progress);
-            view.setTag(new DeviceUpgradeListAdapter.ListViewColumns(deviceIndex,deviceIP,deviceMac,progressBar));
+            view.setTag(new DeviceListAdapter.ListViewColumns(deviceIndex,deviceIP,deviceMac,progressBar));
         } else {
             //得到保存的对象
-            DeviceUpgradeListAdapter.ListViewColumns columns = (DeviceUpgradeListAdapter.ListViewColumns) view.getTag();
+            DeviceListAdapter.ListViewColumns columns = (DeviceListAdapter.ListViewColumns) view.getTag();
             deviceIndex = columns.index;
             deviceIP = columns.ip;
             deviceMac = columns.mac;

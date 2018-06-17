@@ -1,15 +1,10 @@
 package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.ibamb.udm.R;
-import com.ibamb.udm.adapter.DeviceUpgradeListAdapter;
+import com.ibamb.udm.adapter.DeviceListAdapter;
 import com.ibamb.udm.module.beans.DeviceInfo;
 
 public class DeviceUpgradeAsyncTask extends AsyncTask<DeviceInfo, Boolean, String> {
@@ -17,7 +12,7 @@ public class DeviceUpgradeAsyncTask extends AsyncTask<DeviceInfo, Boolean, Strin
 
     @Override
     protected String doInBackground(DeviceInfo... deviceInfos) {
-        DeviceUpgradeListAdapter adapter = (DeviceUpgradeListAdapter)deviceList.getAdapter();
+        DeviceListAdapter adapter = (DeviceListAdapter)deviceList.getAdapter();
 
 
         int count = adapter.getCount();

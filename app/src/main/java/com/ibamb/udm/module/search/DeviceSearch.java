@@ -8,6 +8,7 @@ package com.ibamb.udm.module.search;
 import com.ibamb.udm.module.beans.DeviceInfo;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
+import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.module.util.Convert;
 
 import java.io.IOException;
@@ -108,6 +109,11 @@ public class DeviceSearch {
                 datagramSocket.close();
             }
         }
+        //将搜索到的内容存放到上下文数据中对象中。
+        ContextData contextData = ContextData.getInstance();
+        contextData.cleanDeviceList();
+        contextData.addAllDevice(deviceList);
+
         return deviceList;
     }
 

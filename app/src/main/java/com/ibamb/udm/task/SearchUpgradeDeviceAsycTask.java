@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.adapter.DeviceUpgradeListAdapter;
+import com.ibamb.udm.adapter.DeviceListAdapter;
 import com.ibamb.udm.module.beans.DeviceInfo;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.search.DeviceSearch;
@@ -45,7 +45,7 @@ public class SearchUpgradeDeviceAsycTask extends AsyncTask<String, String, Array
     protected void onPostExecute(ArrayList<DeviceInfo> deviceInfos) {
         super.onPostExecute(deviceInfos);
         mListView.setVisibility(View.VISIBLE);
-        ListAdapter adapter = new DeviceUpgradeListAdapter(R.layout.device_upgrade_item_layout, inflater, deviceList);
+        ListAdapter adapter = new DeviceListAdapter(R.layout.device_upgrade_item_layout, inflater, deviceList);
         mListView.setAdapter(adapter);
         vSearchNotice.setVisibility(View.GONE);
     }
