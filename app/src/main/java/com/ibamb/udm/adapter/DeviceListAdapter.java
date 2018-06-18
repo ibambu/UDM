@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -16,11 +17,17 @@ public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<DeviceInfo> data;
     private int id;
     private LayoutInflater inflater;
+    private TextView checkAll;
+    private TextView title;
 
-    public DeviceListAdapter(int item, LayoutInflater inflater, ArrayList<DeviceInfo> data) {
+
+    public DeviceListAdapter(int res, LayoutInflater inflater, ArrayList<DeviceInfo> data,TextView title,TextView checkAll) {
         this.data = data;
         this.inflater = inflater;
-        this.id = item;
+        this.id = res;
+        this.checkAll = checkAll;
+        this.title = title;
+
     }
 
     @Override
@@ -39,34 +46,68 @@ public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
     }
 
 
+    public int getCheckedCount(){
+        int count =0;
+        for(DeviceInfo deviceInfo:data){
+            if(deviceInfo.isChecked()){
+                count ++;
+            }
+        }
+        return count;
+    }
+
     @Override
-    public View getView(int position, View view, ViewGroup arg2) {
+    public View getView(final int position, View view, ViewGroup arg2) {
         TextView deviceIndex = null;
         TextView deviceIP = null;
         TextView deviceMac = null;
-        TextView progressBar = null;
+        CheckBox checkBox = null;
         if (view == null) {
             view = inflater.inflate(id, null);
             deviceIndex = (TextView) view.findViewById(R.id.device_index);
-            deviceIP = (TextView)view.findViewById(R.id.device_ip);
-            deviceMac = (TextView)view.findViewById(R.id.device_mac);
-            progressBar =(TextView) view.findViewById(R.id.upgrade_progress);
-            view.setTag(new DeviceListAdapter.ListViewColumns(deviceIndex,deviceIP,deviceMac,progressBar));
+            deviceIP = (TextView) view.findViewById(R.id.device_ip);
+            deviceMac = (TextView) view.findViewById(R.id.device_mac);
+            checkBox = (CheckBox) view.findViewById(R.id.common_check_box);
+            view.setTag(new DeviceListAdapter.ListViewColumns(deviceIndex, deviceIP, deviceMac, checkBox));
         } else {
             //得到保存的对象
             DeviceListAdapter.ListViewColumns columns = (DeviceListAdapter.ListViewColumns) view.getTag();
             deviceIndex = columns.index;
             deviceIP = columns.ip;
             deviceMac = columns.mac;
-            progressBar = columns.progressBar;
+            checkBox = columns.checkBox;
         }
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox1 = (CheckBox) v;
+                DeviceInfo deviceInfo = (DeviceInfo) getItem(position);
+                if (checkBox1.isChecked()) {
+                    deviceInfo.setChecked(true);
+                } else {
+                    deviceInfo.setChecked(false);
+                }
+                int checkedItem = getCheckedCount();
+                title.setText("Checked Items:"+checkedItem);
+                if(checkedItem < data.size()){
+                    checkAll.setText("Check All");
+                }else{
+                    checkAll.setText("Cancel All");
+                }
+            }
+        });
 
         DeviceInfo deviceInfo = (DeviceInfo) data.get(position);
         //数据绑定到控件上
-        deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));//三位数字
+        deviceIndex.setText(String.format("%03d", deviceInfo.getIndex()));//三位数字
         deviceIP.setText(deviceInfo.getIp());
         deviceMac.setText(deviceInfo.getMac());
-        progressBar.setText(deviceInfo.getUpgradeProgress()+"%");
+        if (deviceInfo.isChecked()) {
+            checkBox.setChecked(true);
+        } else {
+            checkBox.setChecked(false);
+        }
         return view;
 
     }
@@ -84,12 +125,13 @@ public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
         TextView index = null;
         TextView ip = null;
         TextView mac = null;
-        TextView progressBar = null;
-        public ListViewColumns(TextView index, TextView ip, TextView mac,TextView progressBar) {
+        CheckBox checkBox = null;
+
+        public ListViewColumns(TextView index, TextView ip, TextView mac, CheckBox checkBox) {
             this.index = index;
             this.ip = ip;
             this.mac = mac;
-            this.progressBar = progressBar;
+            this.checkBox = checkBox;
         }
     }
 }

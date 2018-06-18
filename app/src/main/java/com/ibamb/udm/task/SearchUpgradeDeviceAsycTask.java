@@ -45,7 +45,7 @@ public class SearchUpgradeDeviceAsycTask extends AsyncTask<String, String, Array
     protected void onPostExecute(ArrayList<DeviceInfo> deviceInfos) {
         super.onPostExecute(deviceInfos);
         mListView.setVisibility(View.VISIBLE);
-        ListAdapter adapter = new DeviceListAdapter(R.layout.device_upgrade_item_layout, inflater, deviceList);
+        ListAdapter adapter = new DeviceListAdapter(R.layout.device_upgrade_item_layout, inflater, deviceList,null,null);
         mListView.setAdapter(adapter);
         vSearchNotice.setVisibility(View.GONE);
     }

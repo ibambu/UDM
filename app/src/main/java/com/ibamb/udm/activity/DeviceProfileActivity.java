@@ -114,6 +114,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     SaveAndRebootAsyncTask task = new SaveAndRebootAsyncTask(getWindow().getDecorView());
                     task.execute(mac);
                     break;
+                case R.id.profile_synchronize:
+                    Intent intent4 = new Intent(v.getContext(), DeviceListActivity.class);
+                    startActivity(intent4);
+                    break;
                 default:
                     break;
             }
@@ -158,12 +162,14 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingOther = findViewById(R.id.profile_other_more);
         icSettingAccess = findViewById(R.id.profile_access_more);
         vSaveAndReboot = findViewById(R.id.profile_save_reboot);
+        vSyncToOther = findViewById(R.id.profile_synchronize);
 
         vSettingIP.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
         vSettingOther.setOnClickListener(profileMenuClickListener);
         vSettingAccess.setOnClickListener(profileMenuClickListener);
         vSaveAndReboot.setOnClickListener(profileMenuClickListener);
+        vSyncToOther.setOnClickListener(profileMenuClickListener);
 
         icSettingIp.setOnClickListener(profileMenuClickListener);
         icSettingConnect.setOnClickListener(profileMenuClickListener);

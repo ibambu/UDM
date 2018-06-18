@@ -113,14 +113,13 @@ public class MainActivity extends AppCompatActivity {
             transaction.show(searchListFragment);
         } else {
             transaction.show(searchListFragment);
-
         }
         transaction.commit();
         //绑定菜单点击事件
         mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this,searchListFragment));
         //底部菜单绑定点击事件,实现界面切换.
-        tabDeviceList = (TextView) this.findViewById(R.id.tab_device_list);
-        tabSetting = (TextView) this.findViewById(R.id.tab_setting);
+        tabDeviceList = findViewById(R.id.tab_device_list);
+        tabSetting = findViewById(R.id.tab_setting);
         UdmBottomMenuClickListener bottomMenuClickListener = new UdmBottomMenuClickListener(fragmentManager,searchListFragment,
                 tabDeviceList,tabSetting);
         tabDeviceList.setOnClickListener(bottomMenuClickListener);
@@ -202,7 +201,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("resultCode==="+resultCode);
         if(resultCode==Constants.FLAG_SPECIALLY_SEARCH){
             if(data!=null){
                 String searchKewWord = data.getStringExtra("SEARCH_KEY_WORD");
@@ -217,10 +215,8 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
             ((TextView)findViewById(R.id.tab_device_list)).setText(scanResult);
-            System.out.println("get qr code:"+scanResult);
         }else{
             super.onActivityResult(requestCode, resultCode, data);
-            System.out.println("sssss");
         }
     }
 }

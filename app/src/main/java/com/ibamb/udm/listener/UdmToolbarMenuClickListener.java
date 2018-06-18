@@ -1,9 +1,7 @@
 package com.ibamb.udm.listener;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +13,9 @@ import com.ibamb.udm.activity.DeviceUpgradeActivity;
 import com.ibamb.udm.activity.LoadParamDefActivity;
 import com.ibamb.udm.activity.ScanQRCodeActivity;
 import com.ibamb.udm.activity.SpeciallySearchActivity;
-import com.ibamb.udm.activity.UDPConnectionActivity;
 import com.ibamb.udm.activity.UserProfileActivity;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
-import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
-import com.journeyapps.barcodescanner.CaptureActivity;
 
 /**
  * APP顶部导航菜单点击事件监听器
@@ -81,7 +76,7 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
 
         } else if (menuItemId == R.id.id_menu_exit) {
 
-            System.exit(0);
+            activity.finish();
         }
         return true;
     }

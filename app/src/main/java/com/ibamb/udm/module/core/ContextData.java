@@ -16,6 +16,25 @@ public class ContextData {
         return contextData;
     }
 
+    public synchronized  void cleanChecked(){
+        for(DeviceInfo device:deviceInfos){
+            device.setChecked(false);
+        }
+    }
+
+    public synchronized int getCheckedItems(){
+        int count =0;
+        for(DeviceInfo device:deviceInfos){
+            if(device.isChecked()){
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    public synchronized boolean isCheckAll(){
+        return getCheckedItems()== deviceInfos.size();
+    }
     public  synchronized ArrayList<DeviceInfo> getDataInfos(){
         return deviceInfos;
     }
@@ -39,8 +58,8 @@ public class ContextData {
             deviceInfos.clear();
     }
 
-    public synchronized void addAllDevice(ArrayList<DeviceInfo> deviceInfos){
-        deviceInfos.addAll(deviceInfos);
+    public synchronized void addAllDevice(ArrayList<DeviceInfo> deviceInfoList){
+        deviceInfos.addAll(deviceInfoList);
     }
 
     public synchronized void removeDevice(DeviceInfo deviceInfo){
