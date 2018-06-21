@@ -11,6 +11,11 @@ public class RetMessage {
         this.debugEabled = debugEabled;
     }
 
+    public RetMessage() {
+
+    }
+
+
     public void addLog(String message) {
         String msg = "[Info] " + message;
         if (debugEabled) {

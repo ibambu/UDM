@@ -136,6 +136,7 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         upgradeProgress.setVisibility(View.VISIBLE);
         upgradeProgress.setText("Success:"+progress);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

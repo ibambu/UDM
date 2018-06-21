@@ -87,11 +87,15 @@
             tools:replace="android:screenOrientation,android:theme" />
         <activity
             android:name=".activity.DeviceListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.DeviceSynchActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.DeviceSynchActivity"
-            android:theme="@style/AppTheme.NoActionBar">
 
-        </activity>
+        <service
+            android:name=".service.DeviceSynchronizeService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
