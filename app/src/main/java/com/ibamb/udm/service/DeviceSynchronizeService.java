@@ -126,6 +126,7 @@ public class DeviceSynchronizeService extends Service {
                                 break;
                             }
                         }
+                        System.out.println("is read completed.>>>>>>"+isReadCompleted);
                         if (isReadCompleted) {
                             /**
                              * 先登录目标设备,登录成功后再更新参数值
@@ -159,6 +160,7 @@ public class DeviceSynchronizeService extends Service {
                                         }
                                     }
                                 }
+                                System.out.println("is AuthSuccess.>>>>>>"+isAuthSuccess);
                                 if (isAuthSuccess) {
                                     for (ChannelParameter channelParameter : distParamItems) {
                                         ChannelParamWriteTask task = new ChannelParamWriteTask();
@@ -261,6 +263,7 @@ public class DeviceSynchronizeService extends Service {
                                 LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
                                 Intent intent = new Intent(ServiceConst.DEVICE_SYNCH_SERVICE);
                                 intent.putExtra("SYNCH_COUNT", syncSuccessCount);
+                                System.out.println("SYNCH_COUNT======="+syncSuccessCount+" "+mac+" "+channelId);
                                 intent.putExtra("TARGET_DEVICE_NUMBER", targetDeviceList.size());
                                 intent.putExtra("SYNCH_FAIL_COUNT", syncFailCount);
                                 broadcastManager.sendBroadcast(intent);
