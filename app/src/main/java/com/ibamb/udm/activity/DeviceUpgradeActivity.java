@@ -111,7 +111,6 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 upgradeService = ((DeviceUpgradeService.UpgradeServiceBinder) service).getService();
-
             }
             @Override
             public void onServiceDisconnected(ComponentName name) {

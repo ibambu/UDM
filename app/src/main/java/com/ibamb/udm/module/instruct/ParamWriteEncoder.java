@@ -56,17 +56,7 @@ public class ParamWriteEncoder implements IEncoder {
             String data = info.getData();
             if (control == Control.SET_PARAMETERS) {
                 if (data != null) {
-                    switch (convertType) {
-                        case Constants.UDM_PARAM_TYPE_NUMBER://数值类型
-                            break;
-                        case Constants.UDM_PARAM_TYPE_IPADDR://IP地址
-                            data = String.valueOf(IPUtil.getIpFromString(data));
-                            break;
-                        case Constants.UDM_PARAM_TYPE_TIME://时间类型
-                            break;
-                        default://字符类型
-                            break;
-                    }
+
                     //读参数的时候参数值为null，所以长度为0.
                     int dataLength = data != null ? info.getLength() - Constants.UDM_TYPE_LENGTH
                             - Constants.UDM_SUB_FRAME_LENGTH : 0;

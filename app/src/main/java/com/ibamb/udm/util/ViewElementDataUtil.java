@@ -11,6 +11,7 @@ import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
+import com.ibamb.udm.module.net.IPUtil;
 import com.ibamb.udm.tag.UdmButtonTextEdit;
 import com.ibamb.udm.tag.UdmSpinner;
 
@@ -127,6 +128,7 @@ public class ViewElementDataUtil {
             int vElementType = parameter.getElementType();
             String value = null;
             String displayValue = null;
+            boolean hasElement = false;
             switch (vElementType) {
                 case Constants.UDM_UI_SPECIAL:
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
@@ -140,7 +142,9 @@ public class ViewElementDataUtil {
                             } else if (udp.isChecked()) {
                                 value = "0";
                             }
+                            hasElement = true;
                         }
+
                     }
                     break;
                 case Constants.UDM_UI_EDIT_TEXT:
@@ -157,12 +161,14 @@ public class ViewElementDataUtil {
                                 value +=" "+ vTime.getText().toString();
                             }
                         }
+                        hasElement = true;
                     }
                     break;
                 case Constants.UDM_UI_UDMSPINNER:
                     UdmSpinner vSpinner = view.findViewWithTag(viewTagId);
                     if(vSpinner!=null){
                         value = parameter.getValue(vSpinner.getValue());
+                        hasElement = true;
                     }
                     break;
                 case Constants.UDM_UI_SWITCH:
@@ -173,18 +179,33 @@ public class ViewElementDataUtil {
                         } else {
                             value = Constants.UDM_SWITCH_OFF;
                         }
+                        hasElement = true;
                     }
                     break;
                 case Constants.UDM_UI_BUTTON_TEXT:
                     UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(viewTagId);
                     if(buttonTextEdit!=null){
                         value = parameter.getValue(buttonTextEdit.getValue());
+                        hasElement = true;
                     }
                     break;
                 default:
                     break;
             }
             displayValue = parameter.getDisplayValue(value);
+            if(hasElement){
+                switch (parameter.getCovertType()) {
+                    case Constants.UDM_PARAM_TYPE_NUMBER://数值类型
+                        break;
+                    case Constants.UDM_PARAM_TYPE_IPADDR://IP地址
+                        value = String.valueOf(IPUtil.getIpFromString(value));
+                        break;
+                    case Constants.UDM_PARAM_TYPE_TIME://时间类型
+                        break;
+                    default://字符类型
+                        break;
+                }
+            }
             if (oldChannelParam != null && oldChannelParam.getChannelId().equals(channelId)) {
                 List<ParameterItem> paramItems = oldChannelParam.getParamItems();
                 for (ParameterItem parameterItem : paramItems) {
@@ -193,7 +214,6 @@ public class ViewElementDataUtil {
                     if(parameterItem.getParamId().equals(parameter.getId())
                             && !parameterItem.getDisplayValue().equals(displayValue)){
                         items.add(new ParameterItem(parameter.getId(), value));
-                        System.out.println("changed:"+parameter.getViewTagId()+" ->"+value);
                         break;
                     }
                 }

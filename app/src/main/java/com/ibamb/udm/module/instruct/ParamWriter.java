@@ -69,7 +69,7 @@ public class ParamWriter implements IParamWriter {
             //生成发送报文
             byte[] sendData = encoder.encode(instructFrame, Control.SET_PARAMETERS);
             //发送报文
-            byte[] replyData = sender.sendByBroadcast(sendData, replyFrameLength);
+            byte[] replyData = sender.sendByUnicast(sendData, replyFrameLength,channelParameter.getIp());
             //解析返回报文
             IParser parser = new ReplyFrameParser();
             ReplyFrame replyFrame = parser.parse(replyData);
@@ -80,7 +80,7 @@ public class ParamWriter implements IParamWriter {
             boolean isSuccessful = replyFrame.getControl() == Control.ACKNOWLEDGE ? true : false;
             channelParameter.setSuccessful(isSuccessful);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return channelParameter;
     }

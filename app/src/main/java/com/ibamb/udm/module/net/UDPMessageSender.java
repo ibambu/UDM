@@ -68,13 +68,21 @@ public class UDPMessageSender {
 
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, Constants.UDM_UDP_SERVER_PORT);
             // 发送数据
+//            System.out.print("send:");
+//            for(int i=0;i<sendData.length;i++){
+//                System.out.print(Integer.toHexString(sendData[i])+" ");
+//            }
+//            System.out.println();
             datagramSocket.send(sendDataPacket);
             // 接收数据
 //            Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
-
-            System.out.println();
+//            System.out.print("replay:");
+//            for(int i=0;i<recevData.length;i++){
+//                System.out.print(Integer.toHexString(recevData[i])+" ");
+//            }
+//            System.out.println();
         } catch (UnknownHostException ex) {
             UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {

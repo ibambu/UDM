@@ -64,7 +64,7 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
 
         } else if (menuItemId == R.id.id_upgrade_device) {
             Intent intent = new Intent(activity, DeviceUpgradeActivity.class);
-//            activity.startActivityForResult(intent, 1);
+            activity.startActivityForResult(intent, 1);
 
         }else if (menuItemId == R.id.global_search) {
             View view = searchListFragment.getView();

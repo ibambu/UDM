@@ -42,14 +42,17 @@ public class ParameterMappingManager {
                 List<ValueMapping> vMappings = new ArrayList<>();
                 param.setValueMappings(vMappings);
                 //如果是枚举值，则将枚举值对应的显示值都放入VaueMapping对象中。
+                String enumValues = dataArray[cellCount++];
+                String displayEnumValues = dataArray[cellCount++];
                 if(dataArray.length>9){
-                    String enumValues = dataArray[cellCount++];
-                    String displayEnumValues = dataArray[cellCount++];
                     if (enumValues!=null && displayEnumValues!=null) {
                         String[] values = enumValues.split(Constants.FILE_ENUM_VALUE_SPLIT);
                         String[] names = displayEnumValues.split(Constants.FILE_ENUM_VALUE_SPLIT);
                         if(values.length==names.length){
                             for (int i = 0; i < values.length; i++) {
+                                if(values[i].equals("NULL")){
+                                    continue;
+                                }
                                 ValueMapping vmapping = new ValueMapping();
                                 vmapping.setValue(values[i]);
                                 vmapping.setDisplayValue(names[i]);
@@ -59,6 +62,10 @@ public class ParameterMappingManager {
                         }
                     }
                 }
+                String pubFlag = dataArray[cellCount++];
+                System.out.println("ssssssssssssssssssss:"+pubFlag);
+                boolean isPublic = "1".equals(pubFlag)?true:false;
+                param.setPublic(isPublic);
                 mapping.put(param.getId(), param);
             }
         } catch (IOException e) {

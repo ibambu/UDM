@@ -1,10 +1,14 @@
 package com.ibamb.udm.activity;
 
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.ServiceConst;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.sys.SysManager;
@@ -78,13 +83,13 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                     builder.setTitle("Select Channel");
                     int checkItemIdx = 0;
-                    for(int i=0;i<supportedChannels.length;i++){
-                        if(supportedChannels[i].equalsIgnoreCase(vSettingConnect.getText().toString())){
+                    for (int i = 0; i < supportedChannels.length; i++) {
+                        if (supportedChannels[i].equalsIgnoreCase(vSettingConnect.getText().toString())) {
                             checkItemIdx = i;
                             break;
                         }
                     }
-                    builder.setSingleChoiceItems(supportedChannels, checkItemIdx,new DialogInterface.OnClickListener() {
+                    builder.setSingleChoiceItems(supportedChannels, checkItemIdx, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Bundle params = new Bundle();
@@ -115,7 +120,12 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     task.execute(mac);
                     break;
                 case R.id.profile_synchronize:
-                    Intent intent4 = new Intent(v.getContext(), DeviceListActivity.class);
+                    Intent intent4 = new Intent(v.getContext(), DeviceSynchActivity.class);
+                    Bundle params4 = new Bundle();
+                    params4.putString("HOST_ADDRESS", ip);
+                    params4.putString("HOST_MAC", mac);
+                    params4.putString("CHNL_ID", channelId);
+                    intent4.putExtras(params4);
                     startActivity(intent4);
                     break;
                 default:
@@ -123,6 +133,31 @@ public class DeviceProfileActivity extends AppCompatActivity {
             }
         }
     };
+
+    /**
+     * 判断 Service 是否正在运行。
+     *
+     * @param mContext
+     * @param className
+     * @return
+     */
+    public static boolean isServiceRunning(Context mContext, String className) {
+        boolean isRunning = false;
+        ActivityManager activityManager = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(30);
+
+        if (!(serviceList.size() > 0)) {
+            return false;
+        }
+        for (int i = 0; i < serviceList.size(); i++) {
+            if (serviceList.get(i).service.getClassName().contains(className) == true) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +170,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         mac = (String) bundle.get("HOST_MAC");
         TextView vIp = findViewById(R.id.host_ip);
 //        TextView vMac = findViewById(R.id.host_mac);
-        vIp.setText(ip+"/"+mac.toUpperCase());
+        vIp.setText(ip + "/" + mac.toUpperCase());
 //        vMac.setText(mac);
 
         back = findViewById(R.id.go_back);
@@ -176,7 +211,6 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingOther.setOnClickListener(profileMenuClickListener);
         icSettingAccess.setOnClickListener(profileMenuClickListener);
 
-
     }
 
     @Override
@@ -192,4 +226,6 @@ public class DeviceProfileActivity extends AppCompatActivity {
             supportedChannels[i] = suppChannels.get(i);
         }
     }
+
+
 }

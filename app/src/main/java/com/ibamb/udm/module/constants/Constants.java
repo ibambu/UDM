@@ -93,4 +93,6 @@ public class Constants {
     public static final int UPGRADE_READ_INDEX_FILE_CODE = 3;
     public static final int UPGRADE_FILE_SEND_FAIL_CODE = 4;
     public static final int UPGRADE_FAIL_CODE = 0;
+
+    public static final int MAX_CHANNEL = 33;
 }

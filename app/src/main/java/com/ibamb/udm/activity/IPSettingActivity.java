@@ -67,7 +67,6 @@ public class IPSettingActivity extends AppCompatActivity {
                 int errId = checkData();
                 if(errId==0){
                     ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter, Constants.UDM_IP_SETTING_CHNL);
-                    changedParam.pinrtParam();
                     ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
                     task.execute(channelParameter,changedParam);
                 }else{

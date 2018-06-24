@@ -93,9 +93,9 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service
-            android:name=".service.DeviceSynchronizeService"
-            android:enabled="true"
-            android:exported="true"></service>
+            android:name=".service.DeviceSynchronizeService">
+
+        </service>
     </application>
 
 </manifest>

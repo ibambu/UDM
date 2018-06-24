@@ -33,7 +33,10 @@ public class DeviceListActivity extends AppCompatActivity {
     private ListAdapter adapter;
     private ArrayList<DeviceInfo> deviceInfos;
 
-    private Button synchButton;
+    private Button actionButton;
+
+    private  String[] seleteDeviceArray;
+    private int selectedCount =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,7 @@ public class DeviceListActivity extends AppCompatActivity {
 
 
         mListView = findViewById(R.id.common_device_list);
-        Button btn= findViewById(R.id.button_synchronize);
+        Button btn= findViewById(R.id.action_button);
         /**
          * 重新计算ListView需要占用高度，避免底部按钮遮拦列表末尾数据。
          */
@@ -130,15 +133,32 @@ public class DeviceListActivity extends AppCompatActivity {
             }
         });
 
-        synchButton = findViewById(R.id.button_synchronize);
-        synchButton.setOnClickListener(new View.OnClickListener() {
+        actionButton = findViewById(R.id.action_button);
+        actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),DeviceSynchActivity.class);
-                startActivity(intent);
+                StringBuilder seleteDeviceBuffer = new StringBuilder();
+                for(DeviceInfo deviceInfo:deviceInfos){
+                    if(deviceInfo.isChecked()){
+                        selectedCount ++;
+                        seleteDeviceBuffer.append(deviceInfo.getIp()).append("#").append(deviceInfo.getMac()).append(",");
+                    }
+                }
+                if(selectedCount>0){
+                    seleteDeviceBuffer.deleteCharAt(seleteDeviceBuffer.length()-1);
+                    seleteDeviceArray = seleteDeviceBuffer.toString().split(",");
+                }
                 finish();
             }
         });
     }
 
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra("SELECTED_COUNT", selectedCount);
+        intent.putExtra("SELECTED_DEVICE", seleteDeviceArray);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
 }

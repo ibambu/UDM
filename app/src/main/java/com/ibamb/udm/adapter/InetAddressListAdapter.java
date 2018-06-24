@@ -59,7 +59,6 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
             deviceIP = columns.ip;
             deviceMac = columns.mac;
         }
-        System.out.println("ddddddddd==="+data.size()+"  "+position);
         DeviceInfo deviceInfo = (DeviceInfo) data.get(position);
         //数据绑定到控件上
         deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));//三位数字

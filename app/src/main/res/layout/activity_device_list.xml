@@ -89,13 +89,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <Button
-            android:id="@+id/button_synchronize"
+            android:id="@+id/action_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/udm_light_black"
             android:gravity="center"
-            android:text="Start Synchronize"
+            android:text="OK"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
     </RelativeLayout>

@@ -18,6 +18,15 @@ public class Parameter {
     private int elementType;
     private int paramType;
     private String viewTagId;
+    private boolean isPublic;
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
 
     public String getViewTagId() {
         return viewTagId;
@@ -134,8 +143,19 @@ public class Parameter {
 
     @Override
     public String toString() {
-        return "Parameter{" + "id=" + id + ", decId=" + decId + ", hexId=" + hexId + ", byteLength=" + byteLength + ", viewId=" + viewId + ", covertType=" + covertType + ", valueMappings=" + valueMappings + '}';
+        return "Parameter{" +
+                "channelId=" + channelId +
+                ", id='" + id + '\'' +
+                ", decId=" + decId +
+                ", hexId=" + hexId +
+                ", byteLength=" + byteLength +
+                ", viewId=" + viewId +
+                ", covertType=" + covertType +
+                ", elementType=" + elementType +
+                ", paramType=" + paramType +
+                ", viewTagId='" + viewTagId + '\'' +
+                ", isPublic=" + isPublic +
+                ", valueMappings=" + valueMappings +
+                '}';
     }
-    
-    
 }
