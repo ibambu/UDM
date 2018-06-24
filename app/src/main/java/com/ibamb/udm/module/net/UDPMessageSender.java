@@ -22,7 +22,7 @@ public class UDPMessageSender {
     public byte[] sendByBroadcast(byte[] sendData, int expectReplyLenth) {
 
         InetAddress address;
-        byte[] recevBuffer = new byte[1024];
+        byte[] recevBuffer = new byte[expectReplyLenth];
         byte[] recevData = null;
         DatagramPacket recevPacket = new DatagramPacket(recevBuffer, recevBuffer.length);
         DatagramSocket datagramSocket = null;
@@ -57,7 +57,7 @@ public class UDPMessageSender {
      */
     public byte[] sendByUnicast(byte[] sendData, int expectReplyLenth,String ip) {
         InetAddress address;
-        byte[] recevBuffer = new byte[1024];
+        byte[] recevBuffer = new byte[expectReplyLenth];
         byte[] recevData = null;
         DatagramPacket recevPacket = new DatagramPacket(recevBuffer, recevBuffer.length);
         DatagramSocket datagramSocket = null;

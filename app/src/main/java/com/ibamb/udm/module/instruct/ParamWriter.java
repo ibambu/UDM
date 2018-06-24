@@ -1,6 +1,5 @@
 package com.ibamb.udm.module.instruct;
 
-import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -46,13 +45,20 @@ public class ParamWriter implements IParamWriter {
                     + Constants.UDM_SUB_FRAME_LENGTH;
             List<Information> informationList = new ArrayList<>();//存放本次读/写的所有参数
 
+            //返回帧固定结构长度
+            int replyMainStructLen = Constants.UDM_CONTROL_LENGTH
+                    + Constants.UDM_ID_LENGTH
+                    + Constants.UDM_MAIN_FRAME_LENGTH;
+
             //先生成帧对象
             InstructFrame instructFrame = new InstructFrame(Control.SET_PARAMETERS, channelParameter.getMac());
             instructFrame.setInfoList(informationList);
             instructFrame.setId(1);
 
             int sendFrameLength = mainStructLen;//所有子帧总长度
-            int replyFrameLength = mainStructLen;//期望返回帧的总长度。
+            int replyFrameLength = replyMainStructLen;//期望返回帧的总长度。
+
+
             //遍历通道参数，将要读/写参数存入帧对象中。
             for (ParameterItem parameterItem : parameterItems) {
                 Parameter param = ParameterMapping.getMapping(parameterItem.getParamId());

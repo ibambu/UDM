@@ -43,6 +43,12 @@ public class ParamReader implements IParamReader {
             //子帧固定结构长度
             int subStructLen = Constants.UDM_TYPE_LENGTH
                     + Constants.UDM_SUB_FRAME_LENGTH;
+
+            //返回帧固定结构长度
+            int replyMainStructLen = Constants.UDM_CONTROL_LENGTH
+                    + Constants.UDM_ID_LENGTH
+                    + Constants.UDM_MAIN_FRAME_LENGTH;
+
             List<Information> informationList = new ArrayList<>();//存放本次读/写的所有参数
 
             //先生成帧对象
@@ -50,8 +56,9 @@ public class ParamReader implements IParamReader {
             instructFrame.setInfoList(informationList);
             instructFrame.setId(1);
 
+
             int sendFrameLength = mainStructLen;//所有子帧总长度
-            int replyFrameLength = mainStructLen;//期望返回帧的总长度。
+            int replyFrameLength = replyMainStructLen;//期望返回帧的总长度。
             //遍历通道参数，将要读/写参数存入帧对象中。
             for (ParameterItem parameterItem : parameterItems) {
                 Parameter param = ParameterMapping.getMapping(parameterItem.getParamId());
