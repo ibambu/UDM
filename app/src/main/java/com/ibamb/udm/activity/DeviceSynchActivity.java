@@ -57,7 +57,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
         String ip = params.getString("HOST_ADDRESS");
         String mac = params.getString("HOST_MAC");
 
-        (findViewById(R.id.do_commit)).setVisibility(View.GONE);//不现实右边打勾图表
+        (findViewById(R.id.do_commit)).setVisibility(View.GONE);//不显示右边打勾图标
 
         progressBar = findViewById(R.id.sync_progress_bar);
 

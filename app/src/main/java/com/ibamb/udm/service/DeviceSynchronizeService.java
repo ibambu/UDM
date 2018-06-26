@@ -137,11 +137,11 @@ public class DeviceSynchronizeService extends Service {
                                 List<ChannelParameter> distParamItems = distDevicePamaMap.get(mac);
                                 boolean isAuthSuccess = false;
                                 if (distParamItems != null) {
-                                    startTime = System.currentTimeMillis();
                                     for (int i = 0; i < TryUser.getUserCount(); i++) {
                                         String[] userInfo = TryUser.getUser(i + 1);
                                         LoginDeviceTask loginAsyncTask = new LoginDeviceTask();
                                         String[] loginInfo = {userInfo[0], userInfo[1], distParamItems.get(0).getMac(), distParamItems.get(0).getIp()};
+                                        long sTime = System.currentTimeMillis();
                                         loginAsyncTask.execute(loginInfo);
                                         while (true) {
                                             long nowTime = System.currentTimeMillis();
@@ -151,7 +151,12 @@ public class DeviceSynchronizeService extends Service {
                                                     isLoginSuccess = false;//设置下个设备登录状态为false。
                                                 }
                                             }
-                                            if (isAuthSuccess || nowTime - startTime > 5000) {
+                                            if (isAuthSuccess) {
+                                                break;
+                                            }
+                                            if(nowTime - sTime > 5000){
+                                                loginAsyncTask.cancel(true);
+                                                System.out.println("login timeout, cancel it..");
                                                 break;
                                             }
                                         }
@@ -165,8 +170,11 @@ public class DeviceSynchronizeService extends Service {
                                     for (ChannelParameter channelParameter : distParamItems) {
                                         ChannelParamWriteTask task = new ChannelParamWriteTask();
                                         task.execute(channelParameter);
+                                        task.getStatus();
                                     }
                                     break;
+                                }else {
+
                                 }
                             }
                         }
