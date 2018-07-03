@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
@@ -74,6 +75,8 @@ public class ConnectSettingActivity extends AppCompatActivity {
 
         vTcpEnabled = findViewById(R.id.tcp_enanbled_switch);
         vUdpEnabled = findViewById(R.id.udp_enanbled_switch);
+        vTcpEnabled.setOnClickListener(protocolSwitchListener);
+        vUdpEnabled.setOnClickListener(protocolSwitchListener);
 
         vTcpSetting.setOnClickListener(menuItemClickListener);
         vUdpSetting.setOnClickListener(menuItemClickListener);
@@ -96,21 +99,21 @@ public class ConnectSettingActivity extends AppCompatActivity {
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
+                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView, channelParameter, channelId);
                 ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                task.execute(channelParameter,changedParam);
+                task.execute(channelParameter, changedParam);
             }
         });
 
-        title=findViewById(R.id.title);
-        title.setText("Connection of Channel "+channelId);
+        title = findViewById(R.id.title);
+        title.setText("Connection of Channel " + channelId);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, ip,channelId);
+            channelParameter = new ChannelParameter(mac, ip, channelId);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(CONNECT_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
@@ -118,7 +121,7 @@ public class ConnectSettingActivity extends AppCompatActivity {
             }
             channelParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
+            title.setOnClickListener(new UdmReloadParamsClickListener(currentView, channelParameter));
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
         } catch (Exception e) {
@@ -150,10 +153,25 @@ public class ConnectSettingActivity extends AppCompatActivity {
             Bundle params = new Bundle();
             params.putString("HOST_ADDRESS", ip);
             params.putString("HOST_MAC", mac);
-            params.putString("CHNL_ID",channelId);
+            params.putString("CHNL_ID", channelId);
             if (intent != null) {
                 intent.putExtras(params);
                 startActivity(intent);
+            }
+        }
+    };
+
+    private View.OnClickListener protocolSwitchListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (!vTcpEnabled.isChecked() && !vUdpEnabled.isChecked()) {
+                if(v.getId()==R.id.tcp_enanbled_switch){
+                    vTcpEnabled.setChecked(true);
+                }else if(v.getId()==R.id.udp_enanbled_switch){
+                    vUdpEnabled.setChecked(true);
+                }
+                String notice = "TCP/UDP one must be Enabled.";
+                Toast.makeText(v.getContext(), notice, Toast.LENGTH_SHORT).show();
             }
         }
     };

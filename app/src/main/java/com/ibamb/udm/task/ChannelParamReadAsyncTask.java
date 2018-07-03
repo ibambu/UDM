@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.module.beans.ChannelParameter;
@@ -52,8 +53,9 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
         String notice = "";
         if(!channelParameter.isSuccessful()){
             notice = "Possible network delay. Please click title try again.";
-            Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Toast.makeText(view.getContext(), notice,Toast.LENGTH_SHORT).show();
+//            Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
         }else{
             ViewElementDataUtil.setData(channelParameter, view);
         }

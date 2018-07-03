@@ -116,6 +116,7 @@ public class DeviceSearchListFragment extends Fragment {
                                     loginAsyncTask.cancel(true);
                                     noticeView.setVisibility(View.VISIBLE);
                                     noticeView.setText(Constants.INFO_LOGIN_FAIL);
+
                                 }
                             } catch (InterruptedException e) {
                                 UdmLog.e(this.getClass().getName(),e.getMessage());

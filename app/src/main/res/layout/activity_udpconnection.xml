@@ -32,6 +32,24 @@
                 android:background="@android:color/white"
                 android:focusableInTouchMode="true">
 
+                <TextView
+                    android:id="@+id/id_conn_udp_tmp_host_en"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="left|center"
+                    android:tag="lab_conn_udp_tmp_host_en"
+                    android:text="Datagram Type" />
+
+                <com.ibamb.udm.tag.UdmSpinner
+                    android:id="@+id/udm_conn_udp_data_mode"
+                    android:layout_columnSpan="3"
+                    android:layout_gravity="fill"
+                    android:layout_marginLeft="2sp"
+                    android:layout_marginRight="2sp"
+                    android:gravity="right|center"
+                    android:tag="@string/tag_conn_udp_data_mode" />
 
                 <TextView
                     android:id="@+id/label_accepting_income"
@@ -61,24 +79,6 @@
                     android:layout_gravity="fill"
                     android:background="@color/udm_base_bgcolor" />
 
-                <TextView
-                    android:id="@+id/id_conn_udp_tmp_host_en"
-                    android:layout_columnSpan="3"
-                    android:layout_gravity="fill"
-                    android:layout_marginLeft="2sp"
-                    android:layout_marginRight="2sp"
-                    android:gravity="left|center"
-                    android:tag="lab_conn_udp_tmp_host_en"
-                    android:text="Optition" />
-
-                <com.ibamb.udm.tag.UdmSpinner
-                    android:id="@+id/udm_conn_udp_tmp_host_en"
-                    android:layout_columnSpan="3"
-                    android:layout_gravity="fill"
-                    android:layout_marginLeft="2sp"
-                    android:layout_marginRight="2sp"
-                    android:gravity="right|center"
-                    android:tag="@string/tag_conn_udp_tmp_host_en" />
 
                 <View
                     android:layout_width="match_parent"
@@ -93,17 +93,17 @@
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
                     android:gravity="left|center"
-                    android:text="Uni/Multi"
-                     />
+                    android:text="Use Guest Host" />
 
                 <com.ibamb.udm.tag.UdmSpinner
-                    android:id="@+id/udm_conn_udp_data_mode"
+                    android:id="@+id/udm_conn_udp_tmp_host_en"
                     android:layout_columnSpan="3"
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
                     android:gravity="right|center"
-                    android:tag="@string/tag_conn_udp_data_mode" />
+                    android:tag="@string/tag_conn_udp_tmp_host_en" />
+
 
                 <View
                     android:layout_width="match_parent"
@@ -120,8 +120,7 @@
                     android:height="30dp"
                     android:background="@color/udm_base_bgcolor"
                     android:gravity="left|center"
-                    android:text="Unicast Setting"
-                     />
+                    android:text="Unicast Setting" />
 
                 <TextView
                     android:id="@+id/id_conn_uni_local_port"
@@ -194,8 +193,7 @@
                     android:height="30dp"
                     android:background="@color/udm_base_bgcolor"
                     android:gravity="left|center"
-                    android:text="Multicast Setting"
-                     />
+                    android:text="Multicast Setting" />
 
                 <TextView
                     android:id="@+id/id_conn_mul_local_port"
@@ -257,6 +255,7 @@
 
             </GridLayout>
         </ScrollView>
+
         <View
             android:id="@+id/anchor"
             android:layout_width="match_parent"

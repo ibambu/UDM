@@ -89,11 +89,11 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="5"
                     android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_link"
+                    android:drawableLeft="@mipmap/ic_action_database"
                     android:drawablePadding="@dimen/fab_margin"
                     android:fontFamily="@font/arial"
                     android:gravity="left|center"
-                    android:text="Connect Setting" />
+                    android:text="Channels Setting" />
 
                 <ImageView
                     android:id="@+id/profile_connect_more"

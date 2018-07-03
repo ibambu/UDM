@@ -3,8 +3,8 @@ package com.ibamb.udm.task;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Toast;
 
-import com.ibamb.udm.R;
 import com.ibamb.udm.module.sys.SysManager;
 
 public class SaveAndRebootAsyncTask extends AsyncTask<String, Boolean, Boolean> {
@@ -25,9 +25,10 @@ public class SaveAndRebootAsyncTask extends AsyncTask<String, Boolean, Boolean> 
     protected void onPostExecute(Boolean isSuccess) {
         super.onPostExecute(isSuccess);
         String notice = isSuccess ? "successful":"fail";
-        View achor = view.findViewById(R.id.anchor);
-        Snackbar.make(achor,  notice, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+//        View achor = view.findViewById(R.id.anchor);
+        Toast.makeText(view.getContext(), notice, Toast.LENGTH_SHORT).show();
+//        Snackbar.make(achor,  notice, Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
     }
 
     @Override

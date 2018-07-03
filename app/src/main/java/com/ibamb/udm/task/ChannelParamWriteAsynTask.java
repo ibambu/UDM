@@ -3,6 +3,7 @@ package com.ibamb.udm.task;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
@@ -47,6 +48,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
+//        Toast.makeText(view.getContext(), String.valueOf(values[0]), Toast.LENGTH_SHORT).show();
         Snackbar.make(view.findViewById(R.id.anchor),  String.valueOf(values[0]), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
@@ -58,6 +60,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
         String notice = "";
         if(!channelParameter.isSuccessful()){
             notice = Constants.INFO_READ_PARAM_FAIL;
+//            Toast.makeText(view.getContext(), String.valueOf(notice), Toast.LENGTH_SHORT).show();
             Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }else{

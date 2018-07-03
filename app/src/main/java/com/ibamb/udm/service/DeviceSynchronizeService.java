@@ -22,6 +22,7 @@ import com.ibamb.udm.module.instruct.ParamWriter;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.security.UserAuth;
 import com.ibamb.udm.module.sync.DeviceSyncResult;
+import com.ibamb.udm.module.sys.SysManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -265,6 +266,7 @@ public class DeviceSynchronizeService extends Service {
                             if (result.isCompleted()) {
                                 if (result.isSyncSuccessful()) {
                                     syncSuccessCount++;
+                                    SysManager.saveAndReboot(mac);
                                 } else {
                                     syncFailCount++;
                                 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
@@ -40,14 +41,23 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         publishProgress(Constants.INFO_SEARCH_PROGRESS);
         deviceList = DeviceSearch.searchDevice(keyword);
         if (deviceList == null) {
-            deviceList = new ArrayList<>();
+            int tryMaxCount = 3;
+            for (int i = tryMaxCount; i > 0; i--) {
+                deviceList = DeviceSearch.searchDevice(keyword);
+                if (deviceList != null && !deviceList.isEmpty()) {
+                    break;
+                }
+            }
+            if(deviceList== null ){
+                deviceList = new ArrayList<>();
+            }
         }
-        try {
-            Thread.sleep(450);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        publishProgress(String.valueOf(deviceList.size()));
+//        try {
+//            Thread.sleep(200);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        publishProgress(String.valueOf(deviceList.size()));
 
         return deviceList;
     }
@@ -67,10 +77,11 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         if (dataList.size() == 0) {
             notice = Constants.INFO_SEARCH_FAIL;
         } else {
-            notice = "Device:" + String.valueOf(dataList.size());
+            notice = "Found Device:" + String.valueOf(dataList.size());
         }
-        Snackbar.make(mListView, notice, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        Toast.makeText(mListView.getContext(), notice, Toast.LENGTH_SHORT).show();
+//        Snackbar.make(mListView, notice, Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
         vSearchNotice.setVisibility(View.GONE);
     }
 
@@ -87,7 +98,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         vSearchNotice.setText(values[0]);
     }
 
-    public DeviceSearchAsyncTask(ListView mListView,TextView vSearchNotice, LayoutInflater inflater) {
+    public DeviceSearchAsyncTask(ListView mListView, TextView vSearchNotice, LayoutInflater inflater) {
         this.mListView = mListView;
         this.inflater = inflater;
         this.vSearchNotice = vSearchNotice;
