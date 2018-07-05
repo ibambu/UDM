@@ -3,12 +3,15 @@ package com.ibamb.udm.activity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
@@ -25,7 +28,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TCPConnectionActivity extends AppCompatActivity {
+public class TCPConnectionActivity extends AppCompatActivity  implements View.OnTouchListener{
     private ChannelParameter channelParameter;
     private View currentView;
     private String mac;
@@ -39,6 +42,7 @@ public class TCPConnectionActivity extends AppCompatActivity {
     private static final String[] TCP_SETTING_PARAMS_TAG = {"CONN_TCP_WORK_MODE", "CONN_TCP_CONN_RESPONS",
             "CONN_TCP_HOST_PORT0", "CONN_TCP_HOST_IP0", "CONN_TCP_LOCAL_PORT"};
 
+    private GestureDetector mGestureDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +103,20 @@ public class TCPConnectionActivity extends AppCompatActivity {
 
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
+
+            /**
+             * 监听手势
+             */
+            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            mGestureDetector = new GestureDetector(this, listener);
+            findViewById(R.id.v_gesture).setOnTouchListener(this);
+            findViewById(R.id.label_work_as).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_tcp_work_mode).setOnTouchListener(this);
+            findViewById(R.id.id_tcp_conn_respons).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_tcp_conn_respons).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_tcp_local_port).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_tcp_host_port0).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_tcp_host_ip0).setOnTouchListener(this);
         } catch (Exception e) {
             UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
         }
@@ -116,5 +134,17 @@ public class TCPConnectionActivity extends AppCompatActivity {
             return R.id.udm_conn_tcp_host_ip0;
         }
         return 0;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
     }
 }

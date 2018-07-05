@@ -3,12 +3,15 @@ package com.ibamb.udm.activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
@@ -25,7 +28,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IPSettingActivity extends AppCompatActivity {
+public class IPSettingActivity extends AppCompatActivity  implements View.OnTouchListener{
 
     private ChannelParameter channelParameter;
     private String mac;
@@ -39,6 +42,7 @@ public class IPSettingActivity extends AppCompatActivity {
     private static final String[] IP_SETTING_PARAMS_TAG = {"ETH_AUTO_OBTAIN_IP", "ETH_IP_ADDR",
             "PREFERRED_DNS_SERVER", "ETH_NETMASK_ADDR", "PREFERRED_DNS_SERVER", "ALTERNATE_DNS_SERVE", "ETH_GATEWAY_ADDR"};
 
+    private GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,18 @@ public class IPSettingActivity extends AppCompatActivity {
             //后台异步读取参数值并更新界面数据。
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
+
+            /**
+             * 监听手势
+             */
+            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            mGestureDetector = new GestureDetector(this, listener);
+            findViewById(R.id.id_ip_obtain).setOnTouchListener(this);
+            findViewById(R.id.id_address).setOnTouchListener(this);
+            findViewById(R.id.id_subnet).setOnTouchListener(this);
+            findViewById(R.id.id_getway).setOnTouchListener(this);
+            findViewById(R.id.id_dns_1).setOnTouchListener(this);
+            findViewById(R.id.id_dns_2).setOnTouchListener(this);
         } catch (Exception e) {
             UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
         }
@@ -132,4 +148,14 @@ public class IPSettingActivity extends AppCompatActivity {
         return 0;
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
+    }
 }

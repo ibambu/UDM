@@ -3,6 +3,8 @@ package com.ibamb.udm.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
@@ -25,7 +28,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectSettingActivity extends AppCompatActivity {
+public class ConnectSettingActivity extends AppCompatActivity implements View.OnTouchListener{
 
     private TextView vTcpSetting;
     private TextView vUdpSetting;
@@ -51,6 +54,8 @@ public class ConnectSettingActivity extends AppCompatActivity {
     private ImageView commit;
 
     private static final String[] CONNECT_SETTING_PARAMS_TAG = {"CONN_NET_PROTOCOL"};
+
+    private GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +129,19 @@ public class ConnectSettingActivity extends AppCompatActivity {
             title.setOnClickListener(new UdmReloadParamsClickListener(currentView, channelParameter));
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
+
+            /**
+             * 监听手势
+             */
+            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            mGestureDetector = new GestureDetector(this, listener);
+            findViewById(R.id.v_gesture).setOnTouchListener(this);
+            vTcpEnabled.setOnTouchListener(this);
+            vUdpEnabled.setOnTouchListener(this);
+            vTcpSetting.setOnTouchListener(this);
+            vUdpSetting.setOnTouchListener(this);
+            vSerailSetting.setOnTouchListener(this);
+
         } catch (Exception e) {
             UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
         }
@@ -176,5 +194,14 @@ public class ConnectSettingActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
+    }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
+    }
 }

@@ -3,12 +3,15 @@ package com.ibamb.udm.activity;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
@@ -25,7 +28,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UDPConnectionActivity extends AppCompatActivity {
+public class UDPConnectionActivity extends AppCompatActivity implements View.OnTouchListener{
     private ChannelParameter channelParameter;
     private View currentView;
     private String mac;
@@ -46,6 +49,8 @@ public class UDPConnectionActivity extends AppCompatActivity {
             "CONN_UDP_UNI_LOCAL_PORT",
             "CONN_UDP_UNI_HOST_PORT0",
             "CONN_UDP_MUL_REMOTE_PORT"};
+
+    private GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +101,7 @@ public class UDPConnectionActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, ip,channelId);
+            channelParameter = new ChannelParameter(mac, ip, channelId);
             List<Parameter> parameters = ParameterMapping.getMappingByTags(UDP_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
@@ -104,9 +109,28 @@ public class UDPConnectionActivity extends AppCompatActivity {
             }
             channelParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
+            title.setOnClickListener(new UdmReloadParamsClickListener(currentView, channelParameter));
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
+
+            /**
+             * 监听手势
+             */
+            UdmGestureListener listener = new UdmGestureListener(channelParameter, currentView);
+            mGestureDetector = new GestureDetector(this, listener);
+            findViewById(R.id.v_gesture).setOnTouchListener(this);
+            findViewById(R.id.id_conn_uni_local_port).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_uni_local_port).setOnTouchListener(this);
+            findViewById(R.id.id_conn_uni_host_port0).setOnTouchListener(this);
+            findViewById(R.id.id_conn_host_port0).setOnTouchListener(this);
+            findViewById(R.id.id_conn_udp_uni_host_ip0).setOnTouchListener(this);
+            findViewById(R.id.id_conn_mul_local_port).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_mul_local_port).setOnTouchListener(this);
+            findViewById(R.id.id_conn_mul_host_port0).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_host_port0).setOnTouchListener(this);
+            findViewById(R.id.id_conn_udp_mul_remote_ip).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_udp_mul_remote_ip).setOnTouchListener(this);
+
         } catch (Exception e) {
             UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
         }
@@ -129,5 +153,16 @@ public class UDPConnectionActivity extends AppCompatActivity {
             return R.id.udm_conn_udp_mul_remote_ip;
         }
         return 0;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
     }
 }

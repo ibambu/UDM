@@ -2,11 +2,14 @@ package com.ibamb.udm.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
@@ -22,7 +25,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SerialActivity extends AppCompatActivity {
+public class SerialActivity extends AppCompatActivity implements View.OnTouchListener{
 
     private ChannelParameter channelParameter;
     private View currentView;
@@ -36,6 +39,9 @@ public class SerialActivity extends AppCompatActivity {
 
     private static final String[] SERIAL_SETTING_PARAMS_TAG = {"UART_STOPBIT", "UART_DATABIT", "UART_BDRATE","UART_PARITY",
             "UART_FLOWRNT", "UART_IDLE_TIME_PACKINGR","CONN_LINK_LATCH_TIMEOUT"};
+
+    private GestureDetector mGestureDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +89,30 @@ public class SerialActivity extends AppCompatActivity {
             title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView,channelParameter);
             readerAsyncTask.execute(mac);
+            /**
+             * 监听手势
+             */
+
+            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            mGestureDetector = new GestureDetector(this, listener);
+
+            findViewById(R.id.udm_serial_protocol).setOnTouchListener(this);
+            findViewById(R.id.udm_uart_bdrate).setOnTouchListener(this);
+            findViewById(R.id.udm_uart_databit).setOnTouchListener(this);
+            findViewById(R.id.udm_uart_stopbit).setOnTouchListener(this);
+            findViewById(R.id.udm_uart_flowrnt).setOnTouchListener(this);
+            findViewById(R.id.udm_uart_parity).setOnTouchListener(this);
+            findViewById(R.id.udm_uart_idle_time_packingr).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_uart_out_ifg).setOnTouchListener(this);
+            findViewById(R.id.udm_conn_link_latch_timeout).setOnTouchListener(this);
+            findViewById(R.id.v_gesture).setOnTouchListener(this);
+            findViewById(R.id.v_gesture1).setOnTouchListener(this);
+            findViewById(R.id.v_gesture2).setOnTouchListener(this);
+            findViewById(R.id.v_gesture3).setOnTouchListener(this);
+            findViewById(R.id.v_gesture4).setOnTouchListener(this);
+            findViewById(R.id.v_gesture5).setOnTouchListener(this);
+            findViewById(R.id.v_gesture6).setOnTouchListener(this);
+            findViewById(R.id.v_gesture7).setOnTouchListener(this);
         }catch (Exception e){
             UdmLog.e(AccessSettingActivity.class.getName(),e.getMessage());
         }
@@ -91,5 +121,17 @@ public class SerialActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mGestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
     }
 }

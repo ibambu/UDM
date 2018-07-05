@@ -2,11 +2,15 @@ package com.ibamb.udm.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
@@ -22,7 +26,9 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccessSettingActivity extends AppCompatActivity {
+import static android.view.GestureDetector.*;
+
+public class AccessSettingActivity extends AppCompatActivity implements View.OnTouchListener{
 
     private ChannelParameter channelParameter;
     private View currentView;
@@ -34,6 +40,7 @@ public class AccessSettingActivity extends AppCompatActivity {
     private ImageView back;
     private TextView title;
 
+    private GestureDetector mGestureDetector;
 
     private static final String[] ACCESS_SETTING_PARAMS_TAG = {"BASIC_WEB_CONSOLE", "BASIC_TELNET_CONSOLE", "BASIC_CMD_TCP_CONSOL"};
 
@@ -70,7 +77,6 @@ public class AccessSettingActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         title.setText(Constants.TITLE_ACCESS_SETTING);
 
-
     }
 
     @Override
@@ -88,10 +94,35 @@ public class AccessSettingActivity extends AppCompatActivity {
             title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView,channelParameter);
             readerAsyncTask.execute(mac);
+
+            /**
+             * 监听手势
+             */
+            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            mGestureDetector = new GestureDetector(this, listener);
+            findViewById(R.id.v_gesture).setOnTouchListener(this);
+            findViewById(R.id.v_gesture_1).setOnTouchListener(this);
+            findViewById(R.id.v_gesture_2).setOnTouchListener(this);
+            findViewById(R.id.v_gesture_3).setOnTouchListener(this);
+            findViewById(R.id.v_gesture_4).setOnTouchListener(this);
+            findViewById(R.id.id_http_access).setOnTouchListener(this);
+            findViewById(R.id.id_telnet_access).setOnTouchListener(this);
+            findViewById(R.id.id_cloud_access).setOnTouchListener(this);
+            findViewById(R.id.id_cmd_tcp_access).setOnTouchListener(this);
         }catch (Exception e){
             UdmLog.e(AccessSettingActivity.class.getName(),e.getMessage());
         }
 
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+         mGestureDetector.onTouchEvent(event);
+         return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mGestureDetector.onTouchEvent(event);
+    }
 }
