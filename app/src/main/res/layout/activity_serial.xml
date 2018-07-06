@@ -46,7 +46,7 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:tag="@string/tag_serial_protocol" />
+                    android:tag="@string/tag_uart_work_mode" />
 
                 <View
                     android:id="@+id/v_gesture2"
@@ -207,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill"
                     android:columnCount="3"
-                    android:tag="@string/tag_conn_uart_out_ifg" />
+                    android:tag="@string/tag_conn_merge_timeout" />
 
                 <TextView
                     android:layout_columnSpan="3"

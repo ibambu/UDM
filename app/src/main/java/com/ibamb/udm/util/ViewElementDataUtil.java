@@ -1,8 +1,10 @@
 package com.ibamb.udm.util;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
@@ -45,16 +47,28 @@ public class ViewElementDataUtil {
                         if ("CONN_NET_PROTOCOL".equalsIgnoreCase(paramdef.getViewTagId())) {
                             Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
                             Switch udp = view.findViewById(R.id.udp_enanbled_switch);
+
+                            Drawable drawableLeftOpen = view.getResources().getDrawable(R.drawable.ic_action_lock_open);
+                            Drawable drawableLeftClosed = view.getResources().getDrawable(R.drawable.ic_action_lock_closed);
+                            TextView tcpEnabled = view.findViewById(R.id.tcp_eanbled);
+                            TextView udpEnabled = view.findViewById(R.id.udp_eanbled);
+
                             if(tcp!=null && udp!= null){
                                 if ("0".equalsIgnoreCase(value)) {
                                     udp.setChecked(true);
                                     tcp.setChecked(false);
+                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
+                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
                                 } else if ("1".equals(value)) {
                                     udp.setChecked(false);
                                     tcp.setChecked(true);
+                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
+                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
                                 } else if ("2".equals(value)) {
                                     udp.setChecked(true);
                                     tcp.setChecked(true);
+                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
+                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
                                 }
                             }
                         }
@@ -225,4 +239,5 @@ public class ViewElementDataUtil {
         }
         return channelParameter;
     }
+
 }

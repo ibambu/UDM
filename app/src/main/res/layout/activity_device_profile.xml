@@ -57,16 +57,41 @@
                 android:background="@android:color/white">
 
                 <TextView
+                    android:id="@+id/profile_access_setting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="5"
+                    android:height="60dp"
+                    android:drawableLeft="@mipmap/ic_action_settings"
+                    android:drawablePadding="@dimen/fab_margin"
+                    android:gravity="left|center"
+                    android:text="Basic Setting" />
+                <ImageView
+                    android:id="@+id/profile_access_more"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitEnd"
+                    android:src="@mipmap/ic_right_navg" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white">
+
+                <TextView
                     android:id="@+id/profile_ip_setting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="5"
                     android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_gear"
+                    android:drawableLeft="@mipmap/ic_action_feed"
                     android:drawablePadding="@dimen/fab_margin"
                     android:gravity="left|center"
-                    android:text="IP Setting" />
+                    android:text="Network" />
 
                 <ImageView
                     android:id="@+id/profile_ip_more"
@@ -93,7 +118,7 @@
                     android:drawablePadding="@dimen/fab_margin"
                     android:fontFamily="@font/arial"
                     android:gravity="left|center"
-                    android:text="Channels Setting" />
+                    android:text="Channels" />
 
                 <ImageView
                     android:id="@+id/profile_connect_more"
@@ -103,31 +128,7 @@
                     android:scaleType="fitEnd"
                     android:src="@mipmap/ic_right_navg" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@android:color/white">
 
-                <TextView
-                    android:id="@+id/profile_access_setting"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_settings"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:gravity="left|center"
-                    android:text="Access Setting" />
-                <ImageView
-                    android:id="@+id/profile_access_more"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitEnd"
-                    android:src="@mipmap/ic_right_navg" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,7 +146,7 @@
                     android:drawableLeft="@mipmap/ic_action_clock"
                     android:drawablePadding="@dimen/fab_margin"
                     android:gravity="left|center"
-                    android:text="Other Setting" />
+                    android:text="Time Server" />
                 <ImageView
                     android:id="@+id/profile_other_more"
                     android:layout_width="0dp"

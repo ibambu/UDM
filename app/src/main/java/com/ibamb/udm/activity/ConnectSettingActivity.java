@@ -1,6 +1,7 @@
 package com.ibamb.udm.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.GestureDetector;
@@ -142,11 +143,28 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             vUdpSetting.setOnTouchListener(this);
             vSerailSetting.setOnTouchListener(this);
 
+            changeProtocol();
         } catch (Exception e) {
             UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
         }
     }
 
+    private void changeProtocol(){
+        Drawable drawableLeftOpen = getResources().getDrawable(R.drawable.ic_action_lock_open);
+        Drawable drawableLeftClosed = getResources().getDrawable(R.drawable.ic_action_lock_closed);
+        TextView tcpEnabled = findViewById(R.id.tcp_eanbled);
+        TextView udpEnabled = findViewById(R.id.udp_eanbled);
+        if(vTcpEnabled.isChecked()){
+            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
+        }else{
+            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
+        }
+        if(vUdpEnabled.isChecked()){
+            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
+        }else{
+            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
+        }
+    }
     private View.OnClickListener menuItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -190,6 +208,8 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
                 }
                 String notice = "TCP/UDP one must be Enabled.";
                 Toast.makeText(v.getContext(), notice, Toast.LENGTH_SHORT).show();
+            }else {
+                changeProtocol();
             }
         }
     };

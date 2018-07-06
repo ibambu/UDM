@@ -71,6 +71,7 @@
     <string name="tag_conn_udp_uni_host_port0">conn_udp_uni_host_port0</string>
     <string name="tag_conn_udp_mul_local_port">conn_udp_mul_local_port</string>
     <string name="tag_conn_udp_mul_remote_port">conn_udp_mul_remote_port</string>
-    <string name="tag_serial_protocol">serial_protocol</string>
+    <string name="tag_uart_work_mode">uart_work_mode</string>
     <string name="tag_conn_uart_out_ifg">conn_uart_out_ifg</string>
+    <string name="tag_conn_merge_timeout">conn_merge_timeout</string>
 </resources>

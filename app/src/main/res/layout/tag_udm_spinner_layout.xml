@@ -19,6 +19,6 @@
             android:layout_weight="8"
             android:gravity="left|center"
             android:scaleType="fitEnd"
-            android:src="@mipmap/ic_right_navg" />
+            android:src="@mipmap/ic_show_more" />
 
 </LinearLayout>

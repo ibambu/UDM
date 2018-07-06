@@ -36,7 +36,7 @@
                     android:height="60dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@mipmap/ic_action_lock_closed"
+                    android:drawableLeft="@drawable/udm_lock_switch"
                     android:layout_marginLeft="2dp"
                     android:text="TCP Enabled" />
 
@@ -65,7 +65,7 @@
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@mipmap/ic_action_lock_closed"
+                    android:drawableLeft="@drawable/udm_lock_switch"
                     android:text="UDP Enabled" />
 
                 <Switch

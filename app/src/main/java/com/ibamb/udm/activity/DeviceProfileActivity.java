@@ -170,7 +170,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         mac = (String) bundle.get("HOST_MAC");
         TextView vIp = findViewById(R.id.host_ip);
 //        TextView vMac = findViewById(R.id.host_mac);
-        vIp.setText(ip + "/" + mac.toUpperCase());
+        vIp.setText(ip + " / " + mac.toUpperCase());
 //        vMac.setText(mac);
 
         back = findViewById(R.id.go_back);

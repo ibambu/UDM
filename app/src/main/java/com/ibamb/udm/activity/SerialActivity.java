@@ -38,7 +38,7 @@ public class SerialActivity extends AppCompatActivity implements View.OnTouchLis
     private TextView title;
 
     private static final String[] SERIAL_SETTING_PARAMS_TAG = {"UART_STOPBIT", "UART_DATABIT", "UART_BDRATE","UART_PARITY",
-            "UART_FLOWRNT", "UART_IDLE_TIME_PACKINGR","CONN_LINK_LATCH_TIMEOUT"};
+            "UART_FLOWRNT", "UART_IDLE_TIME_PACKINGR","CONN_LINK_LATCH_TIMEOUT","UART_WORK_MODE","CONN_MERGE_TIMEOUT"};
 
     private GestureDetector mGestureDetector;
 
