@@ -25,9 +25,9 @@ public class UserAuth {
      */
     public static boolean login(String userName, String password, String devMac,String ip) {
         boolean isSuccessful = false;
-        DatagramSocket socket = null;
+//        DatagramSocket socket = null;
         try {
-            socket = new DatagramSocket();
+//            socket = new DatagramSocket();
 
             /**
              * 将用户名和密码采用BASE64加密并转成字节数组。注意用户名和密码之间要留一个空格，加密时需将空格和用户名一起加密。
@@ -81,7 +81,7 @@ public class UserAuth {
                 //返回0表示成功
                 if (replyType != Constants.UDM_LOGIN_SUCCESS) {
                     isSuccessful = false;
-                    socket = null;
+//                    socket = null;
                 } else {
                     isSuccessful = true;
                 }
@@ -90,9 +90,9 @@ public class UserAuth {
         } catch (IOException ex) {
 
         } finally {
-            if (socket != null) {
-                socket.close();
-            }
+//            if (socket != null) {
+//                socket.close();
+//            }
         }
         return isSuccessful;
     }

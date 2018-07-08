@@ -126,7 +126,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
         title.setText("Synchronize to Other Device");
 
         syncLogLink = findViewById(R.id.sync_log_link);
-        syncLogLink.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+//        syncLogLink.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         syncLogLink.getPaint().setAntiAlias(true);//抗锯齿
         /**
          * 同步日志点击事件，点击后查看详细同步日志。
@@ -134,9 +134,9 @@ public class DeviceSynchActivity extends AppCompatActivity {
         syncLogLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(),DeviceSyncReportActivity.class);
-                intent.putExtra("REPORT_LOG",reportLog);
-                startActivity(intent);
+//                Intent intent = new Intent(v.getContext(),DeviceSyncReportActivity.class);
+//                intent.putExtra("REPORT_LOG",reportLog);
+//                startActivity(intent);
             }
         });
 

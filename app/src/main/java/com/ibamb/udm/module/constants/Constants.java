@@ -98,4 +98,7 @@ public class Constants {
     public static final int UPGRADE_FAIL_CODE = 0;
 
     public static final int MAX_CHANNEL = 33;
+
+    public static final int ACTIVITY_RESULT_FOR_LOGIN = 10;
+
 }

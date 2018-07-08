@@ -1,5 +1,6 @@
 package com.ibamb.udm.listener;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.ibamb.udm.log.UdmLog;
@@ -13,8 +14,10 @@ public class UdmReloadParamsClickListener implements View.OnClickListener{
 
     private View view;
     private ChannelParameter channelParameter;
+    private Activity activity;
 
-    public UdmReloadParamsClickListener(View view, ChannelParameter channelParameter) {
+    public UdmReloadParamsClickListener(Activity activity,View view, ChannelParameter channelParameter) {
+        this.activity = activity;
         this.view = view;
         this.channelParameter = channelParameter;
     }
@@ -22,7 +25,7 @@ public class UdmReloadParamsClickListener implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         try{
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(view,channelParameter);
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(activity,view,channelParameter);
             readerAsyncTask.execute(channelParameter.getMac());
         }catch (Exception ex){
             UdmLog.e(this.getClass().getName(),ex.getMessage());

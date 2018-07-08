@@ -6,11 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SyncReportListAdapter;
+import com.ibamb.udm.component.LoginComponet;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class SyncFailFragment extends Fragment {
                 for (String deviceInfo : deviceArray) {
                     String[] device = deviceInfo.split("#");
                     if (device.length > 2) {
-                        DeviceSyncMessage deviceSyncMessage = new DeviceSyncMessage(index++,device[1],device[2]);
+                        DeviceSyncMessage deviceSyncMessage = new DeviceSyncMessage(index++, device[1], device[2]);
                         failDeviceList.add(deviceSyncMessage);
                     }
                 }
@@ -64,10 +67,25 @@ public class SyncFailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sync_fail, container, false);
         vFailList = view.findViewById(R.id.sync_fail_list);
         vFailList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        if(!failDeviceList.isEmpty()){
-            ListAdapter adapter = new SyncReportListAdapter(R.layout.sync_item_device_layout, getLayoutInflater(),failDeviceList);
+        if (!failDeviceList.isEmpty()) {
+            ListAdapter adapter = new SyncReportListAdapter(R.layout.sync_item_device_layout, getLayoutInflater(), failDeviceList);
             vFailList.setAdapter(adapter);
             view.findViewById(R.id.line_container).setVisibility(View.VISIBLE);
+            /**
+             * 添加点击事件，点击后登录设备。
+             */
+            vFailList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    TextView macView = view.findViewById(R.id.device_mac);
+                    //绑定登录设备事件。
+                    String mac = macView.getText().toString();
+                    String ip = ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
+                    LoginComponet loginComponet = new LoginComponet(getActivity(), mac, ip);
+                    loginComponet.setToProfile(true);
+                    loginComponet.login();
+                }
+            });
         }
         return view;
     }

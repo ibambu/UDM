@@ -127,14 +127,14 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             }
             channelParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(currentView, channelParameter));
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
+            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, channelParameter));
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
             readerAsyncTask.execute(mac);
 
             /**
              * 监听手势
              */
-            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            UdmGestureListener listener = new UdmGestureListener(this,channelParameter,currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.v_gesture).setOnTouchListener(this);
             vTcpEnabled.setOnTouchListener(this);

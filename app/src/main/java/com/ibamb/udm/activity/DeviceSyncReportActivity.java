@@ -1,5 +1,6 @@
 package com.ibamb.udm.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -83,7 +84,6 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         if(failBuffer.length()>0){
             failBuffer.deleteCharAt(failBuffer.length()-1);
         }
-        System.out.println("failBuffer ====="+failBuffer.toString());
         title = findViewById(R.id.title);
         title.setText("Device Sync Report");
 
@@ -160,5 +160,17 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         transaction.commit();
         failButton.setTextColor(Color.BLACK);
         successButton.setTextColor(Color.BLUE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Constants.ACTIVITY_RESULT_FOR_LOGIN){
+            Intent intent = new Intent(this, DeviceProfileActivity.class);
+            Bundle bundle = data.getExtras();
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

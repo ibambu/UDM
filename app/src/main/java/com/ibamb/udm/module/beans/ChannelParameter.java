@@ -12,6 +12,15 @@ public class ChannelParameter {
     private String ip;
     private String channelId;
     private List<ParameterItem> paramItems;
+    private boolean isNoPermission;//是否禁止访问，一般在没有登录的情况下访问设备返回。
+
+    public boolean isNoPermission() {
+        return isNoPermission;
+    }
+
+    public void setNoPermission(boolean noPermission) {
+        isNoPermission = noPermission;
+    }
 
     public boolean isSuccessful() {
         return isSuccessful;

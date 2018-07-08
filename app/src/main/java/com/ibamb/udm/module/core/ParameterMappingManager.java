@@ -63,7 +63,6 @@ public class ParameterMappingManager {
                     }
                 }
                 String pubFlag = dataArray[cellCount++];
-                System.out.println("ssssssssssssssssssss:"+pubFlag);
                 boolean isPublic = "1".equals(pubFlag)?true:false;
                 param.setPublic(isPublic);
                 mapping.put(param.getId(), param);

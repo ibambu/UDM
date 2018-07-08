@@ -160,8 +160,8 @@ public class TimeServerSettingActivity extends AppCompatActivity {
             }
             channelParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
+            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView,channelParameter));
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
             readerAsyncTask.execute(mac);
         } catch (Exception e) {
             UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());

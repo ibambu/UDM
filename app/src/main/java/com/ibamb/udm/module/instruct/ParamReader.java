@@ -1,6 +1,5 @@
 package com.ibamb.udm.module.instruct;
 
-import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -81,6 +80,7 @@ public class ParamReader implements IParamReader {
             ReplyFrame replyFrame = parser.parse(replyData);
             if (replyFrame.getControl() == Control.ACKNOWLEDGE) {
                 channelParameter.setSuccessful(true);
+                channelParameter.setNoPermission(false);
                 for (ParameterItem parameterItem : parameterItems) {
                     for (Information info : replyFrame.getInfoList()) {
                         if (parameterItem.getParamId().equals(info.getType())) {
@@ -117,10 +117,12 @@ public class ParamReader implements IParamReader {
                         }
                     }
                 }
-            } else {
+            } else if(replyFrame.getControl() == Control.NO_PERMISSION){
+                channelParameter.setSuccessful(false);
+                channelParameter.setNoPermission(true);
+            }else{
                 channelParameter.setSuccessful(false);
             }
-
         } catch (Exception e) {
 
         }

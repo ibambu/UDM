@@ -1,5 +1,6 @@
 package com.ibamb.udm.listener;
 
+import android.app.Activity;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ public class UdmGestureListener extends SimpleOnGestureListener {
 
     private ChannelParameter channelParameter;
     private View currentView;
+    private Activity activity;
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
@@ -26,7 +28,8 @@ public class UdmGestureListener extends SimpleOnGestureListener {
         return super.onDown(e);
     }
 
-    public UdmGestureListener(ChannelParameter channelParameter, View currentView) {
+    public UdmGestureListener(Activity activity,ChannelParameter channelParameter, View currentView) {
+        this.activity = activity;
         this.channelParameter = channelParameter;
         this.currentView = currentView;
     }
@@ -37,7 +40,7 @@ public class UdmGestureListener extends SimpleOnGestureListener {
         if (((e1.getX() - e2.getX() > verticalMinDistance||e2.getX() - e1.getX() > verticalMinDistance) && Math.abs(velocityX) > minVelocity)
                 ||(e1.getY() - e2.getY() > verticalMinDistance||e2.getY() - e1.getY() > verticalMinDistance && Math.abs(velocityY) > minVelocity)) {
 
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView,channelParameter);
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(activity,currentView,channelParameter);
             readerAsyncTask.execute(channelParameter.getMac());
             Toast.makeText(currentView.getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
         }

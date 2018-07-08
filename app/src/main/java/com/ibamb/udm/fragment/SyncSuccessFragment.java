@@ -6,11 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SyncReportListAdapter;
+import com.ibamb.udm.component.LoginComponet;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 
 import java.util.ArrayList;
@@ -68,7 +71,23 @@ public class SyncSuccessFragment extends Fragment {
             ListAdapter adapter = new SyncReportListAdapter(R.layout.sync_item_device_layout, getLayoutInflater(), successDeviceList);
             vSuccessList.setAdapter(adapter);
             view.findViewById(R.id.line_container).setVisibility(View.VISIBLE);
+            /**
+             * 添加点击事件，点击后登录设备。
+             */
+            vSuccessList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    TextView macView =  view.findViewById(R.id.device_mac);
+                    //绑定登录设备事件。
+                    String mac = macView.getText().toString();
+                    String ip= ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
+                    LoginComponet loginComponet = new LoginComponet(getActivity(),mac,ip);
+                    loginComponet.setToProfile(true);
+                    loginComponet.login();
+                }
+            });
         }
+
         return view;
     }
 

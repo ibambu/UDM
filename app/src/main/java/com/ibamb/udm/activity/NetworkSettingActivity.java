@@ -101,15 +101,15 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
             }
             channelParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。注意顺序，一定要在channelParameter赋值之后再绑定事件。
-            title.setOnClickListener(new UdmReloadParamsClickListener(currentView,channelParameter));
+            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView,channelParameter));
             //后台异步读取参数值并更新界面数据。
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
             readerAsyncTask.execute(mac);
 
             /**
              * 监听手势
              */
-            UdmGestureListener listener = new UdmGestureListener(channelParameter,currentView);
+            UdmGestureListener listener = new UdmGestureListener(this,channelParameter,currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.id_ip_obtain).setOnTouchListener(this);
             findViewById(R.id.id_address).setOnTouchListener(this);

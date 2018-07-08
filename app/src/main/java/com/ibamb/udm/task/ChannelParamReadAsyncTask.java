@@ -1,12 +1,13 @@
 package com.ibamb.udm.task;
 
+import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.LoginComponet;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.IParamReader;
@@ -18,8 +19,10 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
 
     private View view;
     private ChannelParameter channelParameter;
+    private Activity activity;
 
-    public ChannelParamReadAsyncTask(View view,ChannelParameter channelParameter) {
+    public ChannelParamReadAsyncTask(Activity activity,View view,ChannelParameter channelParameter) {
+        this.activity = activity;
         this.view = view;
         this.channelParameter = channelParameter;
     }
@@ -51,18 +54,22 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
         super.onPostExecute(channelParameter);
         //更新界面数据
         String notice = "";
-        if(!channelParameter.isSuccessful()){
-            notice = "Possible network delay. Please click title try again.";
-            Toast.makeText(view.getContext(), notice,Toast.LENGTH_SHORT).show();
-//            Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
+        if(channelParameter.isNoPermission()){
+            LoginComponet loginComponet = new LoginComponet(activity,channelParameter.getMac(),channelParameter.getIp());
+            loginComponet.setToProfile(false);
+            loginComponet.login();
         }else{
-            ViewElementDataUtil.setData(channelParameter, view);
-        }
-        TextView title = view.findViewById(R.id.title);
-        if(title!=null){
-            String titleValue = title.getText().toString();
-            title.setText(titleValue.replaceAll(Constants.WAIT_READ_PARAM,""));
+            if(!channelParameter.isSuccessful()){
+                notice = "Possible network delay. Please click title try again.";
+                Toast.makeText(view.getContext(), notice,Toast.LENGTH_SHORT).show();
+            }else{
+                ViewElementDataUtil.setData(channelParameter, view);
+            }
+            TextView title = view.findViewById(R.id.title);
+            if(title!=null){
+                String titleValue = title.getText().toString();
+                title.setText(titleValue.replaceAll(Constants.WAIT_READ_PARAM,""));
+            }
         }
     }
 
