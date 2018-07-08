@@ -14,9 +14,11 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
@@ -58,8 +60,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     UserLoginAsyncTask loginAsyncTask = new UserLoginAsyncTask();
                     String[] loginInfo = {userName, password, mac, ip};
+                    String[] tryUser = {userName, password};
                     isLoginSuccess = loginAsyncTask.execute(loginInfo).get();
                     if (isLoginSuccess) {
+                        TryUser.setTryUser(tryUser);
                         finish();
                     } else {
                         noticeView.setVisibility(View.VISIBLE);
