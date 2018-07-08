@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.activity.DeviceSyncReportActivity;
 import com.ibamb.udm.activity.DeviceUpgradeActivity;
 import com.ibamb.udm.activity.FilePickerActivity;
 import com.ibamb.udm.activity.LoadParamDefActivity;
@@ -75,7 +76,10 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
                     searchListFragment.getLayoutInflater());
             task.execute();
 
-        } else if (menuItemId == R.id.id_menu_exit) {
+        } else if(menuItemId==R.id.id_menu_sync_report){
+            Intent intent = new Intent(activity,DeviceSyncReportActivity.class);
+            activity.startActivity(intent);
+        }else if (menuItemId == R.id.id_menu_exit) {
 
             activity.finish();
         }

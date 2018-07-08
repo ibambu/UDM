@@ -39,7 +39,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
     private ImageView back;
     private TextView title;
 
-    private static final String[] TCP_SETTING_PARAMS_TAG = {"CONN_TCP_WORK_MODE", "CONN_TCP_CONN_RESPONS",
+    private static final String[] TCP_SETTING_PARAMS_TAG = {"CONN_TCP_WORK_MODE", "CONN_TCP_CONN_RESPONSE",
             "CONN_TCP_HOST_PORT0", "CONN_TCP_HOST_IP0", "CONN_TCP_LOCAL_PORT"};
 
     private GestureDetector mGestureDetector;
@@ -118,7 +118,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
             findViewById(R.id.udm_conn_tcp_host_port0).setOnTouchListener(this);
             findViewById(R.id.udm_conn_tcp_host_ip0).setOnTouchListener(this);
         } catch (Exception e) {
-            UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
         }
     }
 

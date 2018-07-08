@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AccessSettingActivity">
+    tools:context=".activity.BasicSettingActivity">
 
     <LinearLayout
         android:id="@+id/v_container"
@@ -132,7 +132,7 @@
                     android:layout_gravity="fill"
                     android:height="60dp"
                     android:gravity="right|center"
-                    android:tag="@string/tag_basic_cmd_tcp_consol"
+                    android:tag="@string/tag_basic_cmd_tcp_console"
                     android:textOff="off"
                     android:textOn="on" />
 

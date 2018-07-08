@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
@@ -26,9 +25,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.GestureDetector.*;
-
-public class AccessSettingActivity extends AppCompatActivity implements View.OnTouchListener{
+public class BasicSettingActivity extends AppCompatActivity implements View.OnTouchListener{
 
     private ChannelParameter channelParameter;
     private View currentView;
@@ -42,7 +39,7 @@ public class AccessSettingActivity extends AppCompatActivity implements View.OnT
 
     private GestureDetector mGestureDetector;
 
-    private static final String[] ACCESS_SETTING_PARAMS_TAG = {"BASIC_WEB_CONSOLE", "BASIC_TELNET_CONSOLE", "BASIC_CMD_TCP_CONSOL"};
+    private static final String[] ACCESS_SETTING_PARAMS_TAG = {"BASIC_WEB_CONSOLE", "BASIC_TELNET_CONSOLE", "BASIC_CMD_TCP_CONSOLE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +107,7 @@ public class AccessSettingActivity extends AppCompatActivity implements View.OnT
             findViewById(R.id.id_cloud_access).setOnTouchListener(this);
             findViewById(R.id.id_cmd_tcp_access).setOnTouchListener(this);
         }catch (Exception e){
-            UdmLog.e(AccessSettingActivity.class.getName(),e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(),e.getMessage());
         }
 
     }

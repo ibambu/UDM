@@ -28,7 +28,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IPSettingActivity extends AppCompatActivity  implements View.OnTouchListener{
+public class NetworkSettingActivity extends AppCompatActivity  implements View.OnTouchListener{
 
     private ChannelParameter channelParameter;
     private String mac;
@@ -40,7 +40,7 @@ public class IPSettingActivity extends AppCompatActivity  implements View.OnTouc
     private TextView title;
 
     private static final String[] IP_SETTING_PARAMS_TAG = {"ETH_AUTO_OBTAIN_IP", "ETH_IP_ADDR",
-            "PREFERRED_DNS_SERVER", "ETH_NETMASK_ADDR", "PREFERRED_DNS_SERVER", "ALTERNATE_DNS_SERVE", "ETH_GATEWAY_ADDR"};
+            "PREFERRED_DNS_SERVER", "ETH_NETMASK_ADDR", "PREFERRED_DNS_SERVER", "ALTERNATE_DNS_SERVER", "ETH_GATEWAY_ADDR"};
 
     private GestureDetector mGestureDetector;
 
@@ -118,7 +118,7 @@ public class IPSettingActivity extends AppCompatActivity  implements View.OnTouc
             findViewById(R.id.id_dns_1).setOnTouchListener(this);
             findViewById(R.id.id_dns_2).setOnTouchListener(this);
         } catch (Exception e) {
-            UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
         }
 
     }

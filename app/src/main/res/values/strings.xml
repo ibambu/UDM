@@ -38,7 +38,7 @@
 
     <string name="tag_eth_auto_obtain_ip">eth_auto_obtain_ip</string>
     <string name="tag_preferred_dns_server">preferred_dns_server</string>
-    <string name="tag_alternate_dns_serve">alternate_dns_serve</string>
+    <string name="tag_alternate_dns_server">alternate_dns_server</string>
     <string name="tag_basic_web_console">basic_web_console</string>
     <string name="tag_basic_rtc_time">basic_rtc_time</string>
     <string name="tag_eth_ip_addr">eth_ip_addr</string>
@@ -46,15 +46,15 @@
     <string name="tag_eth_gateway_addr">eth_gateway_addr</string>
     <string name="tag_basic_telnet_console">basic_telnet_console</string>
     <string name="tag_basic_cloud_console">basic_cloud_console</string>
-    <string name="tag_basic_cmd_tcp_consol">basic_cmd_tcp_consol</string>
+    <string name="tag_basic_cmd_tcp_console">basic_cmd_tcp_console</string>
     <string name="tag_basic_timer_server">basic_timer_server</string>
     <!-- Connection setting-->
     <string name="tag_conn_net_protocol">conn_net_protocol</string>
-    <string name="tag_conn_tcp_conn_respons">conn_tcp_conn_respons</string>
+    <string name="tag_conn_tcp_conn_response">conn_tcp_conn_response</string>
     <string name="tag_conn_tcp_host_ip0">conn_tcp_host_ip0</string>
     <string name="tag_uart_stopbit">uart_stopbit</string>
-    <string name="tag_uart_flowrnt">uart_flowrnt</string>
-    <string name="tag_uart_idle_time_packingr">uart_idle_time_packingr</string>
+    <string name="tag_uart_flowrntrl">uart_flowrntrl</string>
+    <string name="tag_uart_idle_time_packing">uart_idle_time_packing</string>
     <string name="tag_conn_tcp_work_mode">conn_tcp_work_mode</string>
     <string name="tag_conn_tcp_host_port0">conn_tcp_host_port0</string>
     <string name="tag_conn_tcp_local_port">conn_tcp_local_port</string>

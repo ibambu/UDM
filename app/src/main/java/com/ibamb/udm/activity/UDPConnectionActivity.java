@@ -132,7 +132,7 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
             findViewById(R.id.udm_conn_udp_mul_remote_ip).setOnTouchListener(this);
 
         } catch (Exception e) {
-            UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
         }
     }
 

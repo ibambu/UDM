@@ -62,6 +62,11 @@
                     android:title="Join Cloud"
                     app:showAsAction="never" />
                 <item
+                    android:id="@+id/id_menu_sync_report"
+                    android:icon="@mipmap/ic_action_news"
+                    android:title="Device Sync Report"
+                    app:showAsAction="never" />
+                <item
                     android:id="@+id/id_menu_exit"
                     android:icon="@mipmap/ic_action_io"
                     android:title="Exit"

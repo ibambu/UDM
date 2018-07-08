@@ -50,7 +50,7 @@ public class ParameterMapping {
             String paramId = it.next();
             Parameter parameter = parameterMap.get(paramId);
             String channelId = String.valueOf(parameter.getChannelId());
-            if (parameter.getChannelId() != 0 && !supportedChannels.contains(channelId)) {
+            if (!supportedChannels.contains(channelId)) {
                 supportedChannels.add(channelId);
             }
         }

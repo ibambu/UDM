@@ -145,7 +145,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
 
             changeProtocol();
         } catch (Exception e) {
-            UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
         }
     }
 

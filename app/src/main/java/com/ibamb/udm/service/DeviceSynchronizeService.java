@@ -7,47 +7,35 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.component.ServiceConst;
-import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceSyncMessage;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.module.instruct.IParamReader;
-import com.ibamb.udm.module.instruct.IParamWriter;
 import com.ibamb.udm.module.instruct.ParamReader;
-import com.ibamb.udm.module.instruct.ParamWriter;
 import com.ibamb.udm.module.instruct.beans.Parameter;
-import com.ibamb.udm.module.security.UserAuth;
-import com.ibamb.udm.module.sync.DeviceSyncResult;
-import com.ibamb.udm.module.sys.SysManager;
+import com.ibamb.udm.module.task.SyncDeviceParamTask;
+import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+/**
+ * 将一个设备的参数值复制到其他设备。
+ */
 public class DeviceSynchronizeService extends Service {
 
-    private static ArrayList<DeviceInfo> targetDeviceList;
-
-    private static final Object readLock = new Object();//读参数锁
-    private static final Object writeLock = new Object();//写参数锁
-    private static final Object authLock = new Object();//登录锁
-
-    private boolean isLoginSuccess;
-
-    private int readChannelCount;
-    private int syncSuccessCount;
-    private int syncFailCount;
-
-    private List<ChannelParameter> srcChannelParameters;
-    private Map<String, List<ChannelParameter>> distDevicePamaMap;
-
-    private Map<String, DeviceSyncResult> syncResultMap;
+    private static final Object broadcastLock = new Object();//同步线程发送广播时用到的锁
+    private static final List<String> completedList = new ArrayList<>();
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -64,15 +52,98 @@ public class DeviceSynchronizeService extends Service {
     }
 
     /**
+     * 设备参数同步入口
+     *
+     * @param templateDevice
+     * @param toSynchDeviceInfo
+     */
+    public void syncDeviceParam(DeviceSyncMessage templateDevice, String[] toSynchDeviceInfo) throws Exception {
+        String syncTime = timeFormat.format(new Date());
+        if (toSynchDeviceInfo != null) {
+            completedList.clear();
+            List<String> confChannels = ParameterMapping.getSupportedChannels();//配置文件设置的通道，但是设备不一定全部支持。
+            List<String> supportChannels = new ArrayList<>();//设备支持的通道
+            /**
+             * 通过读取设备通道的一个参数（例如通道1的参数：CONN1_NET_PROTOCOL），如果该参数无参数值，则认为设备是不支持的通道。
+             */
+            for (String channelId : confChannels) {
+                if (channelId.equals("0")) {
+                    supportChannels.add(channelId);
+                    continue;//0 通道是虚拟通道,此处为了方便读取参数，直接纳为支持通道。
+                }
+                ParameterItem item = new ParameterItem("CONN" + channelId + "_NET_PROTOCOL", null);
+                ChannelParameter channelParameter = new ChannelParameter(templateDevice.getMac(), templateDevice.getIp(), channelId);
+                channelParameter.setParamItems(new ArrayList<ParameterItem>());
+                channelParameter.getParamItems().add(item);
+                DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(channelParameter);
+                task.execute().get();
+                if (item.getParamValue() == null) {
+                    continue;
+                }
+                if (item.getParamValue().equals("0") || item.getParamValue().equals("1") || item.getParamValue().equals("2")) {
+                    supportChannels.add(channelId);
+                }
+            }
+            /**
+             * 读取设备支持的所有通道定义的参数
+             */
+            List<ChannelParameter> srcChannelParameters = getDeviceParams(templateDevice, supportChannels);
+            /**
+             * 读取源设备的参数值，用于目标设备复制参数值。
+             */
+            for (ChannelParameter channelParameter : srcChannelParameters) {
+                ChannelParamReadTask task = new ChannelParamReadTask();
+                task.execute(channelParameter).get();
+            }
+            /**
+             * 根据传入的目标设备信息，生成目标设备对象以及目标设备定义的通道参数。
+             */
+            ArrayList<DeviceSyncMessage> targetDeviceList = new ArrayList<>();//目标设备
+            Map<String, List<ChannelParameter>> distDevicePamaMap = new HashMap<>();//目标设备参数
+            for (String deviceInfo : toSynchDeviceInfo) {
+                String[] deviceInfoArray = deviceInfo.split("#");
+                if (deviceInfoArray.length > 1) {
+                    DeviceSyncMessage device = new DeviceSyncMessage(deviceInfoArray[0], deviceInfoArray[1]);
+                    targetDeviceList.add(device);
+                    List<ChannelParameter> channelParameters = getDeviceParams(device, supportChannels);
+                    distDevicePamaMap.put(device.getMac(), channelParameters);
+                }
+            }
+            /**
+             * 创建线程池，并发同步目标设备参数。最大并发数为 5.
+             */
+            ExecutorService threadPool = Executors.newFixedThreadPool(5);
+            for (Iterator<String> it = distDevicePamaMap.keySet().iterator(); it.hasNext(); ) {
+                String mac = it.next();
+                List<ChannelParameter> distChannelParamItems = distDevicePamaMap.get(mac);
+                SyncDeviceParamTask task = new SyncDeviceParamTask();
+                task.setSrcChannelParameters(srcChannelParameters);
+                task.setDistChannelParameters(distChannelParamItems);
+                task.setTotalDeviceCount(targetDeviceList.size());
+                LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
+                task.setBroadcastManager(broadcastManager);
+                task.setBroadcastLock(broadcastLock);
+                task.setCompletedList(completedList);
+                task.setSyncTime(syncTime);
+                threadPool.submit(task);//提交任务在单独的线程执行参数同步。
+            }
+            threadPool.shutdown();//线程池停止接受任务。
+        }
+    }
+
+    /**
      * 获取设备所有参数
      *
      * @param deviceInfo
      * @return
      */
-    public List<ChannelParameter> getDeviceParams(DeviceInfo deviceInfo) {
+    public List<ChannelParameter> getDeviceParams(DeviceSyncMessage deviceInfo, List<String> supportChannels) {
         List<ChannelParameter> channelParameters = new ArrayList<>();
         for (int i = 0; i < Constants.MAX_CHANNEL; i++) {
             List<Parameter> parameterList = ParameterMapping.getChannelPublicParam(i);
+            if (!supportChannels.contains(String.valueOf(i))) {
+                continue;
+            }
             if (parameterList != null && !parameterList.isEmpty()) {
                 ChannelParameter channelParameter = new ChannelParameter(deviceInfo.getMac(), deviceInfo.getIp(), String.valueOf(i));
                 List<ParameterItem> parameterItems = new ArrayList<>();
@@ -87,220 +158,17 @@ public class DeviceSynchronizeService extends Service {
         return channelParameters;
     }
 
-    public void syncDeviceParam(final DeviceInfo templateDevice, String[] toSynchDeviceInfo) {
-        if (toSynchDeviceInfo != null) {
-            targetDeviceList = new ArrayList<>();
-            distDevicePamaMap = new HashMap<>();
-            for (String deviceInfo : toSynchDeviceInfo) {
-                String[] deviceInfoArray = deviceInfo.split("#");
-                if (deviceInfoArray.length > 1) {
-                    DeviceInfo device = new DeviceInfo(deviceInfoArray[0], deviceInfoArray[1]);
-                    targetDeviceList.add(device);
-                    List<ChannelParameter> channelParameters = getDeviceParams(device);
-                    distDevicePamaMap.put(device.getMac(), channelParameters);
-                }
-            }
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        /**
-                         * 读取参数定义，获得需要同步的参数。
-                         */
-                        srcChannelParameters = getDeviceParams(templateDevice);
-                        for (ChannelParameter channelParameter : srcChannelParameters) {
-                            ChannelParamReadTask task = new ChannelParamReadTask();
-                            task.execute(channelParameter);
-                        }
-                        /**
-                         * 模板设备所有共性参数读取完后才开始同步
-                         */
-                        Long startTime = System.currentTimeMillis();
-                        boolean isReadCompleted;//模板设备参数是否已经全部读取完毕
-                        while (true) {
-                            long nowTime = System.currentTimeMillis();
-                            synchronized (readLock) {
-                                isReadCompleted = readChannelCount == srcChannelParameters.size();
-                            }
-                            if (isReadCompleted || nowTime - startTime > 5000) {
-                                break;
-                            }
-                        }
-                        System.out.println("is read completed.>>>>>>"+isReadCompleted);
-                        if (isReadCompleted) {
-                            /**
-                             * 先登录目标设备,登录成功后再更新参数值
-                             */
-                            syncResultMap = new HashMap<>();
-                            for (Iterator<String> it = distDevicePamaMap.keySet().iterator(); it.hasNext(); ) {
-                                String mac = it.next();
-                                List<ChannelParameter> distParamItems = distDevicePamaMap.get(mac);
-                                boolean isAuthSuccess = false;
-                                if (distParamItems != null) {
-                                    for (int i = 0; i < TryUser.getUserCount(); i++) {
-                                        String[] userInfo = TryUser.getUser(i + 1);
-                                        LoginDeviceTask loginAsyncTask = new LoginDeviceTask();
-                                        String[] loginInfo = {userInfo[0], userInfo[1], distParamItems.get(0).getMac(), distParamItems.get(0).getIp()};
-                                        long sTime = System.currentTimeMillis();
-                                        loginAsyncTask.execute(loginInfo);
-                                        while (true) {
-                                            long nowTime = System.currentTimeMillis();
-                                            synchronized (authLock) {
-                                                if (isLoginSuccess) {
-                                                    isAuthSuccess = true;
-                                                    isLoginSuccess = false;//设置下个设备登录状态为false。
-                                                }
-                                            }
-                                            if (isAuthSuccess) {
-                                                break;
-                                            }
-                                            if(nowTime - sTime > 5000){
-                                                loginAsyncTask.cancel(true);
-                                                System.out.println("login timeout, cancel it..");
-                                                break;
-                                            }
-                                        }
-                                        if (isAuthSuccess) {
-                                            break;
-                                        }
-                                    }
-                                }
-                                System.out.println("is AuthSuccess.>>>>>>"+isAuthSuccess);
-                                if (isAuthSuccess) {
-                                    for (ChannelParameter channelParameter : distParamItems) {
-                                        ChannelParamWriteTask task = new ChannelParamWriteTask();
-                                        task.execute(channelParameter);
-                                        task.getStatus();
-                                    }
-                                    break;
-                                }else {
-
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-
-                    }
-                }
-            }).start();
-        }
-    }
-
-    class LoginDeviceTask extends AsyncTask<String, Boolean, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            boolean isSuccess = false;
-            try {
-                String userName = strings[0];
-                String password = strings[1];
-                String mac = strings[2];
-                String ip = strings[3];
-                isSuccess = UserAuth.login(userName, password, mac, ip);
-            } catch (Exception e) {
-                UdmLog.e(this.getClass().getName(), e.getMessage());
-            }
-            synchronized (authLock) {
-                isLoginSuccess = isSuccess;
-            }
-            return isSuccess;
-        }
-    }
-
     /**
      * 读取设备参数
      */
-    class ChannelParamReadTask extends AsyncTask<ChannelParameter, String, Void> {
+    class ChannelParamReadTask extends AsyncTask<ChannelParameter, String, ChannelParameter> {
         @Override
-        protected Void doInBackground(ChannelParameter... channelParameters) {
+        protected ChannelParameter doInBackground(ChannelParameter... channelParameters) {
             IParamReader reader = new ParamReader();
             if (channelParameters != null && channelParameters.length > 0) {
                 reader.readChannelParam(channelParameters[0]);
-                synchronized (readLock) {
-                    if (channelParameters[0].isSuccessful()) {
-                        readChannelCount++;
-                    }
-                }
             }
-            return null;
-        }
-    }
-
-    /**
-     * 更新设备参数
-     */
-    class ChannelParamWriteTask extends AsyncTask<ChannelParameter, String, Boolean> {
-
-        @Override
-        protected Boolean doInBackground(ChannelParameter... channelParameters) {
-            boolean isok = true;
-            if (channelParameters != null && channelParameters.length > 0) {
-                String mac = channelParameters[0].getMac();
-                String channelId = channelParameters[0].getChannelId();
-                for (ChannelParameter srcChannelParameter : srcChannelParameters) {
-                    if (srcChannelParameter.getChannelId().equals(channelId)) {
-                        List<ParameterItem> srcParamItems = srcChannelParameter.getParamItems();
-                        List<ParameterItem> distParamItems = channelParameters[0].getParamItems();
-                        copyParamValue(srcParamItems, distParamItems);
-                        IParamWriter writer = new ParamWriter();
-                        writer.writeChannelParam(channelParameters[0]);
-                        isok &= channelParameters[0].isSuccessful();
-                        synchronized (writeLock) {
-                            DeviceSyncResult result = syncResultMap.get(mac);
-                            if (result == null) {
-                                List<ChannelParameter> chnlList = distDevicePamaMap.get(mac);
-                                result = new DeviceSyncResult();
-                                if (chnlList != null) {
-                                    result.setChnlTotal(chnlList.size());
-                                }
-                                syncResultMap.put(mac, result);
-                            }
-                            if (channelParameters[0].isSuccessful()) {
-                                result.setChnlSuccessCount((result.getChnlSuccessCount() + 1));
-                            } else {
-                                result.setChnlFailCount((result.getChnlFailCount() + 1));
-                            }
-                            //升级完毕，发送广播。
-                            if (result.isCompleted()) {
-                                if (result.isSyncSuccessful()) {
-                                    syncSuccessCount++;
-                                    SysManager.saveAndReboot(mac);
-                                } else {
-                                    syncFailCount++;
-                                }
-                                LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
-                                Intent intent = new Intent(ServiceConst.DEVICE_SYNCH_SERVICE);
-                                intent.putExtra("SYNCH_COUNT", syncSuccessCount);
-                                System.out.println("SYNCH_COUNT======="+syncSuccessCount+" "+mac+" "+channelId);
-                                intent.putExtra("TARGET_DEVICE_NUMBER", targetDeviceList.size());
-                                intent.putExtra("SYNCH_FAIL_COUNT", syncFailCount);
-                                broadcastManager.sendBroadcast(intent);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-            return isok;
-        }
-    }
-
-    /**
-     * 复制参数值
-     *
-     * @param srcParamList
-     * @param distParamList
-     */
-    private void copyParamValue(List<ParameterItem> srcParamList, List<ParameterItem> distParamList) {
-        for (ParameterItem srcParamItem : srcParamList) {
-            for (ParameterItem distParamItem : distParamList) {
-                if (srcParamItem.getParamId().equals(distParamItem.getParamId())) {
-                    distParamItem.setParamValue(srcParamItem.getParamValue());
-                    break;
-                }
-            }
+            return channelParameters[0];
         }
     }
 }

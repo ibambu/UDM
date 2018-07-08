@@ -11,6 +11,7 @@ import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.net.IPUtil;
@@ -28,6 +29,7 @@ public class ViewElementDataUtil {
 
     /**
      * 将读取到的参数值更新到界面。
+     *
      * @param channelParameter
      * @param view
      */
@@ -53,55 +55,55 @@ public class ViewElementDataUtil {
                             TextView tcpEnabled = view.findViewById(R.id.tcp_eanbled);
                             TextView udpEnabled = view.findViewById(R.id.udp_eanbled);
 
-                            if(tcp!=null && udp!= null){
+                            if (tcp != null && udp != null) {
                                 if ("0".equalsIgnoreCase(value)) {
                                     udp.setChecked(true);
                                     tcp.setChecked(false);
-                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
-                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
+                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
+                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
                                 } else if ("1".equals(value)) {
                                     udp.setChecked(false);
                                     tcp.setChecked(true);
-                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
-                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
+                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
+                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
                                 } else if ("2".equals(value)) {
                                     udp.setChecked(true);
                                     tcp.setChecked(true);
-                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
-                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
+                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
+                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
                                 }
                             }
                         }
                         break;
                     case Constants.UDM_UI_EDIT_TEXT:
                         EditText vEditText = view.findViewWithTag(elementTagId);
-                        if(vEditText!=null){
+                        if (vEditText != null) {
 
-                            if(elementTagId.equalsIgnoreCase("basic_rtc_time")){
+                            if (elementTagId.equalsIgnoreCase("basic_rtc_time")) {
                                 EditText vDate = view.findViewById(R.id.id_local_date);
                                 EditText vTime = view.findViewById(R.id.id_local_time);
-                                if(item.getDisplayValue()!=null && item.getDisplayValue().length()>10){
-                                    if(vDate!=null){
-                                        vDate.setText(item.getDisplayValue().substring(0,10));
+                                if (item.getDisplayValue() != null && item.getDisplayValue().length() > 10) {
+                                    if (vDate != null) {
+                                        vDate.setText(item.getDisplayValue().substring(0, 10));
                                     }
-                                    if(vTime!=null){
-                                        vTime.setText(item.getDisplayValue().substring(10,item.getDisplayValue().length()));
+                                    if (vTime != null) {
+                                        vTime.setText(item.getDisplayValue().substring(10, item.getDisplayValue().length()));
                                     }
                                 }
-                            }else{
+                            } else {
                                 vEditText.setText(item.getDisplayValue());
                             }
                         }
                         break;
                     case Constants.UDM_UI_UDMSPINNER:
                         UdmSpinner vSpinner = view.findViewWithTag(elementTagId);
-                        if(vSpinner!=null){
+                        if (vSpinner != null) {
                             vSpinner.setValue(item.getDisplayValue());
                         }
                         break;
                     case Constants.UDM_UI_SWITCH:
                         Switch vSwitch = view.findViewWithTag(elementTagId);
-                        if(vSwitch!=null){
+                        if (vSwitch != null) {
                             if (Constants.UDM_SWITCH_ON.equals(item.getParamValue())) {
                                 vSwitch.setChecked(true);
                             } else {
@@ -111,7 +113,7 @@ public class ViewElementDataUtil {
                         break;
                     case Constants.UDM_UI_BUTTON_TEXT:
                         UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(elementTagId);
-                        if(buttonTextEdit!=null){
+                        if (buttonTextEdit != null) {
                             buttonTextEdit.setValue(item.getDisplayValue());
                         }
                         break;
@@ -120,12 +122,13 @@ public class ViewElementDataUtil {
                 }
             }
         } catch (Exception ex) {
-            UdmLog.e(ViewElementDataUtil.class.getName(),ex.getMessage());
+            UdmLog.e(ViewElementDataUtil.class.getName(), ex.getMessage());
         }
     }
 
     /**
      * 与设置前的参数比较，获取界面发生改变的参数。
+     *
      * @param view
      * @param oldChannelParam
      * @param channelId
@@ -133,7 +136,7 @@ public class ViewElementDataUtil {
      */
     public static ChannelParameter getChangedData(View view, ChannelParameter oldChannelParam, String channelId) {
         ChannelParameter channelParameter = new ChannelParameter(oldChannelParam.getMac(),
-                oldChannelParam.getChannelId(),oldChannelParam.getIp());
+                oldChannelParam.getChannelId(), oldChannelParam.getIp());
         List<Parameter> parameters = ParameterMapping.getChannelParamDef(Integer.parseInt(channelId));
         List<ParameterItem> items = new ArrayList<>();
         channelParameter.setParamItems(items);
@@ -148,7 +151,7 @@ public class ViewElementDataUtil {
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
                         Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
                         Switch udp = view.findViewById(R.id.udp_enanbled_switch);
-                        if(tcp!=null && udp!=null){
+                        if (tcp != null && udp != null) {
                             if (tcp.isChecked() && udp.isChecked()) {
                                 value = "2";
                             } else if (tcp.isChecked()) {
@@ -163,16 +166,16 @@ public class ViewElementDataUtil {
                     break;
                 case Constants.UDM_UI_EDIT_TEXT:
                     EditText vEditText = view.findViewWithTag(viewTagId);
-                    if(vEditText!=null){
+                    if (vEditText != null) {
                         value = parameter.getValue(vEditText.getText().toString());
-                        if(parameter.getViewTagId().equalsIgnoreCase("basic_rtc_time")){
+                        if (parameter.getViewTagId().equalsIgnoreCase("basic_rtc_time")) {
                             EditText vDate = view.findViewById(R.id.id_local_date);
                             EditText vTime = view.findViewById(R.id.id_local_time);
-                            if(vDate!=null){
+                            if (vDate != null) {
                                 value = vDate.getText().toString();
                             }
-                            if(vTime!=null){
-                                value +=" "+ vTime.getText().toString();
+                            if (vTime != null) {
+                                value += " " + vTime.getText().toString();
                             }
                         }
                         hasElement = true;
@@ -180,14 +183,14 @@ public class ViewElementDataUtil {
                     break;
                 case Constants.UDM_UI_UDMSPINNER:
                     UdmSpinner vSpinner = view.findViewWithTag(viewTagId);
-                    if(vSpinner!=null){
+                    if (vSpinner != null) {
                         value = parameter.getValue(vSpinner.getValue());
                         hasElement = true;
                     }
                     break;
                 case Constants.UDM_UI_SWITCH:
                     Switch vSwitch = view.findViewWithTag(viewTagId);
-                    if(vSwitch!=null){
+                    if (vSwitch != null) {
                         if (vSwitch.isChecked()) {
                             value = Constants.UDM_SWITCH_ON;
                         } else {
@@ -198,7 +201,7 @@ public class ViewElementDataUtil {
                     break;
                 case Constants.UDM_UI_BUTTON_TEXT:
                     UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(viewTagId);
-                    if(buttonTextEdit!=null){
+                    if (buttonTextEdit != null) {
                         value = parameter.getValue(buttonTextEdit.getValue());
                         hasElement = true;
                     }
@@ -207,7 +210,7 @@ public class ViewElementDataUtil {
                     break;
             }
             displayValue = parameter.getDisplayValue(value);
-            if(hasElement){
+            if (hasElement) {
                 switch (parameter.getCovertType()) {
                     case Constants.UDM_PARAM_TYPE_NUMBER://数值类型
                         break;
@@ -224,16 +227,20 @@ public class ViewElementDataUtil {
                 List<ParameterItem> paramItems = oldChannelParam.getParamItems();
                 for (ParameterItem parameterItem : paramItems) {
                     //参数ID一致且值不一样，则认为是本次有修改的参数
-
-                    if(parameterItem.getParamId().equals(parameter.getId())
-                            && !parameterItem.getDisplayValue().equals(displayValue)){
-                        items.add(new ParameterItem(parameter.getId(), value));
-                        break;
+                    if (parameterItem.getParamId().equals(parameter.getId())) {
+                        if (parameterItem.getDisplayValue() != null && !parameterItem.getDisplayValue().equals(displayValue)) {
+                            ParameterItem changedItem = new ParameterItem(parameter.getId(), value);
+                            items.add(changedItem);
+                            ContextData.getInstance().addChangedParam(oldChannelParam.getMac(), changedItem);//将有变动的参数保存到上下文中。
+                            break;
+                        }
                     }
                 }
-            }else  if (oldChannelParam == null) {
+            } else if (oldChannelParam == null) {
                 //如果没有旧参数，则认为是最新设置的。
-                items.add(new ParameterItem(parameter.getId(), value));
+                ParameterItem changedItem = new ParameterItem(parameter.getId(), value);
+                items.add(changedItem);
+                ContextData.getInstance().addChangedParam(oldChannelParam.getMac(), changedItem);//将有变动的参数保存到上下文中。
             }
 
         }

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.Binder;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.Snackbar;
@@ -19,13 +19,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.FileDirManager;
 import com.ibamb.udm.component.ServiceConst;
-import com.ibamb.udm.module.beans.DeviceInfo;
-import com.ibamb.udm.module.core.ContextData;
+import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.beans.DeviceSyncMessage;
+import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.service.DeviceSynchronizeService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class DeviceSynchActivity extends AppCompatActivity {
 
@@ -40,12 +48,19 @@ public class DeviceSynchActivity extends AppCompatActivity {
     private Button selectDeviceButton;
 
     private String[] seletedDevices;
-    private DeviceInfo templateDevice ;
+    private DeviceSyncMessage templateDevice;
 
     private ImageView goback;
     private TextView title;
 
+    private File syncDeviceLog;//同步日志文件
+    private FileDirManager fileDirManager;
 
+    private TextView syncLogLink;
+    /**
+     * 日志内容格式：日期#IP#MAC#结果标志@日期#IP#MAC#结果标志@日期#IP#MAC#结果标志
+     */
+    private String reportLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,24 +72,32 @@ public class DeviceSynchActivity extends AppCompatActivity {
         String ip = params.getString("HOST_ADDRESS");
         String mac = params.getString("HOST_MAC");
 
+
         (findViewById(R.id.do_commit)).setVisibility(View.GONE);//不显示右边打勾图标
 
         progressBar = findViewById(R.id.sync_progress_bar);
 
         progressInfo = findViewById(R.id.sync_progress_info);
-        progressInfo.setText("0/" + ContextData.getInstance().getCheckedItems());
+        progressInfo.setText("0/0");
 
-        templateDevice = new DeviceInfo(ip,mac);
+        templateDevice = new DeviceSyncMessage(ip, mac);
 
         actionButton = findViewById(R.id.action_button);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(seletedDevices==null||seletedDevices.length==0){
-                    Snackbar.make(v,  "No Device Seleted!", Snackbar.LENGTH_LONG)
+                if (seletedDevices == null || seletedDevices.length == 0) {
+                    Snackbar.make(v, "No Device Seleted!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
-                }else{
-                    synchronizeService.syncDeviceParam(templateDevice, seletedDevices);
+                } else {
+                    if(syncDeviceLog!=null){
+                        syncDeviceLog.delete();
+                    }
+                    try{
+                        synchronizeService.syncDeviceParam(templateDevice, seletedDevices);
+                    }catch (Exception e){
+                        UdmLog.e(this.getClass().getName(),e.getMessage());
+                    }
                     actionButton.setClickable(false);
                     actionButton.setText("In Sync...");
                     selectDeviceButton.setClickable(false);
@@ -102,6 +125,21 @@ public class DeviceSynchActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         title.setText("Synchronize to Other Device");
 
+        syncLogLink = findViewById(R.id.sync_log_link);
+        syncLogLink.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        syncLogLink.getPaint().setAntiAlias(true);//抗锯齿
+        /**
+         * 同步日志点击事件，点击后查看详细同步日志。
+         */
+        syncLogLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),DeviceSyncReportActivity.class);
+                intent.putExtra("REPORT_LOG",reportLog);
+                startActivity(intent);
+            }
+        });
+
 
         /**
          * 注册 Service 服务
@@ -114,10 +152,46 @@ public class DeviceSynchActivity extends AppCompatActivity {
          * 绑定Service
          */
         onbindService();
+        /**
+         * 同步日志文件
+         */
+        fileDirManager = new FileDirManager(this);
+        syncDeviceLog = fileDirManager.getFileByName(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG);
+        if (syncDeviceLog != null) {
+            StringBuilder strBuffer = new StringBuilder();
+            FileInputStream inputStream = null;
+            String syncTime = "";
+            try {
+                inputStream = openFileInput(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String line = null;
+                String lastLine = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    lastLine = line;
+                    strBuffer.append(line).append("@");
+                }
+                if (syncTime.trim().length() == 0) {
+                    syncTime = (lastLine.split("#"))[0];
+                }
+                int idx = strBuffer.lastIndexOf("@");
+                if(idx!=-1){
+                    strBuffer.deleteCharAt(strBuffer.length()-1);//删除最后一个多余的 @ 符号。
+                }
+                reportLog = strBuffer.toString();
+                syncLogLink.setText("Last Synchronized:" + syncTime);
+                findViewById(R.id.sync_log_container).setVisibility(View.VISIBLE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            findViewById(R.id.sync_log_container).setVisibility(View.GONE);
+        }
 
     }
 
-    public void onProgressChanged(int progress) {
+    public void onProgressChanged(int progress,String syncTime) {
         //更新UI进度
         progressBar.setProgress(progress);
         progressInfo.setText(progress + "/" + progressBar.getMax());
@@ -125,24 +199,11 @@ public class DeviceSynchActivity extends AppCompatActivity {
             actionButton.setClickable(true);
             actionButton.setText("Start Sync");
             selectDeviceButton.setClickable(true);
+            syncLogLink.setText("Synchronized time:"+syncTime);
         } else {
             actionButton.setClickable(false);
             selectDeviceButton.setClickable(false);
             actionButton.setText("In sync...");
-        }
-    }
-
-    /**
-     * Service 广播接收者
-     */
-    class DeviceSynchReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int syncCount = intent.getIntExtra("SYNCH_COUNT",0) ;
-            int targetCount = intent.getIntExtra("TARGET_DEVICE_NUMBER",0);
-            onProgressChanged(syncCount);
-            progressBar.setMax(targetCount);
         }
     }
 
@@ -172,7 +233,6 @@ public class DeviceSynchActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onDestroy() {
         //销毁时解除绑定
@@ -185,11 +245,52 @@ public class DeviceSynchActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            int seletedCount = data.getIntExtra("SELECTED_COUNT",0);
+            int seletedCount = data.getIntExtra("SELECTED_COUNT", 0);
             seletedDevices = data.getStringArrayExtra("SELECTED_DEVICE");
             progressBar.setMax(seletedCount);
-            progressInfo.setText("0/"+seletedCount);
+            progressInfo.setText("0/" + seletedCount);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Service 广播接收者
+     */
+    class DeviceSynchReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int syncCount = intent.getIntExtra("SYNCH_COUNT", 0);
+            int targetCount = intent.getIntExtra("TARGET_DEVICE_NUMBER", 0);
+            String synchTime = intent.getStringExtra("SYNCH_TIME");
+                progressBar.setMax(targetCount);
+                onProgressChanged(syncCount,synchTime);
+                /**
+                 * 写同步报告
+                 */
+                String syncReport = synchTime + "#" + intent.getStringExtra("SYNCH_REPORT");
+                BufferedWriter bufwriter = null;
+
+                try {
+                    //覆盖写，只保留最新日志
+                    OutputStreamWriter writerStream = new OutputStreamWriter(openFileOutput(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG, MODE_APPEND));
+                    bufwriter = new BufferedWriter(writerStream);
+                    bufwriter.write(syncReport);
+                    bufwriter.newLine();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (bufwriter != null) {
+                        try {
+                            bufwriter.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+        }
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.SyncFailFragment">
+
+    <LinearLayout
+        android:id="@+id/line_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="fill"
+            android:background="#ebeaea" />
+        <ListView
+            android:id="@+id/sync_fail_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/white"
+            android:divider="@color/transparent"
+            android:dividerHeight="1dp"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:listSelector="@color/udm_gray_light"
+            android:scrollbars="horizontal|vertical"
+            android:showDividers="middle"
+            android:transcriptMode="alwaysScroll" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="fill"
+            android:background="#ebeaea" />
+    </LinearLayout>
+
+</FrameLayout>

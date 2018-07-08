@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.IPSettingActivity">
+    tools:context=".activity.NetworkSettingActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -161,7 +161,7 @@
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
                     android:background="@drawable/border_background"
-                    android:tag="@string/tag_alternate_dns_serve"/>
+                    android:tag="@string/tag_alternate_dns_server"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="4dp"

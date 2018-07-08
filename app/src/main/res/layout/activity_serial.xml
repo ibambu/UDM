@@ -143,7 +143,7 @@
                     android:layout_gravity="fill"
                     android:layout_marginLeft="2sp"
                     android:layout_marginRight="2sp"
-                    android:tag="@string/tag_uart_flowrnt" />
+                    android:tag="@string/tag_uart_flowrntrl" />
 
                 <View
                     android:id="@+id/v_gesture6"
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill"
                     android:columnCount="3"
-                    android:tag="@string/tag_uart_idle_time_packingr" />
+                    android:tag="@string/tag_uart_idle_time_packing" />
 
                 <TextView
                     android:layout_columnSpan="3"

@@ -73,20 +73,20 @@
                     android:textOff="off"
                     android:textOn="on" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="@color/udm_base_bgcolor" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_columnSpan="6"-->
+                    <!--android:layout_gravity="fill"-->
+                    <!--android:background="@color/udm_base_bgcolor" />-->
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_columnSpan="6"
-                    android:layout_gravity="fill"
-                    android:background="@color/udm_base_bgcolor" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_columnSpan="6"-->
+                    <!--android:layout_gravity="fill"-->
+                    <!--android:background="@color/udm_base_bgcolor" />-->
 
                 <TextView
                     android:layout_columnSpan="3"

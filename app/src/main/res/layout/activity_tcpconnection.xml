@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="fill"
                 android:gravity="left|center"
-                android:tag="@string/tag_conn_tcp_conn_respons" />
+                android:tag="@string/tag_conn_tcp_conn_response" />
         </LinearLayout>
 
         <ScrollView

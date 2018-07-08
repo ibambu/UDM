@@ -38,7 +38,7 @@ public class SerialActivity extends AppCompatActivity implements View.OnTouchLis
     private TextView title;
 
     private static final String[] SERIAL_SETTING_PARAMS_TAG = {"UART_STOPBIT", "UART_DATABIT", "UART_BDRATE","UART_PARITY",
-            "UART_FLOWRNT", "UART_IDLE_TIME_PACKINGR","CONN_LINK_LATCH_TIMEOUT","UART_WORK_MODE","CONN_MERGE_TIMEOUT"};
+            "UART_FLOWRNTRL", "UART_IDLE_TIME_PACKING","CONN_LINK_LATCH_TIMEOUT","UART_WORK_MODE","CONN_MERGE_TIMEOUT"};
 
     private GestureDetector mGestureDetector;
 
@@ -114,7 +114,7 @@ public class SerialActivity extends AppCompatActivity implements View.OnTouchLis
             findViewById(R.id.v_gesture6).setOnTouchListener(this);
             findViewById(R.id.v_gesture7).setOnTouchListener(this);
         }catch (Exception e){
-            UdmLog.e(AccessSettingActivity.class.getName(),e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(),e.getMessage());
         }
     }
 

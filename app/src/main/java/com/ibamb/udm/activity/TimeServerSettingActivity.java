@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class OtherSettingActivity extends AppCompatActivity {
+public class TimeServerSettingActivity extends AppCompatActivity {
     private ChannelParameter channelParameter;
     private View currentView;
     private String mac;
@@ -125,7 +125,7 @@ public class OtherSettingActivity extends AppCompatActivity {
 
     protected void showDatePickDlg() {
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(OtherSettingActivity.this,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(TimeServerSettingActivity.this,
                 new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -164,7 +164,7 @@ public class OtherSettingActivity extends AppCompatActivity {
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(currentView, channelParameter);
             readerAsyncTask.execute(mac);
         } catch (Exception e) {
-            UdmLog.e(AccessSettingActivity.class.getName(), e.getMessage());
+            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
         }
     }
 

@@ -1,14 +1,10 @@
 package com.ibamb.udm.activity;
 
 import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,14 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.ServiceConst;
+import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.sys.SysManager;
+import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DeviceProfileActivity extends AppCompatActivity {
 
@@ -59,7 +58,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 case R.id.profile_ip_more:
                 case R.id.profile_ip_setting:
                     //不涉及某个通道，IP相关的参数当作是0通道。
-                    Intent intent1 = new Intent(v.getContext(), IPSettingActivity.class);
+                    Intent intent1 = new Intent(v.getContext(), NetworkSettingActivity.class);
                     Bundle params = new Bundle();
                     params.putString("HOST_ADDRESS", ip);
                     params.putString("HOST_MAC", mac);
@@ -70,7 +69,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 case R.id.profile_access_more:
                 case R.id.profile_access_setting:
                     //不涉及某个通道
-                    Intent intent2 = new Intent(v.getContext(), AccessSettingActivity.class);
+                    Intent intent2 = new Intent(v.getContext(), BasicSettingActivity.class);
                     Bundle params2 = new Bundle();
                     params2.putString("HOST_ADDRESS", ip);
                     params2.putString("HOST_MAC", mac);
@@ -107,7 +106,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 case R.id.profile_other_setting:
                 case R.id.profile_other_more:
                     //不涉及某个通道
-                    Intent intent3 = new Intent(v.getContext(), OtherSettingActivity.class);
+                    Intent intent3 = new Intent(v.getContext(), TimeServerSettingActivity.class);
                     Bundle params3 = new Bundle();
                     params3.putString("HOST_ADDRESS", ip);
                     params3.putString("HOST_MAC", mac);
@@ -220,10 +219,35 @@ public class DeviceProfileActivity extends AppCompatActivity {
         /**
          * 读取支持的通道
          */
-        List<String> suppChannels = ParameterMapping.getSupportedChannels();
-        supportedChannels = new String[suppChannels.size()];
-        for (int i = 0; i < supportedChannels.length; i++) {
-            supportedChannels[i] = suppChannels.get(i);
+        List<String> confChannels = ParameterMapping.getSupportedChannels();
+        List<String> supportChannels = new ArrayList<>();
+        for(String channelId:confChannels){
+            if(channelId.equals("0")){
+                continue;//0 通道是虚拟通道，需要排除。
+            }
+            ParameterItem item = new ParameterItem("CONN"+channelId+"_NET_PROTOCOL",null);
+            ChannelParameter channelParameter = new ChannelParameter(mac,ip,channelId);
+            channelParameter.setParamItems(new ArrayList<ParameterItem>());
+            channelParameter.getParamItems().add(item);
+            DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(channelParameter);
+            task.execute();
+            try {
+                channelParameter = task.get();
+                if(item.getParamValue()==null){
+                    continue;
+                }
+                if(item.getParamValue().equals("0")||item.getParamValue().equals("1")||item.getParamValue().equals("2")){
+                    supportChannels.add(channelId);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        supportedChannels = new String[supportChannels.size()];
+        for (int i = 0; i < supportChannels.size(); i++) {
+            supportedChannels[i] = supportChannels.get(i);
         }
     }
 
