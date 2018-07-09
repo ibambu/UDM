@@ -166,8 +166,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
         TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
-        ip = (String) bundle.get("HOST_ADDRESS");
-        mac = (String) bundle.get("HOST_MAC");
+        ip = bundle.getString("HOST_ADDRESS");
+        mac = bundle.getString("HOST_MAC");
 
 
         boolean syncEnabled = bundle.getBoolean("SYNC_ENABLED");
@@ -176,7 +176,11 @@ public class DeviceProfileActivity extends AppCompatActivity {
         }
 
         TextView vIp = findViewById(R.id.host_ip);
-        vIp.setText(ip + " / " + mac.toUpperCase());
+        if(ip==null){
+            vIp.setText(mac.toUpperCase());
+        }else{
+            vIp.setText(ip + " / " + mac.toUpperCase());
+        }
 
         back = findViewById(R.id.go_back);
         back.setOnClickListener(new View.OnClickListener() {

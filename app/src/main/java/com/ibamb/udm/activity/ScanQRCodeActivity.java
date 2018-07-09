@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.android.Intents;
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.LoginComponet;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.util.BitmapUtil;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -80,10 +81,24 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString(Intents.Scan.RESULT);
-            resultTextView.setText(scanResult);
+            if(isMac(scanResult)){
+                LoginComponet loginComponet = new LoginComponet(this,scanResult,null);
+                loginComponet.setToProfile(true);
+                loginComponet.setSyncMenuEnabled(true);
+                loginComponet.login();
+            }else{
+                resultTextView.setText(scanResult);
+            }
         }
     }
-
+    private boolean isMac(String val) {
+        String regxMacAddress = "([A-Fa-f0-9]{2}:){5}[A-Fa-f0-9]{2}";
+        if (val.matches(regxMacAddress)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     //调用浏览器打开，功能尚未完善、、、
     public void checkResult(View v){
         String result = resultTextView.getText().toString();

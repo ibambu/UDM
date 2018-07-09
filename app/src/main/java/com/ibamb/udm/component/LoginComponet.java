@@ -1,7 +1,6 @@
 package com.ibamb.udm.component;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,7 +11,6 @@ import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
 public class LoginComponet {
-    private Context context;
     private String mac;
     private String ip;
     private boolean isToProfile;//是否直接跳入设备profile页面
