@@ -22,15 +22,8 @@ public class DeviceSearchListFragment extends Fragment {
     private String mParam2;
 
 
-    private String context;
-
     private ListView mListView;
-//    private FloatingActionButton searchButton;
-    private View loginView;
-    private TextView noticeView;
-    private String selectedMac;
-    private String ip;
-    private TextView vSearchNotice;
+
 
     /**
      * 设备列表中点击事件，触发登录远程设备。
@@ -86,7 +79,6 @@ public class DeviceSearchListFragment extends Fragment {
         //取得界面浮动搜索按钮和列表控件
 //        searchButton = (FloatingActionButton) view.findViewById(R.id.udm_search_button);
         mListView = (ListView) view.findViewById(R.id.search_device_list);
-        vSearchNotice = view.findViewById(R.id.search_notice_info);
 
         //浮动按钮添加搜索事件，通过搜索事件触发搜索设备，并异步更新列表控件。
 //        UdmSearchButtonClickListener searchClickListener = new UdmSearchButtonClickListener(mListView, vSearchNotice,inflater);
