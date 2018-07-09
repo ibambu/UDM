@@ -24,14 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.PermissionUtils;
-import com.ibamb.udm.log.UdmLog;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
+import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.module.security.AESCrypt;
 import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
@@ -153,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                     wifiIp = ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
                             + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
                 }
+            }else{
+                Toast.makeText(MainActivity.this, "Please open WIFI.", Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {
