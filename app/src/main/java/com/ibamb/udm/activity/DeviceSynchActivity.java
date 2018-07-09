@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -42,7 +43,9 @@ public class DeviceSynchActivity extends AppCompatActivity {
     private DeviceSynchronizeService synchronizeService;
 
     private ProgressBar progressBar;
-    private TextView progressInfo;
+    private TextView successInfo;
+    private TextView failInfo;
+    private TextView allItems;
 
     private Button actionButton;
     private Button selectDeviceButton;
@@ -70,15 +73,17 @@ public class DeviceSynchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle params = intent.getExtras();
         String ip = params.getString("HOST_ADDRESS");
-        String mac = params.getString("HOST_MAC");
+        final String mac = params.getString("HOST_MAC");
 
 
         (findViewById(R.id.do_commit)).setVisibility(View.GONE);//不显示右边打勾图标
 
         progressBar = findViewById(R.id.sync_progress_bar);
 
-        progressInfo = findViewById(R.id.sync_progress_info);
-        progressInfo.setText("0/0");
+        allItems = findViewById(R.id.sync_dist_size);
+        successInfo = findViewById(R.id.sync_success);
+        failInfo = findViewById(R.id.sync_fail);
+
 
         templateDevice = new DeviceSyncMessage(ip, mac);
 
@@ -110,6 +115,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), DeviceListActivity.class);
+                intent.putExtra("CURRENT_MAC",mac);
                 startActivityForResult(intent, 0);
             }
         });
@@ -126,7 +132,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
         title.setText("Synchronize to Other Device");
 
         syncLogLink = findViewById(R.id.sync_log_link);
-//        syncLogLink.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        syncLogLink.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         syncLogLink.getPaint().setAntiAlias(true);//抗锯齿
         /**
          * 同步日志点击事件，点击后查看详细同步日志。
@@ -134,9 +140,10 @@ public class DeviceSynchActivity extends AppCompatActivity {
         syncLogLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(),DeviceSyncReportActivity.class);
-//                intent.putExtra("REPORT_LOG",reportLog);
-//                startActivity(intent);
+                Intent intent = new Intent(v.getContext(),DeviceSyncReportActivity.class);
+                intent.putExtra("REPORT_LOG",reportLog);
+                intent.putExtra("SYNC_ENABLED",false);
+                startActivity(intent);
             }
         });
 
@@ -191,11 +198,16 @@ public class DeviceSynchActivity extends AppCompatActivity {
 
     }
 
-    public void onProgressChanged(int progress,String syncTime) {
+    public void onProgressChanged(int successCount,int failCount,String syncTime) {
         //更新UI进度
-        progressBar.setProgress(progress);
-        progressInfo.setText(progress + "/" + progressBar.getMax());
-        if (progress == progressBar.getMax()) {
+        progressBar.setProgress(successCount+failCount);
+        successInfo.setText("SUCCESS: "+String.valueOf(successCount));
+        failInfo.setText("FAIL: "+String.valueOf(failCount));
+        if(failCount>0){
+            failInfo.setTextColor(Color.RED);
+        }
+        if ((successCount+failCount )== progressBar.getMax()) {
+            findViewById(R.id.sync_log_container).setVisibility(View.VISIBLE);
             actionButton.setClickable(true);
             actionButton.setText("Start Sync");
             selectDeviceButton.setClickable(true);
@@ -248,7 +260,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
             int seletedCount = data.getIntExtra("SELECTED_COUNT", 0);
             seletedDevices = data.getStringArrayExtra("SELECTED_DEVICE");
             progressBar.setMax(seletedCount);
-            progressInfo.setText("0/" + seletedCount);
+            allItems.setText("ALL: "+String.valueOf(seletedCount));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -260,11 +272,13 @@ public class DeviceSynchActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            int syncCount = intent.getIntExtra("SYNCH_COUNT", 0);
+            int successCount = intent.getIntExtra("SYNCH_SUCCESS_COUNT", 0);
+            int failCount = intent.getIntExtra("SYNCH_FAIL_COUNT", 0);
             int targetCount = intent.getIntExtra("TARGET_DEVICE_NUMBER", 0);
             String synchTime = intent.getStringExtra("SYNCH_TIME");
+            System.out.println("success:"+successCount +" fail:"+failCount );
                 progressBar.setMax(targetCount);
-                onProgressChanged(syncCount,synchTime);
+                onProgressChanged(successCount,failCount,synchTime);
                 /**
                  * 写同步报告
                  */
@@ -290,7 +304,6 @@ public class DeviceSynchActivity extends AppCompatActivity {
                         }
                     }
                 }
-
         }
     }
 }

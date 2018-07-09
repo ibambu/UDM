@@ -222,10 +222,13 @@ public class MainActivity extends AppCompatActivity {
             String scanResult = bundle.getString("result");
             ((TextView)findViewById(R.id.tab_device_list)).setText(scanResult);
         }else if(resultCode == Constants.ACTIVITY_RESULT_FOR_LOGIN){
-            Intent intent = new Intent(this, DeviceProfileActivity.class);
-            Bundle bundle = data.getExtras();
-            intent.putExtras(bundle);
-            startActivity(intent);
+            boolean isLoginSuccess = data.getBooleanExtra("IS_LOGIN_SUCCESS",false);
+            if(isLoginSuccess){
+                Intent intent = new Intent(this, DeviceProfileActivity.class);
+                Bundle bundle = data.getExtras();
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         }else{
             super.onActivityResult(requestCode, resultCode, data);
         }

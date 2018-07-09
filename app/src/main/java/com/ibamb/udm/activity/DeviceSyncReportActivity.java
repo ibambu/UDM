@@ -41,7 +41,8 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_device_sync_report);
         TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
 
-
+        Intent intent = getIntent();
+        final boolean isSyncMenuEnabled = intent.getBooleanExtra("SYNC_ENABLED",false);
         StringBuilder strBuffer = new StringBuilder();
         FileInputStream inputStream = null;
         String lastSyncTime ="";
@@ -111,7 +112,8 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
                     transaction.hide(syncFailFragment);
                 }
                 if (syncSuccessFragment == null) {
-                    syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString());
+                    syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString(),isSyncMenuEnabled);
+
                     transaction.add(R.id.report_frame, syncSuccessFragment);
                     transaction.show(syncSuccessFragment);
                 } else {
@@ -132,7 +134,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
                     transaction.hide(syncSuccessFragment);
                 }
                 if (syncFailFragment == null) {
-                    syncFailFragment = SyncFailFragment.newInstance(failBuffer.toString());
+                    syncFailFragment = SyncFailFragment.newInstance(failBuffer.toString(),isSyncMenuEnabled);
                     transaction.add(R.id.report_frame, syncFailFragment);
                     transaction.show(syncFailFragment);
                 } else {
@@ -151,7 +153,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (syncSuccessFragment == null) {
-            syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString());
+            syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString(),isSyncMenuEnabled);
             transaction.add(R.id.report_frame, syncSuccessFragment);
             transaction.show(syncSuccessFragment);
         } else {

@@ -84,6 +84,7 @@ public class ParamReader implements IParamReader {
                 for (ParameterItem parameterItem : parameterItems) {
                     for (Information info : replyFrame.getInfoList()) {
                         if (parameterItem.getParamId().equals(info.getType())) {
+
                             String displayValue = info.getData();
                             Parameter paramDef = ParameterMapping.getMapping(parameterItem.getParamId());
                             /**

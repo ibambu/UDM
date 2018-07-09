@@ -45,6 +45,7 @@ public class DeviceSearchListFragment extends Fragment {
             String ip= ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
             LoginComponet loginComponet = new LoginComponet(getActivity(),mac,ip);
             loginComponet.setToProfile(true);
+            loginComponet.setSyncMenuEnabled(true);
             loginComponet.login();
         }
     };

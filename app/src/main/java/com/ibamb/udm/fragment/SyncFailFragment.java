@@ -22,8 +22,10 @@ import java.util.ArrayList;
 public class SyncFailFragment extends Fragment {
 
     private static final String SYNC_FAIL_DEVICE_INFO = "SYNC_FAIL_DEVICE_INFO";
+    private static final String SYNC_MENU_ENABLED = "SYNC_MENU_ENABLED";
 
     private String mSyncFailDeviceInfo;//同步失败字符串
+    private boolean isSyncMenuEnabled;
 
     private ListView vFailList;
     private ArrayList<DeviceSyncMessage> failDeviceList;
@@ -33,10 +35,11 @@ public class SyncFailFragment extends Fragment {
     }
 
 
-    public static SyncFailFragment newInstance(String failDeviceInfo) {
+    public static SyncFailFragment newInstance(String failDeviceInfo, boolean isSyncMenuEnabled) {
         SyncFailFragment fragment = new SyncFailFragment();
         Bundle args = new Bundle();
         args.putString(SYNC_FAIL_DEVICE_INFO, failDeviceInfo);
+        args.putBoolean(SYNC_MENU_ENABLED, isSyncMenuEnabled);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +49,7 @@ public class SyncFailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mSyncFailDeviceInfo = getArguments().getString(SYNC_FAIL_DEVICE_INFO);
+            isSyncMenuEnabled = getArguments().getBoolean(SYNC_MENU_ENABLED);
             if (mSyncFailDeviceInfo != null) {
                 int index = 1;
                 String[] deviceArray = mSyncFailDeviceInfo.split("@");
@@ -83,6 +87,7 @@ public class SyncFailFragment extends Fragment {
                     String ip = ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
                     LoginComponet loginComponet = new LoginComponet(getActivity(), mac, ip);
                     loginComponet.setToProfile(true);
+                    loginComponet.setSyncMenuEnabled(isSyncMenuEnabled);
                     loginComponet.login();
                 }
             });

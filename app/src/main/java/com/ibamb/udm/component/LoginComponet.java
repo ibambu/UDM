@@ -16,6 +16,7 @@ public class LoginComponet {
     private String mac;
     private String ip;
     private boolean isToProfile;//是否直接跳入设备profile页面
+    private boolean isSyncMenuEnabled;//是否显示同步菜单。
     private Activity activity;
 
     public boolean isToProfile() {
@@ -24,6 +25,14 @@ public class LoginComponet {
 
     public void setToProfile(boolean toProfile) {
         isToProfile = toProfile;
+    }
+
+    public boolean isSyncMenuEnabled() {
+        return isSyncMenuEnabled;
+    }
+
+    public void setSyncMenuEnabled(boolean syncMenuEnabled) {
+        isSyncMenuEnabled = syncMenuEnabled;
     }
 
     public LoginComponet(Activity activity, String mac, String ip) {
@@ -55,6 +64,7 @@ public class LoginComponet {
                     Bundle params = new Bundle();
                     params.putString("HOST_ADDRESS", ip);
                     params.putString("HOST_MAC", mac);
+                    params.putBoolean("SYNC_ENABLED", isSyncMenuEnabled);
                     intent.putExtras(params);
                     activity.startActivity(intent);
                 }else {

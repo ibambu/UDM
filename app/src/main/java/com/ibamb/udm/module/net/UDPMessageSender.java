@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeoutException;
 
 
 public class UDPMessageSender {
@@ -63,7 +65,7 @@ public class UDPMessageSender {
         DatagramSocket datagramSocket = null;
         try {
             datagramSocket = new DatagramSocket();
-            datagramSocket.setSoTimeout(1500);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
+            datagramSocket.setSoTimeout(3000);//一秒后无返回则超时处理，避免任务无法终止导致内存泄露。
             address = InetAddress.getByName(Constants.UDM_BROADCAST_IP);
 
             DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address, Constants.UDM_UDP_SERVER_PORT);
@@ -85,11 +87,14 @@ public class UDPMessageSender {
             System.out.println();
         } catch (UnknownHostException ex) {
             UdmLog.e(this.getClass().getName(), ex.getMessage());
+        } catch (SocketTimeoutException ex){
+            UdmLog.e(this.getClass().getName(), ex.getMessage());
         } catch (IOException ex) {
             UdmLog.e(this.getClass().getName(), ex.getMessage());
-        }  finally {
+        } finally {
             if (datagramSocket != null) {
                 datagramSocket.close();
+                datagramSocket.disconnect();
             }
         }
         return recevData;

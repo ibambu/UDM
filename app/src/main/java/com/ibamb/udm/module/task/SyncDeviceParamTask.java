@@ -16,27 +16,33 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class SyncDeviceParamTask implements Callable {
-    private List<String> completedList;
-    private List<ChannelParameter> srcChannelParameters;//源设备参数
-    private List<ChannelParameter> distChannelParameters;//目标设备参数
+    private List<String> failList;
+    private List<String> successList;
+    private ChannelParameter srcChannelParameters;//源设备参数,包含各个通道参数在内。
+    private ChannelParameter distChannelParameters;//目标设备参数，包含各个通道参数在内。
     private LocalBroadcastManager broadcastManager;//广播者
     private Object broadcastLock;//广播锁，广播时加锁。
     private int totalDeviceCount;
     private String syncTime;
 
+    public void setFailList(List<String> failList) {
+        this.failList = failList;
+    }
+
+    public void setSuccessList(List<String> successList) {
+        this.successList = successList;
+    }
+
     public void setSyncTime(String syncTime) {
         this.syncTime = syncTime;
     }
 
-    public void setCompletedList(List<String> completedList) {
-        this.completedList = completedList;
-    }
 
-    public void setSrcChannelParameters(List<ChannelParameter> srcChannelParameters) {
+    public void setSrcChannelParameters(ChannelParameter srcChannelParameters) {
         this.srcChannelParameters = srcChannelParameters;
     }
 
-    public void setDistChannelParameters(List<ChannelParameter> distChannelParameters) {
+    public void setDistChannelParameters(ChannelParameter distChannelParameters) {
         this.distChannelParameters = distChannelParameters;
     }
 
@@ -55,8 +61,8 @@ public class SyncDeviceParamTask implements Callable {
     @Override
     public Object call() throws Exception {
         String syncReport = "";
-        String mac = distChannelParameters.get(0).getMac();
-        String ip = distChannelParameters.get(0).getIp();
+        String mac = distChannelParameters.getMac();
+        String ip = distChannelParameters.getIp();
         try {
             boolean isAuthSuccess = false;
             for (int i = 0; i < TryUser.getUserCount(); i++) {
@@ -67,22 +73,9 @@ public class SyncDeviceParamTask implements Callable {
                 }
             }
             if (isAuthSuccess) {
-                boolean isSyncSuccess = true;
                 IParamWriter writer = new ParamWriter();
-                for (ChannelParameter channelParameter : distChannelParameters) {
-                    boolean isFound = false;
-                    for (ChannelParameter srcChannelParameter : srcChannelParameters) {
-                        if (channelParameter.getChannelId().equals(srcChannelParameter.getChannelId())) {
-                            copyParamValue(srcChannelParameter.getParamItems(), channelParameter.getParamItems());
-                            isFound = true;
-                            break;
-                        }
-                    }
-                    if (isFound) {
-                        channelParameter = writer.writeChannelParam(channelParameter);
-                        isSyncSuccess &= channelParameter.isSuccessful();
-                    }
-                }
+                copyParamValue(srcChannelParameters.getParamItems(), distChannelParameters.getParamItems());
+                boolean isSyncSuccess = writer.writeChannelParam(distChannelParameters).isSuccessful();
                 if (isSyncSuccess) {
                     SysManager.saveAndReboot(mac);//同步成功后重启设备。
                 }
@@ -90,12 +83,15 @@ public class SyncDeviceParamTask implements Callable {
             } else {
                 syncReport = ip + "#" + mac + "#" + false;
             }
-
         } catch (Exception e) {
             throw e;
         } finally {
             synchronized (broadcastLock) {
-                completedList.add(mac);
+                if(distChannelParameters.isSuccessful()){
+                    successList.add(mac);
+                }else{
+                    failList.add(mac);
+                }
                 sendBroadcast(syncReport);
             }
         }
@@ -109,7 +105,8 @@ public class SyncDeviceParamTask implements Callable {
      */
     private void sendBroadcast(String report) {
         Intent intent = new Intent(ServiceConst.DEVICE_SYNCH_SERVICE);
-        intent.putExtra("SYNCH_COUNT", completedList.size());
+        intent.putExtra("SYNCH_SUCCESS_COUNT", successList.size());
+        intent.putExtra("SYNCH_FAIL_COUNT", failList.size());
         intent.putExtra("TARGET_DEVICE_NUMBER", totalDeviceCount);
         intent.putExtra("SYNCH_REPORT", report);
         intent.putExtra("SYNCH_TIME", syncTime);

@@ -35,6 +35,7 @@ public class ReplyFrameParser implements IParser {
             Parameter parameter = ParameterMapping.getMappingByDecId(decId);
 
             if (parameter != null) {
+                parameter.toString();
                 information.setType(parameter.getId());
                 information.setLength((int) (replyData[i + 6]));//返回数据长度
                 //读取返回数据

@@ -22,9 +22,10 @@ import java.util.ArrayList;
 public class SyncSuccessFragment extends Fragment {
 
     private static final String SYNC_SUCCESS_DEVICE_INFO = "SYNC_SUCCESS_DEVICE_INFO";
-
+    private static final String SYNC_MENU_ENABLED = "SYNC_MENU_ENABLED";
 
     private String mSyncSuccessDeviceInfo;
+    private boolean isSyncMenuEnabled;
 
     private ListView vSuccessList;
     private ArrayList<DeviceSyncMessage> successDeviceList;
@@ -33,10 +34,11 @@ public class SyncSuccessFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SyncSuccessFragment newInstance(String successDeviceInfo) {
+    public static SyncSuccessFragment newInstance(String successDeviceInfo, boolean isSyncEnabled) {
         SyncSuccessFragment fragment = new SyncSuccessFragment();
         Bundle args = new Bundle();
         args.putString(SYNC_SUCCESS_DEVICE_INFO, successDeviceInfo);
+        args.putBoolean(SYNC_MENU_ENABLED, isSyncEnabled);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +48,7 @@ public class SyncSuccessFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mSyncSuccessDeviceInfo = getArguments().getString(SYNC_SUCCESS_DEVICE_INFO);
+            isSyncMenuEnabled = getArguments().getBoolean(SYNC_MENU_ENABLED);
             if (mSyncSuccessDeviceInfo != null) {
                 int index = 1;
                 String[] deviceArray = mSyncSuccessDeviceInfo.split("@");
@@ -53,7 +56,7 @@ public class SyncSuccessFragment extends Fragment {
                 for (String deviceInfo : deviceArray) {
                     String[] device = deviceInfo.split("#");
                     if (device.length > 2) {
-                        DeviceSyncMessage deviceSyncMessage = new DeviceSyncMessage(index++,device[1],device[2]);
+                        DeviceSyncMessage deviceSyncMessage = new DeviceSyncMessage(index++, device[1], device[2]);
                         successDeviceList.add(deviceSyncMessage);
                     }
                 }
@@ -67,7 +70,7 @@ public class SyncSuccessFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sync_success, container, false);
         vSuccessList = view.findViewById(R.id.sync_success_list);
         vSuccessList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        if(!successDeviceList.isEmpty()){
+        if (!successDeviceList.isEmpty()) {
             ListAdapter adapter = new SyncReportListAdapter(R.layout.sync_item_device_layout, getLayoutInflater(), successDeviceList);
             vSuccessList.setAdapter(adapter);
             view.findViewById(R.id.line_container).setVisibility(View.VISIBLE);
@@ -77,17 +80,17 @@ public class SyncSuccessFragment extends Fragment {
             vSuccessList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    TextView macView =  view.findViewById(R.id.device_mac);
+                    TextView macView = view.findViewById(R.id.device_mac);
                     //绑定登录设备事件。
                     String mac = macView.getText().toString();
-                    String ip= ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
-                    LoginComponet loginComponet = new LoginComponet(getActivity(),mac,ip);
+                    String ip = ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
+                    LoginComponet loginComponet = new LoginComponet(getActivity(), mac, ip);
                     loginComponet.setToProfile(true);
+                    loginComponet.setSyncMenuEnabled(isSyncMenuEnabled);
                     loginComponet.login();
                 }
             });
         }
-
         return view;
     }
 

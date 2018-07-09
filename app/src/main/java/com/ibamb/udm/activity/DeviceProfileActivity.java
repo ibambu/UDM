@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -167,10 +168,15 @@ public class DeviceProfileActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");
         mac = (String) bundle.get("HOST_MAC");
+
+
+        boolean syncEnabled = bundle.getBoolean("SYNC_ENABLED");
+        if(!syncEnabled){
+            findViewById(R.id.profile_synchronize).setVisibility(View.GONE);
+        }
+
         TextView vIp = findViewById(R.id.host_ip);
-//        TextView vMac = findViewById(R.id.host_mac);
         vIp.setText(ip + " / " + mac.toUpperCase());
-//        vMac.setText(mac);
 
         back = findViewById(R.id.go_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -221,34 +227,35 @@ public class DeviceProfileActivity extends AppCompatActivity {
          */
         List<String> confChannels = ParameterMapping.getSupportedChannels();
         List<String> supportChannels = new ArrayList<>();
+        ChannelParameter testChannelParams = new ChannelParameter(mac,ip,"-1");
+        testChannelParams.setParamItems(new ArrayList<ParameterItem>());
+
         for(String channelId:confChannels){
             if(channelId.equals("0")){
                 continue;//0 通道是虚拟通道，需要排除。
             }
             ParameterItem item = new ParameterItem("CONN"+channelId+"_NET_PROTOCOL",null);
-            ChannelParameter channelParameter = new ChannelParameter(mac,ip,channelId);
-            channelParameter.setParamItems(new ArrayList<ParameterItem>());
-            channelParameter.getParamItems().add(item);
-            DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(channelParameter);
-            task.execute();
-            try {
-                channelParameter = task.get();
-                if(item.getParamValue()==null){
-                    continue;
+            testChannelParams.getParamItems().add(item);
+        }
+        try{
+            DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(testChannelParams);
+            task.execute().get();
+            int channelCount = 1;
+            for(ParameterItem parameterItem:testChannelParams.getParamItems()){
+                if(parameterItem.getParamId().equals("CONN" + channelCount + "_NET_PROTOCOL")
+                        &&  parameterItem.getParamValue()!=null &&  parameterItem.getParamValue().trim().length()>0){
+                    supportChannels.add(String.valueOf(channelCount));
                 }
-                if(item.getParamValue().equals("0")||item.getParamValue().equals("1")||item.getParamValue().equals("2")){
-                    supportChannels.add(channelId);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
+                channelCount ++ ;
             }
+            supportedChannels = new String[supportChannels.size()];
+            for (int i = 0; i < supportChannels.size(); i++) {
+                supportedChannels[i] = supportChannels.get(i);
+            }
+        }catch (Exception e){
+            UdmLog.e(this.getClass().getName(),e.getMessage());
         }
-        supportedChannels = new String[supportChannels.size()];
-        for (int i = 0; i < supportChannels.size(); i++) {
-            supportedChannels[i] = supportChannels.get(i);
-        }
+
     }
 
 

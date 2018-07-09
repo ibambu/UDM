@@ -48,7 +48,19 @@ public class DeviceListActivity extends AppCompatActivity {
          */
         ContextData contextData = ContextData.getInstance();
         contextData.cleanChecked();
-        deviceInfos = contextData.getDataInfos();
+        Intent intent = getIntent();
+        /**
+         * 当前设备不作为目标设备。
+         */
+        String currentMac = intent.getStringExtra("CURRENT_MAC");
+        deviceInfos = new ArrayList();
+        for(DeviceInfo deviceInfo:contextData.getDataInfos()){
+            if(deviceInfo.getMac().equalsIgnoreCase(currentMac)){
+                continue;
+            }
+            deviceInfos.add(deviceInfo);
+        }
+
 
         title = findViewById(R.id.title);//标题
         /**

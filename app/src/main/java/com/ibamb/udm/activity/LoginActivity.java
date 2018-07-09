@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         TryUser.setTryUser(tryUser);
                         finish();
                     } else {
+                        loginAsyncTask.cancel(true);
                         noticeView.setVisibility(View.VISIBLE);
                         noticeView.setText(Constants.INFO_LOGIN_FAIL);
                     }

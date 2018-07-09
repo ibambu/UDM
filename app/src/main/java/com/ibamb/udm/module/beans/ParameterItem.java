@@ -4,7 +4,6 @@ package com.ibamb.udm.module.beans;
 public class ParameterItem {
     private String paramId;
     private String paramValue;
-    private String remoteParamId;
     private String displayValue;
 
     public String getDisplayValue() {
@@ -15,24 +14,14 @@ public class ParameterItem {
         this.displayValue = displayValue;
     }
 
-    public ParameterItem(String paramId, String paramValue, String remoteParamId) {
-        this.paramId = paramId;
-        this.paramValue = paramValue;
-        this.remoteParamId = remoteParamId;
-    }
+
 
     public ParameterItem(String paramId,String paramValue) {
         this.paramId = paramId;
         this.paramValue = paramValue;
     }
 
-    public String getRemoteParamId() {
-        return remoteParamId;
-    }
 
-    public void setRemoteParamId(String remoteParamId) {
-        this.remoteParamId = remoteParamId;
-    }
 
     public String getParamId() {
         return paramId;
@@ -55,7 +44,7 @@ public class ParameterItem {
         return "ParameterItem{" +
                 "paramId='" + paramId + '\'' +
                 ", paramValue='" + paramValue + '\'' +
-                ", remoteParamId='" + remoteParamId + '\'' +
+                ", displayValue='" + displayValue + '\'' +
                 '}';
     }
 }
