@@ -79,9 +79,11 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // 取得返回信息
         if (resultCode == RESULT_OK) {
+
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString(Intents.Scan.RESULT);
             if(isMac(scanResult)){
+                resultTextView.setText("");
                 LoginComponet loginComponet = new LoginComponet(this,scanResult,null);
                 loginComponet.setToProfile(true);
                 loginComponet.setSyncMenuEnabled(true);
