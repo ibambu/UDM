@@ -26,6 +26,7 @@ import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.service.DeviceSynchronizeService;
+import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -69,7 +70,8 @@ public class DeviceSynchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_synch);
-
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        
         Intent intent = getIntent();
         Bundle params = intent.getExtras();
         String ip = params.getString("HOST_ADDRESS");
