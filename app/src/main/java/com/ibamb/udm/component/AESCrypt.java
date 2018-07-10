@@ -182,7 +182,7 @@ public class AESCrypt implements ICryptStrategy {
         String b = aa.encode("123qwe",a);
         System.out.println("000000=="+a);
         System.out.println("000000=="+b);
-        String c = aa.decode("123qwe",b);
+        String c = aa.decode("123qwe","wN/ibGUezcOX2lWa+QMjXlId2Cdq76di2MYVZ+0CB/dVvcwJnA==");
         System.out.println("000000=="+c);
     }
 }

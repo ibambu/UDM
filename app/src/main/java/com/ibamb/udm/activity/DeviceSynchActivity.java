@@ -261,6 +261,8 @@ public class DeviceSynchActivity extends AppCompatActivity {
             seletedDevices = data.getStringArrayExtra("SELECTED_DEVICE");
             progressBar.setMax(seletedCount);
             allItems.setText("ALL: "+String.valueOf(seletedCount));
+            failInfo.setText("FAIL: 0");
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -276,7 +278,6 @@ public class DeviceSynchActivity extends AppCompatActivity {
             int failCount = intent.getIntExtra("SYNCH_FAIL_COUNT", 0);
             int targetCount = intent.getIntExtra("TARGET_DEVICE_NUMBER", 0);
             String synchTime = intent.getStringExtra("SYNCH_TIME");
-            System.out.println("success:"+successCount +" fail:"+failCount );
                 progressBar.setMax(targetCount);
                 onProgressChanged(successCount,failCount,synchTime);
                 /**

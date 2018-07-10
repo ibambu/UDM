@@ -37,7 +37,6 @@ public class ViewElementDataUtil {
         try {
             for (ParameterItem item : channelParameter.getParamItems()) {
                 //根据 paramId 找对应的界面元素 ID，并赋值。
-                channelParameter.pinrtParam();
                 Parameter paramdef = ParameterMapping.getMapping(item.getParamId());
                 String value = item.getParamValue();
                 if (paramdef == null) {

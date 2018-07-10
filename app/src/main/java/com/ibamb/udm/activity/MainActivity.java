@@ -1,14 +1,16 @@
 package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.AESCrypt;
+import com.ibamb.udm.component.FilePathParser;
+import com.ibamb.udm.component.PermissionUtils;
 import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
@@ -31,7 +36,6 @@ import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
-import com.ibamb.udm.component.AESCrypt;
 import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
@@ -77,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
             String[] tryUsers = content.split("&");
             TryUser.setTryUser(tryUsers);
 
+            //初始化应用基础数据
+            UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
+            initAsyncTask.execute();
+
         } catch (Exception e) {
             UdmLog.e(this.getClass().getName(), e.getMessage());
         }finally {
@@ -105,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
-//        if (PermissionUtils.isGrantExternalRW(this, 1)) {
-//
-//        }
+        if (PermissionUtils.isGrantExternalRW(this, 1)) {
+
+        }
         //默认显示第一个界面
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -132,10 +140,7 @@ public class MainActivity extends AppCompatActivity {
         tabDeviceList.requestFocus();
         tabDeviceList.setSelected(true);
 
-        //初始化应用基础数据
-        AssetManager mAssetManger = getAssets();
-        UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask();
-        initAsyncTask.execute(mAssetManger);
+
         //判断WIFI是否开启
         try {
             ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -218,22 +223,37 @@ public class MainActivity extends AppCompatActivity {
                         searchListFragment.getLayoutInflater());
                 task.execute(searchKewWord);
             }
-        }else if(requestCode == RESULT_OK){
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            ((TextView)findViewById(R.id.tab_device_list)).setText(scanResult);
         }else if(resultCode == Constants.ACTIVITY_RESULT_FOR_LOGIN){
             boolean isLoginSuccess = data.getBooleanExtra("IS_LOGIN_SUCCESS",false);
             if(isLoginSuccess){
                 Intent intent = new Intent(this, DeviceProfileActivity.class);
                 Bundle bundle = data.getExtras();
+                bundle.putBoolean("SYNC_ENABLED",true);
                 intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }else if(resultCode == Activity.RESULT_OK){
+            Uri uri = data.getData();
+            FilePathParser filePathParser = new FilePathParser();
+            String path="";
+            if ("file".equalsIgnoreCase(uri.getScheme())){//使用第三方应用打开
+                path = uri.getPath();
+            }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
+                path = filePathParser.getPath(this, uri);
+            } else {//4.4以下下系统调用方法
+                path = filePathParser.getRealPathFromURI(uri,getContentResolver());
+            }
+            if(path!= null && path.trim().length()>0){
+                Intent intent = new Intent(this, ImportTypeDefFileActivity.class);
+                intent.putExtra("TYPE_DEF_FILE",path);
                 startActivity(intent);
             }
         }else{
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 
 
     @Override
@@ -244,13 +264,13 @@ public class MainActivity extends AppCompatActivity {
                     //检验是否获取权限，如果获取权限，外部存储会处于开放状态，会弹出一个toast提示获得授权
                     String sdCard = Environment.getExternalStorageState();
                     if (sdCard.equals(Environment.MEDIA_MOUNTED)){
-                        Toast.makeText(this,"获得授权",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(this,"获得授权",Toast.LENGTH_LONG).show();
                     }
                 } else {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(MainActivity.this, "buxing", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MainActivity.this, "buxing", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

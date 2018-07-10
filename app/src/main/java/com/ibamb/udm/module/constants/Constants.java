@@ -100,5 +100,6 @@ public class Constants {
     public static final int MAX_CHANNEL = 33;
 
     public static final int ACTIVITY_RESULT_FOR_LOGIN = 10;
+    public static final int ACTIVITY_RESULT_FOR_IMP_TYPE_FILE = 11;//导入TYPE ID 配置文件。
 
 }

@@ -20,7 +20,6 @@ public class FileDirManager {
         File[] files = filesDir.listFiles();
         File retFile = null;
         for(File file:files){
-            System.out.println("====="+file.getName());
             if(file.getName().equals(fileName)){
                 retFile = file;
                 break;

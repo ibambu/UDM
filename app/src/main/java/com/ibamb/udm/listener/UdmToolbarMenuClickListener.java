@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceSyncReportActivity;
-import com.ibamb.udm.activity.DeviceUpgradeActivity;
-import com.ibamb.udm.activity.FilePickerActivity;
-import com.ibamb.udm.activity.LoadParamDefActivity;
 import com.ibamb.udm.activity.ScanQRCodeActivity;
 import com.ibamb.udm.activity.SpeciallySearchActivity;
 import com.ibamb.udm.activity.UserProfileActivity;
@@ -61,7 +58,11 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
             activity.startActivityForResult(intent, 1);
 
         } else if (menuItemId == R.id.id_load_param_def) {
-//            Intent intent = new Intent(activity, FilePickerActivity.class);
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");//设置类型.
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            activity.startActivityForResult(intent,1);
+//            Intent intent = new Intent(activity, SystemFileBrowseActivity.class);
 //            activity.startActivity(intent);
 
         } else if (menuItemId == R.id.id_upgrade_device) {
