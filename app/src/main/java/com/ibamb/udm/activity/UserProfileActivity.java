@@ -13,7 +13,7 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
-import com.ibamb.udm.module.security.AESCrypt;
+import com.ibamb.udm.component.AESCrypt;
 import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.util.TaskBarQuiet;

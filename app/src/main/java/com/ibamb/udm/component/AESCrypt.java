@@ -1,7 +1,9 @@
-package com.ibamb.udm.module.security;
+package com.ibamb.udm.component;
 
 import android.text.TextUtils;
 import android.util.Base64;
+
+import com.ibamb.udm.module.security.ICryptStrategy;
 
 import java.security.Provider;
 import java.security.SecureRandom;
