@@ -29,7 +29,7 @@ public class UdmSpinner extends LinearLayout {
     public UdmSpinner(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         if (getTag() != null) {
-            Parameter parameter = ParameterMapping.getMappingByTagId(getTag().toString().toUpperCase(),null);
+            Parameter parameter = ParameterMapping.getInstance().getMappingByTagId(getTag().toString().toUpperCase(),null);
             if (parameter != null) {
                 List<ValueMapping> displayEnumValues = parameter.getValueMappings();
                 if (displayEnumValues != null && !displayEnumValues.isEmpty()) {

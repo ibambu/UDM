@@ -94,7 +94,7 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
         //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
         try {
             channelParameter = new ChannelParameter(mac, ip, Constants.UDM_IP_SETTING_CHNL);
-            List<Parameter> parameters = ParameterMapping.getMappingByTags(IP_SETTING_PARAMS_TAG, Constants.UDM_IP_SETTING_CHNL);
+            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(IP_SETTING_PARAMS_TAG, Constants.UDM_IP_SETTING_CHNL);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));

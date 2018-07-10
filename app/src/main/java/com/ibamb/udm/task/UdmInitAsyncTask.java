@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.core.ParameterMappingManager;
+import com.ibamb.udm.module.core.ParameterMappingLoader;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 
 import java.util.Map;
@@ -24,8 +24,8 @@ public class UdmInitAsyncTask extends AsyncTask<String, Void, Map<String,Paramet
     @Override
     protected Map<String, Parameter> doInBackground(String...strings) {
 
-        Map<String,Parameter> mapping  = ParameterMappingManager.loadParameterMapping(activity);
-        ParameterMapping.setParameterMap(mapping);
+        Map<String,Parameter> mapping  = ParameterMappingLoader.loadParameterMapping(activity);
+        ParameterMapping.getInstance().setParameterMap(mapping);
         return mapping;
     }
 }

@@ -229,7 +229,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         /**
          * 读取支持的通道
          */
-        List<String> confChannels = ParameterMapping.getSupportedChannels();
+        List<String> confChannels = ParameterMapping.getInstance().getSupportedChannels();
         List<String> supportChannels = new ArrayList<>();
         ChannelParameter testChannelParams = new ChannelParameter(mac,ip,"-1");
         testChannelParams.setParamItems(new ArrayList<ParameterItem>());

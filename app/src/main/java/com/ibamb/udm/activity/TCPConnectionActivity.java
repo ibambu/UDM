@@ -92,7 +92,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
         super.onStart();
         try {
             channelParameter = new ChannelParameter(mac, ip,channelId);
-            List<Parameter> parameters = ParameterMapping.getMappingByTags(TCP_SETTING_PARAMS_TAG, channelId);
+            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(TCP_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));

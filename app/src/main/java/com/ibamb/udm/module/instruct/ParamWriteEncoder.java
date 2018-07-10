@@ -45,7 +45,7 @@ public class ParamWriteEncoder implements IEncoder {
         int pos = 16;//前面16位是固定值，从17位开始计数。
         for (int i = 0; i < infoList.size(); i++) {
             Information info = infoList.get(i);
-            Parameter parameter = ParameterMapping.getMapping(info.getType());
+            Parameter parameter = ParameterMapping.getInstance().getMapping(info.getType());
             int convertType = parameter.getCovertType();
             byte[] typeBytes = Convert.shortToBytes((short) parameter.getDecId());
             byteFrame[pos++] = typeBytes[0];// bit 16

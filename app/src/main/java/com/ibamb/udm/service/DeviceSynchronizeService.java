@@ -63,7 +63,7 @@ public class DeviceSynchronizeService extends Service {
         if (toSynchDeviceInfo != null) {
             successList.clear();
             failList.clear();
-            List<String> confChannels = ParameterMapping.getSupportedChannels();//配置文件设置的通道，但是设备不一定全部支持。
+            List<String> confChannels = ParameterMapping.getInstance().getSupportedChannels();//配置文件设置的通道，但是设备不一定全部支持。
             List<String> supportChannels = new ArrayList<>();//设备支持的通道
             /**
              * 通过读取设备通道的一个参数（例如通道1的参数：CONN1_NET_PROTOCOL），如果该参数无参数值，则认为设备是不支持的通道。
@@ -155,7 +155,7 @@ public class DeviceSynchronizeService extends Service {
     public List<ChannelParameter> getDeviceParams(DeviceSyncMessage deviceInfo, List<String> supportChannels) {
         List<ChannelParameter> channelParameters = new ArrayList<>();
         for (int i = 0; i < Constants.MAX_CHANNEL; i++) {
-            List<Parameter> parameterList = ParameterMapping.getChannelPublicParam(i);
+            List<Parameter> parameterList = ParameterMapping.getInstance().getChannelPublicParam(i);
             if (!supportChannels.contains(String.valueOf(i))) {
                 continue;
             }

@@ -32,7 +32,7 @@ public class ReplyFrameParser implements IParser {
         for (int i = offset; i < replyData.length; i = i + offset) {
             Information information = new Information();
             int decId = Convert.bytesToShort(Arrays.copyOfRange(replyData, i + 4, i + 6));
-            Parameter parameter = ParameterMapping.getMappingByDecId(decId);
+            Parameter parameter = ParameterMapping.getInstance().getMappingByDecId(decId);
 
             if (parameter != null) {
                 parameter.toString();

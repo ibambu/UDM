@@ -81,7 +81,7 @@ public class BasicSettingActivity extends AppCompatActivity implements View.OnTo
         super.onStart();
         try{
             channelParameter = new ChannelParameter(mac,ip,channelId);
-            List<Parameter> parameters = ParameterMapping.getMappingByTags(ACCESS_SETTING_PARAMS_TAG,channelId);
+            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(ACCESS_SETTING_PARAMS_TAG,channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));

@@ -60,7 +60,7 @@ public class ParamReader implements IParamReader {
             int replyFrameLength = replyMainStructLen;//期望返回帧的总长度。
             //遍历通道参数，将要读/写参数存入帧对象中。
             for (ParameterItem parameterItem : parameterItems) {
-                Parameter param = ParameterMapping.getMapping(parameterItem.getParamId());
+                Parameter param = ParameterMapping.getInstance().getMapping(parameterItem.getParamId());
                 String typeId = param.getId();
 
                 Information dataField = new Information(typeId, null);
@@ -86,7 +86,7 @@ public class ParamReader implements IParamReader {
                         if (parameterItem.getParamId().equals(info.getType())) {
 
                             String displayValue = info.getData();
-                            Parameter paramDef = ParameterMapping.getMapping(parameterItem.getParamId());
+                            Parameter paramDef = ParameterMapping.getInstance().getMapping(parameterItem.getParamId());
                             /**
                              * 根据参数值的转换类型，对值进行转换。
                              */

@@ -61,7 +61,7 @@ public class ParamWriter implements IParamWriter {
 
             //遍历通道参数，将要读/写参数存入帧对象中。
             for (ParameterItem parameterItem : parameterItems) {
-                Parameter param = ParameterMapping.getMapping(parameterItem.getParamId());
+                Parameter param = ParameterMapping.getInstance().getMapping(parameterItem.getParamId());
                 String typeId = param.getId();
                 Information dataField = new Information(typeId, parameterItem.getParamValue());
                 //如果是读取参数值，则参数值长度设置为0. 如果是写参数，则参数值的长度设置约定长度。

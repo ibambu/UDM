@@ -9,13 +9,20 @@ import java.util.Map;
 
 
 public class ParameterMapping {
+    private static ParameterMapping parameterMapping;
     private static Map<String, Parameter> parameterMap;
 
-    public static void setParameterMap(Map<String, Parameter> parameterMap) {
+    public static  synchronized ParameterMapping getInstance(){
+        if(parameterMapping==null){
+            parameterMapping = new ParameterMapping();
+        }
+        return parameterMapping;
+    }
+    public void setParameterMap(Map<String, Parameter> parameterMap) {
         ParameterMapping.parameterMap = parameterMap;
     }
 
-    public static List<Parameter> getChannelParamDef(int channelId) {
+    public List<Parameter> getChannelParamDef(int channelId) {
         List<Parameter> channelParamList = new ArrayList<>();
         for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
@@ -27,7 +34,7 @@ public class ParameterMapping {
         return channelParamList;
     }
 
-    public static List<Parameter> getChannelPublicParam(int channelId) {
+    public List<Parameter> getChannelPublicParam(int channelId) {
         List<Parameter> channelParamList = new ArrayList<>();
         for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
@@ -44,7 +51,7 @@ public class ParameterMapping {
      *
      * @return
      */
-    public static List<String> getSupportedChannels() {
+    public List<String> getSupportedChannels() {
         List<String> supportedChannels = new ArrayList<>();
         for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
@@ -57,7 +64,7 @@ public class ParameterMapping {
         return supportedChannels;
     }
 
-    public static Parameter getMapping(String paramId) {
+    public Parameter getMapping(String paramId) {
         return parameterMap.get(paramId);
     }
 
@@ -67,7 +74,7 @@ public class ParameterMapping {
      * @param decId
      * @return
      */
-    public static Parameter getMappingByDecId(int decId) {
+    public Parameter getMappingByDecId(int decId) {
         Parameter parameter = null;
         for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
@@ -88,7 +95,7 @@ public class ParameterMapping {
      * @param channelId
      * @return
      */
-    public static Parameter getMappingByTagId(String tagId, String channelId) {
+    public Parameter getMappingByTagId(String tagId, String channelId) {
         Parameter parameter = null;
         for (Iterator<String> it = parameterMap.keySet().iterator(); it.hasNext(); ) {
             String paramId = it.next();
@@ -114,7 +121,7 @@ public class ParameterMapping {
      * @param channelId
      * @return
      */
-    public static List<Parameter> getMappingByTags(String[] tagIds, String channelId) {
+    public List<Parameter> getMappingByTags(String[] tagIds, String channelId) {
         List<Parameter> paramList = new ArrayList<>();
 
         for (String tagId : tagIds) {

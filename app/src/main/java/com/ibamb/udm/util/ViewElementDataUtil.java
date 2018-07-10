@@ -37,7 +37,7 @@ public class ViewElementDataUtil {
         try {
             for (ParameterItem item : channelParameter.getParamItems()) {
                 //根据 paramId 找对应的界面元素 ID，并赋值。
-                Parameter paramdef = ParameterMapping.getMapping(item.getParamId());
+                Parameter paramdef = ParameterMapping.getInstance().getMapping(item.getParamId());
                 String value = item.getParamValue();
                 if (paramdef == null) {
                     continue;
@@ -137,7 +137,7 @@ public class ViewElementDataUtil {
     public static ChannelParameter getChangedData(View view, ChannelParameter oldChannelParam, String channelId) {
         ChannelParameter channelParameter = new ChannelParameter(oldChannelParam.getMac(),
                 oldChannelParam.getChannelId(), oldChannelParam.getIp());
-        List<Parameter> parameters = ParameterMapping.getChannelParamDef(Integer.parseInt(channelId));
+        List<Parameter> parameters = ParameterMapping.getInstance().getChannelParamDef(Integer.parseInt(channelId));
         List<ParameterItem> items = new ArrayList<>();
         channelParameter.setParamItems(items);
         for (Parameter parameter : parameters) {

@@ -18,12 +18,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ParameterMappingManager {
+public class ParameterMappingLoader {
 
     public static Map<String, Parameter> loadParameterMapping(Activity activity) {
         Map<String, Parameter> mapping = new HashMap();
@@ -96,7 +95,7 @@ public class ParameterMappingManager {
                 try {
                     bufferedReader.close();
                 } catch (IOException e) {
-                    UdmLog.e(ParameterMappingManager.class.getName(), e.getMessage());
+                    UdmLog.e(ParameterMappingLoader.class.getName(), e.getMessage());
                 }
             }
         }

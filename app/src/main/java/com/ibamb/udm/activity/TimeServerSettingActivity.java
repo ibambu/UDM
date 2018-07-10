@@ -153,7 +153,7 @@ public class TimeServerSettingActivity extends AppCompatActivity {
         super.onStart();
         try {
             channelParameter = new ChannelParameter(mac, ip, Constants.UDM_IP_SETTING_CHNL);
-            List<Parameter> parameters = ParameterMapping.getMappingByTags(OTH_SETTING_PARAMS_TAG, channelId);
+            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(OTH_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));

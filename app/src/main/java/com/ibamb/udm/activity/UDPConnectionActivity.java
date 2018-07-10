@@ -102,7 +102,7 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
         super.onStart();
         try {
             channelParameter = new ChannelParameter(mac, ip, channelId);
-            List<Parameter> parameters = ParameterMapping.getMappingByTags(UDP_SETTING_PARAMS_TAG, channelId);
+            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(UDP_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));
