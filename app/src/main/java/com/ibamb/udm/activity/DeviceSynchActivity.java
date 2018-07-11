@@ -71,7 +71,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_synch);
         TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
-        
+
         Intent intent = getIntent();
         Bundle params = intent.getExtras();
         String ip = params.getString("HOST_ADDRESS");
