@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.AESCrypt;
+import com.ibamb.udm.component.FileDirManager;
 import com.ibamb.udm.component.FilePathParser;
 import com.ibamb.udm.component.PermissionUtils;
 import com.ibamb.udm.fragment.BlankFragment;
@@ -43,6 +44,7 @@ import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -70,17 +72,20 @@ public class MainActivity extends AppCompatActivity {
         FileInputStream inputStream = null;
         try {
             StringBuilder strbuffer = new StringBuilder();
-            inputStream = openFileInput(Constants.TRY_USER_FILE);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                strbuffer.append(line);
+            FileDirManager fileDirManager = new FileDirManager(this);
+            File tryUesrFile = fileDirManager.getFileByName(Constants.TRY_USER_FILE);
+            if(tryUesrFile!=null){
+                inputStream = openFileInput(Constants.TRY_USER_FILE);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String line = null;
+                while ((line = bufferedReader.readLine()) != null) {
+                    strbuffer.append(line);
+                }
+                ICryptStrategy aes = new AESCrypt();
+                String content = aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
+                String[] tryUsers = content.split("&");
+                TryUser.setTryUser(tryUsers);
             }
-            ICryptStrategy aes = new AESCrypt();
-            String content = aes.decode(strbuffer.toString(), DefualtECryptValue.KEY);
-            String[] tryUsers = content.split("&");
-            TryUser.setTryUser(tryUsers);
-
             //初始化应用基础数据
             UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
             initAsyncTask.execute();
