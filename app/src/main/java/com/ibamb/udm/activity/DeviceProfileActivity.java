@@ -244,19 +244,24 @@ public class DeviceProfileActivity extends AppCompatActivity {
         try{
             DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(testChannelParams);
             task.execute().get();
-            int channelCount = 1;
-            for(ParameterItem parameterItem:testChannelParams.getParamItems()){
-                if(parameterItem.getParamId().equals("CONN" + channelCount + "_NET_PROTOCOL")
-                        &&  parameterItem.getParamValue()!=null &&  parameterItem.getParamValue().trim().length()>0){
-                    supportChannels.add(String.valueOf(channelCount));
+            for(int i=1;i<33;i++){
+                String channelId = String.valueOf(i);
+                String paramId = "CONN"+channelId+"_NET_PROTOCOL";
+                for(ParameterItem parameterItem:testChannelParams.getParamItems()){
+                    if(parameterItem.getParamId().equals(paramId)
+                            &&  parameterItem.getParamValue()!=null
+                            &&  parameterItem.getParamValue().trim().length()>0){
+                        supportChannels.add(String.valueOf(channelId));
+                    }
                 }
-                channelCount ++ ;
             }
+
             supportedChannels = new String[supportChannels.size()];
             for (int i = 0; i < supportChannels.size(); i++) {
                 supportedChannels[i] = supportChannels.get(i);
             }
         }catch (Exception e){
+            e.printStackTrace();
             UdmLog.e(this.getClass().getName(),e.getMessage());
         }
 

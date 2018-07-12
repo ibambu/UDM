@@ -30,7 +30,6 @@ import com.ibamb.udm.component.AESCrypt;
 import com.ibamb.udm.component.FileDirManager;
 import com.ibamb.udm.component.FilePathParser;
 import com.ibamb.udm.component.PermissionUtils;
-import com.ibamb.udm.fragment.BlankFragment;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
@@ -49,7 +48,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
 
 /**
  * 应用程序主入口
@@ -62,9 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DeviceSearchListFragment searchListFragment;
-    private BlankFragment f2, f3, f4;
 
-    private InetAddress broadcastAddress;
 
     @Override
     protected void onStart() {
@@ -181,15 +177,6 @@ public class MainActivity extends AppCompatActivity {
     public void hideAllFragment(FragmentTransaction transaction) {
         if (searchListFragment != null) {
             transaction.hide(searchListFragment);
-        }
-        if (f2 != null) {
-            transaction.hide(f2);
-        }
-        if (f3 != null) {
-            transaction.hide(f3);
-        }
-        if (f4 != null) {
-            transaction.hide(f4);
         }
     }
 

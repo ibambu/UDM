@@ -1,15 +1,10 @@
 package com.ibamb.udm.module.net;
 
-import com.ibamb.udm.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.concurrent.TimeoutException;
 
 
 public class UDPMessageSender {
@@ -39,11 +34,7 @@ public class UDPMessageSender {
             Thread.sleep(200);//延迟200ms，然后再读取数据。
             datagramSocket.receive(recevPacket);
             recevData = recevPacket.getData();
-        } catch (UnknownHostException ex) {
-
-        } catch (IOException ex) {
-
-        } catch (InterruptedException ex) {
+        }catch (Exception ex) {
 
         }
         return recevData;
@@ -85,12 +76,8 @@ public class UDPMessageSender {
                 System.out.print(Integer.toHexString(recevData[i])+" ");
             }
             System.out.println();
-        } catch (UnknownHostException ex) {
-            UdmLog.e(this.getClass().getName(), ex.getMessage());
-        } catch (SocketTimeoutException ex){
-            UdmLog.e(this.getClass().getName(), ex.getMessage());
-        } catch (IOException ex) {
-            UdmLog.e(this.getClass().getName(), ex.getMessage());
+        } catch (Exception ex) {
+
         } finally {
             if (datagramSocket != null) {
                 datagramSocket.close();
