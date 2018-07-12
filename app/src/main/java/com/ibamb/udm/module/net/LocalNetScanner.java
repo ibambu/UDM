@@ -1,8 +1,6 @@
 package com.ibamb.udm.module.net;
 
 
-import com.ibamb.udm.log.UdmLog;
-
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;

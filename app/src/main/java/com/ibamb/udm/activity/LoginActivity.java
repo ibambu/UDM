@@ -1,9 +1,8 @@
 package com.ibamb.udm.activity;
 
 import android.content.Intent;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -12,13 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
@@ -71,9 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                         noticeView.setText(Constants.INFO_LOGIN_FAIL);
                     }
                 } catch (InterruptedException e) {
-                    UdmLog.e(this.getClass().getName(), e.getMessage());
+                    UdmLog.error(e);
                 } catch (ExecutionException e) {
-                    UdmLog.e(this.getClass().getName(), e.getMessage());
+                    UdmLog.error(e);
                 }
             }
         });

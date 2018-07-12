@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -118,7 +118,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
             findViewById(R.id.udm_conn_tcp_host_port0).setOnTouchListener(this);
             findViewById(R.id.udm_conn_tcp_host_ip0).setOnTouchListener(this);
         } catch (Exception e) {
-            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
+            UdmLog.error(e);
         }
     }
 

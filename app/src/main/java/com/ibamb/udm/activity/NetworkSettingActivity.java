@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -118,7 +118,7 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
             findViewById(R.id.id_dns_1).setOnTouchListener(this);
             findViewById(R.id.id_dns_2).setOnTouchListener(this);
         } catch (Exception e) {
-            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
+            UdmLog.error(e);
         }
 
     }

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.FileDirManager;
 import com.ibamb.udm.component.ServiceConst;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.service.DeviceSynchronizeService;
@@ -103,7 +103,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
                     try{
                         synchronizeService.syncDeviceParam(templateDevice, seletedDevices);
                     }catch (Exception e){
-                        UdmLog.e(this.getClass().getName(),e.getMessage());
+                        UdmLog.error(e);
                     }
                     actionButton.setClickable(false);
                     actionButton.setText("In Sync...");

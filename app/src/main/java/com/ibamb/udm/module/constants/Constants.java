@@ -47,6 +47,9 @@ public class Constants {
     //参数同步日志文件
     public static final String FILE_SYNC_TO_OTH_DEVICE_LOG = "device_sync.log";
 
+    //APP 运行错误日志
+    public static final String FILE_UDM_RUN_ERR_LOG = "run_err.log";
+
     public static final String DEFAULT_CHARSET = "UTF-8";
     public static final String FILE_ENUM_VALUE_SPLIT = ",";
     public static final String FILE_LOG_NAME = "udmlog.log";

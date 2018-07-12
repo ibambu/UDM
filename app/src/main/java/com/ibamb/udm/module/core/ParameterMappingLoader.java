@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.ibamb.udm.component.AESCrypt;
 import com.ibamb.udm.component.FileDirManager;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.beans.Parameter;
 import com.ibamb.udm.module.instruct.beans.ValueMapping;
@@ -89,6 +90,7 @@ public class ParameterMappingLoader {
             }
 
         } catch (Exception e) {
+            UdmLog.error(e);
         } finally {
             if (bufferedReader != null) {
                 try {

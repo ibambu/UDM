@@ -33,7 +33,7 @@ import com.ibamb.udm.component.PermissionUtils;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.module.security.DefualtECryptValue;
@@ -66,9 +66,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FileInputStream inputStream = null;
+        FileDirManager fileDirManager = new FileDirManager(this);
         try {
+            File runErrFile = fileDirManager.getFileByName(Constants.FILE_UDM_RUN_ERR_LOG);
+            if(runErrFile==null){
+                runErrFile = new File(getFilesDir()+"/"+Constants.FILE_UDM_RUN_ERR_LOG);
+                runErrFile.createNewFile();
+            }
+            UdmLog.setErrorLogFile(runErrFile);
             StringBuilder strbuffer = new StringBuilder();
-            FileDirManager fileDirManager = new FileDirManager(this);
+
             File tryUesrFile = fileDirManager.getFileByName(Constants.TRY_USER_FILE);
             if(tryUesrFile!=null){
                 inputStream = openFileInput(Constants.TRY_USER_FILE);
@@ -87,13 +94,13 @@ public class MainActivity extends AppCompatActivity {
             initAsyncTask.execute();
 
         } catch (Exception e) {
-            UdmLog.e(this.getClass().getName(), e.getMessage());
+            UdmLog.error(e);
         }finally {
             if (inputStream!=null){
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    UdmLog.error(e);
                 }
             }
         }
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } catch (Exception e) {
-            UdmLog.e(this.getClass().getName(),e.getMessage());
+            UdmLog.error(e);
         }
     }
 

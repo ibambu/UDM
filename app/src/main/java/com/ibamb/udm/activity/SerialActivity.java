@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -114,7 +114,7 @@ public class SerialActivity extends AppCompatActivity implements View.OnTouchLis
             findViewById(R.id.v_gesture6).setOnTouchListener(this);
             findViewById(R.id.v_gesture7).setOnTouchListener(this);
         }catch (Exception e){
-            UdmLog.e(BasicSettingActivity.class.getName(),e.getMessage());
+            UdmLog.error(e);
         }
     }
 

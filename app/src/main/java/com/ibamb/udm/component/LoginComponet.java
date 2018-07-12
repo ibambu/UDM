@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.LoginActivity;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
@@ -75,7 +75,7 @@ public class LoginComponet {
                 activity.startActivityForResult(intent,1);
             }
         } catch (Exception e) {
-            UdmLog.e(this.getClass().getName(),e.getMessage());
+            UdmLog.error(e);
         }
     }
 }

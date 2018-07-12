@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.AESCrypt;
 import com.ibamb.udm.component.FileDirManager;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
@@ -77,8 +77,7 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
-                UdmLog.e(this.getClass().getName(),e.getMessage());
+                UdmLog.error(e);
             } finally {
                 try {
                     if (bufferedReader != null) {
@@ -88,7 +87,7 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                         outputStream.close();
                     }
                 } catch (IOException e) {
-                    UdmLog.e(this.getClass().getName(),e.getMessage());
+                    UdmLog.error(e);
                 }
             }
         }

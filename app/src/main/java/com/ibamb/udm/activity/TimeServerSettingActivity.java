@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -164,7 +164,7 @@ public class TimeServerSettingActivity extends AppCompatActivity {
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
             readerAsyncTask.execute(mac);
         } catch (Exception e) {
-            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
+            UdmLog.error(e);
         }
     }
 

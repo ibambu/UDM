@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.component.AESCrypt;
@@ -62,13 +62,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-            UdmLog.e(this.getClass().getName(), e.getMessage());
+            UdmLog.error(e);
         }finally {
             if (inputStream!=null){
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    UdmLog.error(e);
                 }
             }
         }
@@ -124,13 +124,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     } catch (Exception e) {
                         isSuccess = false;
-                        UdmLog.e(this.getClass().getName(), e.getMessage());
+                        UdmLog.error(e);
                     } finally {
                         if (outputStream != null) {
                             try {
                                 outputStream.close();
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                UdmLog.error(e);
                             }
                         }
                     }
@@ -153,8 +153,7 @@ public class UserProfileActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
-            UdmLog.e(this.getClass().getName(), e.getMessage());
+            UdmLog.error(e);
         }
     }
 }

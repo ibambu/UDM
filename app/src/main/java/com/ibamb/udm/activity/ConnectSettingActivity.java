@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -145,7 +145,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
 
             changeProtocol();
         } catch (Exception e) {
-            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
+            UdmLog.error(e);
         }
     }
 

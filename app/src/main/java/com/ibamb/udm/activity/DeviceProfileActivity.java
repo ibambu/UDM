@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -23,7 +23,6 @@ import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class DeviceProfileActivity extends AppCompatActivity {
 
@@ -261,8 +260,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 supportedChannels[i] = supportChannels.get(i);
             }
         }catch (Exception e){
-            e.printStackTrace();
-            UdmLog.e(this.getClass().getName(),e.getMessage());
+            UdmLog.error(e);
         }
 
     }

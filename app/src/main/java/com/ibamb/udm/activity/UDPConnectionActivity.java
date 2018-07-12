@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
-import com.ibamb.udm.log.UdmLog;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -132,7 +132,7 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
             findViewById(R.id.udm_conn_udp_mul_remote_ip).setOnTouchListener(this);
 
         } catch (Exception e) {
-            UdmLog.e(BasicSettingActivity.class.getName(), e.getMessage());
+            UdmLog.error(e);
         }
     }
 
