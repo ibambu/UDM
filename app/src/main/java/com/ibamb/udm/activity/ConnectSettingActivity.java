@@ -29,7 +29,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectSettingActivity extends AppCompatActivity implements View.OnTouchListener{
+public class ConnectSettingActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private TextView vTcpSetting;
     private TextView vUdpSetting;
@@ -105,9 +105,19 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView, channelParameter, channelId);
-                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                task.execute(channelParameter, changedParam);
+                if (!vTcpEnabled.isChecked() && !vUdpEnabled.isChecked()) {
+                    if (v.getId() == R.id.tcp_enanbled_switch) {
+                        vTcpEnabled.setChecked(true);
+                    } else if (v.getId() == R.id.udp_enanbled_switch) {
+                        vUdpEnabled.setChecked(true);
+                    }
+                    String notice = "TCP/UDP one must be Enabled.";
+                    Toast.makeText(v.getContext(), notice, Toast.LENGTH_SHORT).show();
+                } else {
+                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView, channelParameter, channelId);
+                    ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
+                    task.execute(channelParameter, changedParam);
+                }
             }
         });
 
@@ -127,14 +137,14 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             }
             channelParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, channelParameter));
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
+            title.setOnClickListener(new UdmReloadParamsClickListener(this, currentView, channelParameter));
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this, currentView, channelParameter);
             readerAsyncTask.execute(mac);
 
             /**
              * 监听手势
              */
-            UdmGestureListener listener = new UdmGestureListener(this,channelParameter,currentView);
+            UdmGestureListener listener = new UdmGestureListener(this, channelParameter, currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.v_gesture).setOnTouchListener(this);
             vTcpEnabled.setOnTouchListener(this);
@@ -149,22 +159,23 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void changeProtocol(){
+    private void changeProtocol() {
         Drawable drawableLeftOpen = getResources().getDrawable(R.drawable.ic_action_lock_open);
         Drawable drawableLeftClosed = getResources().getDrawable(R.drawable.ic_action_lock_closed);
         TextView tcpEnabled = findViewById(R.id.tcp_eanbled);
         TextView udpEnabled = findViewById(R.id.udp_eanbled);
-        if(vTcpEnabled.isChecked()){
-            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
-        }else{
-            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
+        if (vTcpEnabled.isChecked()) {
+            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
+        } else {
+            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
         }
-        if(vUdpEnabled.isChecked()){
-            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen,null,null,null);
-        }else{
-            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed,null,null,null);
+        if (vUdpEnabled.isChecked()) {
+            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
+        } else {
+            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
         }
     }
+
     private View.OnClickListener menuItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -200,17 +211,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
     private View.OnClickListener protocolSwitchListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (!vTcpEnabled.isChecked() && !vUdpEnabled.isChecked()) {
-                if(v.getId()==R.id.tcp_enanbled_switch){
-                    vTcpEnabled.setChecked(true);
-                }else if(v.getId()==R.id.udp_enanbled_switch){
-                    vUdpEnabled.setChecked(true);
-                }
-                String notice = "TCP/UDP one must be Enabled.";
-                Toast.makeText(v.getContext(), notice, Toast.LENGTH_SHORT).show();
-            }else {
-                changeProtocol();
-            }
+            changeProtocol();
         }
     };
 

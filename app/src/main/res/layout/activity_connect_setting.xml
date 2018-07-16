@@ -21,9 +21,15 @@
             android:id="@+id/v_gesture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:theme="@style/udm_device_profile_style">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:height="30dp"
+                android:gravity="left|center"
+                android:text="Net Protocol"
+                android:theme="@style/theme_param_setting" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

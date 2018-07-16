@@ -49,19 +49,20 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private ImageView icSettingOther;
     private ImageView icSettingAccess;
     private String channelId = "0";
+    private String selectedChannleId;
 
 
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            final Bundle params = new Bundle();
+            params.putString("HOST_ADDRESS", ip);
+            params.putString("HOST_MAC", mac);
             switch (v.getId()) {
                 case R.id.profile_ip_more:
                 case R.id.profile_ip_setting:
                     //不涉及某个通道，IP相关的参数当作是0通道。
                     Intent intent1 = new Intent(v.getContext(), NetworkSettingActivity.class);
-                    Bundle params = new Bundle();
-                    params.putString("HOST_ADDRESS", ip);
-                    params.putString("HOST_MAC", mac);
                     params.putString("CHNL_ID", channelId);
                     intent1.putExtras(params);
                     startActivity(intent1);
@@ -70,48 +71,49 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 case R.id.profile_access_setting:
                     //不涉及某个通道
                     Intent intent2 = new Intent(v.getContext(), BasicSettingActivity.class);
-                    Bundle params2 = new Bundle();
-                    params2.putString("HOST_ADDRESS", ip);
-                    params2.putString("HOST_MAC", mac);
-                    params2.putString("CHNL_ID", channelId);
-                    intent2.putExtras(params2);
+                    params.putString("CHNL_ID", channelId);
+                    intent2.putExtras(params);
                     startActivity(intent2);
                     break;
                 case R.id.profile_connect_setting:
                 case R.id.profile_connect_more:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("Select Channel");
-                    int checkItemIdx = 0;
-                    for (int i = 0; i < supportedChannels.length; i++) {
-                        if (supportedChannels[i].equalsIgnoreCase(vSettingConnect.getText().toString())) {
-                            checkItemIdx = i;
-                            break;
+                    /**
+                     * 如果支持多个通道，择弹出通道列表界面供选择。
+                     */
+                    if(supportedChannels.length==1){
+                        params.putString("CHNL_ID", supportedChannels[0]);
+                        selectedChannleId =  supportedChannels[0];
+                    }else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setTitle("Select Channel");
+                        int checkItemIdx = 0;
+                        for (int i = 0; i < supportedChannels.length; i++) {
+                            if (supportedChannels[i].equalsIgnoreCase(selectedChannleId)) {
+                                checkItemIdx = i;
+                                break;
+                            }
                         }
+
+                        builder.setSingleChoiceItems(supportedChannels, checkItemIdx, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                params.putString("CHNL_ID", supportedChannels[which]);
+                                selectedChannleId =  supportedChannels[which];
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.show();
                     }
-                    builder.setSingleChoiceItems(supportedChannels, checkItemIdx, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Bundle params = new Bundle();
-                            params.putString("HOST_ADDRESS", ip);
-                            params.putString("HOST_MAC", mac);
-                            params.putString("CHNL_ID", supportedChannels[which]);
-                            Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
-                            intent.putExtras(params);
-                            dialog.dismiss();
-                            startActivity(intent);
-                        }
-                    });
-                    builder.show();
+                    Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
+                    intent.putExtras(params);
+                    startActivity(intent);
                     break;
                 case R.id.profile_other_setting:
                 case R.id.profile_other_more:
                     //不涉及某个通道
                     Intent intent3 = new Intent(v.getContext(), TimeServerSettingActivity.class);
-                    Bundle params3 = new Bundle();
-                    params3.putString("HOST_ADDRESS", ip);
-                    params3.putString("HOST_MAC", mac);
-                    params3.putString("CHNL_ID", channelId);
-                    intent3.putExtras(params3);
+                    params.putString("CHNL_ID", channelId);
+                    intent3.putExtras(params);
                     startActivity(intent3);
                     break;
                 case R.id.profile_save_reboot:
@@ -120,11 +122,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     break;
                 case R.id.profile_synchronize:
                     Intent intent4 = new Intent(v.getContext(), DeviceSynchActivity.class);
-                    Bundle params4 = new Bundle();
-                    params4.putString("HOST_ADDRESS", ip);
-                    params4.putString("HOST_MAC", mac);
-                    params4.putString("CHNL_ID", channelId);
-                    intent4.putExtras(params4);
+                    params.putString("CHNL_ID", channelId);
+                    intent4.putExtras(params);
                     startActivity(intent4);
                     break;
                 default:
@@ -132,31 +131,6 @@ public class DeviceProfileActivity extends AppCompatActivity {
             }
         }
     };
-
-    /**
-     * 判断 Service 是否正在运行。
-     *
-     * @param mContext
-     * @param className
-     * @return
-     */
-    public static boolean isServiceRunning(Context mContext, String className) {
-        boolean isRunning = false;
-        ActivityManager activityManager = (ActivityManager) mContext
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(30);
-
-        if (!(serviceList.size() > 0)) {
-            return false;
-        }
-        for (int i = 0; i < serviceList.size(); i++) {
-            if (serviceList.get(i).service.getClassName().contains(className) == true) {
-                isRunning = true;
-                break;
-            }
-        }
-        return isRunning;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +221,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 String channelId = String.valueOf(i);
                 String paramId = "CONN"+channelId+"_NET_PROTOCOL";
                 for(ParameterItem parameterItem:testChannelParams.getParamItems()){
-                    if(parameterItem.getParamId().equals(paramId)
+                   if(parameterItem.getParamId().equals(paramId)
                             &&  parameterItem.getParamValue()!=null
                             &&  parameterItem.getParamValue().trim().length()>0){
                         supportChannels.add(String.valueOf(channelId));
@@ -262,8 +236,5 @@ public class DeviceProfileActivity extends AppCompatActivity {
         }catch (Exception e){
             UdmLog.error(e);
         }
-
     }
-
-
 }
