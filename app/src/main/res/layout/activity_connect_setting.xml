@@ -30,32 +30,32 @@
                 android:gravity="left|center"
                 android:text="Net Protocol"
                 android:theme="@style/theme_param_setting" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white">
+
                 <TextView
                     android:id="@+id/tcp_eanbled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:height="60dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@drawable/udm_lock_switch"
+                    android:drawableLeft="@mipmap/ic_action_document"
                     android:layout_marginLeft="2dp"
-                    android:text="TCP Enabled" />
+                    android:text="TCP Mode" />
 
-                <Switch
-                    android:id="@+id/tcp_enanbled_switch"
+                <RadioButton
+                    android:id="@+id/tcp_mode_radio_btn"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_gravity="right"
-                    android:height="60dp"
-                    android:tag="@string/tag_conn_udp_acception"
-                    android:textOff="off"
-                    android:textOn="on" />
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,24 +66,48 @@
                     android:id="@+id/udp_eanbled"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="6"
                     android:height="60dp"
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@drawable/udm_lock_switch"
-                    android:text="UDP Enabled" />
+                    android:drawableLeft="@mipmap/ic_action_document"
+                    android:text="UDP Mode" />
 
-                <Switch
-                    android:id="@+id/udp_enanbled_switch"
+                <RadioButton
+                    android:id="@+id/udp_mode_radio_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:layout_marginTop="1dp">
+                <TextView
+                    android:id="@+id/udp_eanbled1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="6"
                     android:height="60dp"
+                    android:layout_marginLeft="2dp"
+                    android:gravity="left|center"
+                    android:drawablePadding="@dimen/fab_margin"
+                    android:drawableLeft="@mipmap/ic_action_document"
+                    android:text="Both(TCP &amp; UDP)" />
+
+                <RadioButton
+                    android:id="@+id/tcp_udp_mode_radio_btn"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_gravity="right"
-                    android:tag="@string/tag_conn_udp_acception"
-                    android:textOff="off"
-                    android:textOn="on" />
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -140,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:layout_marginTop="1dp">
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/serial_setting"

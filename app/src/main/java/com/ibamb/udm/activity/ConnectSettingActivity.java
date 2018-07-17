@@ -1,26 +1,24 @@
 package com.ibamb.udm.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
+import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.listener.UdmGestureListener;
-import com.ibamb.udm.module.log.UdmLog;
+import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
-import com.ibamb.udm.listener.UdmReloadParamsClickListener;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -40,8 +38,9 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
     private ImageView vUdpMore;
     private ImageView vSerailMore;
 
-    private Switch vTcpEnabled;
-    private Switch vUdpEnabled;
+    private RadioButton vTcpMode;
+    private RadioButton vUdpMode;
+    private RadioButton vBothMode;
 
     private ChannelParameter channelParameter;
     private View currentView;
@@ -79,10 +78,30 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
         vSerailMore = findViewById(R.id.serial_setting_more);
 
 
-        vTcpEnabled = findViewById(R.id.tcp_enanbled_switch);
-        vUdpEnabled = findViewById(R.id.udp_enanbled_switch);
-        vTcpEnabled.setOnClickListener(protocolSwitchListener);
-        vUdpEnabled.setOnClickListener(protocolSwitchListener);
+        vTcpMode = findViewById(R.id.tcp_mode_radio_btn);
+        vTcpMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vUdpMode.setChecked(false);
+                vBothMode.setChecked(false);
+            }
+        });
+        vUdpMode = findViewById(R.id.udp_mode_radio_btn);
+        vUdpMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vTcpMode.setChecked(false);
+                vBothMode.setChecked(false);
+            }
+        });
+        vBothMode = findViewById(R.id.tcp_udp_mode_radio_btn);
+        vBothMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vTcpMode.setChecked(false);
+                vUdpMode.setChecked(false);
+            }
+        });
 
         vTcpSetting.setOnClickListener(menuItemClickListener);
         vUdpSetting.setOnClickListener(menuItemClickListener);
@@ -105,19 +124,11 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!vTcpEnabled.isChecked() && !vUdpEnabled.isChecked()) {
-                    if (v.getId() == R.id.tcp_enanbled_switch) {
-                        vTcpEnabled.setChecked(true);
-                    } else if (v.getId() == R.id.udp_enanbled_switch) {
-                        vUdpEnabled.setChecked(true);
-                    }
-                    String notice = "TCP/UDP one must be Enabled.";
-                    Toast.makeText(v.getContext(), notice, Toast.LENGTH_SHORT).show();
-                } else {
-                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView, channelParameter, channelId);
-                    ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                    task.execute(channelParameter, changedParam);
-                }
+
+                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView, channelParameter, channelId);
+                ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
+                task.execute(channelParameter, changedParam);
+
             }
         });
 
@@ -147,8 +158,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             UdmGestureListener listener = new UdmGestureListener(this, channelParameter, currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.v_gesture).setOnTouchListener(this);
-            vTcpEnabled.setOnTouchListener(this);
-            vUdpEnabled.setOnTouchListener(this);
+
             vTcpSetting.setOnTouchListener(this);
             vUdpSetting.setOnTouchListener(this);
             vSerailSetting.setOnTouchListener(this);
@@ -160,19 +170,16 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
     }
 
     private void changeProtocol() {
-        Drawable drawableLeftOpen = getResources().getDrawable(R.drawable.ic_action_lock_open);
-        Drawable drawableLeftClosed = getResources().getDrawable(R.drawable.ic_action_lock_closed);
-        TextView tcpEnabled = findViewById(R.id.tcp_eanbled);
-        TextView udpEnabled = findViewById(R.id.udp_eanbled);
-        if (vTcpEnabled.isChecked()) {
-            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
-        } else {
-            tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
-        }
-        if (vUdpEnabled.isChecked()) {
-            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
-        } else {
-            udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
+        System.out.println("TCP:"+vTcpMode.isChecked()+" UDP:"+vUdpMode.isChecked()+" BOTH:"+vBothMode.isChecked());
+        if (vTcpMode.isChecked()) {
+            vUdpMode.setChecked(false);
+            vBothMode.setChecked(false);
+        } else if (vUdpMode.isChecked()) {
+            vTcpMode.setChecked(false);
+            vBothMode.setChecked(false);
+        } else if (vBothMode.isChecked()) {
+            vTcpMode.setChecked(false);
+            vUdpMode.setChecked(false);
         }
     }
 

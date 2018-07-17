@@ -39,6 +39,7 @@ public class DeviceSearchListFragment extends Fragment {
             LoginComponet loginComponet = new LoginComponet(getActivity(),mac,ip);
             loginComponet.setToProfile(true);
             loginComponet.setSyncMenuEnabled(true);
+            loginComponet.setDeviceName("");
             loginComponet.login();
         }
     };

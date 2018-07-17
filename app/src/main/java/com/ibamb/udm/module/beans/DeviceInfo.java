@@ -4,10 +4,28 @@ package com.ibamb.udm.module.beans;
 public class DeviceInfo {
     private String ip;
     private String mac;
+    private String deviceName;
+    private String firmwareVersion;
     private int index;
     private int upgradeProgress;
     private int upgradeCode;
     private boolean isChecked;
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getFirmwareVersion() {
+        return firmwareVersion;
+    }
+
+    public void setFirmwareVersion(String firmwareVersion) {
+        this.firmwareVersion = firmwareVersion;
+    }
 
     public boolean isChecked() {
         return isChecked;
@@ -88,8 +106,12 @@ public class DeviceInfo {
         return "DeviceInfo{" +
                 "ip='" + ip + '\'' +
                 ", mac='" + mac + '\'' +
+                ", deviceName='" + deviceName + '\'' +
+                ", firmwareVersion='" + firmwareVersion + '\'' +
                 ", index=" + index +
                 ", upgradeProgress=" + upgradeProgress +
+                ", upgradeCode=" + upgradeCode +
+                ", isChecked=" + isChecked +
                 '}';
     }
 }

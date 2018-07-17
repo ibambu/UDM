@@ -13,9 +13,18 @@ import com.ibamb.udm.task.UserLoginAsyncTask;
 public class LoginComponet {
     private String mac;
     private String ip;
+    private String deviceName;
     private boolean isToProfile;//是否直接跳入设备profile页面
     private boolean isSyncMenuEnabled;//是否显示同步菜单。
     private Activity activity;
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
 
     public boolean isToProfile() {
         return isToProfile;

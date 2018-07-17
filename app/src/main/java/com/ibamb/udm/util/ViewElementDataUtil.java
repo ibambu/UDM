@@ -1,19 +1,18 @@
 package com.ibamb.udm.util;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Parameter;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.net.IPUtil;
 import com.ibamb.udm.tag.UdmButtonTextEdit;
 import com.ibamb.udm.tag.UdmSpinner;
@@ -47,30 +46,23 @@ public class ViewElementDataUtil {
                 switch (elementType) {
                     case Constants.UDM_UI_SPECIAL:
                         if ("CONN_NET_PROTOCOL".equalsIgnoreCase(paramdef.getViewTagId())) {
-                            Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
-                            Switch udp = view.findViewById(R.id.udp_enanbled_switch);
+                            RadioButton tcp = view.findViewById(R.id.tcp_mode_radio_btn);
+                            RadioButton udp = view.findViewById(R.id.udp_mode_radio_btn);
+                            RadioButton both = view.findViewById(R.id.tcp_udp_mode_radio_btn);
 
-                            Drawable drawableLeftOpen = view.getResources().getDrawable(R.drawable.ic_action_lock_open);
-                            Drawable drawableLeftClosed = view.getResources().getDrawable(R.drawable.ic_action_lock_closed);
-                            TextView tcpEnabled = view.findViewById(R.id.tcp_eanbled);
-                            TextView udpEnabled = view.findViewById(R.id.udp_eanbled);
-
-                            if (tcp != null && udp != null) {
+                            if (tcp != null && udp != null & both!=null ) {
                                 if ("0".equalsIgnoreCase(value)) {
                                     udp.setChecked(true);
                                     tcp.setChecked(false);
-                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
-                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
+                                    both.setChecked(false);
                                 } else if ("1".equals(value)) {
                                     udp.setChecked(false);
                                     tcp.setChecked(true);
-                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
-                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftClosed, null, null, null);
+                                    both.setChecked(false);
                                 } else if ("2".equals(value)) {
-                                    udp.setChecked(true);
-                                    tcp.setChecked(true);
-                                    tcpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
-                                    udpEnabled.setCompoundDrawablesWithIntrinsicBounds(drawableLeftOpen, null, null, null);
+                                    udp.setChecked(false);
+                                    tcp.setChecked(false);
+                                    both.setChecked(true);
                                 }
                             }
                         }
@@ -149,10 +141,11 @@ public class ViewElementDataUtil {
             switch (vElementType) {
                 case Constants.UDM_UI_SPECIAL:
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
-                        Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
-                        Switch udp = view.findViewById(R.id.udp_enanbled_switch);
-                        if (tcp != null && udp != null) {
-                            if (tcp.isChecked() && udp.isChecked()) {
+                        RadioButton tcp = view.findViewById(R.id.tcp_mode_radio_btn);
+                        RadioButton udp = view.findViewById(R.id.udp_mode_radio_btn);
+                        RadioButton both = view.findViewById(R.id.tcp_udp_mode_radio_btn);
+                        if (tcp != null && udp != null & both!=null) {
+                            if (both.isChecked()) {
                                 value = "2";
                             } else if (tcp.isChecked()) {
                                 value = "1";
