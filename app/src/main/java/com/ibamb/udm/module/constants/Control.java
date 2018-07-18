@@ -18,4 +18,6 @@ public class Control {
     public static final byte OPTION_NOT_SUPPORT = 0x04;
     public static final byte VALUE_INVALID = 0x06;
     public static final byte AUTH_FAIL = 0x08;
+
+    public static final byte OTHER_ERR = -2;
 }

@@ -4,6 +4,7 @@ import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
+import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Information;
 import com.ibamb.udm.module.instruct.beans.InstructFrame;
@@ -53,7 +54,7 @@ public class ParamWriter implements IParamWriter {
             //先生成帧对象
             InstructFrame instructFrame = new InstructFrame(Control.SET_PARAMETERS, channelParameter.getMac());
             instructFrame.setInfoList(informationList);
-            instructFrame.setId(1);
+            instructFrame.setId(ContextData.getInstance().getCommunicationId());
 
             int sendFrameLength = mainStructLen;//所有子帧总长度
             int replyFrameLength = replyMainStructLen;//期望返回帧的总长度。
@@ -83,10 +84,14 @@ public class ParamWriter implements IParamWriter {
              * 对于修改参数值值的时候，2,4字节长度高位和低位位置是反的，
              * 所以对于读取参数只判断返回码是否成功即可，后面再重新读取一次。
              */
-            boolean isSuccessful = replyFrame.getControl() == Control.ACKNOWLEDGE ? true : false;
-            channelParameter.setSuccessful(isSuccessful);
+            channelParameter.setResultCode(replyFrame.getControl());
+//            if(replyFrame.getId()==instructFrame.getId( ) &&  replyFrame.getControl() == Control.ACKNOWLEDGE ){
+//                channelParameter.setSuccessful(true);
+//            }else{
+//                channelParameter.setSuccessful(false);
+//            }
         } catch (Exception e) {
-            e.printStackTrace();
+            channelParameter.setResultCode(Control.OTHER_ERR);
         }
         return channelParameter;
     }

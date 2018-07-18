@@ -44,24 +44,32 @@ public class SyncReportListAdapter extends BaseAdapter implements ListAdapter {
         TextView deviceIndex = null;
         TextView deviceIP = null;
         TextView deviceMac = null;
+        TextView deviceInfoStr = null;
+        TextView result = null;
         if (view == null) {
             view = inflater.inflate(id, null);
-            deviceIndex = (TextView) view.findViewById(R.id.device_index);
-            deviceIP = (TextView)view.findViewById(R.id.device_ip);
-            deviceMac = (TextView)view.findViewById(R.id.device_mac);
-            view.setTag(new SyncReportListAdapter.ListViewColumns(deviceIndex,deviceIP,deviceMac));
+            deviceIndex = view.findViewById(R.id.device_index);
+            deviceIP = view.findViewById(R.id.device_ip);
+            deviceMac = view.findViewById(R.id.device_mac);
+            deviceInfoStr = view.findViewById(R.id.device_info);
+            result = view.findViewById(R.id.result_info);
+            view.setTag(new SyncReportListAdapter.ListViewColumns(deviceIndex,deviceIP,deviceMac,deviceInfoStr,result));
         } else {
             //得到保存的对象
             SyncReportListAdapter.ListViewColumns columns = (SyncReportListAdapter.ListViewColumns) view.getTag();
             deviceIndex = columns.index;
             deviceIP = columns.ip;
             deviceMac = columns.mac;
+            deviceInfoStr= columns.deviceInfo;
+            result = columns.result;
         }
         DeviceSyncMessage deviceInfo = (DeviceSyncMessage) data.get(position);
         //数据绑定到控件上
         deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));//三位数字
         deviceIP.setText(deviceInfo.getIp());
         deviceMac.setText(deviceInfo.getMac());
+        deviceInfoStr.setText(deviceInfo.getIp()+" | "+deviceInfo.getMac().toUpperCase());
+        result.setText(deviceInfo.getResultInfo());
 
         return view;
 
@@ -80,11 +88,15 @@ public class SyncReportListAdapter extends BaseAdapter implements ListAdapter {
         TextView index = null;
         TextView ip = null;
         TextView mac = null;
+        TextView deviceInfo = null;
+        TextView result = null;
 
-        public ListViewColumns(TextView index, TextView ip, TextView mac) {
+        public ListViewColumns(TextView index, TextView ip, TextView mac,TextView deviceInfo,TextView result) {
             this.index = index;
             this.ip = ip;
             this.mac = mac;
+            this.deviceInfo = deviceInfo;
+            this.result = result;
         }
     }
 }

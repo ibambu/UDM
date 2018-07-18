@@ -6,6 +6,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.ibamb.udm.component.ServiceConst;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
+import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.module.instruct.IParamWriter;
 import com.ibamb.udm.module.instruct.ParamWriter;
@@ -75,15 +77,38 @@ public class SyncDeviceParamTask implements Callable {
             if (isAuthSuccess) {
                 IParamWriter writer = new ParamWriter();
                 copyParamValue(srcChannelParameters.getParamItems(), distChannelParameters.getParamItems());
-                boolean isSyncSuccess = writer.writeChannelParam(distChannelParameters).isSuccessful();
-                if (isSyncSuccess) {
+                writer.writeChannelParam(distChannelParameters);
+                int resultCode = distChannelParameters.getResultCode();
+                String resultInfo ="";
+                switch (resultCode){
+                    case Control.ACKNOWLEDGE:
+                        resultInfo = Constants.SYNC_SUCCESS;
+                        break;
+                    case Control.NO_PERMISSION:
+                        resultInfo = Constants.SYNC_NO_PERMISSION;
+                        break;
+                    case Control.OPTION_NOT_SUPPORT:
+                        resultInfo =  Constants.SYNC_NO_PERMISSION;
+                        break;
+                    case Control.NO_DATA_REPLY:
+                        resultInfo = Constants.SYNC_NO_DATA_REPLY;
+                        break;
+                    case Control.VALUE_INVALID:
+                        resultInfo =  Constants.SYNC_VALUE_INVALID;
+                        break;
+                        default:
+                            resultInfo= Constants.SYNC_UNKNOWN_ERROR;
+                }
+                if (resultCode== Control.ACKNOWLEDGE) {
                     SysManager.saveAndReboot(mac);//同步成功后重启设备。
                 }
-                syncReport = ip + "#" + mac + "#" + isSyncSuccess;
+                syncReport = ip + "#" + mac + "#" + resultInfo;
             } else {
-                syncReport = ip + "#" + mac + "#" + false;
+                distChannelParameters.setResultCode(Control.AUTH_FAIL);
+                syncReport = ip + "#" + mac + "#" + Constants.SYNC_AUTH_FAIL;
             }
         } catch (Exception e) {
+            syncReport = ip + "#" + mac + "#" + Constants.SYNC_UNKNOWN_ERROR;
             throw e;
         } finally {
             synchronized (broadcastLock) {

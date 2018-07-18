@@ -4,6 +4,7 @@ import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
+import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.beans.Information;
 import com.ibamb.udm.module.instruct.beans.InstructFrame;
@@ -53,7 +54,7 @@ public class ParamReader implements IParamReader {
             //先生成帧对象
             InstructFrame instructFrame = new InstructFrame(Control.GET_PARAMETERS, channelParameter.getMac());
             instructFrame.setInfoList(informationList);
-            instructFrame.setId(1);
+            instructFrame.setId(ContextData.getInstance().getCommunicationId());
 
 
             int sendFrameLength = mainStructLen;//所有子帧总长度
@@ -78,7 +79,8 @@ public class ParamReader implements IParamReader {
 
             //解析返回报文
             ReplyFrame replyFrame = parser.parse(replyData);
-            if (replyFrame.getControl() == Control.ACKNOWLEDGE) {
+            channelParameter.setResultCode(replyFrame.getControl());
+            if (replyFrame.getControl() == Control.ACKNOWLEDGE && replyFrame.getId()==instructFrame.getId()) {
                 channelParameter.setSuccessful(true);
                 channelParameter.setNoPermission(false);
                 for (ParameterItem parameterItem : parameterItems) {

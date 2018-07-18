@@ -4,6 +4,15 @@ public class DeviceSyncMessage {
     private int index;
     private String ip;
     private String mac;
+    private String resultInfo;
+
+    public String getResultInfo() {
+        return resultInfo;
+    }
+
+    public void setResultInfo(String resultInfo) {
+        this.resultInfo = resultInfo;
+    }
 
     public DeviceSyncMessage(String ip, String mac) {
         this.ip = ip;

@@ -1,17 +1,17 @@
 package com.ibamb.udm.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.adapter.SyncReportTabAdapter;
 import com.ibamb.udm.fragment.SyncFailFragment;
 import com.ibamb.udm.fragment.SyncSuccessFragment;
 import com.ibamb.udm.module.constants.Constants;
@@ -22,27 +22,49 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DeviceSyncReportActivity extends AppCompatActivity {
 
     private SyncSuccessFragment syncSuccessFragment;//同步成功列表
     private SyncFailFragment syncFailFragment;//同步失败列表
-    private Button successButton;
-    private Button failButton;
+
     private StringBuilder successBuffer = new StringBuilder();
     private StringBuilder failBuffer = new StringBuilder();
+
     private TextView title;
     private ImageView goback;
     private TextView syncTime;
+
+    private TabLayout reportTab;
+    private ViewPager reporViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_sync_report);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
 
+        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
         Intent intent = getIntent();
         final boolean isSyncMenuEnabled = intent.getBooleanExtra("SYNC_ENABLED",false);
+
+        reportTab = findViewById(R.id.report_tab);
+        reporViewPager = findViewById(R.id.report_tab_content);
+
+        TabLayout.Tab successTab = reportTab.newTab();
+        successTab.setText("Success List");
+        reportTab.addTab(successTab);
+
+        TabLayout.Tab failTab = reportTab.newTab();
+        failTab.setText("Fail List");
+        reportTab.addTab(failTab);
+
+        reportTab.setupWithViewPager(reporViewPager);
+        SyncReportTabAdapter adapter = new SyncReportTabAdapter(getSupportFragmentManager());
+        adapter.setTitles(Arrays.asList("Success List","Fail List"));
+
         StringBuilder strBuffer = new StringBuilder();
         FileInputStream inputStream = null;
         String lastSyncTime ="";
@@ -73,7 +95,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         String[] logContent = strBuffer.toString().split("@");
         for(String log:logContent){
             String[] deviceInfo = log.split("#");
-            if(deviceInfo[deviceInfo.length-1].equals("true")){
+            if(deviceInfo[deviceInfo.length-1].equals(Constants.SYNC_SUCCESS)){
                 successBuffer.append(log).append("@");
             }else{
                 failBuffer.append(log).append("@");
@@ -85,6 +107,15 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         if(failBuffer.length()>0){
             failBuffer.deleteCharAt(failBuffer.length()-1);
         }
+
+        List<Fragment> fragments = new ArrayList<>();
+        syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString(),isSyncMenuEnabled);
+        syncFailFragment = SyncFailFragment.newInstance(failBuffer.toString(),isSyncMenuEnabled);
+        fragments.add(syncSuccessFragment);
+        fragments.add(syncFailFragment);
+        adapter.setFragments(fragments);
+
+        reporViewPager.setAdapter(adapter);
         title = findViewById(R.id.title);
         title.setText("Device Sync Report");
 
@@ -97,71 +128,6 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        successButton = findViewById(R.id.success_button);
-        failButton = findViewById(R.id.fail_button);
-        /**
-         * 按钮点击事件
-         */
-        successButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                if(syncFailFragment!=null){
-                    transaction.hide(syncFailFragment);
-                }
-                if (syncSuccessFragment == null) {
-                    syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString(),isSyncMenuEnabled);
-
-                    transaction.add(R.id.report_frame, syncSuccessFragment);
-                    transaction.show(syncSuccessFragment);
-                } else {
-                    transaction.show(syncSuccessFragment);
-                }
-                transaction.commit();
-                failButton.setTextColor(Color.BLACK);
-                successButton.setTextColor(Color.BLUE);
-            }
-        });
-
-        failButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                if(syncSuccessFragment!=null){
-                    transaction.hide(syncSuccessFragment);
-                }
-                if (syncFailFragment == null) {
-                    syncFailFragment = SyncFailFragment.newInstance(failBuffer.toString(),isSyncMenuEnabled);
-                    transaction.add(R.id.report_frame, syncFailFragment);
-                    transaction.show(syncFailFragment);
-                } else {
-                    transaction.show(syncFailFragment);
-                }
-                transaction.commit();
-                failButton.setTextColor(Color.BLUE);
-                successButton.setTextColor(Color.BLACK);
-
-            }
-        });
-
-        /**
-         * 默认显示同步成功列表
-         */
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (syncSuccessFragment == null) {
-            syncSuccessFragment = SyncSuccessFragment.newInstance(successBuffer.toString(),isSyncMenuEnabled);
-            transaction.add(R.id.report_frame, syncSuccessFragment);
-            transaction.show(syncSuccessFragment);
-        } else {
-            transaction.show(syncSuccessFragment);
-        }
-        transaction.commit();
-        failButton.setTextColor(Color.BLACK);
-        successButton.setTextColor(Color.BLUE);
     }
 
     @Override
@@ -178,4 +144,5 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }

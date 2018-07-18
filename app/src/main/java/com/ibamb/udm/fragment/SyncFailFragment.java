@@ -56,8 +56,9 @@ public class SyncFailFragment extends Fragment {
                 failDeviceList = new ArrayList<>();
                 for (String deviceInfo : deviceArray) {
                     String[] device = deviceInfo.split("#");
-                    if (device.length > 2) {
+                    if (device.length > 3) {
                         DeviceSyncMessage deviceSyncMessage = new DeviceSyncMessage(index++, device[1], device[2]);
+                        deviceSyncMessage.setResultInfo(device[3]);
                         failDeviceList.add(deviceSyncMessage);
                     }
                 }

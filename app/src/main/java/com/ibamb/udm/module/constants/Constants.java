@@ -105,4 +105,13 @@ public class Constants {
     public static final int ACTIVITY_RESULT_FOR_LOGIN = 10;
     public static final int ACTIVITY_RESULT_FOR_IMP_TYPE_FILE = 11;//导入TYPE ID 配置文件。
 
+    //参数同步提示语
+    public static final String SYNC_SUCCESS = "success";
+    public static final String SYNC_NO_PERMISSION = "no permission";
+    public static final String SYNC_OPTION_NOT_SUPPORT = "option not support";
+    public static final String SYNC_NO_DATA_REPLY = "no-response";
+    public static final String SYNC_VALUE_INVALID = "value invalid";
+    public static final String SYNC_UNKNOWN_ERROR = "unknown error";
+    public static final String SYNC_AUTH_FAIL = "auth fail";
+
 }

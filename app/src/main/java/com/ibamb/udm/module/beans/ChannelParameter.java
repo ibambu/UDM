@@ -1,5 +1,7 @@
 package com.ibamb.udm.module.beans;
 
+import com.ibamb.udm.module.constants.Control;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,20 @@ public class ChannelParameter {
     private String ip;
     private String channelId;
     private List<ParameterItem> paramItems;
+    private int resultCode;
+
+    public int getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(int resultCode) {
+        this.resultCode = resultCode;
+    }
+
     private boolean isNoPermission;//是否禁止访问，一般在没有登录的情况下访问设备返回。
 
     public boolean isNoPermission() {
-        return isNoPermission;
+        return resultCode== Control.NO_PERMISSION;
     }
 
     public void setNoPermission(boolean noPermission) {
@@ -23,7 +35,7 @@ public class ChannelParameter {
     }
 
     public boolean isSuccessful() {
-        return isSuccessful;
+        return resultCode==Control.ACKNOWLEDGE;
     }
 
     public void setSuccessful(boolean successful) {
