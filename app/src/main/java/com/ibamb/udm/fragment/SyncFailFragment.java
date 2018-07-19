@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class SyncFailFragment extends Fragment {
 
     private static final String SYNC_FAIL_DEVICE_INFO = "SYNC_FAIL_DEVICE_INFO";
-    private static final String SYNC_MENU_ENABLED = "SYNC_MENU_ENABLED";
+    private static final String SYNC_MENU_ENABLED = "SYNC_MENU_ENABLED";//是否开启同步当前设备参数到其他设备的功能。
 
     private String mSyncFailDeviceInfo;//同步失败字符串
     private boolean isSyncMenuEnabled;
