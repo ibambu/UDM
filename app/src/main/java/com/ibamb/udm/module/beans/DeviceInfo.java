@@ -114,4 +114,14 @@ public class DeviceInfo {
                 ", isChecked=" + isChecked +
                 '}';
     }
+
+    public Device toDevice(){
+        Device device = new Device();
+        device.setIndex(this.index);
+        device.setDeviceName(this.deviceName);
+        device.setIp(this.ip);
+        device.setMac(this.mac);
+        device.setFirmwareVersion(this.firmwareVersion);
+        return device;
+    }
 }

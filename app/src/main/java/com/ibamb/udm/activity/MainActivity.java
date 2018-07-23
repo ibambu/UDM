@@ -13,8 +13,9 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.FragmentManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
@@ -31,11 +32,10 @@ import com.ibamb.udm.component.FileDirManager;
 import com.ibamb.udm.component.FilePathParser;
 import com.ibamb.udm.component.PermissionUtils;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
-import com.ibamb.udm.listener.UdmBottomMenuClickListener;
 import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
-import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.security.DefualtECryptValue;
 import com.ibamb.udm.module.security.ICryptStrategy;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private TextView tabDeviceList;
     private TextView tabSetting;
+
+    private TabLayout deviceTabLayout;
+    private ViewPager devcieViewPager;
 
 
     private DeviceSearchListFragment searchListFragment;
@@ -124,27 +127,32 @@ public class MainActivity extends AppCompatActivity {
         if (PermissionUtils.isGrantExternalRW(this, 1)) {
 
         }
-        //默认显示第一个界面
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        hideAllFragment(transaction);
-        if (searchListFragment == null) {
-            searchListFragment = DeviceSearchListFragment.newInstance(null, null);
-            transaction.add(R.id.fragment_container, searchListFragment);
-            transaction.show(searchListFragment);
-        } else {
-            transaction.show(searchListFragment);
-        }
-        transaction.commit();
+        deviceTabLayout = findViewById(R.id.device_list_tab);
+        devcieViewPager = findViewById(R.id.device_list_pager);
+
+//        //默认显示第一个界面
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        hideAllFragment(transaction);
+//        if (searchListFragment == null) {
+//            searchListFragment = DeviceSearchListFragment.newInstance(null, null);
+//            transaction.add(R.id.fragment_container, searchListFragment);
+//            transaction.show(searchListFragment);
+//        } else {
+//            transaction.show(searchListFragment);
+//        }
+//        transaction.commit();
         //绑定菜单点击事件
-        mToolbar.setOnMenuItemClickListener(new UdmToolbarMenuClickListener(this,searchListFragment));
+        UdmToolbarMenuClickListener toolbarMenuClickListener = new UdmToolbarMenuClickListener(this,searchListFragment);
+        toolbarMenuClickListener.setFragmentManager(getSupportFragmentManager());
+        mToolbar.setOnMenuItemClickListener(toolbarMenuClickListener);
         //底部菜单绑定点击事件,实现界面切换.
         tabDeviceList = findViewById(R.id.tab_device_list);
         tabSetting = findViewById(R.id.tab_setting);
-        UdmBottomMenuClickListener bottomMenuClickListener = new UdmBottomMenuClickListener(fragmentManager,searchListFragment,
-                tabDeviceList,tabSetting);
-        tabDeviceList.setOnClickListener(bottomMenuClickListener);
-        tabSetting.setOnClickListener(bottomMenuClickListener);
+//        UdmBottomMenuClickListener bottomMenuClickListener = new UdmBottomMenuClickListener(fragmentManager,searchListFragment,
+//                tabDeviceList,tabSetting);
+//        tabDeviceList.setOnClickListener(bottomMenuClickListener);
+//        tabSetting.setOnClickListener(bottomMenuClickListener);
         tabDeviceList.requestFocus();
         tabDeviceList.setSelected(true);
 
@@ -220,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
                 TextView vSearchNotice = view.findViewById(R.id.search_notice_info);
                 DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(mListView,vSearchNotice,
                         searchListFragment.getLayoutInflater());
+                task.setActivity(this);
+                task.setSupportFragmentManager(getSupportFragmentManager());
                 task.execute(searchKewWord);
             }
         }else if(resultCode == Constants.ACTIVITY_RESULT_FOR_LOGIN){

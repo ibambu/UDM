@@ -21,7 +21,7 @@ public class DeviceSearch {
     public static ArrayList<DeviceInfo> searchDevice(String keyword) {
         DatagramSocket datagramSocket = null;
         ArrayList<DeviceInfo> deviceList = new ArrayList<>();
-        for(int i=10;i<50;i++){
+        for(int i=10;i<250;i++){
 
             DeviceInfo test = new DeviceInfo("192.168.0.110","aa:3d:3f:aa:"+i+":5c");
             test.setDeviceName("No Device Name");

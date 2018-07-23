@@ -47,7 +47,7 @@ public class UdmBottomMenuClickListener implements View.OnClickListener {
                 tabDeviceList.setSelected(true);
                 System.out.println("default id is 1:"+defultFragment.getId());
                 if (defultFragment == null) {
-                    defultFragment = DeviceSearchListFragment.newInstance("第一个Fragment", null);
+                    defultFragment = DeviceSearchListFragment.newInstance("第一个Fragment");
                     transaction.add(R.id.fragment_container, defultFragment);
                 } else {
                     transaction.show(defultFragment);

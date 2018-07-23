@@ -8,22 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.adapter.InetAddressListAdapter;
 import com.ibamb.udm.component.LoginComponet;
+import com.ibamb.udm.module.beans.Device;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceSearchListFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
+    private static final String ARG_DEVICE_LIST = "DEVICE_LIST";
 
     private ListView mListView;
 
+    private List<Device> dataList;
 
     /**
      * 设备列表中点击事件，触发登录远程设备。
@@ -54,12 +56,12 @@ public class DeviceSearchListFragment extends Fragment {
 
     }
 
-    public static DeviceSearchListFragment newInstance(String param1, String param2) {
+    public static DeviceSearchListFragment newInstance(String deviceInfo) {
         DeviceSearchListFragment fragment = new DeviceSearchListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_DEVICE_LIST,deviceInfo);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -67,8 +69,23 @@ public class DeviceSearchListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            dataList = new ArrayList<>();
+            String allDeviceInfo = getArguments().getString(ARG_DEVICE_LIST);
+            if(allDeviceInfo!=null){
+                String[] deviceArray = allDeviceInfo.split("@");
+                for(String deviceStr:deviceArray){
+                    String[] dArray = deviceStr.split("#");
+                    if(dArray.length>4){
+                        Device device = new Device();
+                        device.setIndex(Integer.parseInt(dArray[0]));
+                        device.setDeviceName(dArray[1]);
+                        device.setIp(dArray[2]);
+                        device.setMac(dArray[3]);
+                        device.setFirmwareVersion(dArray[4]);
+                        dataList.add(device);
+                    }
+                }
+            }
         }
     }
 
@@ -77,19 +94,14 @@ public class DeviceSearchListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_device_search_list, container, false);
-        //取得界面浮动搜索按钮和列表控件
-//        searchButton = (FloatingActionButton) view.findViewById(R.id.udm_search_button);
-        mListView = (ListView) view.findViewById(R.id.search_device_list);
-
-        //浮动按钮添加搜索事件，通过搜索事件触发搜索设备，并异步更新列表控件。
-//        UdmSearchButtonClickListener searchClickListener = new UdmSearchButtonClickListener(mListView, vSearchNotice,inflater);
-//        searchButton.setOnClickListener(searchClickListener);
+        mListView = view.findViewById(R.id.search_device_list);
+        ListAdapter adapterData = new InetAddressListAdapter(R.layout.item_device_layout, inflater, dataList);
+        mListView.setAdapter(adapterData);
         //给列表项添加点击事件，触发登录设备。
         mListView.setOnItemClickListener(itemOnclickListener);
+        mListView.setVisibility(View.VISIBLE);
         return view;
     }
-
-
 
     @Override
     public void onAttach(Context context) {

@@ -2,6 +2,9 @@ package com.ibamb.udm.listener;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +27,12 @@ import com.ibamb.udm.task.DeviceSearchAsyncTask;
 public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListener {
 
     private Activity activity;
+    private FragmentManager fragmentManager;
     DeviceSearchListFragment searchListFragment;
+
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
+    }
 
     public UdmToolbarMenuClickListener(Activity activity) {
         this.activity = activity;
@@ -62,19 +70,18 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
             intent.setType("*/*");//设置类型.
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             activity.startActivityForResult(intent,1);
-//            Intent intent = new Intent(activity, SystemFileBrowseActivity.class);
-//            activity.startActivity(intent);
 
         } else if (menuItemId == R.id.id_upgrade_device) {
 //            Intent intent = new Intent(activity, DeviceUpgradeActivity.class);
 //            activity.startActivityForResult(intent, 1);
 
         }else if (menuItemId == R.id.global_search) {
-            View view = searchListFragment.getView();
-            ListView mListView =  view.findViewById(R.id.search_device_list);
-            TextView vSearchNotice = view.findViewById(R.id.search_notice_info);
-            DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(mListView,vSearchNotice,
-                    searchListFragment.getLayoutInflater());
+            View mainView = activity.getWindow().getDecorView();
+            ListView mListView =  mainView.findViewById(R.id.search_device_list);
+            TextView vSearchNotice = mainView.findViewById(R.id.search_notice_info);
+            DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(mListView,vSearchNotice, null);
+            task.setActivity(activity);
+            task.setSupportFragmentManager(fragmentManager);
             task.execute();
 
         } else if(menuItemId==R.id.id_menu_sync_report){

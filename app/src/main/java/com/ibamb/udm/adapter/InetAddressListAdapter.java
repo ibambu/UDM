@@ -7,19 +7,18 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.Device;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
-    private ArrayList<DeviceInfo> data;
+    private List<Device> data;
     private int id;
     private LayoutInflater inflater;
 
-    public InetAddressListAdapter(int item, LayoutInflater inflater, ArrayList<DeviceInfo> data) {
+    public InetAddressListAdapter(int item, LayoutInflater inflater, List<Device> data) {
         this.data = data;
         this.inflater = inflater;
         this.id = item;
@@ -66,7 +65,7 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
             deviceProfile = columns.deviceProfile;
 
         }
-        DeviceInfo deviceInfo = (DeviceInfo) data.get(position);
+        Device deviceInfo = (Device) data.get(position);
         //数据绑定到控件上
         deviceIndex.setText(String.format("%03d",deviceInfo.getIndex()));//三位数字
         deviceIP.setText(deviceInfo.getIp());
