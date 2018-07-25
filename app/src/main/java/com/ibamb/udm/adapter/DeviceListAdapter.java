@@ -9,19 +9,19 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 
 import java.util.ArrayList;
 
 public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
-    private ArrayList<DeviceInfo> data;
+    private ArrayList<DeviceModel> data;
     private int id;
     private LayoutInflater inflater;
     private TextView checkAll;
     private TextView title;
 
 
-    public DeviceListAdapter(int res, LayoutInflater inflater, ArrayList<DeviceInfo> data,TextView title,TextView checkAll) {
+    public DeviceListAdapter(int res, LayoutInflater inflater, ArrayList<DeviceModel> data, TextView title, TextView checkAll) {
         this.data = data;
         this.inflater = inflater;
         this.id = res;
@@ -48,7 +48,7 @@ public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
 
     public int getCheckedCount(){
         int count =0;
-        for(DeviceInfo deviceInfo:data){
+        for(DeviceModel deviceInfo:data){
             if(deviceInfo.isChecked()){
                 count ++;
             }
@@ -82,7 +82,7 @@ public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 CheckBox checkBox1 = (CheckBox) v;
-                DeviceInfo deviceInfo = (DeviceInfo) getItem(position);
+                DeviceModel deviceInfo = (DeviceModel) getItem(position);
                 if (checkBox1.isChecked()) {
                     deviceInfo.setChecked(true);
                 } else {
@@ -98,7 +98,7 @@ public class DeviceListAdapter extends BaseAdapter implements ListAdapter {
             }
         });
 
-        DeviceInfo deviceInfo = (DeviceInfo) data.get(position);
+        DeviceModel deviceInfo = (DeviceModel) data.get(position);
         //数据绑定到控件上
         deviceIndex.setText(String.format("%03d", deviceInfo.getIndex()));//三位数字
         deviceIP.setText(deviceInfo.getIp());

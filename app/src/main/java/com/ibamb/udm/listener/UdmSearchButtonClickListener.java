@@ -16,7 +16,7 @@ public class UdmSearchButtonClickListener implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         //通过异步任务开启工作线程在后台搜索设备。
-        DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(mListView,vSearchNotice,inflater);
+        DeviceSearchAsyncTask task = new DeviceSearchAsyncTask();
         task.execute();
     }
 

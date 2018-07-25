@@ -5,19 +5,19 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.ibamb.udm.adapter.DeviceListAdapter;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 
-public class DeviceUpgradeAsyncTask extends AsyncTask<DeviceInfo, Boolean, String> {
+public class DeviceUpgradeAsyncTask extends AsyncTask<DeviceModel, Boolean, String> {
     private ListView deviceList;
 
     @Override
-    protected String doInBackground(DeviceInfo... deviceInfos) {
+    protected String doInBackground(DeviceModel... deviceInfos) {
         DeviceListAdapter adapter = (DeviceListAdapter)deviceList.getAdapter();
 
 
         int count = adapter.getCount();
         for(int i=0;i<count;i++){
-            DeviceInfo deviceInfo = (DeviceInfo)adapter.getItem(i);
+            DeviceModel deviceInfo = (DeviceModel)adapter.getItem(i);
 
             for(int k=1;k<101;k++){
                 deviceInfo.setUpgradeProgress(k);

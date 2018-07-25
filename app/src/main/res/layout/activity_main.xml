@@ -22,21 +22,34 @@
             android:fitsSystemWindows="true"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
-    <LinearLayout
+
+    <ProgressBar
+        android:id="@+id/search_progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/top_app_bar"
-        android:layout_above="@+id/tab_bottom_menu"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/tab_line_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_above="@+id/tab_bottom_menu"
+        android:layout_below="@+id/search_progress_bar"
+        android:orientation="vertical"
+        android:visibility="gone">
         <!-- 设备列表页码 -->
         <android.support.design.widget.TabLayout
             android:id="@+id/device_list_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/udm_base_bgcolor"
-            app:tabMode="scrollable"
-            android:visibility="gone">
-
+            app:tabMode="scrollable">
         </android.support.design.widget.TabLayout>
         <!-- 设备列表页 -->
         <android.support.v4.view.ViewPager
@@ -46,7 +59,7 @@
         </android.support.v4.view.ViewPager>
     </LinearLayout>
 
-    
+
     <LinearLayout
         android:id="@+id/tab_bottom_menu"
         android:layout_width="match_parent"
@@ -63,46 +76,46 @@
             android:clickable="true"
             android:drawablePadding="1dp"
             android:gravity="center"
-            android:text="@string/menu_device_list"/>
+            android:text="@string/menu_device_list" />
 
         <TextView
             android:id="@+id/tab_other1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:textColor="@drawable/udm_color_menu_text_selector"
-            android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/menu_other_1"
-            android:visibility="gone"/>
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tab_other2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:clickable="true"
             android:drawablePadding="3dp"
             android:gravity="center"
-            android:textColor="@drawable/udm_color_menu_text_selector"
-            android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/menu_other_2"
-            android:visibility="gone"/>
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tab_setting"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/udm_color_menu_bg_selector"
             android:clickable="true"
             android:drawablePadding="1dp"
             android:gravity="center"
-            android:textColor="@drawable/udm_color_menu_text_selector"
-            android:background="@drawable/udm_color_menu_bg_selector"
             android:text="@string/menu_setting"
-            android:visibility="gone"/>
+            android:textColor="@drawable/udm_color_menu_text_selector"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -100,7 +100,19 @@ public class SyncDeviceParamTask implements Callable {
                             resultInfo= Constants.SYNC_UNKNOWN_ERROR;
                 }
                 if (resultCode== Control.ACKNOWLEDGE) {
-                    SysManager.saveAndReboot(mac);//同步成功后重启设备。
+                    boolean isSuccess = SysManager.saveAndReboot(mac);//同步成功后重启设备。
+                    if(!isSuccess){
+                        //如果重启失败尝试3次
+                        for(int i=0;i<3;i++){
+                            isSuccess = SysManager.saveAndReboot(mac);
+                            if(isSuccess){
+                                break;
+                            }
+                        }
+                    }
+                    if(!isSuccess){
+                        resultInfo= Constants.SYNC_SAVE_REBOOT_FAIL;
+                    }
                 }
                 syncReport = ip + "#" + mac + "#" + resultInfo;
             } else {

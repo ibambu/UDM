@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
@@ -38,9 +39,9 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
     private ImageView vUdpMore;
     private ImageView vSerailMore;
 
-    private RadioButton vTcpMode;
-    private RadioButton vUdpMode;
-    private RadioButton vBothMode;
+    private Switch vTcpMode;
+    private Switch vUdpMode;
+    private Switch vBothMode;
 
     private ChannelParameter channelParameter;
     private View currentView;
@@ -78,7 +79,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
         vSerailMore = findViewById(R.id.serial_setting_more);
 
 
-        vTcpMode = findViewById(R.id.tcp_mode_radio_btn);
+        vTcpMode = findViewById(R.id.tcp_enanbled_switch);
         vTcpMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +87,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
                 vBothMode.setChecked(false);
             }
         });
-        vUdpMode = findViewById(R.id.udp_mode_radio_btn);
+        vUdpMode = findViewById(R.id.udp_enanbled_switch);
         vUdpMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +95,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
                 vBothMode.setChecked(false);
             }
         });
-        vBothMode = findViewById(R.id.tcp_udp_mode_radio_btn);
+        vBothMode = findViewById(R.id.tcp_udp_enanbled_switch);
         vBothMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +171,6 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
     }
 
     private void changeProtocol() {
-        System.out.println("TCP:"+vTcpMode.isChecked()+" UDP:"+vUdpMode.isChecked()+" BOTH:"+vBothMode.isChecked());
         if (vTcpMode.isChecked()) {
             vUdpMode.setChecked(false);
             vBothMode.setChecked(false);

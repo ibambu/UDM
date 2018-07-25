@@ -32,4 +32,9 @@ public class SearchDeviceListPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return pages.get(position);
     }
+
+    @Override
+    public long getItemId(int position) {
+        return fragmentList.get(position).hashCode();
+    }
 }

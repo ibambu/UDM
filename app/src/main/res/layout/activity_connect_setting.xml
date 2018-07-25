@@ -44,18 +44,18 @@
                     android:height="60dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@mipmap/ic_action_document"
+                    android:drawableLeft="@mipmap/ic_action_lock_closed"
                     android:layout_marginLeft="2dp"
                     android:text="TCP Mode" />
-
-                <RadioButton
-                    android:id="@+id/tcp_mode_radio_btn"
+                <Switch
+                    android:id="@+id/tcp_enanbled_switch"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="" />
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:height="60dp"
+                    android:textOff="off"
+                    android:textOn="on" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -71,17 +71,18 @@
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@mipmap/ic_action_document"
+                    android:drawableLeft="@mipmap/ic_action_lock_closed"
                     android:text="UDP Mode" />
 
-                <RadioButton
-                    android:id="@+id/udp_mode_radio_btn"
+                <Switch
+                    android:id="@+id/udp_enanbled_switch"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="" />
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:height="60dp"
+                    android:textOff="off"
+                    android:textOn="on" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,17 +98,18 @@
                     android:layout_marginLeft="2dp"
                     android:gravity="left|center"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:drawableLeft="@mipmap/ic_action_document"
+                    android:drawableLeft="@mipmap/ic_action_lock_closed"
                     android:text="Both(TCP &amp; UDP)" />
 
-                <RadioButton
-                    android:id="@+id/tcp_udp_mode_radio_btn"
+                <Switch
+                    android:id="@+id/tcp_udp_enanbled_switch"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="" />
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:height="60dp"
+                    android:textOff="off"
+                    android:textOn="on" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

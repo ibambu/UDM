@@ -1,7 +1,9 @@
-package com.ibamb.udm.module.beans;
+package com.ibamb.udm.beans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.ibamb.udm.module.beans.DeviceModel;
 
 public class Device implements Parcelable {
     private int index;//序号，如 001,002,003,...
@@ -61,7 +63,8 @@ public class Device implements Parcelable {
     }
 
     public String getFirmwareVersion() {
-        return firmwareVersion;
+        return (firmwareVersion==null||firmwareVersion.equals("null")
+                ||firmwareVersion.trim().length()==0)? "unknown version":firmwareVersion;
     }
 
     public void setFirmwareVersion(String firmwareVersion) {
@@ -85,5 +88,15 @@ public class Device implements Parcelable {
     @Override
     public String toString() {
         return  index +"#"+ deviceName +"#" + ip + "#" + mac + "#" +firmwareVersion;
+    }
+
+    public static Device toDevice(DeviceModel deviceModel){
+        Device device = new Device();
+        device.setIndex(deviceModel.getIndex());
+        device.setDeviceName(deviceModel.getDeviceName());
+        device.setIp(deviceModel.getIp());
+        device.setMac(deviceModel.getMac());
+        device.setFirmwareVersion(deviceModel.getFirmwareVersion());
+        return device;
     }
 }

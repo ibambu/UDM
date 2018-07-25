@@ -10,7 +10,7 @@ import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
-public class LoginComponet {
+public class LoginComponent {
     private String mac;
     private String ip;
     private String deviceName;
@@ -42,7 +42,7 @@ public class LoginComponet {
         isSyncMenuEnabled = syncMenuEnabled;
     }
 
-    public LoginComponet(Activity activity, String mac, String ip) {
+    public LoginComponent(Activity activity, String mac, String ip) {
         this.activity = activity;
         this.mac = mac;
         this.ip = ip;

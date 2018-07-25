@@ -8,7 +8,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.beans.Device;
+import com.ibamb.udm.beans.Device;
 
 import java.util.List;
 
@@ -71,7 +71,7 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
         deviceIP.setText(deviceInfo.getIp());
         deviceMac.setText(deviceInfo.getMac());
         deviceName.setText(deviceInfo.getDeviceName());
-        deviceProfile.setText(deviceInfo.getIp()+" | "+deviceInfo.getMac().toUpperCase()+" | V1.2.9.R3");
+        deviceProfile.setText(deviceInfo.getIp()+" | "+deviceInfo.getMac().toUpperCase()+" | "+deviceInfo.getFirmwareVersion());
 
         return view;
 

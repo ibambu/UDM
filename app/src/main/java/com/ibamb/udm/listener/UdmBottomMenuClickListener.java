@@ -45,9 +45,8 @@ public class UdmBottomMenuClickListener implements View.OnClickListener {
             case R.id.tab_device_list:
                 resetSelectState();
                 tabDeviceList.setSelected(true);
-                System.out.println("default id is 1:"+defultFragment.getId());
                 if (defultFragment == null) {
-                    defultFragment = DeviceSearchListFragment.newInstance("第一个Fragment");
+                    defultFragment = DeviceSearchListFragment.newInstance("KEEP FRAGMENT");
                     transaction.add(R.id.fragment_container, defultFragment);
                 } else {
                     transaction.show(defultFragment);
@@ -55,11 +54,10 @@ public class UdmBottomMenuClickListener implements View.OnClickListener {
                 break;
 
             case R.id.tab_setting:
-                System.out.println("default id is 2:"+defultFragment.getId());
                 resetSelectState();
                 tabAppSetting.setSelected(true);
                 if (f4 == null) {
-                    f4 = BlankFragment.newInstance("第四个Fragment", null);
+                    f4 = BlankFragment.newInstance("KEEP FRAGMENT", null);
                     transaction.add(R.id.fragment_container, f4);
                 } else {
                     transaction.show(f4);

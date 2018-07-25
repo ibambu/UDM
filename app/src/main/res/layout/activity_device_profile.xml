@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,26 +8,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/udm_base_bgcolor">
+        android:background="@color/udm_base_bgcolor"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <include layout="@layout/top_title_nav" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/anchor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginTop="20dp"
+            android:orientation="vertical"
             android:theme="@style/udm_device_profile_style">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_columnSpan="3"
-                android:layout_rowSpan="1"
                 android:background="@android:color/white">
 
                 <TextView
@@ -36,20 +37,44 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:height="60dp"
-                    android:gravity="left|center"
+                    android:height="70dp"
                     android:drawableLeft="@mipmap/ic_action_laptop"
                     android:drawablePadding="@dimen/fab_margin"
-                    android:text="Host" />
+                    android:gravity="left|center"
+                    android:text="" />
 
-                <TextView
-                    android:id="@+id/host_ip"
+                <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_weight="4"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:height="60dp"
-                    android:gravity="left|center" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/device_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:height="30dp"
+                        android:textStyle="bold"
+                        android:text=""
+                        android:textSize="13dp"
+                        android:gravity="left|center" />
+                    <TextView
+                        android:id="@+id/host_ip_mac"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:height="20dp"
+                        android:textSize="13dp"
+                        android:gravity="left|center" />
+                    <TextView
+                        android:id="@+id/host_firmware_version"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:height="20dp"
+                        android:textSize="13dp"
+                        android:gravity="left|center" />
+                </LinearLayout>
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,6 +92,7 @@
                     android:drawablePadding="@dimen/fab_margin"
                     android:gravity="left|center"
                     android:text="Basic Setting" />
+
                 <ImageView
                     android:id="@+id/profile_access_more"
                     android:layout_width="0dp"
@@ -75,6 +101,7 @@
                     android:scaleType="fitEnd"
                     android:src="@mipmap/ic_right_navg" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,6 +128,7 @@
                     android:scaleType="fitEnd"
                     android:src="@mipmap/ic_right_navg" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -147,6 +175,7 @@
                     android:drawablePadding="@dimen/fab_margin"
                     android:gravity="left|center"
                     android:text="Time Server" />
+
                 <ImageView
                     android:id="@+id/profile_other_more"
                     android:layout_width="0dp"
@@ -161,6 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@android:color/white">
+
                 <TextView
                     android:id="@+id/profile_save_reboot"
                     android:layout_width="0dp"
@@ -174,11 +204,13 @@
                     android:text="Save with Reboot" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@android:color/white">
+
                 <TextView
                     android:id="@+id/profile_synchronize"
                     android:layout_width="0dp"

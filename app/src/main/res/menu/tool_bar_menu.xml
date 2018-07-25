@@ -67,6 +67,11 @@
                     android:title="Device Sync Report"
                     app:showAsAction="never" />
                 <item
+                    android:id="@+id/app_about"
+                    android:icon="@mipmap/ic_action_info"
+                    android:title="About"
+                    app:showAsAction="never" />
+                <item
                     android:id="@+id/id_menu_exit"
                     android:icon="@mipmap/ic_action_io"
                     android:title="Exit"

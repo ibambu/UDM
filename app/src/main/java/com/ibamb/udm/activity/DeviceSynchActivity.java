@@ -200,11 +200,12 @@ public class DeviceSynchActivity extends AppCompatActivity {
 
     }
 
-    public void onProgressChanged(int successCount,int failCount,String syncTime) {
+    public void onProgressChanged(int successCount,int failCount,String syncTime,int targetCount) {
         //更新UI进度
         progressBar.setProgress(successCount+failCount);
         successInfo.setText("SUCCESS: "+String.valueOf(successCount));
         failInfo.setText("FAIL: "+String.valueOf(failCount));
+        allItems.setText("ALL: "+String.valueOf(targetCount));
         if(failCount>0){
             failInfo.setTextColor(Color.RED);
         }
@@ -281,7 +282,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
             int targetCount = intent.getIntExtra("TARGET_DEVICE_NUMBER", 0);
             String synchTime = intent.getStringExtra("SYNCH_TIME");
                 progressBar.setMax(targetCount);
-                onProgressChanged(successCount,failCount,synchTime);
+                onProgressChanged(successCount,failCount,synchTime,targetCount);
                 /**
                  * 写同步报告
                  */

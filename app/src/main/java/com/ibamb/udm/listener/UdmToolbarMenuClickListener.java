@@ -2,13 +2,10 @@ package com.ibamb.udm.listener;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
@@ -21,7 +18,6 @@ import com.ibamb.udm.task.DeviceSearchAsyncTask;
 
 /**
  * APP顶部导航菜单点击事件监听器
- * Created by luotao on 18-4-14.
  */
 
 public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListener {
@@ -61,7 +57,9 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
         } else if (menuItemId == R.id.id_menu_join_cloud) {
 
         } else if (menuItemId == R.id.id_spec_search) {
-
+            View mainView = activity.getWindow().getDecorView();
+            TextView bottomTtile = mainView.findViewById(R.id.tab_device_list);
+            bottomTtile.setText("Device List");
             Intent intent = new Intent(activity, SpeciallySearchActivity.class);
             activity.startActivityForResult(intent, 1);
 
@@ -77,9 +75,10 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
 
         }else if (menuItemId == R.id.global_search) {
             View mainView = activity.getWindow().getDecorView();
-            ListView mListView =  mainView.findViewById(R.id.search_device_list);
-            TextView vSearchNotice = mainView.findViewById(R.id.search_notice_info);
-            DeviceSearchAsyncTask task = new DeviceSearchAsyncTask(mListView,vSearchNotice, null);
+            mainView.findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
+            TextView bottomTtile = mainView.findViewById(R.id.tab_device_list);
+            bottomTtile.setText("Device List");
+            DeviceSearchAsyncTask task = new DeviceSearchAsyncTask();
             task.setActivity(activity);
             task.setSupportFragmentManager(fragmentManager);
             task.execute();

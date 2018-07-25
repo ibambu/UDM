@@ -7,12 +7,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.module.beans.DeviceInfo;
-import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.file.FileDownLoad;
 import com.ibamb.udm.module.task.UpgradeTask;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,7 +18,7 @@ import java.util.zip.ZipFile;
 
 public class DeviceUpgradeService extends Service {
 
-    public ArrayList<DeviceInfo> deviceInfos;//升级的设备列表
+    public ArrayList<DeviceModel> deviceInfos;//升级的设备列表
 
     private ZipFile upradePatch;//升级包,Zip格式。
 
@@ -52,7 +50,7 @@ public class DeviceUpgradeService extends Service {
              */
             deviceInfos = new ArrayList<>();
             for(int i=0;i<100;i++){
-                deviceInfos.add(new DeviceInfo("192.168.0.110",""));
+                deviceInfos.add(new DeviceModel("192.168.0.110",""));
             }
             if (deviceInfos != null && !deviceInfos.isEmpty()) {
                 /**
@@ -63,7 +61,7 @@ public class DeviceUpgradeService extends Service {
                 //线程并发执行升级，并发数 5.
                 LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
                 ExecutorService pool = Executors.newFixedThreadPool(5);
-                for (DeviceInfo device : deviceInfos) {
+                for (DeviceModel device : deviceInfos) {
                     UpgradeTask upgradeTask = new UpgradeTask(broadcastManager,device, upradePatch);
                     pool.submit(upgradeTask);
                 }

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SyncReportListAdapter;
-import com.ibamb.udm.component.LoginComponet;
+import com.ibamb.udm.component.LoginComponent;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 
 import java.util.ArrayList;
@@ -86,10 +86,10 @@ public class SyncFailFragment extends Fragment {
                     //绑定登录设备事件。
                     String mac = macView.getText().toString();
                     String ip = ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
-                    LoginComponet loginComponet = new LoginComponet(getActivity(), mac, ip);
-                    loginComponet.setToProfile(true);
-                    loginComponet.setSyncMenuEnabled(isSyncMenuEnabled);
-                    loginComponet.login();
+                    LoginComponent loginComponent = new LoginComponent(getActivity(), mac, ip);
+                    loginComponent.setToProfile(true);
+                    loginComponent.setSyncMenuEnabled(isSyncMenuEnabled);
+                    loginComponent.login();
                 }
             });
         }

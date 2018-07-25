@@ -1,6 +1,6 @@
 package com.ibamb.udm.module.core;
 
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.beans.ParameterItem;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ContextData {
     private static ContextData contextData;
-    private static ArrayList<DeviceInfo> deviceInfos;
+    private static ArrayList<DeviceModel> deviceInfos;
     private static Map<String, List<ParameterItem>> changedParamMap;//有改动的参数列表
     private static byte id;//socket 通信序列号
 
@@ -18,9 +18,6 @@ public class ContextData {
         return id++;
     }
 
-    public List<ParameterItem> getChangedParam(String mac) {
-        return changedParamMap.get(mac);
-    }
 
     public void addChangedParam(String mac, ParameterItem parameterItem) {
         List<ParameterItem> parameterItems = changedParamMap.get(mac);
@@ -51,14 +48,14 @@ public class ContextData {
     }
 
     public synchronized void cleanChecked() {
-        for (DeviceInfo device : deviceInfos) {
+        for (DeviceModel device : deviceInfos) {
             device.setChecked(false);
         }
     }
 
     public synchronized int getCheckedItems() {
         int count = 0;
-        for (DeviceInfo device : deviceInfos) {
+        for (DeviceModel device : deviceInfos) {
             if (device.isChecked()) {
                 count++;
             }
@@ -70,14 +67,14 @@ public class ContextData {
         return getCheckedItems() == deviceInfos.size();
     }
 
-    public synchronized ArrayList<DeviceInfo> getDataInfos() {
+    public synchronized ArrayList<DeviceModel> getDataInfos() {
         return deviceInfos;
     }
 
-    public synchronized void addDevice(DeviceInfo deviceInfo) {
+    public synchronized void addDevice(DeviceModel deviceInfo) {
         if (deviceInfo != null) {
             boolean isExists = false;
-            for (DeviceInfo device : deviceInfos) {
+            for (DeviceModel device : deviceInfos) {
                 if (device.getMac().equalsIgnoreCase(deviceInfo.getMac())) {
                     isExists = true;
                     break;
@@ -93,19 +90,32 @@ public class ContextData {
         deviceInfos.clear();
     }
 
-    public synchronized void addAllDevice(ArrayList<DeviceInfo> deviceInfoList) {
+    public synchronized void addAllDevice(ArrayList<DeviceModel> deviceInfoList) {
         deviceInfos.addAll(deviceInfoList);
     }
 
-    public synchronized void removeDevice(DeviceInfo deviceInfo) {
+    public synchronized void removeDevice(DeviceModel deviceInfo) {
         if (deviceInfo != null) {
             for (int i = 0; i < deviceInfos.size(); i++) {
-                DeviceInfo device = deviceInfos.get(i);
+                DeviceModel device = deviceInfos.get(i);
                 if (device.getMac().equalsIgnoreCase(deviceInfo.getMac())) {
                     deviceInfos.remove(i);
                     break;
                 }
             }
         }
+    }
+
+    public synchronized DeviceModel getDevice(String mac){
+        DeviceModel deviceModel = null;
+        if(deviceInfos!=null){
+            for(DeviceModel deviceModel1:deviceInfos){
+                if(deviceModel1.getMac().equalsIgnoreCase(mac)){
+                    deviceModel = deviceModel1;
+                    break;
+                }
+            }
+        }
+        return deviceModel;
     }
 }

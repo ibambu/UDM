@@ -2,7 +2,6 @@ package com.ibamb.udm.util;
 
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Switch;
 
 import com.ibamb.udm.R;
@@ -20,9 +19,6 @@ import com.ibamb.udm.tag.UdmSpinner;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by luotao on 18-4-21.
- */
 
 public class ViewElementDataUtil {
 
@@ -46,9 +42,9 @@ public class ViewElementDataUtil {
                 switch (elementType) {
                     case Constants.UDM_UI_SPECIAL:
                         if ("CONN_NET_PROTOCOL".equalsIgnoreCase(paramdef.getViewTagId())) {
-                            RadioButton tcp = view.findViewById(R.id.tcp_mode_radio_btn);
-                            RadioButton udp = view.findViewById(R.id.udp_mode_radio_btn);
-                            RadioButton both = view.findViewById(R.id.tcp_udp_mode_radio_btn);
+                            Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
+                            Switch udp = view.findViewById(R.id.udp_enanbled_switch);
+                            Switch both = view.findViewById(R.id.tcp_udp_enanbled_switch);
 
                             if (tcp != null && udp != null & both!=null ) {
                                 if ("0".equalsIgnoreCase(value)) {
@@ -141,9 +137,9 @@ public class ViewElementDataUtil {
             switch (vElementType) {
                 case Constants.UDM_UI_SPECIAL:
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
-                        RadioButton tcp = view.findViewById(R.id.tcp_mode_radio_btn);
-                        RadioButton udp = view.findViewById(R.id.udp_mode_radio_btn);
-                        RadioButton both = view.findViewById(R.id.tcp_udp_mode_radio_btn);
+                        Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
+                        Switch udp = view.findViewById(R.id.udp_enanbled_switch);
+                        Switch both = view.findViewById(R.id.tcp_udp_enanbled_switch);
                         if (tcp != null && udp != null & both!=null) {
                             if (both.isChecked()) {
                                 value = "2";

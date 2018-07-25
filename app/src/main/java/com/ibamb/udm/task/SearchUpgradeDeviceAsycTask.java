@@ -9,20 +9,20 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.DeviceListAdapter;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.search.DeviceSearch;
 
 import java.util.ArrayList;
 
-public class SearchUpgradeDeviceAsycTask extends AsyncTask<String, String, ArrayList<DeviceInfo>> {
+public class SearchUpgradeDeviceAsycTask extends AsyncTask<String, String, ArrayList<DeviceModel>> {
     private ListView mListView;
     private LayoutInflater inflater;
-    private ArrayList<DeviceInfo> deviceList;
+    private ArrayList<DeviceModel> deviceList;
     private TextView vSearchNotice;
 
     @Override
-    protected ArrayList<DeviceInfo> doInBackground(String... strings) {
+    protected ArrayList<DeviceModel> doInBackground(String... strings) {
         if (deviceList != null) {
             deviceList.clear();
         }
@@ -42,7 +42,7 @@ public class SearchUpgradeDeviceAsycTask extends AsyncTask<String, String, Array
     }
 
     @Override
-    protected void onPostExecute(ArrayList<DeviceInfo> deviceInfos) {
+    protected void onPostExecute(ArrayList<DeviceModel> deviceInfos) {
         super.onPostExecute(deviceInfos);
         mListView.setVisibility(View.VISIBLE);
         ListAdapter adapter = new DeviceListAdapter(R.layout.device_upgrade_item_layout, inflater, deviceList,null,null);

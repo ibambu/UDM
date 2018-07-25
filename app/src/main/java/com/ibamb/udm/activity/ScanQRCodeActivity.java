@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.android.Intents;
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.LoginComponet;
+import com.ibamb.udm.component.LoginComponent;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.util.BitmapUtil;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -84,10 +84,10 @@ public class ScanQRCodeActivity extends AppCompatActivity {
             String scanResult = bundle.getString(Intents.Scan.RESULT);
             if(isMac(scanResult)){
                 resultTextView.setText("");
-                LoginComponet loginComponet = new LoginComponet(this,scanResult,null);
-                loginComponet.setToProfile(true);
-                loginComponet.setSyncMenuEnabled(true);
-                loginComponet.login();
+                LoginComponent loginComponent = new LoginComponent(this,scanResult,null);
+                loginComponent.setToProfile(true);
+                loginComponent.setSyncMenuEnabled(true);
+                loginComponent.login();
             }else{
                 resultTextView.setText(scanResult);
             }

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.LoginComponet;
+import com.ibamb.udm.component.LoginComponent;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.IParamReader;
@@ -55,9 +55,9 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
         //更新界面数据
         String notice = "";
         if(channelParameter.isNoPermission()){
-            LoginComponet loginComponet = new LoginComponet(activity,channelParameter.getMac(),channelParameter.getIp());
-            loginComponet.setToProfile(false);
-            loginComponet.login();
+            LoginComponent loginComponent = new LoginComponent(activity,channelParameter.getMac(),channelParameter.getIp());
+            loginComponent.setToProfile(false);
+            loginComponent.login();
         }else{
             if(!channelParameter.isSuccessful()){
                 notice = "Possible network delay. Please click title try again.";

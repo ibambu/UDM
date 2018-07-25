@@ -76,7 +76,7 @@ public class Constants {
     public static final String INFO_FAIL = "fail";
     public static final String INFO_READ_PARAM_FAIL = "Possible network delay. Please click title try again.";
     public static final String INFO_SEARCH_PROGRESS = "searching...";
-    public static final String INFO_SEARCH_FAIL = "Possible network delay. Please try again.";
+    public static final String INFO_SEARCH_FAIL = "Device not found, Please try again.";
     public static final String INFO_LOGIN_FAIL = "login fail,try again.";
 
     public static final int FLAG_SPECIALLY_SEARCH = 1;
@@ -112,6 +112,7 @@ public class Constants {
     public static final String SYNC_NO_DATA_REPLY = "no-response";
     public static final String SYNC_VALUE_INVALID = "value invalid";
     public static final String SYNC_UNKNOWN_ERROR = "unknown error";
+    public static final String SYNC_SAVE_REBOOT_FAIL = "save&reboot fail";
     public static final String SYNC_AUTH_FAIL = "auth fail";
 
 }

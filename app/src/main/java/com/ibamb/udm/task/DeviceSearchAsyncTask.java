@@ -6,17 +6,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SearchDeviceListPagerAdapter;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
-import com.ibamb.udm.module.beans.Device;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.beans.Device;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.search.DeviceSearch;
 
@@ -24,11 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<DeviceInfo>> {
+public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<DeviceModel>> {
 
     private Activity activity;
     private FragmentManager supportFragmentManager;
-    private ArrayList<DeviceInfo> deviceList;
+    private ArrayList<DeviceModel> deviceList;
 
     public void setActivity(Activity activity) {
         this.activity = activity;
@@ -45,7 +45,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
      * @return
      */
     @Override
-    protected ArrayList<DeviceInfo> doInBackground(String... strings) {
+    protected ArrayList<DeviceModel> doInBackground(String... strings) {
         if (deviceList != null) {
             deviceList.clear();
         }
@@ -75,26 +75,30 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
      * @param dataList
      */
     @Override
-    protected void onPostExecute(ArrayList<DeviceInfo> dataList) {
-        super.onPostExecute(dataList);
+    protected void onPostExecute(ArrayList<DeviceModel> dataList) {
 
-        int maxRows = 50;
+        super.onPostExecute(dataList);
 
         List<String> titles = new ArrayList<>();
         List<Fragment> fragmentList = new ArrayList<>();
         View mainView = activity.getWindow().getDecorView();
         TabLayout tabLayout = mainView.findViewById(R.id.device_list_tab);
         ViewPager viewPager = mainView.findViewById(R.id.device_list_pager);
+        LinearLayout tabLineLayout = mainView.findViewById(R.id.tab_line_layout);
 
+        List<Device> allDeviceList = new ArrayList<>();
+        for(DeviceModel deviceInfo :dataList){
+            Device device = Device.toDevice(deviceInfo);
+            allDeviceList.add(device);
+        }
+        /**
+         * 分页展现搜索到的设备
+         */
         int fromIndex =0;
         int endIndex = 0;
         int pageCount = 0;
-        List<Device> allDeviceList = new ArrayList<>();
-        for(DeviceInfo deviceInfo :dataList){
-            Device device = deviceInfo.toDevice();
-            allDeviceList.add(device);
-        }
-        while(fromIndex < dataList.size()) {
+        int maxRows = 50;
+        while(fromIndex < allDeviceList.size()) {
             if(endIndex+maxRows>dataList.size()){
                 endIndex = dataList.size();
             }else{
@@ -102,7 +106,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
             }
             pageCount++;
             List<Device> onePageData = allDeviceList.subList(fromIndex,endIndex);
-            fromIndex += maxRows;
+            fromIndex = endIndex;
             String page = String.valueOf(pageCount);
             TabLayout.Tab tab = tabLayout.newTab();
             tab.setText(page);
@@ -115,7 +119,6 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
             if(deviceInfoBuffer.length()>0){
                 deviceInfoBuffer.deleteCharAt(deviceInfoBuffer.length()-1);
             }
-
             fragmentList.add(DeviceSearchListFragment.newInstance(deviceInfoBuffer.toString()));
         }
         if(pageCount<2){
@@ -133,8 +136,9 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         SearchDeviceListPagerAdapter adapter = new SearchDeviceListPagerAdapter(supportFragmentManager,titles,fragmentList);
         viewPager.setAdapter(adapter);
 
-
-
+        /**
+         * 搜索结果提示信息
+         */
         String notice = "";
         if (dataList.size() == 0) {
             notice = Constants.INFO_SEARCH_FAIL;
@@ -146,7 +150,9 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         if(dataList.size()>0){
             vDeviceList.setText("Device List("+dataList.size()+")");
         }
-//        vSearchNotice.setVisibility(View.GONE);
+        ProgressBar progressbar = mainView.findViewById(R.id.search_progress_bar);
+        progressbar.setVisibility(View.GONE);
+        tabLineLayout.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -157,9 +163,9 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
+        View mainView = activity.getWindow().getDecorView();
+        ProgressBar progressbar = mainView.findViewById(R.id.search_progress_bar);
+        progressbar.setVisibility(View.VISIBLE);
     }
 
-    public DeviceSearchAsyncTask(ListView mListView, TextView vSearchNotice, LayoutInflater inflater) {
-
-    }
 }

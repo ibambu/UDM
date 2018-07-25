@@ -3,7 +3,7 @@ package com.ibamb.udm.module.task;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.beans.RetMessage;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.file.FileRemoteTransfer;
@@ -23,7 +23,7 @@ import java.util.zip.ZipFile;
 
 public class UpgradeTask implements Callable {
     private ZipFile upgradePatch;//升级包中的数据文件。
-    private DeviceInfo device;//升级设备
+    private DeviceModel device;//升级设备
 
     private Socket socket;//套接字
     private DataInputStream dataReader;//数据读
@@ -31,7 +31,7 @@ public class UpgradeTask implements Callable {
 
     private LocalBroadcastManager broadcastManager;
 
-    public UpgradeTask(LocalBroadcastManager broadcastManager,DeviceInfo device, ZipFile upgradePatch) {
+    public UpgradeTask(LocalBroadcastManager broadcastManager, DeviceModel device, ZipFile upgradePatch) {
         this.upgradePatch = upgradePatch;
         this.device = device;
         this.broadcastManager = broadcastManager;

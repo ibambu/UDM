@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.DeviceListAdapter;
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -31,7 +31,7 @@ public class DeviceListActivity extends AppCompatActivity {
     private ImageView back;
 
     private ListAdapter adapter;
-    private ArrayList<DeviceInfo> deviceInfos;
+    private ArrayList<DeviceModel> deviceInfos;
 
     private Button actionButton;
 
@@ -54,7 +54,7 @@ public class DeviceListActivity extends AppCompatActivity {
          */
         String currentMac = intent.getStringExtra("CURRENT_MAC");
         deviceInfos = new ArrayList();
-        for(DeviceInfo deviceInfo:contextData.getDataInfos()){
+        for(DeviceModel deviceInfo:contextData.getDataInfos()){
             if(deviceInfo.getMac().equalsIgnoreCase(currentMac)){
 //                continue;
             }
@@ -84,13 +84,13 @@ public class DeviceListActivity extends AppCompatActivity {
                 ContextData contextData = ContextData.getInstance();
                 if (!contextData.isCheckAll()) {
 
-                    for (DeviceInfo deviceInfo : deviceInfos) {
+                    for (DeviceModel deviceInfo : deviceInfos) {
                         deviceInfo.setChecked(true);
                     }
                     checkAll.setText("Cancel All");
                 } else {
 
-                    for (DeviceInfo deviceInfo : deviceInfos) {
+                    for (DeviceModel deviceInfo : deviceInfos) {
                         deviceInfo.setChecked(false);
                     }
                     checkAll.setText("Check All");
@@ -130,7 +130,7 @@ public class DeviceListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CheckBox checkBox = view.findViewById(R.id.common_check_box);
-                DeviceInfo deviceInfo = deviceInfos.get(position);
+                DeviceModel deviceInfo = deviceInfos.get(position);
                 if (checkBox.isChecked()) {
                     checkBox.setChecked(false);
                     deviceInfo.setChecked(false);
@@ -150,7 +150,7 @@ public class DeviceListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 StringBuilder seleteDeviceBuffer = new StringBuilder();
-                for(DeviceInfo deviceInfo:deviceInfos){
+                for(DeviceModel deviceInfo:deviceInfos){
                     if(deviceInfo.isChecked()){
                         selectedCount ++;
                         seleteDeviceBuffer.append(deviceInfo.getIp()).append("#").append(deviceInfo.getMac()).append(",");

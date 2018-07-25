@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
-import com.ibamb.udm.component.LoginComponet;
-import com.ibamb.udm.module.beans.Device;
+import com.ibamb.udm.component.LoginComponent;
+import com.ibamb.udm.beans.Device;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +38,11 @@ public class DeviceSearchListFragment extends Fragment {
             //绑定登录设备事件。
             String mac = macView.getText().toString();
             String ip= ((TextView) view.findViewById(R.id.device_ip)).getText().toString();
-            LoginComponet loginComponet = new LoginComponet(getActivity(),mac,ip);
-            loginComponet.setToProfile(true);
-            loginComponet.setSyncMenuEnabled(true);
-            loginComponet.setDeviceName("");
-            loginComponet.login();
+            LoginComponent loginComponent = new LoginComponent(getActivity(),mac,ip);
+            loginComponent.setToProfile(true);
+            loginComponent.setSyncMenuEnabled(true);
+            loginComponent.setDeviceName("");
+            loginComponent.login();
         }
     };
 
@@ -61,13 +61,18 @@ public class DeviceSearchListFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARG_DEVICE_LIST,deviceInfo);
         fragment.setArguments(args);
-
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         if (getArguments() != null) {
             dataList = new ArrayList<>();
             String allDeviceInfo = getArguments().getString(ARG_DEVICE_LIST);
@@ -87,15 +92,10 @@ public class DeviceSearchListFragment extends Fragment {
                 }
             }
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_device_search_list, container, false);
         mListView = view.findViewById(R.id.search_device_list);
-        ListAdapter adapterData = new InetAddressListAdapter(R.layout.item_device_layout, inflater, dataList);
+        ListAdapter adapterData =   new InetAddressListAdapter(R.layout.item_device_layout, inflater, dataList);
+
         mListView.setAdapter(adapterData);
         //给列表项添加点击事件，触发登录设备。
         mListView.setOnItemClickListener(itemOnclickListener);
@@ -112,6 +112,4 @@ public class DeviceSearchListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
-
-
 }

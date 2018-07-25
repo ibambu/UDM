@@ -1,6 +1,6 @@
 package com.ibamb.udm.module.search;
 
-import com.ibamb.udm.module.beans.DeviceInfo;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.core.ContextData;
@@ -18,19 +18,19 @@ import java.util.Arrays;
 
 public class DeviceSearch {
 
-    public static ArrayList<DeviceInfo> searchDevice(String keyword) {
+    public static ArrayList<DeviceModel> searchDevice(String keyword) {
         DatagramSocket datagramSocket = null;
-        ArrayList<DeviceInfo> deviceList = new ArrayList<>();
-        for(int i=10;i<250;i++){
+        ArrayList<DeviceModel> deviceList = new ArrayList<>();
+        for (int i = 100; i < 250; i++) {
 
-            DeviceInfo test = new DeviceInfo("192.168.0.110","aa:3d:3f:aa:"+i+":5c");
+            DeviceModel test = new DeviceModel("192.168.0.110", "aa:3d:3f:aa:" + i + ":5c");
             test.setDeviceName("No Device Name");
-            test.setIndex(deviceList.size()+1);
-            if(keyword!=null && keyword.trim().length()>0){
-                if(test.getMac().contains(keyword)||test.getIp().contains(keyword)){
+            test.setIndex(deviceList.size() + 1);
+            if (keyword != null && keyword.trim().length() > 0) {
+                if (test.getMac().contains(keyword) || test.getIp().contains(keyword) || test.getDeviceName().contains(keyword)) {
                     deviceList.add(test);
                 }
-            }else{
+            } else {
                 deviceList.add(test);
             }
         }
@@ -80,26 +80,28 @@ public class DeviceSearch {
             while (!datagramSocket.isConnected()) {
                 datagramSocket.receive(recevPacket);
                 byte[] replyData = recevPacket.getData();
-                DeviceInfo deviceInfo = parse(replyData);
-                if(deviceInfo==null){
+                DeviceModel deviceInfo = parse(replyData);
+                if (deviceInfo == null) {
                     continue;
                 }
-                deviceInfo.setIndex(deviceList.size()+1);
+                deviceInfo.setIndex(deviceList.size() + 1);
                 boolean isExists = false;
-                for(DeviceInfo deviceInfo1:deviceList){
+                for (DeviceModel deviceInfo1 : deviceList) {
                     //如果重复搜索到设备则过滤掉。
-                    if(deviceInfo1.getMac().equalsIgnoreCase(deviceInfo.getMac())){
+                    if (deviceInfo1.getMac().equalsIgnoreCase(deviceInfo.getMac())) {
                         isExists = true;
                         break;
                     }
                 }
                 if (!isExists) {
-                    if(keyword!=null && keyword.trim().length()>0){
-                        //如果ip 或者mac 匹配上关键字，则返回该设备。
-                        if((deviceInfo.getIp().contains(keyword) || deviceInfo.getMac().contains(keyword))){
+                    if (keyword != null && keyword.trim().length() > 0) {
+                        //如果ip 或者mac ,device name匹配上关键字，则返回该设备。
+                        if ((deviceInfo.getIp().contains(keyword)
+                                || deviceInfo.getMac().contains(keyword))
+                                || deviceInfo.getDeviceName().contains(keyword)) {
                             deviceList.add(deviceInfo);
                         }
-                    }else{
+                    } else {
                         deviceList.add(deviceInfo);
                     }
                 }
@@ -116,6 +118,7 @@ public class DeviceSearch {
                 datagramSocket.close();
             }
         }
+
         //将搜索到的内容存放到上下文数据中对象中。
         ContextData contextData = ContextData.getInstance();
         contextData.cleanDeviceList();
@@ -125,13 +128,14 @@ public class DeviceSearch {
 
     /**
      * 解析帧获取设备信息。
+     *
      * @param data
      * @return
      */
-    private static DeviceInfo parse(byte[] data) {
+    private static DeviceModel parse(byte[] data) {
         //解析一帧
-        DeviceInfo devinfo = null;
-        try{
+        DeviceModel devinfo = null;
+        try {
             byte control = data[0];//返回值
             if (control == Control.ACKNOWLEDGE) {
                 byte id = data[1];//通信编号
@@ -142,7 +146,7 @@ public class DeviceSearch {
                     byte[] ipValue = Arrays.copyOfRange(data, 7, 11);//IP地址
                     StringBuilder ipBuffer = new StringBuilder();
                     for (int i = 0; i < ipValue.length; i++) {
-                        String tempIp = String.valueOf(((int)ipValue[i])&0xff);
+                        String tempIp = String.valueOf(((int) ipValue[i]) & 0xff);
                         ipBuffer.append(tempIp).append(".");
                     }
                     ipBuffer.deleteCharAt(ipBuffer.length() - 1);
@@ -158,28 +162,29 @@ public class DeviceSearch {
                     //device name
                     byte[] deviceNameBytes = Arrays.copyOfRange(data, 23, 53);
                     StringBuilder deviceNameBuffer = new StringBuilder();
-                    for(int k=0;k<deviceNameBytes.length;k++){
-                        if(deviceNameBytes[k]!=0){
-                            char c = (char)deviceNameBytes[k];
+                    for (int k = 0; k < deviceNameBytes.length; k++) {
+                        if (deviceNameBytes[k] != 0) {
+                            char c = (char) deviceNameBytes[k];
                             deviceNameBuffer.append(c);
-                        }}
+                        }
+                    }
                     String deviceName = deviceNameBuffer.toString().trim();
-                    deviceName = deviceName.length()==0?"No Device Name":deviceName;
+                    deviceName = deviceName.length() == 0 ? "No Device Name" : deviceName;
 
                     //device sn
                     byte[] deviceSNBytes = Arrays.copyOfRange(data, 56, 80);//device sn
                     StringBuilder deviceSnBuffer = new StringBuilder();
-                    for(int k=0;k<deviceSNBytes.length;k++){
-                        if(deviceSNBytes[k]!=0){
-                            char c = (char)deviceSNBytes[k];
+                    for (int k = 0; k < deviceSNBytes.length; k++) {
+                        if (deviceSNBytes[k] != 0) {
+                            char c = (char) deviceSNBytes[k];
                             deviceSnBuffer.append(c);
                         }
                     }
-                    devinfo = new DeviceInfo(ipBuffer.toString(), macBuffer.toString());
+                    devinfo = new DeviceModel(ipBuffer.toString(), macBuffer.toString());
                     devinfo.setDeviceName(deviceName);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return devinfo;

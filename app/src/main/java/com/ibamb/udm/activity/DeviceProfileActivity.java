@@ -1,6 +1,5 @@
 package com.ibamb.udm.activity;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,11 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.udm.module.core.ContextData;
 import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -51,6 +52,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private String channelId = "0";
     private String selectedChannleId;
 
+    private TextView hostName;
+    private TextView hostIpMac;
+    private TextView hostFirmwareVersion;
+
 
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
@@ -80,10 +85,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     /**
                      * 如果支持多个通道，择弹出通道列表界面供选择。
                      */
-                    if(supportedChannels.length==1){
+                    if (supportedChannels.length == 1) {
                         params.putString("CHNL_ID", supportedChannels[0]);
-                        selectedChannleId =  supportedChannels[0];
-                    }else{
+                        selectedChannleId = supportedChannels[0];
+                    } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Select Channel");
                         int checkItemIdx = 0;
@@ -98,7 +103,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 params.putString("CHNL_ID", supportedChannels[which]);
-                                selectedChannleId =  supportedChannels[which];
+                                selectedChannleId = supportedChannels[which];
                                 dialog.dismiss();
                             }
                         });
@@ -142,19 +147,21 @@ public class DeviceProfileActivity extends AppCompatActivity {
         ip = bundle.getString("HOST_ADDRESS");
         mac = bundle.getString("HOST_MAC");
 
+        hostName = findViewById(R.id.device_name);
+        hostIpMac = findViewById(R.id.host_ip_mac);
+        hostFirmwareVersion = findViewById(R.id.host_firmware_version);
 
         boolean syncEnabled = bundle.getBoolean("SYNC_ENABLED");
-        if(!syncEnabled){
+        if (!syncEnabled) {
             findViewById(R.id.profile_synchronize).setVisibility(View.GONE);
         }
 
-        TextView vIp = findViewById(R.id.host_ip);
-        if(ip==null){
-            vIp.setText(mac.toUpperCase());
-        }else{
-            vIp.setText(ip + " / " + mac.toUpperCase());
+        DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
+        if (deviceModel != null) {
+            hostName.setText("Device Name:"+deviceModel.getDeviceName());
+            hostIpMac.setText("Address:"+deviceModel.getIp()+" / "+mac.toUpperCase());
+            hostFirmwareVersion.setText("Firmware Version:"+deviceModel.getFirmwareVersion());
         }
-
         back = findViewById(R.id.go_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,26 +211,26 @@ public class DeviceProfileActivity extends AppCompatActivity {
          */
         List<String> confChannels = ParameterMapping.getInstance().getSupportedChannels();
         List<String> supportChannels = new ArrayList<>();
-        ChannelParameter testChannelParams = new ChannelParameter(mac,ip,"-1");
+        ChannelParameter testChannelParams = new ChannelParameter(mac, ip, "-1");
         testChannelParams.setParamItems(new ArrayList<ParameterItem>());
 
-        for(String channelId:confChannels){
-            if(channelId.equals("0")){
+        for (String channelId : confChannels) {
+            if (channelId.equals("0")) {
                 continue;//0 通道是虚拟通道，需要排除。
             }
-            ParameterItem item = new ParameterItem("CONN"+channelId+"_NET_PROTOCOL",null);
+            ParameterItem item = new ParameterItem("CONN" + channelId + "_NET_PROTOCOL", null);
             testChannelParams.getParamItems().add(item);
         }
-        try{
+        try {
             DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(testChannelParams);
             task.execute().get();
-            for(int i=1;i<33;i++){
+            for (int i = 1; i < 33; i++) {
                 String channelId = String.valueOf(i);
-                String paramId = "CONN"+channelId+"_NET_PROTOCOL";
-                for(ParameterItem parameterItem:testChannelParams.getParamItems()){
-                   if(parameterItem.getParamId().equals(paramId)
-                            &&  parameterItem.getParamValue()!=null
-                            &&  parameterItem.getParamValue().trim().length()>0){
+                String paramId = "CONN" + channelId + "_NET_PROTOCOL";
+                for (ParameterItem parameterItem : testChannelParams.getParamItems()) {
+                    if (parameterItem.getParamId().equals(paramId)
+                            && parameterItem.getParamValue() != null
+                            && parameterItem.getParamValue().trim().length() > 0) {
                         supportChannels.add(String.valueOf(channelId));
                     }
                 }
@@ -233,7 +240,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
             for (int i = 0; i < supportChannels.size(); i++) {
                 supportedChannels[i] = supportChannels.get(i);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             UdmLog.error(e);
         }
     }

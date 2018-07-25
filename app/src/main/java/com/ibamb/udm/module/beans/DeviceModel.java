@@ -1,7 +1,9 @@
 
 package com.ibamb.udm.module.beans;
 
-public class DeviceInfo {
+import com.ibamb.udm.beans.Device;
+
+public class DeviceModel {
     private String ip;
     private String mac;
     private String deviceName;
@@ -12,7 +14,7 @@ public class DeviceInfo {
     private boolean isChecked;
 
     public String getDeviceName() {
-        return deviceName;
+        return (deviceName==null||deviceName.trim().length()==0||deviceName.equalsIgnoreCase("null"))?"No device Name":deviceName;
     }
 
     public void setDeviceName(String deviceName) {
@@ -20,7 +22,8 @@ public class DeviceInfo {
     }
 
     public String getFirmwareVersion() {
-        return firmwareVersion;
+        return (firmwareVersion==null||firmwareVersion.equalsIgnoreCase("null")
+                ||firmwareVersion.trim().length()==0)?"unknown version":firmwareVersion;
     }
 
     public void setFirmwareVersion(String firmwareVersion) {
@@ -75,7 +78,7 @@ public class DeviceInfo {
         this.mac = mac;
     }
 
-    public DeviceInfo(String ip, String mac) {
+    public DeviceModel(String ip, String mac) {
         this.ip = ip;
         this.mac = mac;
     }
@@ -85,7 +88,7 @@ public class DeviceInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DeviceInfo that = (DeviceInfo) o;
+        DeviceModel that = (DeviceModel) o;
 
         if (index != that.index) return false;
         if (!ip.equals(that.ip)) return false;
