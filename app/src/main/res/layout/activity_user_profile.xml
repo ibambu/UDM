@@ -377,7 +377,7 @@
                     android:layout_columnSpan="6"
                     android:layout_gravity="fill"
                     android:background="@android:color/white" />
-
+                <!--后续功能扩展再开启-->
                 <Button
                     android:id="@+id/login_cloud_btn"
                     android:layout_width="wrap_content"
@@ -387,7 +387,8 @@
                     android:gravity="center"
                     android:text="Login Cloud"
                     android:textAllCaps="false"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"/>
             </GridLayout>
         </ScrollView>
     </LinearLayout>

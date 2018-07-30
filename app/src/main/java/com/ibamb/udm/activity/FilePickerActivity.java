@@ -1,17 +1,13 @@
 package com.ibamb.udm.activity;
 
 import android.app.Dialog;
-import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.CallbackBundle;
-import com.ibamb.udm.component.OpenFileDialog;
-import com.ibamb.udm.component.PermissionUtils;
+import com.ibamb.udm.component.file.CallbackBundle;
+import com.ibamb.udm.component.file.OpenFileDialog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 

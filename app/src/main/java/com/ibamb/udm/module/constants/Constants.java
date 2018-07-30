@@ -46,6 +46,8 @@ public class Constants {
     public static final String FILE_PARAM_MAPPING_COLUMN_SPLIT = "#";
     //参数同步日志文件
     public static final String FILE_SYNC_TO_OTH_DEVICE_LOG = "device_sync.log";
+    //Guide config file
+    public static final String FILE_GUIDE_CONF = "guide_config.txt";
 
     //APP 运行错误日志
     public static final String FILE_UDM_RUN_ERR_LOG = "run_err.log";

@@ -7,8 +7,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.AESCrypt;
-import com.ibamb.udm.component.FileDirManager;
+import com.ibamb.udm.component.security.AESCrypt;
+import com.ibamb.udm.component.file.FileDirManager;
 import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.security.DefualtECryptValue;

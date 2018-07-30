@@ -21,19 +21,19 @@ public class DeviceSearch {
     public static ArrayList<DeviceModel> searchDevice(String keyword) {
         DatagramSocket datagramSocket = null;
         ArrayList<DeviceModel> deviceList = new ArrayList<>();
-        for (int i = 100; i < 250; i++) {
-
-            DeviceModel test = new DeviceModel("192.168.0.110", "aa:3d:3f:aa:" + i + ":5c");
-            test.setDeviceName("No Device Name");
-            test.setIndex(deviceList.size() + 1);
-            if (keyword != null && keyword.trim().length() > 0) {
-                if (test.getMac().contains(keyword) || test.getIp().contains(keyword) || test.getDeviceName().contains(keyword)) {
-                    deviceList.add(test);
-                }
-            } else {
-                deviceList.add(test);
-            }
-        }
+//        for (int i = 100; i < 250; i++) {
+//
+//            DeviceModel test = new DeviceModel("192.168.0.110", "aa:3d:3f:aa:" + i + ":5c");
+//            test.setDeviceName("No Device Name");
+//            test.setIndex(deviceList.size() + 1);
+//            if (keyword != null && keyword.trim().length() > 0) {
+//                if (test.getMac().contains(keyword) || test.getIp().contains(keyword) || test.getDeviceName().contains(keyword)) {
+//                    deviceList.add(test);
+//                }
+//            } else {
+//                deviceList.add(test);
+//            }
+//        }
         try {
             datagramSocket = new DatagramSocket();
             datagramSocket.setBroadcast(true);

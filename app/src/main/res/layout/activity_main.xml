@@ -6,23 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.ibamb.udm.activity.MainActivity">
 
-    <!--导航栏-->
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:id="@+id/top_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/udm_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/udm_light_black"
-            android:elevation="1dp"
-            android:fitsSystemWindows="true"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-    </android.support.design.widget.AppBarLayout>
-
+        android:orientation="vertical">
+        <include layout="@layout/main_top_menu" />
+    </LinearLayout>
     <ProgressBar
         android:id="@+id/search_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"

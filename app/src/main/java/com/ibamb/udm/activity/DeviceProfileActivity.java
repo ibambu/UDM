@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.guide.MainActivityGuide;
+import com.ibamb.udm.guide.guideview.Guide;
+import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.beans.ParameterItem;
@@ -56,6 +59,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private TextView hostIpMac;
     private TextView hostFirmwareVersion;
 
+    Guide guide;
 
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
         @Override
@@ -200,6 +204,13 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingOther.setOnClickListener(profileMenuClickListener);
         icSettingAccess.setOnClickListener(profileMenuClickListener);
 
+        /*vSettingIP.post(new Runnable() {
+            @Override
+            public void run() {
+                showGuideView();
+            }
+        });*/
+
     }
 
     @Override
@@ -243,5 +254,28 @@ public class DeviceProfileActivity extends AppCompatActivity {
         } catch (Exception e) {
             UdmLog.error(e);
         }
+    }
+
+    public void showGuideView() {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(vSettingIP)
+                .setFullingViewId(R.id.profile_ip_setting)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override public void onShown() {
+            }
+
+            @Override public void onDismiss() {
+            }
+        });
+
+        builder.addComponent(new MainActivityGuide(""));
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show(this);
     }
 }

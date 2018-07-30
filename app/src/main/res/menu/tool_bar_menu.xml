@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/global_search"
-        android:title="search"
-        android:visible="true"
-        android:icon="@mipmap/ic_action_search_white"
-        app:showAsAction="ifRoom"/>
     <!--<item android:id="@+id/udm_search"-->
         <!--android:title="search"-->
         <!--app:showAsAction="always"-->
@@ -21,62 +16,44 @@
         android:showAsAction="ifRoom":icon失效显示图标为“3个竖立的点”
     -->
     <item
-        android:id="@+id/toolbar_r_img"
-        android:title="+"
-        android:icon="@mipmap/ic_action_add_white"
-        app:showAsAction="ifRoom">
-        <!-- item包含menu表示该menu是item下的子菜单 -->
-        <menu>
-            <!-- 将group中的菜单项放于一个组里面 -->
-            <group>
-                <item
-                    android:id="@+id/id_menu_user_profile"
-                    android:icon="@mipmap/ic_action_key"
-                    android:title="User Profile"
-                    app:showAsAction="ifRoom" />
-                <item
-                    android:id="@+id/id_spec_search"
-                    android:icon="@mipmap/ic_action_search"
-                    android:title="Specially Search"
-                    app:showAsAction="ifRoom" />
-                <item
-                    android:id="@+id/id_upgrade_device"
-                    android:icon="@mipmap/ic_action_upload"
-                    android:title="Device Upgrade"
-                    app:showAsAction="ifRoom" />
+        android:id="@+id/id_menu_user_profile"
+        android:icon="@mipmap/ic_action_key"
+        android:title="User Profile"
+        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/id_upgrade_device"-->
+        <!--android:icon="@mipmap/ic_action_upload"-->
+        <!--android:title="Device Upgrade"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <item
+        android:id="@+id/id_menu_or_code"
+        android:icon="@mipmap/ic_action_barcode_2"
+        android:title="Scan QR Code"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/id_load_param_def"
+        android:icon="@mipmap/ic_action_import"
+        android:title="Import Type File"
+        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/id_menu_join_cloud"-->
+        <!--android:icon="@mipmap/ic_action_cloud"-->
+        <!--android:title="Join Cloud"-->
+        <!--app:showAsAction="never" />-->
+    <item
+        android:id="@+id/id_menu_sync_report"
+        android:icon="@mipmap/ic_action_news"
+        android:title="Device Sync Report"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/app_about"
+        android:icon="@mipmap/ic_action_info"
+        android:title="About"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/id_menu_exit"
+        android:icon="@mipmap/ic_action_io"
+        android:title="Exit"
+        app:showAsAction="never" />
 
-                <item
-                    android:id="@+id/id_load_param_def"
-                    android:icon="@mipmap/ic_action_import"
-                    android:title="Import Type File"
-                    app:showAsAction="ifRoom" />
-                <item
-                    android:id="@+id/id_menu_or_code"
-                    android:icon="@mipmap/ic_action_barcode_2"
-                    android:title="Scan QR Code"
-                    app:showAsAction="ifRoom" />
-
-                <item
-                    android:id="@+id/id_menu_join_cloud"
-                    android:icon="@mipmap/ic_action_cloud"
-                    android:title="Join Cloud"
-                    app:showAsAction="never" />
-                <item
-                    android:id="@+id/id_menu_sync_report"
-                    android:icon="@mipmap/ic_action_news"
-                    android:title="Device Sync Report"
-                    app:showAsAction="never" />
-                <item
-                    android:id="@+id/app_about"
-                    android:icon="@mipmap/ic_action_info"
-                    android:title="About"
-                    app:showAsAction="never" />
-                <item
-                    android:id="@+id/id_menu_exit"
-                    android:icon="@mipmap/ic_action_io"
-                    android:title="Exit"
-                    app:showAsAction="never" />
-            </group>
-        </menu>
-    </item>
 </menu>

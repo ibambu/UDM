@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.LoginComponent;
+import com.ibamb.udm.component.login.LoginComponent;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.instruct.IParamReader;

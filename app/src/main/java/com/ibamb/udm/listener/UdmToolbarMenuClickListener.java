@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.activity.AppUpdateActivity;
 import com.ibamb.udm.activity.DeviceSyncReportActivity;
 import com.ibamb.udm.activity.ScanQRCodeActivity;
 import com.ibamb.udm.activity.SpeciallySearchActivity;
@@ -54,26 +55,17 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
             activity.startActivityForResult(intent,-1);
 
 
-        } else if (menuItemId == R.id.id_menu_join_cloud) {
-
-        } else if (menuItemId == R.id.id_spec_search) {
-            View mainView = activity.getWindow().getDecorView();
-            TextView bottomTtile = mainView.findViewById(R.id.tab_device_list);
-            bottomTtile.setText("Device List");
-            Intent intent = new Intent(activity, SpeciallySearchActivity.class);
-            activity.startActivityForResult(intent, 1);
-
-        } else if (menuItemId == R.id.id_load_param_def) {
+        }  else if (menuItemId == R.id.id_load_param_def) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");//设置类型.
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             activity.startActivityForResult(intent,1);
 
-        } else if (menuItemId == R.id.id_upgrade_device) {
+        } /*else if (menuItemId == R.id.id_upgrade_device) {
 //            Intent intent = new Intent(activity, DeviceUpgradeActivity.class);
 //            activity.startActivityForResult(intent, 1);
 
-        }else if (menuItemId == R.id.global_search) {
+        }*/else if (menuItemId == R.id.spec_search_toolbar) {
             View mainView = activity.getWindow().getDecorView();
             mainView.findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
             TextView bottomTtile = mainView.findViewById(R.id.tab_device_list);
@@ -90,6 +82,9 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
         }else if (menuItemId == R.id.id_menu_exit) {
 
             activity.finish();
+        }else if (menuItemId == R.id.app_about) {
+            Intent intent = new Intent(activity,AppUpdateActivity.class);
+            activity.startActivity(intent);
         }
         return true;
     }

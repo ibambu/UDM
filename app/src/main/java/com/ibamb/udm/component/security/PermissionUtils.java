@@ -1,4 +1,4 @@
-package com.ibamb.udm.component;
+package com.ibamb.udm.component.security;
 
 import android.Manifest;
 import android.app.Activity;

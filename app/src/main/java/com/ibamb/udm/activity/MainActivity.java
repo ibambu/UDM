@@ -13,25 +13,28 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.AESCrypt;
-import com.ibamb.udm.component.FileDirManager;
-import com.ibamb.udm.component.FilePathParser;
-import com.ibamb.udm.component.PermissionUtils;
-import com.ibamb.udm.fragment.DeviceSearchListFragment;
-import com.ibamb.udm.listener.UdmToolbarMenuClickListener;
+import com.ibamb.udm.component.file.FileDirManager;
+import com.ibamb.udm.component.file.FilePathParser;
+import com.ibamb.udm.component.guide.MainActivityGuide;
+import com.ibamb.udm.component.security.AESCrypt;
+import com.ibamb.udm.component.security.PermissionUtils;
+import com.ibamb.udm.guide.guideview.Guide;
+import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.core.TryUser;
 import com.ibamb.udm.module.log.UdmLog;
@@ -53,18 +56,20 @@ import java.lang.reflect.Method;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar mToolbar;
     private TextView tabDeviceList;
     private TextView tabSetting;
 
+    private Guide guide;
 
-    private DeviceSearchListFragment searchListFragment;
-
+    private EditText vSearchKeyword;
+    private ImageView vSearchIcon;
+    private String showGuideFlag ="1";
 
     @Override
     protected void onStart() {
         super.onStart();
         FileInputStream inputStream = null;
+
         FileDirManager fileDirManager = new FileDirManager(this);
         try {
             File runErrFile = fileDirManager.getFileByName(Constants.FILE_UDM_RUN_ERR_LOG);
@@ -88,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 String[] tryUsers = content.split("&");
                 TryUser.setTryUser(tryUsers);
             }
+
+
             //初始化应用基础数据
             UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
             initAsyncTask.execute();
@@ -95,12 +102,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             UdmLog.error(e);
         } finally {
-            if (inputStream != null) {
-                try {
+            try {
+                if (inputStream != null) {
                     inputStream.close();
-                } catch (IOException e) {
-                    UdmLog.error(e);
                 }
+
+            } catch (IOException e) {
+                UdmLog.error(e);
             }
         }
     }
@@ -110,14 +118,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //将ActionBar位置改放Toolbar.
-        mToolbar = (Toolbar) findViewById(R.id.udm_toolbar);
-        setSupportActionBar(mToolbar);
-
-        //设置右上角的填充菜单
-        mToolbar.inflateMenu(R.menu.tool_bar_menu);
-        //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
 
@@ -125,18 +125,84 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        //绑定菜单点击事件
-        UdmToolbarMenuClickListener toolbarMenuClickListener = new UdmToolbarMenuClickListener(this, searchListFragment);
-        toolbarMenuClickListener.setFragmentManager(getSupportFragmentManager());
-        mToolbar.setOnMenuItemClickListener(toolbarMenuClickListener);
         //底部菜单绑定点击事件,实现界面切换.
         tabDeviceList = findViewById(R.id.tab_device_list);
         tabSetting = findViewById(R.id.tab_setting);
         tabDeviceList.requestFocus();
         tabDeviceList.setSelected(true);
+
+        ImageView popMenuIcon = findViewById(R.id.pop_menu);
+        popMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
+        vSearchKeyword = findViewById(R.id.search_keyword);
+        /**
+         * 软键盘中的搜索事件
+         */
+        vSearchKeyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    searchDevice();
+                }
+                return false;
+            }
+        });
+
+        vSearchIcon = findViewById(R.id.search_icon);
+        /**
+         * 搜索图标的搜索事件
+         */
+        vSearchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchDevice();
+            }
+        });
+        /**
+         * 判断是否显示新手指引
+         */
+        FileInputStream inputStream1 = null;
+        try{
+            FileDirManager fileDirManager = new FileDirManager(this);
+            File guideFile = fileDirManager.getFileByName(Constants.FILE_GUIDE_CONF);
+            if (guideFile != null) {
+                inputStream1 = openFileInput(Constants.FILE_GUIDE_CONF);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream1));
+                showGuideFlag = bufferedReader.readLine();
+            }
+            /*if("1".equals(showGuideFlag)){
+                vSearchIcon.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        showGuideView();
+                    }
+                });
+            }*/
+        }catch (Exception e){
+            UdmLog.error(e);
+        }finally {
+            if(inputStream1!=null){
+                try {
+                    inputStream1.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 搜索设备
+     */
+    private void searchDevice(){
         //判断WIFI是否开启
         try {
-            ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             /**
              * 判断WIFI是否连接,非WIFI网络下不搜索设备.
@@ -144,16 +210,25 @@ public class MainActivity extends AppCompatActivity {
             String wifiIp = "";
             if (networkInfo != null && networkInfo.isConnected()) {
                 if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                    WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                     WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                     int ipAddress = wifiInfo.getIpAddress();
                     wifiIp = ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
                             + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
+                    /**
+                     * 开启搜索任务
+                     */
+                    findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
+                    TextView bottomTtile = findViewById(R.id.tab_device_list);
+                    bottomTtile.setText("Device List");
+                    DeviceSearchAsyncTask task = new DeviceSearchAsyncTask();
+                    task.setActivity(MainActivity.this);
+                    task.setSupportFragmentManager(getSupportFragmentManager());
+                    task.execute(vSearchKeyword.getText().toString());
                 }
             } else {
                 Toast.makeText(MainActivity.this, "Please open WIFI.", Toast.LENGTH_SHORT).show();
             }
-
         } catch (Exception e) {
             UdmLog.error(e);
         }
@@ -163,13 +238,6 @@ public class MainActivity extends AppCompatActivity {
     public void selected() {
         tabDeviceList.setSelected(false);
         tabSetting.setSelected(false);
-    }
-
-    //隐藏所有Fragment
-    public void hideAllFragment(FragmentTransaction transaction) {
-        if (searchListFragment != null) {
-            transaction.hide(searchListFragment);
-        }
     }
 
     @Override
@@ -260,5 +328,106 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void showGuideView() {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(vSearchIcon)
+                .setFullingViewId(R.id.search_icon)
+                .setAlpha(150)
+                .setHighTargetCorner(90)
+                .setHighTargetPadding(24)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        });
+        MainActivityGuide mainActivityGuide = new MainActivityGuide("Connect WIFI,then click\n to search device");
+        mainActivityGuide.setxOffset(-60);
+        builder.addComponent(mainActivityGuide);
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show(this);
+    }
+
+    /**
+     * 显示有上角弹出菜单
+     *
+     * @param view
+     */
+    public void showPopup(View view) {
+        PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
+        Menu menu = popupMenu.getMenu();
+        setIconEnable(menu, true);
+        popupMenu.getMenuInflater().inflate(R.menu.tool_bar_menu, menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int menuItemId = item.getItemId();
+                if (menuItemId == R.id.id_menu_user_profile) {
+                    Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+                    startActivity(intent);
+                } else if (menuItemId == R.id.id_menu_or_code) {
+                    Intent intent = new Intent(MainActivity.this, ScanQRCodeActivity.class);
+                    startActivityForResult(intent, -1);
+                } else if (menuItemId == R.id.id_load_param_def) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("*/*");//设置类型.
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(intent, 1);
+
+                }/* else if (menuItemId == R.id.id_upgrade_device) {
+//            Intent intent = new Intent(activity, DeviceUpgradeActivity.class);
+//            activity.startActivityForResult(intent, 1);
+
+                }*/ else if (menuItemId == R.id.spec_search_toolbar) {
+
+                    findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
+                    TextView bottomTtile = findViewById(R.id.tab_device_list);
+                    bottomTtile.setText("Device List");
+                    DeviceSearchAsyncTask task = new DeviceSearchAsyncTask();
+                    task.setActivity(MainActivity.this);
+                    task.setSupportFragmentManager(getSupportFragmentManager());
+                    task.execute();
+
+                } else if (menuItemId == R.id.id_menu_sync_report) {
+                    Intent intent = new Intent(MainActivity.this, DeviceSyncReportActivity.class);
+                    intent.putExtra("SYNC_ENABLED", true);
+                    startActivity(intent);
+                } else if (menuItemId == R.id.id_menu_exit) {
+                    finish();
+                } else if (menuItemId == R.id.app_about) {
+                    Intent intent = new Intent(MainActivity.this, AppUpdateActivity.class);
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+    /**
+     * 右上角菜单显示图标
+     *
+     * @param menu
+     * @param enable
+     */
+    private void setIconEnable(Menu menu, boolean enable) {
+        try {
+            Class<?> clazz = Class.forName("com.android.internal.view.menu.MenuBuilder");
+            Method m = clazz.getDeclaredMethod("setOptionalIconsVisible", boolean.class);
+            m.setAccessible(true);
+            //传入参数
+            m.invoke(menu, enable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.ibamb.udm.component;
+package com.ibamb.udm.component.constants;
 
 public class ServiceConst {
     public static final String DEVICE_SYNCH_SERVICE = "com.ibamb.udm.service.DeviceSynchronizeService";

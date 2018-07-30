@@ -1,4 +1,4 @@
-package com.ibamb.udm.component;
+package com.ibamb.udm.component.broadcast;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -6,13 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.ibamb.udm.component.file.FileDownLoad;
+
 public class AutoUpdateBroadcastReceiver extends BroadcastReceiver {
 
-    private String apkPath;
 
-    public AutoUpdateBroadcastReceiver(String apkPath) {
-        this.apkPath = apkPath;
-    }
 
     public AutoUpdateBroadcastReceiver() {
     }
@@ -20,9 +18,9 @@ public class AutoUpdateBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
-            Toast.makeText(context, "Download Compelted", Toast.LENGTH_SHORT).show();
-            boolean isInstallSuccess = InstallAPK.installApk(context,apkPath);;
-            Toast.makeText(context, isInstallSuccess ? "Upgrade Successfull" : "Upgrade Fail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Download Completed", Toast.LENGTH_SHORT).show();
+            InstallAPK.installApk(context, FileDownLoad.PATH);
+           // Toast.makeText(context, isInstallSuccess ? "Upgrade Successfull" : "Upgrade Fail", Toast.LENGTH_SHORT).show();
         }
     }
 }

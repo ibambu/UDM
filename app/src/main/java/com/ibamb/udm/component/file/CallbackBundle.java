@@ -1,4 +1,4 @@
-package com.ibamb.udm.component;
+package com.ibamb.udm.component.file;
 
 import android.os.Bundle;
 

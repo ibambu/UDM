@@ -3,7 +3,7 @@ package com.ibamb.udm.module.task;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.component.ServiceConst;
+import com.ibamb.udm.component.constants.ServiceConst;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;

@@ -13,9 +13,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.activity.MainActivity;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
-import com.ibamb.udm.component.LoginComponent;
+import com.ibamb.udm.component.guide.MainActivityGuide;
+import com.ibamb.udm.component.login.LoginComponent;
 import com.ibamb.udm.beans.Device;
+import com.ibamb.udm.guide.guideview.Guide;
+import com.ibamb.udm.guide.guideview.GuideBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +104,8 @@ public class DeviceSearchListFragment extends Fragment {
         //给列表项添加点击事件，触发登录设备。
         mListView.setOnItemClickListener(itemOnclickListener);
         mListView.setVisibility(View.VISIBLE);
+
+
         return view;
     }
 
@@ -111,5 +117,34 @@ public class DeviceSearchListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public void showGuideView() {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( mListView.getChildAt(0))
+                .setFullingViewId( mListView.getChildAt(0).getId())
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override public void onShown() {
+            }
+
+            @Override public void onDismiss() {
+            }
+        });
+
+        builder.addComponent(new MainActivityGuide("Click to login"));
+        Guide guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show(getActivity());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
     }
 }

@@ -1,4 +1,4 @@
-package com.ibamb.udm.component;
+package com.ibamb.udm.component.login;
 
 import android.app.Activity;
 import android.content.Intent;

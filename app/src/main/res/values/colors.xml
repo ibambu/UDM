@@ -18,4 +18,5 @@
     <color name="udm_gray_light">#ececec</color>
     <color name="udm_base_bgcolor">#efeeee</color>
     <color name="holo_blue_light">#304ffe</color>
+    <color name="udm_white">#ffffff</color>
 </resources>

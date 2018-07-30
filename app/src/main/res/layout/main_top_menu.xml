@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/udm_light_black"
+            android:orientation="horizontal"
+            android:padding="3dp">
+            <TextView
+                android:id="@+id/logo_txt"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:height="45dp"
+                android:gravity="center"
+                android:text="udm"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/udm_white"/>
+
+            <EditText
+                android:id="@+id/search_keyword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2sp"
+                android:layout_marginRight="2sp"
+                android:layout_weight="8"
+                android:height="28dp"
+                android:background="@drawable/border_background"
+                android:hint=" IP/MAC/Device Name"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:padding="5dp"
+                android:textSize="12dp" />
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:height="45dp"
+                android:gravity="left|center"
+                android:scaleType="fitCenter"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@mipmap/ic_action_search_white"/>
+            <ImageView
+                android:id="@+id/pop_menu"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:height="45dp"
+                android:gravity="left|center"
+                android:scaleType="fitCenter"
+                android:layout_marginRight="5dp"
+                android:src="@mipmap/ic_action_add_white"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

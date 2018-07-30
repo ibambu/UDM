@@ -97,7 +97,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         int fromIndex =0;
         int endIndex = 0;
         int pageCount = 0;
-        int maxRows = 50;
+        int maxRows = 25;
         while(fromIndex < allDeviceList.size()) {
             if(endIndex+maxRows>dataList.size()){
                 endIndex = dataList.size();
@@ -106,12 +106,14 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
             }
             pageCount++;
             List<Device> onePageData = allDeviceList.subList(fromIndex,endIndex);
-            fromIndex = endIndex;
             String page = String.valueOf(pageCount);
             TabLayout.Tab tab = tabLayout.newTab();
             tab.setText(page);
             tabLayout.addTab(tab);
-            titles.add(page);
+            String start = String.format("%03d",onePageData.get(0).getIndex());
+            String end = String.format("%03d",onePageData.get(onePageData.size()-1).getIndex());
+            titles.add(page+"("+start+"~"+end+")");
+            fromIndex = endIndex;
             StringBuilder deviceInfoBuffer = new StringBuilder();
             for(Device device:onePageData){
                 deviceInfoBuffer.append(device.toString()).append("@");

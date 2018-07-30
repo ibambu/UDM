@@ -56,7 +56,7 @@ public class DeviceListActivity extends AppCompatActivity {
         deviceInfos = new ArrayList();
         for(DeviceModel deviceInfo:contextData.getDataInfos()){
             if(deviceInfo.getMac().equalsIgnoreCase(currentMac)){
-//                continue;
+                continue;
             }
             deviceInfos.add(deviceInfo);
         }

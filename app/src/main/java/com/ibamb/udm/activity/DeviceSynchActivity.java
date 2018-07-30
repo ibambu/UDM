@@ -20,8 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.FileDirManager;
-import com.ibamb.udm.component.ServiceConst;
+import com.ibamb.udm.component.file.FileDirManager;
+import com.ibamb.udm.component.constants.ServiceConst;
 import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 import com.ibamb.udm.module.constants.Constants;

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SyncReportListAdapter;
-import com.ibamb.udm.component.LoginComponent;
+import com.ibamb.udm.component.login.LoginComponent;
 import com.ibamb.udm.module.beans.DeviceSyncMessage;
 
 import java.util.ArrayList;
