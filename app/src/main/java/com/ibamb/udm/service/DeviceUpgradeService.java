@@ -9,7 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.ibamb.udm.module.beans.DeviceModel;
 import com.ibamb.udm.module.file.FileDownLoad;
-import com.ibamb.udm.module.task.UpgradeTask;
+import com.ibamb.udm.task.UpgradeTask;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;

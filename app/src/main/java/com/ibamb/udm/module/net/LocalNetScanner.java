@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LocalNetScanner {
     public List<String> scanDevices(String wifiIp) {
-        List<String> hostList = new ArrayList();//升级主机，通过扫描获得。
+        List<String> hostList = new ArrayList<>();//升级主机，通过扫描获得。
         try {
 
             Enumeration nis = NetworkInterface.getNetworkInterfaces();

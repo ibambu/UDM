@@ -1,6 +1,5 @@
 package com.ibamb.udm.module.sys;
 
-import android.os.NetworkOnMainThreadException;
 
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
@@ -61,9 +60,7 @@ public class SysManager {
             } else {
                 return false;
             }
-        } catch (NetworkOnMainThreadException e){
-            e.printStackTrace();
-        }catch (SocketException ex) {
+        } catch (SocketException ex) {
             ex.printStackTrace();
         } catch (UnknownHostException e) {
             e.printStackTrace();

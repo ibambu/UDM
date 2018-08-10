@@ -1,6 +1,5 @@
 package com.ibamb.udm.module.log;
 
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -28,7 +27,7 @@ public class UdmLog {
 
     public static void e(String tag, String message) {
         if (message != null && message.trim().length() > 0) {
-            Log.e(tag, message);
+
         }
     }
 

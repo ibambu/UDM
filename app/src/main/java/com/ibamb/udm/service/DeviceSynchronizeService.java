@@ -15,7 +15,7 @@ import com.ibamb.udm.module.core.ParameterMapping;
 import com.ibamb.udm.module.instruct.IParamReader;
 import com.ibamb.udm.module.instruct.ParamReader;
 import com.ibamb.udm.module.instruct.beans.Parameter;
-import com.ibamb.udm.module.task.SyncDeviceParamTask;
+import com.ibamb.udm.task.SyncDeviceParamTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 
 import java.text.SimpleDateFormat;

@@ -1,9 +1,10 @@
-package com.ibamb.udm.module.task;
+package com.ibamb.udm.task;
 
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.ibamb.udm.component.constants.ServiceConst;
+import com.ibamb.udm.component.login.Login;
 import com.ibamb.udm.module.beans.ChannelParameter;
 import com.ibamb.udm.module.beans.ParameterItem;
 import com.ibamb.udm.module.constants.Constants;
@@ -69,7 +70,7 @@ public class SyncDeviceParamTask implements Callable {
             boolean isAuthSuccess = false;
             for (int i = 0; i < TryUser.getUserCount(); i++) {
                 String[] userInfo = TryUser.getUser(i + 1);
-                isAuthSuccess = UserAuth.login(userInfo[0], userInfo[1], mac, ip);
+                isAuthSuccess = Login.login(userInfo[0], userInfo[1], mac, ip);
                 if (isAuthSuccess) {
                     break;
                 }

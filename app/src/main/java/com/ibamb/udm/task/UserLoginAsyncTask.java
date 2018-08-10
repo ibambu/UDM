@@ -2,6 +2,7 @@ package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
 
+import com.ibamb.udm.component.login.Login;
 import com.ibamb.udm.module.log.UdmLog;
 import com.ibamb.udm.module.security.UserAuth;
 
@@ -21,7 +22,7 @@ public class UserLoginAsyncTask extends AsyncTask<String, Boolean, Boolean> {
             String password = strings[1];
             String mac = strings[2];
             String ip = strings[3];
-            isSuccess = UserAuth.login(userName, password, mac,ip);
+            isSuccess = Login.login(userName, password, mac,ip);
             publishProgress(isSuccess);
         }catch (Exception e){
             UdmLog.error(e);

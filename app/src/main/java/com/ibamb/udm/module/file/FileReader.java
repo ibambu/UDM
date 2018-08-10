@@ -6,14 +6,11 @@
 package com.ibamb.udm.module.file;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 
 public class FileReader {
@@ -25,7 +22,7 @@ public class FileReader {
      * @return
      */
     public static List<String> readTxtFileToList(String filename, boolean doDistinct) {
-        List dslist = new ArrayList(1500);
+        List<String> dslist = new ArrayList<>(1500);
         BufferedReader bufreader = null;
         try {
             FileInputStream instream = new FileInputStream(filename);

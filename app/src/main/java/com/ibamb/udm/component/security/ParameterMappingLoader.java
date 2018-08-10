@@ -1,4 +1,4 @@
-package com.ibamb.udm.module.core;
+package com.ibamb.udm.component.security;
 
 import android.app.Activity;
 
@@ -28,6 +28,7 @@ public class ParameterMappingLoader {
         Map<String, Parameter> mapping = new HashMap();
         BufferedReader bufferedReader = null;
         try {
+
             FileDirManager fileDirManager = new FileDirManager(activity);
             File mappingFile = fileDirManager.getFileByName(Constants.FILE_PARAM_MAPPING);
             if (mappingFile != null) {

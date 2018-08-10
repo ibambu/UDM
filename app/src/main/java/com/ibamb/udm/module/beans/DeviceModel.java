@@ -1,7 +1,6 @@
 
 package com.ibamb.udm.module.beans;
 
-import com.ibamb.udm.beans.Device;
 
 public class DeviceModel {
     private String ip;
@@ -118,13 +117,4 @@ public class DeviceModel {
                 '}';
     }
 
-    public Device toDevice(){
-        Device device = new Device();
-        device.setIndex(this.index);
-        device.setDeviceName(this.deviceName);
-        device.setIp(this.ip);
-        device.setMac(this.mac);
-        device.setFirmwareVersion(this.firmwareVersion);
-        return device;
-    }
 }

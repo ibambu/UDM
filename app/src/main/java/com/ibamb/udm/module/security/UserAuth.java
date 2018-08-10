@@ -1,14 +1,11 @@
 
 package com.ibamb.udm.module.security;
 
-import android.util.Base64;
-
 import com.ibamb.udm.module.constants.Constants;
 import com.ibamb.udm.module.constants.Control;
 import com.ibamb.udm.module.net.UDPMessageSender;
 import com.ibamb.udm.module.util.Convert;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -17,21 +14,18 @@ public class UserAuth {
     /**
      * 登录成功返回 TRUE,否则返回 FALSE
      *
-     * @param userName
-     * @param password
-     * @param devMac
-     * @return
+     * @param base64UserName base64编码后的用户名， 注意该参数是“用户名+空格”进行base64编码。
+     * @param base64Password base64编码后的密码。
+     * @param devMac 设备MAC
+     * @param ip 设备IP地址，可选参数。
+     * @return 成功返回TRUE，否则返回FALSE。
      */
-    public static boolean login(String userName, String password, String devMac,String ip) {
+    public static boolean login(String base64UserName, String base64Password, String devMac,String ip) {
         boolean isSuccessful = false;
         try {
-            /**
-             * 将用户名和密码采用BASE64加密并转成字节数组。注意用户名和密码之间要留一个空格，加密时需将空格和用户名一起加密。
-             */
-            String enUserName = Base64.encodeToString((userName + " ").getBytes(DefualtECryptValue.CHARSET), Base64.NO_WRAP);
-            String enPassword = Base64.encodeToString(password.getBytes(DefualtECryptValue.CHARSET), Base64.NO_WRAP);
-            byte[] byteUserName = Convert.hexStringtoBytes(str2HexString(enUserName));
-            byte[] bytePassword = Convert.hexStringtoBytes(str2HexString(enPassword));
+
+            byte[] byteUserName = Convert.hexStringtoBytes(str2HexString(base64UserName));
+            byte[] bytePassword = Convert.hexStringtoBytes(str2HexString(base64Password));
             //将目标设备mac地址转成字节数组
             byte[] macData = Convert.hexStringtoBytes(devMac.replaceAll(":", ""));
             //发送登录报文总字节数。
@@ -83,7 +77,7 @@ public class UserAuth {
                 }
             }
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
 
         } finally {
 
