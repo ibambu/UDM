@@ -12,8 +12,15 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
     </style>
-
+    <!--menu items 间隔设置-->
+    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingRight">3dip</item>
+        <item name="android:minWidth">30dp</item>
+        <item name="android:minHeight">30dp</item>
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <!--取消Toolbar的阴影效果-->
         <item name="elevation">0dp</item>

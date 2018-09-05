@@ -79,10 +79,10 @@ public class UdmToolbarMenuClickListener implements Toolbar.OnMenuItemClickListe
             Intent intent = new Intent(activity,DeviceSyncReportActivity.class);
             intent.putExtra("SYNC_ENABLED",true);
             activity.startActivity(intent);
-        }else if (menuItemId == R.id.id_menu_exit) {
+        }/*else if (menuItemId == R.id.id_menu_exit) {
 
             activity.finish();
-        }else if (menuItemId == R.id.app_about) {
+        }*/else if (menuItemId == R.id.app_about) {
             Intent intent = new Intent(activity,AppUpdateActivity.class);
             activity.startActivity(intent);
         }

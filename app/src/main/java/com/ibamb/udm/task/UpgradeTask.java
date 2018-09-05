@@ -8,6 +8,7 @@ import com.ibamb.dnet.module.beans.RetMessage;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.file.FileRemoteTransfer;
 
+
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -89,7 +90,6 @@ public class UpgradeTask implements Callable {
             intent.putExtra("UPGRADE_COUNT", String.valueOf(1));
             broadcastManager.sendBroadcast(intent);
         }
-
         return retMessage;
     }
 

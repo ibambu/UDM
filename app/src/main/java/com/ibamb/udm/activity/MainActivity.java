@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
         //底部菜单绑定点击事件,实现界面切换.
         tabDeviceList = findViewById(R.id.tab_device_list);
         tabSetting = findViewById(R.id.tab_setting);
-        tabDeviceList.requestFocus();
-        tabDeviceList.setSelected(true);
+//        tabDeviceList.requestFocus();
+//        tabDeviceList.setSelected(true);
 
         ImageView popMenuIcon = findViewById(R.id.pop_menu);
         popMenuIcon.setOnClickListener(new View.OnClickListener() {
@@ -384,11 +384,11 @@ public class MainActivity extends AppCompatActivity {
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     startActivityForResult(intent, 1);
 
-                }/* else if (menuItemId == R.id.id_upgrade_device) {
-//            Intent intent = new Intent(activity, DeviceUpgradeActivity.class);
-//            activity.startActivityForResult(intent, 1);
+                } else if (menuItemId == R.id.id_upgrade_device) {
+                    Intent intent = new Intent(MainActivity.this, DeviceUpgradeActivity.class);
+                    startActivityForResult(intent, 1);
 
-                }*/ else if (menuItemId == R.id.spec_search_toolbar) {
+                }else if (menuItemId == R.id.spec_search_toolbar) {
 
                     findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
                     TextView bottomTtile = findViewById(R.id.tab_device_list);
@@ -402,9 +402,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, DeviceSyncReportActivity.class);
                     intent.putExtra("SYNC_ENABLED", true);
                     startActivity(intent);
-                } else if (menuItemId == R.id.id_menu_exit) {
+                } /*else if (menuItemId == R.id.id_menu_exit) {
                     finish();
-                } else if (menuItemId == R.id.app_about) {
+                }*/ else if (menuItemId == R.id.app_about) {
                     Intent intent = new Intent(MainActivity.this, AppUpdateActivity.class);
                     startActivity(intent);
                 }

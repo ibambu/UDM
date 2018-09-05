@@ -56,20 +56,19 @@
             android:gravity="center"
             android:text=""
             android:visibility="gone"/>
+
         <Button
             android:id="@+id/action_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="180dp"
-            android:background="@drawable/udm_radius_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="200dp"
             android:gravity="center"
             android:text="Check for updates"
             android:textAllCaps="false"
-            android:textColor="#636363"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:textColor="#636363"/>
     </LinearLayout>
 
 

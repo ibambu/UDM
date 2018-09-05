@@ -17,7 +17,6 @@
     -->
     <item
         android:id="@+id/id_menu_user_profile"
-        android:icon="@mipmap/ic_action_key"
         android:title="User Profile"
         app:showAsAction="ifRoom" />
     <!--<item-->
@@ -27,12 +26,10 @@
         <!--app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/id_menu_or_code"
-        android:icon="@mipmap/ic_action_barcode_2"
         android:title="Scan QR Code"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/id_load_param_def"
-        android:icon="@mipmap/ic_action_import"
         android:title="Import Type File"
         app:showAsAction="ifRoom" />
     <!--<item-->
@@ -42,18 +39,15 @@
         <!--app:showAsAction="never" />-->
     <item
         android:id="@+id/id_menu_sync_report"
-        android:icon="@mipmap/ic_action_news"
         android:title="Device Sync Report"
         app:showAsAction="never" />
     <item
-        android:id="@+id/app_about"
-        android:icon="@mipmap/ic_action_info"
-        android:title="About"
+        android:id="@+id/id_upgrade_device"
+        android:title="Update"
         app:showAsAction="never" />
     <item
-        android:id="@+id/id_menu_exit"
-        android:icon="@mipmap/ic_action_io"
-        android:title="Exit"
+        android:id="@+id/app_about"
+        android:title="About"
         app:showAsAction="never" />
 
 </menu>

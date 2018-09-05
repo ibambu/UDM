@@ -32,7 +32,7 @@
                 <item
                     android:id="@+id/menu_upgrade_setting"
                     android:icon="@mipmap/ic_action_tag"
-                    android:title="Upgrade Setting"
+                    android:title="Update Server"
                     app:showAsAction="ifRoom" />
 
                 <item
