@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.beans.Parameter;
-import com.ibamb.udm.module.instruct.beans.ValueMapping;
+import com.ibamb.dnet.module.core.ParameterMapping;
+import com.ibamb.dnet.module.instruct.beans.Parameter;
+import com.ibamb.dnet.module.instruct.beans.ValueMapping;
 
 import java.util.List;
 

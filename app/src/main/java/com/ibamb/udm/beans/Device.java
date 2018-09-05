@@ -3,7 +3,7 @@ package com.ibamb.udm.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.ibamb.udm.module.beans.DeviceModel;
+import com.ibamb.dnet.module.beans.DeviceModel;
 
 public class Device implements Parcelable {
     private int index;//序号，如 001,002,003,...
@@ -64,7 +64,7 @@ public class Device implements Parcelable {
 
     public String getFirmwareVersion() {
         return (firmwareVersion==null||firmwareVersion.equals("null")
-                ||firmwareVersion.trim().length()==0)? "unknown version":firmwareVersion;
+                ||firmwareVersion.trim().length()==0)? "":firmwareVersion;
     }
 
     public void setFirmwareVersion(String firmwareVersion) {

@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.TryUser;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 

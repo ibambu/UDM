@@ -9,10 +9,10 @@ import android.widget.TextView;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.component.file.FileDirManager;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.security.DefualtECryptValue;
-import com.ibamb.udm.module.security.ICryptStrategy;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.security.DefualtECryptValue;
+import com.ibamb.dnet.module.security.ICryptStrategy;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -9,7 +9,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.beans.DeviceModel;
+import com.ibamb.dnet.module.beans.DeviceModel;
 
 import java.util.ArrayList;
 

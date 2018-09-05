@@ -2,9 +2,9 @@ package com.ibamb.udm.component.login;
 
 import android.util.Base64;
 
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.security.DefualtECryptValue;
-import com.ibamb.udm.module.security.UserAuth;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.security.DefualtECryptValue;
+import com.ibamb.dnet.module.security.UserAuth;
 
 import java.io.UnsupportedEncodingException;
 

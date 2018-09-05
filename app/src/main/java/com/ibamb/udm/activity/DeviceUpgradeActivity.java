@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.service.DeviceUpgradeService;
 import com.ibamb.udm.task.CheckForUpdatesAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;

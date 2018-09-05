@@ -2,10 +2,10 @@ package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
 
-import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.instruct.IParamReader;
-import com.ibamb.udm.module.instruct.ParamReader;
+import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.instruct.IParamReader;
+import com.ibamb.dnet.module.instruct.ParamReader;
 
 public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, ChannelParameter> {
     private ChannelParameter channelParameter;

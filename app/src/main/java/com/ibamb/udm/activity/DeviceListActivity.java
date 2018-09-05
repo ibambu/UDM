@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.DeviceListAdapter;
-import com.ibamb.udm.module.beans.DeviceModel;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.ContextData;
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.core.ContextData;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.ArrayList;

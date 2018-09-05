@@ -8,7 +8,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.beans.DeviceSyncMessage;
+import com.ibamb.dnet.module.beans.DeviceSyncMessage;
 
 import java.util.ArrayList;
 

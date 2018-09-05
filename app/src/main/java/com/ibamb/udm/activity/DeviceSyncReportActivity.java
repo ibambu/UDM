@@ -14,7 +14,7 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SyncReportTabAdapter;
 import com.ibamb.udm.fragment.SyncFailFragment;
 import com.ibamb.udm.fragment.SyncSuccessFragment;
-import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;

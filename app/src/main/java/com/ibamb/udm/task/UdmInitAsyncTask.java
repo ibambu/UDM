@@ -3,9 +3,9 @@ package com.ibamb.udm.task;
 import android.app.Activity;
 import android.os.AsyncTask;
 
-import com.ibamb.udm.module.core.ParameterMapping;
+import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.udm.component.security.ParameterMappingLoader;
-import com.ibamb.udm.module.instruct.beans.Parameter;
+import com.ibamb.dnet.module.instruct.beans.Parameter;
 
 import java.util.Map;
 

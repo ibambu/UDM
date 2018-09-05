@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.AppUpdateActivity;
-import com.ibamb.udm.module.log.UdmLog;
+import com.ibamb.dnet.module.log.UdmLog;
 
 import org.json.JSONObject;
 

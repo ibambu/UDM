@@ -3,8 +3,8 @@ package com.ibamb.udm.listener;
 import android.app.Activity;
 import android.view.View;
 
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.beans.ChannelParameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 
 /**

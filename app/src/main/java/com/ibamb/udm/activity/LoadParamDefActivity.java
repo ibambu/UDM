@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 public class LoadParamDefActivity extends AppCompatActivity {

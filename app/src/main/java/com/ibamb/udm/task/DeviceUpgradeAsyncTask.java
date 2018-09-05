@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.ibamb.udm.adapter.DeviceListAdapter;
-import com.ibamb.udm.module.beans.DeviceModel;
+import com.ibamb.dnet.module.beans.DeviceModel;
 
 public class DeviceUpgradeAsyncTask extends AsyncTask<DeviceModel, Boolean, String> {
     private ListView deviceList;

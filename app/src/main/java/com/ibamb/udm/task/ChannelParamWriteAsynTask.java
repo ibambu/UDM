@@ -5,13 +5,13 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.instruct.IParamReader;
-import com.ibamb.udm.module.instruct.IParamWriter;
-import com.ibamb.udm.module.instruct.ParamReader;
-import com.ibamb.udm.module.instruct.ParamWriter;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.instruct.IParamReader;
+import com.ibamb.dnet.module.instruct.IParamWriter;
+import com.ibamb.dnet.module.instruct.ParamReader;
+import com.ibamb.dnet.module.instruct.ParamWriter;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
 

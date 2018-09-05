@@ -35,11 +35,11 @@ import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.component.security.PermissionUtils;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.TryUser;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.security.DefualtECryptValue;
-import com.ibamb.udm.module.security.ICryptStrategy;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.core.TryUser;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.security.DefualtECryptValue;
+import com.ibamb.dnet.module.security.ICryptStrategy;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -225,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
                     task.setActivity(MainActivity.this);
                     task.setSupportFragmentManager(getSupportFragmentManager());
                     task.execute(vSearchKeyword.getText().toString());
+                }else{
+                    Toast.makeText(MainActivity.this, "Please connect to WIFI.", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(MainActivity.this, "Please open WIFI.", Toast.LENGTH_SHORT).show();

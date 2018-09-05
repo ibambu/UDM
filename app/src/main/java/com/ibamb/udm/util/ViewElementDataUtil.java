@@ -5,14 +5,14 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.ContextData;
-import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.beans.Parameter;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.net.IPUtil;
+import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.ParameterItem;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.core.ContextData;
+import com.ibamb.dnet.module.core.ParameterMapping;
+import com.ibamb.dnet.module.instruct.beans.Parameter;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.udm.tag.UdmButtonTextEdit;
 import com.ibamb.udm.tag.UdmSpinner;
 

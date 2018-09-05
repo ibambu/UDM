@@ -7,8 +7,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.module.beans.DeviceModel;
-import com.ibamb.udm.module.file.FileDownLoad;
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.file.FileDownLoad;
 import com.ibamb.udm.task.UpgradeTask;
 
 import java.util.ArrayList;

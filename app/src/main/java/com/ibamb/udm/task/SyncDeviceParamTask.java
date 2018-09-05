@@ -5,15 +5,15 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.ibamb.udm.component.constants.ServiceConst;
 import com.ibamb.udm.component.login.Login;
-import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.constants.Control;
-import com.ibamb.udm.module.core.TryUser;
-import com.ibamb.udm.module.instruct.IParamWriter;
-import com.ibamb.udm.module.instruct.ParamWriter;
-import com.ibamb.udm.module.security.UserAuth;
-import com.ibamb.udm.module.sys.SysManager;
+import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.ParameterItem;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.constants.Control;
+import com.ibamb.dnet.module.core.TryUser;
+import com.ibamb.dnet.module.instruct.IParamWriter;
+import com.ibamb.dnet.module.instruct.ParamWriter;
+import com.ibamb.dnet.module.security.UserAuth;
+import com.ibamb.dnet.module.sys.SysManager;
 
 import java.util.List;
 import java.util.concurrent.Callable;

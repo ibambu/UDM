@@ -89,7 +89,7 @@
                 android:inputType="textUri"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="http://192.168.0.101:8080/ishop/checkupdate.do"
+                android:text=""
                 android:textColor="@color/udm_light_black"
                 android:textSize="13dp" />
 

@@ -7,14 +7,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.beans.DeviceSyncMessage;
-import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.instruct.IParamReader;
-import com.ibamb.udm.module.instruct.ParamReader;
-import com.ibamb.udm.module.instruct.beans.Parameter;
+import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceSyncMessage;
+import com.ibamb.dnet.module.beans.ParameterItem;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.core.ParameterMapping;
+import com.ibamb.dnet.module.instruct.IParamReader;
+import com.ibamb.dnet.module.instruct.ParamReader;
+import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.udm.task.SyncDeviceParamTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 

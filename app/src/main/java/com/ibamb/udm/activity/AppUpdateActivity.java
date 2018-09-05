@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.log.UdmLog;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.task.AppUpdateAsyncTask;
 import com.ibamb.udm.task.AppVersionCheckAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;

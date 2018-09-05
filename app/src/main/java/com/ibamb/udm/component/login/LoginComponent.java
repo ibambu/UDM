@@ -6,8 +6,8 @@ import android.os.Bundle;
 
 import com.ibamb.udm.activity.DeviceProfileActivity;
 import com.ibamb.udm.activity.LoginActivity;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.core.TryUser;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.core.TryUser;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 
 public class LoginComponent {

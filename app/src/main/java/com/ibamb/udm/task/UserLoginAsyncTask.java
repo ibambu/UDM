@@ -3,8 +3,8 @@ package com.ibamb.udm.task;
 import android.os.AsyncTask;
 
 import com.ibamb.udm.component.login.Login;
-import com.ibamb.udm.module.log.UdmLog;
-import com.ibamb.udm.module.security.UserAuth;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.security.UserAuth;
 
 
 public class UserLoginAsyncTask extends AsyncTask<String, Boolean, Boolean> {

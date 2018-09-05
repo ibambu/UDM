@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 public class SpeciallySearchActivity extends AppCompatActivity {

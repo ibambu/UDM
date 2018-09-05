@@ -14,13 +14,13 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.component.guide.MainActivityGuide;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
-import com.ibamb.udm.module.beans.ChannelParameter;
-import com.ibamb.udm.module.beans.DeviceModel;
-import com.ibamb.udm.module.beans.ParameterItem;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.core.ContextData;
-import com.ibamb.udm.module.core.ParameterMapping;
-import com.ibamb.udm.module.log.UdmLog;
+import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.beans.ParameterItem;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.core.ContextData;
+import com.ibamb.dnet.module.core.ParameterMapping;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -175,7 +175,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         });
 
         commit = findViewById(R.id.do_commit);
-
+        commit.setVisibility(View.GONE);
 
         title = findViewById(R.id.title);
         title.setText(Constants.TITLE_DEVICE_PROFILE);

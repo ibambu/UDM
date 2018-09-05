@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ibamb.udm.module.sys.SysManager;
+import com.ibamb.dnet.module.sys.SysManager;
 
 public class SaveAndRebootAsyncTask extends AsyncTask<String, Boolean, Boolean> {
 

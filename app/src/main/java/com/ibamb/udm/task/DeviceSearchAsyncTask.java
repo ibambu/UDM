@@ -16,9 +16,9 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SearchDeviceListPagerAdapter;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.beans.Device;
-import com.ibamb.udm.module.beans.DeviceModel;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.search.DeviceSearch;
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.search.DeviceSearch;
 
 import java.util.ArrayList;
 import java.util.List;

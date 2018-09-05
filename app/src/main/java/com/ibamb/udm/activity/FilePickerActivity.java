@@ -8,7 +8,7 @@ import android.view.View;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.file.CallbackBundle;
 import com.ibamb.udm.component.file.OpenFileDialog;
-import com.ibamb.udm.module.constants.Constants;
+import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.HashMap;

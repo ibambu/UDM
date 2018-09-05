@@ -3,10 +3,10 @@ package com.ibamb.udm.task;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.module.beans.DeviceModel;
-import com.ibamb.udm.module.beans.RetMessage;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.file.FileRemoteTransfer;
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.beans.RetMessage;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.file.FileRemoteTransfer;
 
 import java.io.BufferedWriter;
 import java.io.DataInputStream;

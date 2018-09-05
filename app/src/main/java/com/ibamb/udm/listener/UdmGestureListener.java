@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ibamb.udm.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.ChannelParameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 
 public class UdmGestureListener extends SimpleOnGestureListener {

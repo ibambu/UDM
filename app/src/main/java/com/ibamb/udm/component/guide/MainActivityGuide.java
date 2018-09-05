@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.guide.guideview.Component;
-import com.ibamb.udm.module.constants.Constants;
-import com.ibamb.udm.module.log.UdmLog;
+import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.log.UdmLog;
 
 import java.io.File;
 import java.io.FileOutputStream;
