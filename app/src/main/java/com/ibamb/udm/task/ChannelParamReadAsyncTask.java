@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.login.LoginComponent;
 import com.ibamb.dnet.module.beans.ChannelParameter;
 import com.ibamb.dnet.module.constants.Constants;
@@ -38,7 +39,7 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
              */
             reader.readChannelParam(channelParameter);
             while (!channelParameter.isSuccessful() && tryCount < 3) {
-                publishProgress(Constants.WAIT_READ_PARAM);
+                publishProgress(UdmConstant.WAIT_READ_PARAM);
                 reader.readChannelParam(channelParameter);
                 tryCount++;
             }
@@ -68,7 +69,7 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
             TextView title = view.findViewById(R.id.title);
             if(title!=null){
                 String titleValue = title.getText().toString();
-                title.setText(titleValue.replaceAll(Constants.WAIT_READ_PARAM,""));
+                title.setText(titleValue.replaceAll(UdmConstant.WAIT_READ_PARAM,""));
             }
         }
     }
@@ -76,8 +77,8 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
     @Override
     protected void onProgressUpdate(String... values) {
         TextView title = view.findViewById(R.id.title);
-        if(title!=null && !title.getText().toString().contains(Constants.WAIT_READ_PARAM)){
-            title.setText(title.getText().toString()+ Constants.WAIT_READ_PARAM);
+        if(title!=null && !title.getText().toString().contains(UdmConstant.WAIT_READ_PARAM)){
+            title.setText(title.getText().toString()+ UdmConstant.WAIT_READ_PARAM);
         }
         super.onProgressUpdate(values);
     }

@@ -15,6 +15,7 @@ import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.IParamReader;
 import com.ibamb.dnet.module.instruct.ParamReader;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.task.SyncDeviceParamTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 
@@ -154,7 +155,7 @@ public class DeviceSynchronizeService extends Service {
      */
     public List<ChannelParameter> getDeviceParams(DeviceSyncMessage deviceInfo, List<String> supportChannels) {
         List<ChannelParameter> channelParameters = new ArrayList<>();
-        for (int i = 0; i < Constants.MAX_CHANNEL; i++) {
+        for (int i = 0; i < UdmConstant.MAX_CHANNEL; i++) {
             List<Parameter> parameterList = ParameterMapping.getInstance().getChannelPublicParam(i);
             if (!supportChannels.contains(String.valueOf(i))) {
                 continue;

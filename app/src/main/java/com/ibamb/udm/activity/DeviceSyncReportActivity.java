@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SyncReportTabAdapter;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.fragment.SyncFailFragment;
 import com.ibamb.udm.fragment.SyncSuccessFragment;
 import com.ibamb.dnet.module.constants.Constants;
@@ -46,7 +47,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_sync_report);
 
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);//修改任务栏背景颜色
         Intent intent = getIntent();
         final boolean isSyncMenuEnabled = intent.getBooleanExtra("SYNC_ENABLED",false);
 
@@ -69,7 +70,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         FileInputStream inputStream = null;
         String lastSyncTime ="";
         try {
-            inputStream = openFileInput(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG);
+            inputStream = openFileInput(UdmConstant.FILE_SYNC_TO_OTH_DEVICE_LOG);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = null;
             String lastLine = "";
@@ -95,7 +96,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
         String[] logContent = strBuffer.toString().split("@");
         for(String log:logContent){
             String[] deviceInfo = log.split("#");
-            if(deviceInfo[deviceInfo.length-1].equals(Constants.SYNC_SUCCESS)){
+            if(deviceInfo[deviceInfo.length-1].equals(UdmConstant.SYNC_SUCCESS)){
                 successBuffer.append(log).append("@");
             }else{
                 failBuffer.append(log).append("@");
@@ -132,7 +133,7 @@ public class DeviceSyncReportActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Constants.ACTIVITY_RESULT_FOR_LOGIN){
+        if(resultCode == UdmConstant.ACTIVITY_RESULT_FOR_LOGIN){
             boolean isLoginSuccess = data.getBooleanExtra("IS_LOGIN_SUCCESS",false);
             if(isLoginSuccess){
                 Intent intent = new Intent(this, DeviceProfileActivity.class);

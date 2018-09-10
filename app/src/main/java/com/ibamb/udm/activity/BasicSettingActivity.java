@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.dnet.module.log.UdmLog;
@@ -45,7 +46,7 @@ public class BasicSettingActivity extends AppCompatActivity implements View.OnTo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_access_setting);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
         ip = bundle.getString("HOST_ADDRESS");
@@ -72,7 +73,7 @@ public class BasicSettingActivity extends AppCompatActivity implements View.OnTo
         });
 
         title = findViewById(R.id.title);
-        title.setText(Constants.TITLE_ACCESS_SETTING);
+        title.setText(UdmConstant.TITLE_ACCESS_SETTING);
 
     }
 

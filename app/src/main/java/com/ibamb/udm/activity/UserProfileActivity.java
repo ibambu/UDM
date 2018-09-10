@@ -13,6 +13,7 @@ import com.ibamb.udm.R;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.TryUser;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
 import com.ibamb.dnet.module.security.ICryptStrategy;
@@ -42,7 +43,7 @@ public class UserProfileActivity extends AppCompatActivity {
         FileInputStream inputStream = null;
         try {
             StringBuilder strbuffer = new StringBuilder();
-            inputStream = openFileInput(Constants.TRY_USER_FILE);
+            inputStream = openFileInput(UdmConstant.TRY_USER_FILE);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
@@ -78,7 +79,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         currentView = getWindow().getDecorView();
         filesDir = getFilesDir();
@@ -114,12 +115,12 @@ public class UserProfileActivity extends AppCompatActivity {
                         TryUser.setTryUser(content.split("&"));
                         File[] files = filesDir.listFiles();
                         for(File file:files){
-                            if(file.getName().equals(Constants.TRY_USER_FILE)){
+                            if(file.getName().equals(UdmConstant.TRY_USER_FILE)){
                                 file.delete();//删除已有文件
                                 break;
                             }
                         }
-                        outputStream = openFileOutput(Constants.TRY_USER_FILE, MODE_APPEND);
+                        outputStream = openFileOutput(UdmConstant.TRY_USER_FILE, MODE_APPEND);
                         outputStream.write(content.getBytes());//写入新文件
 
                     } catch (Exception e) {
@@ -134,14 +135,14 @@ public class UserProfileActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    String notice = isSuccess? Constants.INFO_SUCCESS:Constants.INFO_FAIL;
+                    String notice = isSuccess? UdmConstant.INFO_SUCCESS:UdmConstant.INFO_FAIL;
                     Snackbar.make(currentView.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });
             //设置标题
             title = findViewById(R.id.title);
-            title.setText(Constants.TITLE_USER_PROFILE);
+            title.setText(UdmConstant.TITLE_USER_PROFILE);
 
             //登录云
             loginCloud = findViewById(R.id.login_cloud_btn);

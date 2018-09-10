@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.guide.guideview.Component;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.log.UdmLog;
@@ -64,12 +65,12 @@ public class MainActivityGuide implements Component {
                 try {
                     File[] files = inflater.getContext().getFilesDir().listFiles();
                     for (File file : files) {
-                        if (file.getName().equals(Constants.FILE_GUIDE_CONF)) {
+                        if (file.getName().equals(UdmConstant.FILE_GUIDE_CONF)) {
                             file.delete();//删除已有文件
                             break;
                         }
                     }
-                    outputStream = inflater.getContext().openFileOutput(Constants.FILE_GUIDE_CONF, MODE_APPEND);
+                    outputStream = inflater.getContext().openFileOutput(UdmConstant.FILE_GUIDE_CONF, MODE_APPEND);
                     outputStream.write(flag.getBytes());//写入新文件
                 } catch (Exception e) {
                     UdmLog.error(e);

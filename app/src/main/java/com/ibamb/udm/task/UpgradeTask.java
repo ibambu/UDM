@@ -7,14 +7,17 @@ import com.ibamb.dnet.module.beans.DeviceModel;
 import com.ibamb.dnet.module.beans.RetMessage;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.file.FileRemoteTransfer;
+import com.ibamb.dnet.module.log.UdmLog;
 
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -32,11 +35,13 @@ public class UpgradeTask implements Callable {
 
     private LocalBroadcastManager broadcastManager;
 
-    public UpgradeTask(LocalBroadcastManager broadcastManager, DeviceModel device, ZipFile upgradePatch) {
+
+    public UpgradeTask(ZipFile upgradePatch, DeviceModel device, LocalBroadcastManager broadcastManager) {
         this.upgradePatch = upgradePatch;
         this.device = device;
         this.broadcastManager = broadcastManager;
     }
+
 
     @Override
     public Object call() throws Exception {
@@ -56,26 +61,16 @@ public class UpgradeTask implements Callable {
                 dataWriter = new DataOutputStream(socket.getOutputStream());
                 isValidHost = isValidHost();//读取返回信息，验证是否合法IP。
                 if (isValidHost) {
+                    UdmLog.info("start send file to "+device.getIp());
                     FileRemoteTransfer transfer = new FileRemoteTransfer(dataReader, dataWriter);
                     retMessage = transfer.sendZipFile(upgradePatch);
-                    if(retMessage.getCode()==Constants.UPGRADE_SUCCESS_CODE){
-                        //文件发送成功，升级成功,注意本机升级不自动重启.
-                        byte[] bystes = Constants.UPGRADE_RESTART_CODE.getBytes();
-                        char enter = 0x0d;
-                        byte[] enterbytes = charToByte(enter);
-                        byte[] alldata = new byte[bystes.length + enterbytes.length];
-                        System.arraycopy(bystes, 0, alldata, 0, bystes.length);
-                        System.arraycopy(enterbytes, 0, alldata, bystes.length, enterbytes.length);
-                        dataWriter.write(alldata);
-                    }
+                    UdmLog.info("send file to "+device.getIp()+" result: "+retMessage.getCode());
                 }
             }
 
         } catch (Exception e) {
             retMessage.setCode(Constants.UPGRADE_FAIL_CODE);
-            e.printStackTrace();
         } finally {
-            Thread.sleep(2000);
             if (socket != null) {
                 socket.close();
             }
@@ -93,12 +88,6 @@ public class UpgradeTask implements Callable {
         return retMessage;
     }
 
-    private byte[] charToByte(char c) {
-        byte[] b = new byte[2];
-        b[0] = (byte) ((c & 0xFF00) >> 8);
-        b[1] = (byte) (c & 0xFF);
-        return b;
-    }
 
     /**
      * 是否合法主机
@@ -107,14 +96,13 @@ public class UpgradeTask implements Callable {
      */
     private boolean isValidHost() {
         boolean isValid = false;
-        byte[] b = new byte[1024 * 10];
         try {
-            int length = dataReader.read(b);
-            String rsp = new String(b, 0, length);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(dataReader));
+            String rsp = reader.readLine();
             if (rsp.contains(Constants.UPGRADE_VLID_HOST)) {
                 isValid = true;
             }
-
+            UdmLog.info("check valid host response:"+rsp);
         } catch (SocketTimeoutException ex) {
         } catch (Exception e) {
         }

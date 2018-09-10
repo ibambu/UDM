@@ -27,20 +27,24 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ibamb.udm.R;
-import com.ibamb.udm.component.file.FileDirManager;
-import com.ibamb.udm.component.file.FilePathParser;
-import com.ibamb.udm.component.guide.MainActivityGuide;
-import com.ibamb.udm.component.security.AESCrypt;
-import com.ibamb.udm.component.security.PermissionUtils;
-import com.ibamb.udm.guide.guideview.Guide;
-import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.TryUser;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
 import com.ibamb.dnet.module.security.ICryptStrategy;
+import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
+import com.ibamb.udm.component.file.FileDirManager;
+import com.ibamb.udm.component.file.FilePathParser;
+import com.ibamb.udm.component.guide.MainActivityGuide;
+import com.ibamb.udm.component.security.AESCrypt;
+import com.ibamb.udm.component.security.PermissionUtils;
+import com.ibamb.udm.conf.DefaultConstant;
+import com.ibamb.udm.conf.Log;
+import com.ibamb.udm.guide.guideview.Guide;
+import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
+import com.ibamb.udm.task.SearchUpgradeDeviceAsycTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -63,26 +67,31 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText vSearchKeyword;
     private ImageView vSearchIcon;
-    private String showGuideFlag ="1";
+    private String showGuideFlag = "1";
 
     @Override
     protected void onStart() {
         super.onStart();
         FileInputStream inputStream = null;
-
+        FileInputStream versionFileIn = null;
         FileDirManager fileDirManager = new FileDirManager(this);
         try {
-            File runErrFile = fileDirManager.getFileByName(Constants.FILE_UDM_RUN_ERR_LOG);
-            if (runErrFile == null) {
-                runErrFile = new File(getFilesDir() + "/" + Constants.FILE_UDM_RUN_ERR_LOG);
+            String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                    DefaultConstant.BASE_DIR  +"/";
+            File baseDir = new File(udmDir);
+            if(!baseDir.exists()){
+                baseDir.mkdir();
+            }
+            File runErrFile = new File(udmDir + UdmConstant.FILE_UDM_RUN_ERR_LOG);
+            if (!runErrFile.exists()) {
                 runErrFile.createNewFile();
             }
             UdmLog.setErrorLogFile(runErrFile);
             StringBuilder strbuffer = new StringBuilder();
 
-            File tryUesrFile = fileDirManager.getFileByName(Constants.TRY_USER_FILE);
+            File tryUesrFile = fileDirManager.getFileByName(UdmConstant.TRY_USER_FILE);
             if (tryUesrFile != null) {
-                inputStream = openFileInput(Constants.TRY_USER_FILE);
+                inputStream = openFileInput(UdmConstant.TRY_USER_FILE);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String line = null;
                 while ((line = bufferedReader.readLine()) != null) {
@@ -93,11 +102,13 @@ public class MainActivity extends AppCompatActivity {
                 String[] tryUsers = content.split("&");
                 TryUser.setTryUser(tryUsers);
             }
-
-
             //初始化应用基础数据
             UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
             initAsyncTask.execute();
+
+            //搜索并自动升级
+            SearchUpgradeDeviceAsycTask task = new SearchUpgradeDeviceAsycTask(this);
+            task.execute();
 
         } catch (Exception e) {
             UdmLog.error(e);
@@ -106,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 if (inputStream != null) {
                     inputStream.close();
                 }
-
+                if (versionFileIn != null) {
+                    versionFileIn.close();
+                }
             } catch (IOException e) {
                 UdmLog.error(e);
             }
@@ -119,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);//修改任务栏背景颜色
 
         if (PermissionUtils.isGrantExternalRW(this, 1)) {
 
@@ -146,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         vSearchKeyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchDevice();
                 }
                 return false;
@@ -167,11 +180,11 @@ public class MainActivity extends AppCompatActivity {
          * 判断是否显示新手指引
          */
         FileInputStream inputStream1 = null;
-        try{
+        try {
             FileDirManager fileDirManager = new FileDirManager(this);
-            File guideFile = fileDirManager.getFileByName(Constants.FILE_GUIDE_CONF);
+            File guideFile = fileDirManager.getFileByName(UdmConstant.FILE_GUIDE_CONF);
             if (guideFile != null) {
-                inputStream1 = openFileInput(Constants.FILE_GUIDE_CONF);
+                inputStream1 = openFileInput(UdmConstant.FILE_GUIDE_CONF);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream1));
                 showGuideFlag = bufferedReader.readLine();
             }
@@ -183,10 +196,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }*/
-        }catch (Exception e){
+        } catch (Exception e) {
             UdmLog.error(e);
-        }finally {
-            if(inputStream1!=null){
+        } finally {
+            if (inputStream1 != null) {
                 try {
                     inputStream1.close();
                 } catch (IOException e) {
@@ -199,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 搜索设备
      */
-    private void searchDevice(){
+    private void searchDevice() {
         //判断WIFI是否开启
         try {
             ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -225,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     task.setActivity(MainActivity.this);
                     task.setSupportFragmentManager(getSupportFragmentManager());
                     task.execute(vSearchKeyword.getText().toString());
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, "Please connect to WIFI.", Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -267,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Constants.FLAG_SPECIALLY_SEARCH) {
+        if (resultCode == UdmConstant.FLAG_SPECIALLY_SEARCH) {
             if (data != null) {
                 String searchKewWord = data.getStringExtra("SEARCH_KEY_WORD");
 
@@ -277,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 task.execute(searchKewWord);
                 findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
             }
-        } else if (resultCode == Constants.ACTIVITY_RESULT_FOR_LOGIN) {
+        } else if (resultCode == UdmConstant.ACTIVITY_RESULT_FOR_LOGIN) {
             boolean isLoginSuccess = data.getBooleanExtra("IS_LOGIN_SUCCESS", false);
             if (isLoginSuccess) {
                 Intent intent = new Intent(this, DeviceProfileActivity.class);
@@ -327,9 +340,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-                break;
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public void showGuideView() {
@@ -388,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, DeviceUpgradeActivity.class);
                     startActivityForResult(intent, 1);
 
-                }else if (menuItemId == R.id.spec_search_toolbar) {
+                } else if (menuItemId == R.id.spec_search_toolbar) {
 
                     findViewById(R.id.tab_line_layout).setVisibility(View.GONE);
                     TextView bottomTtile = findViewById(R.id.tab_device_list);

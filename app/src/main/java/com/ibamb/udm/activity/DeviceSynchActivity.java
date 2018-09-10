@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
 import com.ibamb.udm.component.constants.ServiceConst;
 import com.ibamb.dnet.module.log.UdmLog;
@@ -70,7 +71,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_synch);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         Intent intent = getIntent();
         Bundle params = intent.getExtras();
@@ -165,13 +166,13 @@ public class DeviceSynchActivity extends AppCompatActivity {
          * 同步日志文件
          */
         fileDirManager = new FileDirManager(this);
-        syncDeviceLog = fileDirManager.getFileByName(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG);
+        syncDeviceLog = fileDirManager.getFileByName(UdmConstant.FILE_SYNC_TO_OTH_DEVICE_LOG);
         if (syncDeviceLog != null) {
             StringBuilder strBuffer = new StringBuilder();
             FileInputStream inputStream = null;
             String syncTime = "";
             try {
-                inputStream = openFileInput(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG);
+                inputStream = openFileInput(UdmConstant.FILE_SYNC_TO_OTH_DEVICE_LOG);
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String line = null;
                 String lastLine = "";
@@ -291,7 +292,7 @@ public class DeviceSynchActivity extends AppCompatActivity {
 
                 try {
                     //覆盖写，只保留最新日志
-                    OutputStreamWriter writerStream = new OutputStreamWriter(openFileOutput(Constants.FILE_SYNC_TO_OTH_DEVICE_LOG, MODE_APPEND));
+                    OutputStreamWriter writerStream = new OutputStreamWriter(openFileOutput(UdmConstant.FILE_SYNC_TO_OTH_DEVICE_LOG, MODE_APPEND));
                     bufwriter = new BufferedWriter(writerStream);
                     bufwriter.write(syncReport);
                     bufwriter.newLine();

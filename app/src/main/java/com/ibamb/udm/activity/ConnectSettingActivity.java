@@ -12,6 +12,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.dnet.module.beans.ChannelParameter;
@@ -63,7 +64,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_setting);
         currentView = getWindow().getDecorView();
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         ip = (String) bundle.get("HOST_ADDRESS");

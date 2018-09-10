@@ -10,10 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ibamb.udm.R;
-import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.TryUser;
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.task.UserLoginAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);//修改任务栏背景颜色
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);//修改任务栏背景颜色
         ((TextView)findViewById(R.id.title)).setText("Login");
         findViewById(R.id.do_commit).setVisibility(View.GONE);
 
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         loginAsyncTask.cancel(true);
                         noticeView.setVisibility(View.VISIBLE);
-                        noticeView.setText(Constants.INFO_LOGIN_FAIL);
+                        noticeView.setText(UdmConstant.INFO_LOGIN_FAIL);
                     }
                 } catch (InterruptedException e) {
                     UdmLog.error(e);
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         params.putString("HOST_MAC", mac);
         params.putBoolean("IS_LOGIN_SUCCESS", isLoginSuccess);
         intent.putExtras(params);
-        this.setResult(Constants.ACTIVITY_RESULT_FOR_LOGIN, intent);
+        this.setResult(UdmConstant.ACTIVITY_RESULT_FOR_LOGIN, intent);
         super.finish();
     }
 }

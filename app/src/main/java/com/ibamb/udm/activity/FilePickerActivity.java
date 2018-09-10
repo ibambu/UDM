@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.CallbackBundle;
 import com.ibamb.udm.component.file.OpenFileDialog;
 import com.ibamb.dnet.module.constants.Constants;
@@ -20,7 +21,7 @@ public class FilePickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_picker);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
         // 设置单击按钮时打开文件对话框
         findViewById(R.id.file_picker_button).setOnClickListener(new View.OnClickListener() {
             @Override

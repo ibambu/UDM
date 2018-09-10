@@ -19,6 +19,7 @@ import com.ibamb.udm.adapter.DeviceListAdapter;
 import com.ibamb.dnet.module.beans.DeviceModel;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ContextData;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class DeviceListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
         /**
          * 清空选中状态
          */

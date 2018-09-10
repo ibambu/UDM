@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.component.file.FileDirManager;
 import com.ibamb.dnet.module.log.UdmLog;
@@ -41,7 +42,7 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                  * 读取文件
                  */
                 FileInputStream fileInputStream = new FileInputStream(typeFile);
-                bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream, Constants.DEFAULT_CHARSET));
+                bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream, UdmConstant.DEFAULT_CHARSET));
                 String readLine = null;
                 /**
                  * 加密文件
@@ -51,7 +52,7 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                 publishProgress("Loading file :"+typeFile.getName());
                 boolean isFileError = false;
                 while ((readLine = bufferedReader.readLine()) != null) {
-                    String[] dataArray = readLine.split(Constants.FILE_PARAM_MAPPING_COLUMN_SPLIT);
+                    String[] dataArray = readLine.split(UdmConstant.FILE_PARAM_MAPPING_COLUMN_SPLIT);
                     if(dataArray.length<12){
                         onProgressUpdate("Error data :"+readLine);
                         isFileError = true;
@@ -67,11 +68,11 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                      * 保存文件
                      */
                     FileDirManager fileDirManager = new FileDirManager(activity);
-                    File distFile = fileDirManager.getFileByName(Constants.FILE_PARAM_MAPPING);
+                    File distFile = fileDirManager.getFileByName(UdmConstant.FILE_PARAM_MAPPING);
                     if (distFile != null) {
                         distFile.delete();
                     }
-                    outputStream = activity.openFileOutput(Constants.FILE_PARAM_MAPPING, Activity.MODE_APPEND);
+                    outputStream = activity.openFileOutput(UdmConstant.FILE_PARAM_MAPPING, Activity.MODE_APPEND);
                     outputStream.write(content.getBytes());//写入新文件
                     publishProgress("Import completed.");
                 }

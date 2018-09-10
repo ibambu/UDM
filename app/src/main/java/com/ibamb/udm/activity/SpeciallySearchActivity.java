@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.ibamb.udm.R;
 import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 public class SpeciallySearchActivity extends AppCompatActivity {
@@ -32,7 +33,7 @@ public class SpeciallySearchActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(specSearch.getWindowToken(), 0); // 输入法如果是显示状态，那么就隐藏输入法
                 }
                 specSearch.clearFocus(); // 不获取焦点
-                resultCode = Constants.FLAG_SPECIALLY_SEARCH;//返回值，表示带关键字搜索。
+                resultCode = UdmConstant.FLAG_SPECIALLY_SEARCH;//返回值，表示带关键字搜索。
                 finish();
             }
             return true;
@@ -55,7 +56,7 @@ public class SpeciallySearchActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
     }
 

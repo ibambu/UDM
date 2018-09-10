@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SearchDeviceListPagerAdapter;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
 import com.ibamb.udm.beans.Device;
 import com.ibamb.dnet.module.beans.DeviceModel;
@@ -51,7 +52,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         }
 
         String keyword = strings != null && strings.length > 0 ? strings[0] : null;
-        publishProgress(Constants.INFO_SEARCH_PROGRESS);
+        publishProgress(UdmConstant.INFO_SEARCH_PROGRESS);
         deviceList = DeviceSearch.searchDevice(keyword);
         if (deviceList == null) {
             int tryMaxCount = 3;
@@ -143,7 +144,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
          */
         String notice = "";
         if (dataList.size() == 0) {
-            notice = Constants.INFO_SEARCH_FAIL;
+            notice = UdmConstant.INFO_SEARCH_FAIL;
         } else {
             notice = "Found Device:" + String.valueOf(dataList.size());
         }

@@ -13,9 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ibamb.udm.R;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.task.AppUpdateAsyncTask;
 import com.ibamb.udm.task.AppVersionCheckAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -36,7 +36,7 @@ public class AppUpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_update);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         TextView title = findViewById(R.id.title);
         title.setText("About udm");
@@ -104,8 +104,8 @@ public class AppUpdateActivity extends AppCompatActivity {
                         .create().show();
             }
         });
-        AppVersionCheckAsyncTask task = new AppVersionCheckAsyncTask(AppUpdateActivity.this);
-        task.execute(vUpdateCenterUrl.getText().toString());
+//        AppVersionCheckAsyncTask task = new AppVersionCheckAsyncTask(AppUpdateActivity.this);
+//        task.execute(vUpdateCenterUrl.getText().toString());
 
     }
 

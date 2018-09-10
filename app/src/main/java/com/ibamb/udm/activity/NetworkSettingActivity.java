@@ -10,16 +10,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ibamb.udm.R;
-import com.ibamb.udm.listener.UdmGestureListener;
-import com.ibamb.udm.listener.UdmReloadParamsClickListener;
-import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.beans.ChannelParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.net.IPUtil;
+import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
+import com.ibamb.udm.listener.UdmGestureListener;
+import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -48,7 +48,7 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipsetting);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
@@ -70,7 +70,7 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
             public void onClick(View v) {
                 int errId = checkData();
                 if(errId==0){
-                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter, Constants.UDM_IP_SETTING_CHNL);
+                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter, UdmConstant.UDM_IP_SETTING_CHNL);
                     ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
                     task.execute(channelParameter,changedParam);
                 }else{
@@ -84,7 +84,7 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
         });
 
         title=findViewById(R.id.title);
-        title.setText(Constants.TITLE_IP_SETTING);
+        title.setText(UdmConstant.TITLE_IP_SETTING);
 
     }
 
@@ -93,8 +93,8 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
         super.onStart();
         //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
         try {
-            channelParameter = new ChannelParameter(mac, ip, Constants.UDM_IP_SETTING_CHNL);
-            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(IP_SETTING_PARAMS_TAG, Constants.UDM_IP_SETTING_CHNL);
+            channelParameter = new ChannelParameter(mac, ip, UdmConstant.UDM_IP_SETTING_CHNL);
+            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(IP_SETTING_PARAMS_TAG, UdmConstant.UDM_IP_SETTING_CHNL);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));

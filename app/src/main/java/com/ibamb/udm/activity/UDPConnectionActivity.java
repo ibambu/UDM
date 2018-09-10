@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.beans.ChannelParameter;
@@ -56,7 +57,7 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_udpconnection);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         getSupportActionBar();
         Bundle bundle = getIntent().getExtras();
@@ -94,7 +95,7 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
         });
 
         title = findViewById(R.id.title);
-        title.setText(Constants.TITLE_UDP_CONNECTION);
+        title.setText(UdmConstant.TITLE_UDP_CONNECTION);
     }
 
     @Override

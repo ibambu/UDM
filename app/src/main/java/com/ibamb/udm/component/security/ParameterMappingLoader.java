@@ -2,6 +2,7 @@ package com.ibamb.udm.component.security;
 
 import android.app.Activity;
 
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.component.file.FileDirManager;
 import com.ibamb.dnet.module.log.UdmLog;
@@ -30,13 +31,13 @@ public class ParameterMappingLoader {
         try {
 
             FileDirManager fileDirManager = new FileDirManager(activity);
-            File mappingFile = fileDirManager.getFileByName(Constants.FILE_PARAM_MAPPING);
+            File mappingFile = fileDirManager.getFileByName(UdmConstant.FILE_PARAM_MAPPING);
             if (mappingFile != null) {
-                FileInputStream inputStream = activity.openFileInput(Constants.FILE_PARAM_MAPPING);
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Constants.DEFAULT_CHARSET));
+                FileInputStream inputStream = activity.openFileInput(UdmConstant.FILE_PARAM_MAPPING);
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream, UdmConstant.DEFAULT_CHARSET));
             } else {
-                InputStream in = activity.getAssets().open(Constants.FILE_PARAM_MAPPING);
-                bufferedReader = new BufferedReader(new InputStreamReader(in, Constants.DEFAULT_CHARSET));
+                InputStream in = activity.getAssets().open(UdmConstant.FILE_PARAM_MAPPING);
+                bufferedReader = new BufferedReader(new InputStreamReader(in, UdmConstant.DEFAULT_CHARSET));
             }
             String readLine = null;
             ICryptStrategy aes = new AESCrypt();
@@ -48,7 +49,7 @@ public class ParameterMappingLoader {
             if (decodeTypeString != null) {
                 String[] typeLines = decodeTypeString.split("&&");
                 for (String typeLine : typeLines) {
-                    String[] dataArray = typeLine.split(Constants.FILE_PARAM_MAPPING_COLUMN_SPLIT);
+                    String[] dataArray = typeLine.split(UdmConstant.FILE_PARAM_MAPPING_COLUMN_SPLIT);
                     int cellCount = 0;
                     Parameter param = new Parameter();
                     param.setParamType(Integer.parseInt(dataArray[cellCount++]));//参数类型
@@ -67,8 +68,8 @@ public class ParameterMappingLoader {
                     String displayEnumValues = dataArray[cellCount++];
                     if (dataArray.length > 9) {
                         if (enumValues != null && displayEnumValues != null) {
-                            String[] values = enumValues.split(Constants.FILE_ENUM_VALUE_SPLIT);
-                            String[] names = displayEnumValues.split(Constants.FILE_ENUM_VALUE_SPLIT);
+                            String[] values = enumValues.split(UdmConstant.FILE_ENUM_VALUE_SPLIT);
+                            String[] names = displayEnumValues.split(UdmConstant.FILE_ENUM_VALUE_SPLIT);
                             if (values.length == names.length) {
                                 for (int i = 0; i < values.length; i++) {
                                     if (values[i].equals("NULL")) {

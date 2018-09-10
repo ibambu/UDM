@@ -36,9 +36,9 @@
                     app:showAsAction="ifRoom" />
 
                 <item
-                    android:id="@+id/menu_download_patch"
-                    android:icon="@mipmap/ic_action_download"
-                    android:title="Download Upgrade Patch"
+                    android:id="@+id/menu_import_update_patch"
+                    android:icon="@mipmap/ic_action_import"
+                    android:title="Import Update package"
                     app:showAsAction="ifRoom" />
             </group>
         </menu>

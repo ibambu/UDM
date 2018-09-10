@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.android.Intents;
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.login.LoginComponent;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.BitmapUtil;
@@ -34,7 +35,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qrcode);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         resultTextView = (TextView) this.findViewById(R.id.scan_result);
         scanBarCodeButton = (Button) this.findViewById(R.id.bt_bigin_scan);

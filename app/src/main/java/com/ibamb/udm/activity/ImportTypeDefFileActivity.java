@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.task.ImportTypeFileAsyncTask;
@@ -25,7 +26,7 @@ public class ImportTypeDefFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_type_def_file);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         currentView = getWindow().getDecorView();
         Intent intent = getIntent();
@@ -52,7 +53,7 @@ public class ImportTypeDefFileActivity extends AppCompatActivity {
                  * 只要删除data/data目录的文件即可，因为该目录文件不存在时会读取资源目录下的默认文件。
                  */
                 FileDirManager fileDirManager = new FileDirManager(ImportTypeDefFileActivity.this);
-                File mappingFile = fileDirManager.getFileByName(Constants.FILE_PARAM_MAPPING);
+                File mappingFile = fileDirManager.getFileByName(UdmConstant.FILE_PARAM_MAPPING);
                 if(mappingFile!=null){
                     mappingFile.delete();
                     ((TextView)findViewById(R.id.import_progress_notice)).setText("Reset Completed.");

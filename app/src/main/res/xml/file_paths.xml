@@ -4,5 +4,5 @@
     <files-path name="tryuser" path="user" />
     <files-path name="data"    path="data" />
     <external-path name="download" path="download" />
-    <external-path name="params" path="params" />
+    <external-path name="udm" path="udm" />
 </paths>

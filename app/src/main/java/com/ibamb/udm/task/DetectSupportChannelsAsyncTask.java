@@ -6,6 +6,7 @@ import com.ibamb.dnet.module.beans.ChannelParameter;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.instruct.IParamReader;
 import com.ibamb.dnet.module.instruct.ParamReader;
+import com.ibamb.udm.component.constants.UdmConstant;
 
 public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, ChannelParameter> {
     private ChannelParameter channelParameter;
@@ -25,7 +26,7 @@ public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, Ch
              */
             reader.readChannelParam(channelParameter);
             while (!channelParameter.isSuccessful() && tryCount < 3) {
-                publishProgress(Constants.WAIT_READ_PARAM);
+                publishProgress(UdmConstant.WAIT_READ_PARAM);
                 reader.readChannelParam(channelParameter);
                 tryCount++;
             }

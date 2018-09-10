@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.beans.ChannelParameter;
@@ -47,7 +48,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tcpconnection);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
@@ -84,7 +85,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
         });
 
         title = findViewById(R.id.title);
-        title.setText(Constants.TITLE_TCP_CONNECTION);
+        title.setText(UdmConstant.TITLE_TCP_CONNECTION);
     }
 
     @Override

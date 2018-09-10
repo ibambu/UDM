@@ -44,9 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:height="20dp"
+            android:height="30dp"
             android:gravity="center"
-            android:text="" />
+            android:text=""
+            android:textColor="#003399"/>
         <TextView
             android:id="@+id/upgrade_progress"
             android:layout_width="match_parent"

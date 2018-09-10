@@ -13,6 +13,7 @@ import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.net.IPUtil;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.tag.UdmButtonTextEdit;
 import com.ibamb.udm.tag.UdmSpinner;
 
@@ -40,7 +41,7 @@ public class ViewElementDataUtil {
                 String elementTagId = paramdef.getViewTagId().toLowerCase();
                 int elementType = paramdef.getElementType();
                 switch (elementType) {
-                    case Constants.UDM_UI_SPECIAL:
+                    case UdmConstant.UDM_UI_SPECIAL:
                         if ("CONN_NET_PROTOCOL".equalsIgnoreCase(paramdef.getViewTagId())) {
                             Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
                             Switch udp = view.findViewById(R.id.udp_enanbled_switch);
@@ -63,7 +64,7 @@ public class ViewElementDataUtil {
                             }
                         }
                         break;
-                    case Constants.UDM_UI_EDIT_TEXT:
+                    case UdmConstant.UDM_UI_EDIT_TEXT:
                         EditText vEditText = view.findViewWithTag(elementTagId);
                         if (vEditText != null) {
 
@@ -83,23 +84,23 @@ public class ViewElementDataUtil {
                             }
                         }
                         break;
-                    case Constants.UDM_UI_UDMSPINNER:
+                    case UdmConstant.UDM_UI_UDMSPINNER:
                         UdmSpinner vSpinner = view.findViewWithTag(elementTagId);
                         if (vSpinner != null) {
                             vSpinner.setValue(item.getDisplayValue());
                         }
                         break;
-                    case Constants.UDM_UI_SWITCH:
+                    case UdmConstant.UDM_UI_SWITCH:
                         Switch vSwitch = view.findViewWithTag(elementTagId);
                         if (vSwitch != null) {
-                            if (Constants.UDM_SWITCH_ON.equals(item.getParamValue())) {
+                            if (UdmConstant.UDM_SWITCH_ON.equals(item.getParamValue())) {
                                 vSwitch.setChecked(true);
                             } else {
                                 vSwitch.setChecked(false);
                             }
                         }
                         break;
-                    case Constants.UDM_UI_BUTTON_TEXT:
+                    case UdmConstant.UDM_UI_BUTTON_TEXT:
                         UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(elementTagId);
                         if (buttonTextEdit != null) {
                             buttonTextEdit.setValue(item.getDisplayValue());
@@ -135,7 +136,7 @@ public class ViewElementDataUtil {
             String displayValue = null;
             boolean hasElement = false;
             switch (vElementType) {
-                case Constants.UDM_UI_SPECIAL:
+                case UdmConstant.UDM_UI_SPECIAL:
                     if ("CONN_NET_PROTOCOL".equalsIgnoreCase(parameter.getViewTagId())) {
                         Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
                         Switch udp = view.findViewById(R.id.udp_enanbled_switch);
@@ -153,7 +154,7 @@ public class ViewElementDataUtil {
 
                     }
                     break;
-                case Constants.UDM_UI_EDIT_TEXT:
+                case UdmConstant.UDM_UI_EDIT_TEXT:
                     EditText vEditText = view.findViewWithTag(viewTagId);
                     if (vEditText != null) {
                         value = parameter.getValue(vEditText.getText().toString());
@@ -170,25 +171,25 @@ public class ViewElementDataUtil {
                         hasElement = true;
                     }
                     break;
-                case Constants.UDM_UI_UDMSPINNER:
+                case UdmConstant.UDM_UI_UDMSPINNER:
                     UdmSpinner vSpinner = view.findViewWithTag(viewTagId);
                     if (vSpinner != null) {
                         value = parameter.getValue(vSpinner.getValue());
                         hasElement = true;
                     }
                     break;
-                case Constants.UDM_UI_SWITCH:
+                case UdmConstant.UDM_UI_SWITCH:
                     Switch vSwitch = view.findViewWithTag(viewTagId);
                     if (vSwitch != null) {
                         if (vSwitch.isChecked()) {
-                            value = Constants.UDM_SWITCH_ON;
+                            value = UdmConstant.UDM_SWITCH_ON;
                         } else {
-                            value = Constants.UDM_SWITCH_OFF;
+                            value = UdmConstant.UDM_SWITCH_OFF;
                         }
                         hasElement = true;
                     }
                     break;
-                case Constants.UDM_UI_BUTTON_TEXT:
+                case UdmConstant.UDM_UI_BUTTON_TEXT:
                     UdmButtonTextEdit buttonTextEdit = view.findViewWithTag(viewTagId);
                     if (buttonTextEdit != null) {
                         value = parameter.getValue(buttonTextEdit.getValue());

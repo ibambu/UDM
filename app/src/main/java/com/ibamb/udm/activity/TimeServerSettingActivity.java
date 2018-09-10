@@ -19,6 +19,7 @@ import com.ibamb.dnet.module.beans.ParameterItem;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
@@ -48,7 +49,7 @@ public class TimeServerSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_setting);
-        TaskBarQuiet.setStatusBarColor(this, Constants.TASK_BAR_COLOR);
+        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
 
         Bundle bundle = getIntent().getExtras();
         mac = bundle.getString("HOST_MAC");
@@ -77,7 +78,7 @@ public class TimeServerSettingActivity extends AppCompatActivity {
 
         title = findViewById(R.id.title);
 
-        title.setText(Constants.TITLE_OTHER_SETTING);
+        title.setText(UdmConstant.TITLE_OTHER_SETTING);
 
         localDate = findViewById(R.id.id_local_date);
         localDate.setOnTouchListener(new View.OnTouchListener() {
@@ -152,7 +153,7 @@ public class TimeServerSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, ip, Constants.UDM_IP_SETTING_CHNL);
+            channelParameter = new ChannelParameter(mac, ip, UdmConstant.UDM_IP_SETTING_CHNL);
             List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(OTH_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.ibamb.udm.component.constants.ServiceConst;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.login.Login;
 import com.ibamb.dnet.module.beans.ChannelParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
@@ -83,22 +84,22 @@ public class SyncDeviceParamTask implements Callable {
                 String resultInfo ="";
                 switch (resultCode){
                     case Control.ACKNOWLEDGE:
-                        resultInfo = Constants.SYNC_SUCCESS;
+                        resultInfo = UdmConstant.SYNC_SUCCESS;
                         break;
                     case Control.NO_PERMISSION:
-                        resultInfo = Constants.SYNC_NO_PERMISSION;
+                        resultInfo = UdmConstant.SYNC_NO_PERMISSION;
                         break;
                     case Control.OPTION_NOT_SUPPORT:
-                        resultInfo =  Constants.SYNC_NO_PERMISSION;
+                        resultInfo =  UdmConstant.SYNC_NO_PERMISSION;
                         break;
                     case Control.NO_DATA_REPLY:
-                        resultInfo = Constants.SYNC_NO_DATA_REPLY;
+                        resultInfo = UdmConstant.SYNC_NO_DATA_REPLY;
                         break;
                     case Control.VALUE_INVALID:
-                        resultInfo =  Constants.SYNC_VALUE_INVALID;
+                        resultInfo =  UdmConstant.SYNC_VALUE_INVALID;
                         break;
                         default:
-                            resultInfo= Constants.SYNC_UNKNOWN_ERROR;
+                            resultInfo= UdmConstant.SYNC_UNKNOWN_ERROR;
                 }
                 if (resultCode== Control.ACKNOWLEDGE) {
                     boolean isSuccess = SysManager.saveAndReboot(mac);//同步成功后重启设备。
@@ -112,16 +113,16 @@ public class SyncDeviceParamTask implements Callable {
                         }
                     }
                     if(!isSuccess){
-                        resultInfo= Constants.SYNC_SAVE_REBOOT_FAIL;
+                        resultInfo= UdmConstant.SYNC_SAVE_REBOOT_FAIL;
                     }
                 }
                 syncReport = ip + "#" + mac + "#" + resultInfo;
             } else {
                 distChannelParameters.setResultCode(Control.AUTH_FAIL);
-                syncReport = ip + "#" + mac + "#" + Constants.SYNC_AUTH_FAIL;
+                syncReport = ip + "#" + mac + "#" + UdmConstant.SYNC_AUTH_FAIL;
             }
         } catch (Exception e) {
-            syncReport = ip + "#" + mac + "#" + Constants.SYNC_UNKNOWN_ERROR;
+            syncReport = ip + "#" + mac + "#" + UdmConstant.SYNC_UNKNOWN_ERROR;
             throw e;
         } finally {
             synchronized (broadcastLock) {
