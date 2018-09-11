@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/home/luotao/h-work/apps/udm/app/src/main/jniLibs"/></dataSet><dataSet config="release"><source path="/home/luotao/h-work/apps/udm/app/src/release/jniLibs"/></dataSet></merger>

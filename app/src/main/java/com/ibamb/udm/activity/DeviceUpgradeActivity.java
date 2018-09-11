@@ -70,7 +70,8 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     //本地更新包
     private String localUpdatePatch;
 
-
+    private String localCheckFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+DefaultConstant.BASE_DIR+"/"
+            + DefaultConstant.VERSION_CHECK_FILE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +138,12 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                     updateDir.mkdir();
                 }
                 if (actionButton.getText().toString().equals("Check for updates")) {
+
                     localUpdatePatch = null;
+                    File f = new File(localCheckFileName);
+                    if(f.exists()){
+                        f.delete();
+                    }
                     FileInputStream inputStream = null;
                     try {
                         inputStream = openFileInput("update-setting.txt");

@@ -70,11 +70,9 @@ public class FTPHelper {
         } catch (NoRouteToHostException e) {
             retCode = -6;
         } catch (ConnectException e) {
-            e.printStackTrace();
             retCode = -3;
         } catch (Exception e) {
             retCode = -4;
-            e.printStackTrace();
             UdmLog.error(e);
         } finally {
             try {

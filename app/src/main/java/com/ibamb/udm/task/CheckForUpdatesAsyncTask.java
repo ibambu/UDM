@@ -126,10 +126,8 @@ public class CheckForUpdatesAsyncTask extends AsyncTask<String,String,String> {
             actionButton.setClickable(true);
         } catch (FileNotFoundException e) {
             actionButton.setClickable(true);
-            e.printStackTrace();
             UdmLog.error(e);
         } catch (Exception e) {
-            e.printStackTrace();
             UdmLog.error(e);
         }
         super.onPostExecute(s);
