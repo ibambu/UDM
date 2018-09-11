@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.View;
 
 import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 
 /**
@@ -13,20 +13,20 @@ import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 public class UdmReloadParamsClickListener implements View.OnClickListener{
 
     private View view;
-    private ChannelParameter channelParameter;
+    private DeviceParameter deviceParameter;
     private Activity activity;
 
-    public UdmReloadParamsClickListener(Activity activity,View view, ChannelParameter channelParameter) {
+    public UdmReloadParamsClickListener(Activity activity,View view, DeviceParameter deviceParameter) {
         this.activity = activity;
         this.view = view;
-        this.channelParameter = channelParameter;
+        this.deviceParameter = deviceParameter;
     }
 
     @Override
     public void onClick(View v) {
         try{
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(activity,view,channelParameter);
-            readerAsyncTask.execute(channelParameter.getMac());
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(activity,view, deviceParameter);
+            readerAsyncTask.execute(deviceParameter.getMac());
         }catch (Exception ex){
             UdmLog.error(ex);
         }

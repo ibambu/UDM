@@ -1,6 +1,7 @@
 package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -30,6 +33,7 @@ import com.ibamb.udm.beans.UdmVersion;
 import com.ibamb.udm.component.broadcast.InstallAPK;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
+import com.ibamb.udm.component.file.FilePathParser;
 import com.ibamb.udm.conf.DefaultConstant;
 import com.ibamb.udm.service.DeviceUpgradeService;
 import com.ibamb.udm.task.CheckForUpdatesAsyncTask;
@@ -63,6 +67,9 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     //service 连接
     private ServiceConnection serviceConnection;
 
+    //本地更新包
+    private String localUpdatePatch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +94,13 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                 } else if (item.getItemId() == R.id.menu_upgrade_setting) {
                     Intent intent = new Intent(DeviceUpgradeActivity.this, UpdateSettingActivity.class);
                     startActivity(intent);
-                } else if (item.getItemId() == R.id.menu_import_update_patch) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("*/*");//设置类型.
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    startActivityForResult(intent, 1);
                 }
+//                else if (item.getItemId() == R.id.menu_import_update_patch) {
+//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.setType("*/*");
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                    startActivityForResult(intent, 1);
+//                }
                 return true;
             }
         });
@@ -122,7 +130,14 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
             @Override
             public void onClick(View v) {
                 String[] content = null;
+                FileDirManager fileDirManager = new FileDirManager(DeviceUpgradeActivity.this);
+                File updateDir = fileDirManager.getFileByName("update");
+                if (updateDir == null || !updateDir.exists()) {
+                    updateDir = new File(getFilesDir() + "/update");
+                    updateDir.mkdir();
+                }
                 if (actionButton.getText().toString().equals("Check for updates")) {
+                    localUpdatePatch = null;
                     FileInputStream inputStream = null;
                     try {
                         inputStream = openFileInput("update-setting.txt");
@@ -134,12 +149,6 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                         }
                         content = strBuffer.toString().split("#");
                         if (content.length > 3) {
-                            FileDirManager fileDirManager = new FileDirManager(DeviceUpgradeActivity.this);
-                            File updateDir = fileDirManager.getFileByName("update");
-                            if (updateDir == null || !updateDir.exists()) {
-                                updateDir = new File(getFilesDir() + "/update");
-                                updateDir.mkdir();
-                            }
                             String host = content[0];
                             String port = content[1];
                             String userName = content[2];
@@ -151,10 +160,19 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                         }
                     } catch (FileNotFoundException e) {
                         UdmLog.error(e);
+                        CheckForUpdatesAsyncTask task = new CheckForUpdatesAsyncTask(
+                                DeviceUpgradeActivity.this,
+                                DefaultConstant.FTP_HOST,
+                                String.valueOf(DefaultConstant.FTP_PORT),
+                                DefaultConstant.USER_NAME,
+                                DefaultConstant.PASSWORD,
+                                updateDir);
+                        task.execute();
                     } catch (IOException e) {
                         UdmLog.error(e);
                     }
                 } else if (actionButton.getText().toString().equals("Download update patch")) {
+                    localUpdatePatch = null;
                     findViewById(R.id.upgrade_progress_bar).setVisibility(View.VISIBLE);
                     ((TextView) findViewById(R.id.version_info)).setText("downloading...");
                     FileDownloadAysncTask task = new FileDownloadAysncTask(currentView,udmVersion);
@@ -165,10 +183,7 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                     actionButton.setClickable(false);
 
                 } else if (actionButton.getText().toString().equals("Update")) {
-                    /**
-                     * APP 本身更新
-                     */
-                    if (udmVersion.getCurrentVersionId() < udmVersion.getVersionId()) {
+                   if (udmVersion.getCurrentVersionId() < udmVersion.getVersionId()) {
                         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+
                                 DefaultConstant.BASE_DIR+"/"+udmVersion.getApkFile();
                         InstallAPK.installApk(DeviceUpgradeActivity.this,path);
@@ -177,14 +192,13 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
                     }
 
                 }else if(actionButton.getText().toString().equals("Restart")){
+                    localUpdatePatch = null;
                     new Handler().postDelayed(new Runnable()  {
                         @Override public void run() {
                             Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(getApplication().getPackageName());
                             LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(LaunchIntent);
                         }  }, 1000);// 1秒钟后重启应用
-
-
                 }
             }
         });
@@ -284,4 +298,27 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         return super.onPrepareOptionsPanel(view, menu);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            FilePathParser filePathParser = new FilePathParser();
+            String path = "";
+            if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
+                path = uri.getPath();
+            }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
+                path = filePathParser.getPath(this, uri);
+            } else {//4.4以下下系统调用方法
+                path = filePathParser.getRealPathFromURI(uri, getContentResolver());
+            }
+            if (path != null && path.trim().length() > 0) {
+                TextView textView = findViewById(R.id.file_path);
+                File f = new File(path);
+                textView.setText("Import File:"+f.getName());
+                actionButton.setText("Update");
+                localUpdatePatch = path;
+            }
+        }
+    }
 }

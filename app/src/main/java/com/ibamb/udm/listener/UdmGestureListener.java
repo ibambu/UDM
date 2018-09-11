@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 
 public class UdmGestureListener extends SimpleOnGestureListener {
@@ -14,7 +14,7 @@ public class UdmGestureListener extends SimpleOnGestureListener {
     private int verticalMinDistance = 20;
     private int minVelocity         = 0;
 
-    private ChannelParameter channelParameter;
+    private DeviceParameter deviceParameter;
     private View currentView;
     private Activity activity;
 
@@ -28,9 +28,9 @@ public class UdmGestureListener extends SimpleOnGestureListener {
         return super.onDown(e);
     }
 
-    public UdmGestureListener(Activity activity,ChannelParameter channelParameter, View currentView) {
+    public UdmGestureListener(Activity activity, DeviceParameter deviceParameter, View currentView) {
         this.activity = activity;
-        this.channelParameter = channelParameter;
+        this.deviceParameter = deviceParameter;
         this.currentView = currentView;
     }
 
@@ -40,8 +40,8 @@ public class UdmGestureListener extends SimpleOnGestureListener {
         if (((e1.getX() - e2.getX() > verticalMinDistance||e2.getX() - e1.getX() > verticalMinDistance) && Math.abs(velocityX) > minVelocity)
                 ||(e1.getY() - e2.getY() > verticalMinDistance||e2.getY() - e1.getY() > verticalMinDistance && Math.abs(velocityY) > minVelocity)) {
 
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(activity,currentView,channelParameter);
-            readerAsyncTask.execute(channelParameter.getMac());
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(activity,currentView, deviceParameter);
+            readerAsyncTask.execute(deviceParameter.getMac());
             Toast.makeText(currentView.getContext(), "Refreshed.", Toast.LENGTH_SHORT).show();
         }
         return super.onFling(e1, e2, velocityX, velocityY);

@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ConnectException;
+import java.net.NoRouteToHostException;
 
 public class FTPHelper {
     private String ftpServer;
@@ -55,21 +56,23 @@ public class FTPHelper {
             ftpClient.login(userName, password);
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.setControlEncoding("UTF-8");
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+ DefaultConstant.BASE_DIR+"/";
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/";
             File file = new File(path);
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.mkdir();
             }
             output = new FileOutputStream(localFile);
             boolean isSuccess = ftpClient.retrieveFile(remoteFile, output);
-            if(isSuccess){
+            if (isSuccess) {
                 retCode = -5;
             }
 
-        } catch (ConnectException e){
+        } catch (NoRouteToHostException e) {
+            retCode = -6;
+        } catch (ConnectException e) {
             e.printStackTrace();
             retCode = -3;
-        }catch (Exception e) {
+        } catch (Exception e) {
             retCode = -4;
             e.printStackTrace();
             UdmLog.error(e);

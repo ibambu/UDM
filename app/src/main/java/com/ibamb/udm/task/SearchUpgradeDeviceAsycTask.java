@@ -66,7 +66,6 @@ public class SearchUpgradeDeviceAsycTask extends AsyncTask<String, String, Array
             updateServiceIntent.putExtra("device-update-version",updateVersions);
             activity.startService(updateServiceIntent);
         }catch (Exception e){
-            e.printStackTrace();
             UdmLog.error(e);
         }finally {
             if(versionFileIn!=null){

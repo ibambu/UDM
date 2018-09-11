@@ -64,11 +64,11 @@ public class CheckForUpdatesAsyncTask extends AsyncTask<String,String,String> {
                 notice ="Connect to server fail.";
             }else if(retCode==-5){
                 notice ="Download update patch fail.";
+            }else if(retCode==-6){
+                notice ="Cannot connect to server.";
             }
-
             publishProgress(notice);
         } catch (Exception e) {
-            e.printStackTrace();
             UdmLog.error(e);
         }
         return notice;

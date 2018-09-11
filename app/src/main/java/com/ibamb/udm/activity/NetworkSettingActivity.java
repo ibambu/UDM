@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class NetworkSettingActivity extends AppCompatActivity  implements View.OnTouchListener{
 
-    private ChannelParameter channelParameter;
+    private DeviceParameter deviceParameter;
     private String mac;
     private String ip;
     private View currentView;
@@ -70,9 +70,9 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
             public void onClick(View v) {
                 int errId = checkData();
                 if(errId==0){
-                    ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter, UdmConstant.UDM_IP_SETTING_CHNL);
+                    DeviceParameter changedParam = ViewElementDataUtil.getChangedData(currentView, deviceParameter, UdmConstant.UDM_IP_SETTING_CHNL);
                     ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                    task.execute(channelParameter,changedParam);
+                    task.execute(deviceParameter,changedParam);
                 }else{
                     EditText editText = findViewById(errId);
                     editText.requestFocus();
@@ -93,23 +93,23 @@ public class NetworkSettingActivity extends AppCompatActivity  implements View.O
         super.onStart();
         //在界面初始化完毕后读取默认通道的参数，并且刷新界面数据。
         try {
-            channelParameter = new ChannelParameter(mac, ip, UdmConstant.UDM_IP_SETTING_CHNL);
+            deviceParameter = new DeviceParameter(mac, ip, UdmConstant.UDM_IP_SETTING_CHNL);
             List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(IP_SETTING_PARAMS_TAG, UdmConstant.UDM_IP_SETTING_CHNL);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));
             }
-            channelParameter.setParamItems(items);
+            deviceParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。注意顺序，一定要在channelParameter赋值之后再绑定事件。
-            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView,channelParameter));
+            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, deviceParameter));
             //后台异步读取参数值并更新界面数据。
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, deviceParameter);
             readerAsyncTask.execute(mac);
 
             /**
              * 监听手势
              */
-            UdmGestureListener listener = new UdmGestureListener(this,channelParameter,currentView);
+            UdmGestureListener listener = new UdmGestureListener(this, deviceParameter,currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.id_ip_obtain).setOnTouchListener(this);
             findViewById(R.id.id_address).setOnTouchListener(this);

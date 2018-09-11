@@ -13,9 +13,8 @@ import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmGestureListener;
 import com.ibamb.udm.listener.UdmReloadParamsClickListener;
 import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
@@ -28,7 +27,7 @@ import java.util.List;
 
 public class BasicSettingActivity extends AppCompatActivity implements View.OnTouchListener{
 
-    private ChannelParameter channelParameter;
+    private DeviceParameter deviceParameter;
     private View currentView;
     private String mac;
     private String ip;
@@ -57,9 +56,9 @@ public class BasicSettingActivity extends AppCompatActivity implements View.OnTo
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
+                DeviceParameter changedParam = ViewElementDataUtil.getChangedData(currentView, deviceParameter,channelId);
                 ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                task.execute(channelParameter,changedParam);
+                task.execute(deviceParameter,changedParam);
             }
         });
 
@@ -81,22 +80,22 @@ public class BasicSettingActivity extends AppCompatActivity implements View.OnTo
     protected void onStart() {
         super.onStart();
         try{
-            channelParameter = new ChannelParameter(mac,ip,channelId);
+            deviceParameter = new DeviceParameter(mac,ip,channelId);
             List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(ACCESS_SETTING_PARAMS_TAG,channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));
             }
-            channelParameter.setParamItems(items);
+            deviceParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView,channelParameter));
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView,channelParameter);
+            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, deviceParameter));
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, deviceParameter);
             readerAsyncTask.execute(mac);
 
             /**
              * 监听手势
              */
-            UdmGestureListener listener = new UdmGestureListener(this,channelParameter,currentView);
+            UdmGestureListener listener = new UdmGestureListener(this, deviceParameter,currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.v_gesture).setOnTouchListener(this);
             findViewById(R.id.v_gesture_1).setOnTouchListener(this);

@@ -1,16 +1,13 @@
 package com.ibamb.udm.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +24,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.TryUser;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
@@ -35,12 +31,10 @@ import com.ibamb.dnet.module.security.ICryptStrategy;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
-import com.ibamb.udm.component.file.FilePathParser;
 import com.ibamb.udm.component.guide.MainActivityGuide;
 import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.component.security.PermissionUtils;
 import com.ibamb.udm.conf.DefaultConstant;
-import com.ibamb.udm.conf.Log;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
@@ -299,23 +293,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
-        } else if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            FilePathParser filePathParser = new FilePathParser();
-            String path = "";
-            if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
-                path = uri.getPath();
-            }
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
-                path = filePathParser.getPath(this, uri);
-            } else {//4.4以下下系统调用方法
-                path = filePathParser.getRealPathFromURI(uri, getContentResolver());
-            }
-            if (path != null && path.trim().length() > 0) {
-                Intent intent = new Intent(this, ImportTypeDefFileActivity.class);
-                intent.putExtra("TYPE_DEF_FILE", path);
-                startActivity(intent);
-            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -391,9 +368,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, ScanQRCodeActivity.class);
                     startActivityForResult(intent, -1);
                 } else if (menuItemId == R.id.id_load_param_def) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("*/*");//设置类型.
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    Intent intent = new Intent(MainActivity.this, ImportTypeDefFileActivity.class);
+//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.setType("*/*");//设置类型.
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
                     startActivityForResult(intent, 1);
 
                 } else if (menuItemId == R.id.id_upgrade_device) {

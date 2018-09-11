@@ -5,7 +5,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.ibamb.udm.R;
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ContextData;
@@ -26,12 +26,12 @@ public class ViewElementDataUtil {
     /**
      * 将读取到的参数值更新到界面。
      *
-     * @param channelParameter
+     * @param deviceParameter
      * @param view
      */
-    public static void setData(ChannelParameter channelParameter, View view) {
+    public static void setData(DeviceParameter deviceParameter, View view) {
         try {
-            for (ParameterItem item : channelParameter.getParamItems()) {
+            for (ParameterItem item : deviceParameter.getParamItems()) {
                 //根据 paramId 找对应的界面元素 ID，并赋值。
                 Parameter paramdef = ParameterMapping.getInstance().getMapping(item.getParamId());
                 String value = item.getParamValue();
@@ -123,12 +123,12 @@ public class ViewElementDataUtil {
      * @param channelId
      * @return
      */
-    public static ChannelParameter getChangedData(View view, ChannelParameter oldChannelParam, String channelId) {
-        ChannelParameter channelParameter = new ChannelParameter(oldChannelParam.getMac(),
+    public static DeviceParameter getChangedData(View view, DeviceParameter oldChannelParam, String channelId) {
+        DeviceParameter deviceParameter = new DeviceParameter(oldChannelParam.getMac(),
                 oldChannelParam.getChannelId(), oldChannelParam.getIp());
         List<Parameter> parameters = ParameterMapping.getInstance().getChannelParamDef(Integer.parseInt(channelId));
         List<ParameterItem> items = new ArrayList<>();
-        channelParameter.setParamItems(items);
+        deviceParameter.setParamItems(items);
         for (Parameter parameter : parameters) {
             String viewTagId = parameter.getViewTagId().toLowerCase();
             int vElementType = parameter.getElementType();
@@ -234,7 +234,7 @@ public class ViewElementDataUtil {
             }
 
         }
-        return channelParameter;
+        return deviceParameter;
     }
 
 }

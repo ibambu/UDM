@@ -25,7 +25,11 @@ public class UdmInitAsyncTask extends AsyncTask<String, Void, Map<String,Paramet
     protected Map<String, Parameter> doInBackground(String...strings) {
 
         Map<String,Parameter> mapping  = ParameterMappingLoader.loadParameterMapping(activity);
-        ParameterMapping.getInstance().setParameterMap(mapping);
+        if(mapping!=null&& !mapping.isEmpty()){
+            ParameterMapping.setCustParameterMapping(mapping);
+        }else{
+            ParameterMapping.getInstance();
+        }
         return mapping;
     }
 }

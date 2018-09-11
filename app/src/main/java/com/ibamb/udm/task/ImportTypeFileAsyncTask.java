@@ -3,17 +3,17 @@ package com.ibamb.udm.task;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.security.AESUtil;
+import com.ibamb.dnet.module.security.ICryptStrategy;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
-import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.component.file.FileDirManager;
-import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.constants.Constants;
-import com.ibamb.dnet.module.security.DefualtECryptValue;
-import com.ibamb.dnet.module.security.ICryptStrategy;
+import com.ibamb.udm.component.security.AESCrypt;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,7 +61,7 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                     stringBuffer.append(readLine).append("&&");
                 }
                 ICryptStrategy aes = new AESCrypt();
-                String content = aes.encode(stringBuffer.toString(), DefualtECryptValue.KEY);
+                String content = AESUtil.aesEncrypt(stringBuffer.toString(), "1qaz2wsx3edc4rfv");
                 if(!isFileError){
                     publishProgress("Data encode completed.");
                     /**
@@ -75,6 +75,10 @@ public class ImportTypeFileAsyncTask extends AsyncTask<String, String, String> {
                     outputStream = activity.openFileOutput(UdmConstant.FILE_PARAM_MAPPING, Activity.MODE_APPEND);
                     outputStream.write(content.getBytes());//写入新文件
                     publishProgress("Import completed.");
+                }else{
+                    onProgressUpdate("error file"+typeFile.getName());
+                    Button doImportButton = currentView.findViewById(R.id.do_import);
+                    doImportButton.setText("Select File");
                 }
 
             } catch (Exception e) {

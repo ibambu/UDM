@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.instruct.IParamReader;
 import com.ibamb.dnet.module.instruct.IParamWriter;
 import com.ibamb.dnet.module.instruct.ParamReader;
@@ -16,7 +16,7 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 
 
 
-public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, String, ChannelParameter> {
+public class ChannelParamWriteAsynTask extends AsyncTask <DeviceParameter, String, DeviceParameter> {
 
     private View view;
 
@@ -25,19 +25,19 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
     }
 
     @Override
-    protected ChannelParameter doInBackground(ChannelParameter... channelParameters) {
-        ChannelParameter oldParams = null;
-        ChannelParameter changedParams = null;
+    protected DeviceParameter doInBackground(DeviceParameter... deviceParameters) {
+        DeviceParameter oldParams = null;
+        DeviceParameter changedParams = null;
         try{
-            oldParams = channelParameters[0];
-            changedParams = channelParameters[1];
+            oldParams = deviceParameters[0];
+            changedParams = deviceParameters[1];
             IParamWriter writer = new ParamWriter();
-            changedParams = writer.writeChannelParam(changedParams);
+            changedParams = writer.writeDeviceParam(changedParams);
             String retMessage = changedParams.isSuccessful()? UdmConstant.INFO_SUCCESS:UdmConstant.INFO_FAIL;
             onProgressUpdate(retMessage);
             //修改后要重新读取一次
             IParamReader reader = new ParamReader();
-            oldParams = reader.readChannelParam(oldParams);
+            oldParams = reader.readDeviceParam(oldParams);
         }catch (Exception e){
             UdmLog.error(e);
         }
@@ -53,19 +53,19 @@ public class ChannelParamWriteAsynTask extends AsyncTask <ChannelParameter, Stri
     }
 
     @Override
-    protected void onPostExecute(ChannelParameter channelParameter) {
-        super.onPostExecute(channelParameter);
+    protected void onPostExecute(DeviceParameter deviceParameter) {
+        super.onPostExecute(deviceParameter);
         //更新界面数据
         String notice = "";
-        if(!channelParameter.isSuccessful()){
+        if(!deviceParameter.isSuccessful()){
             notice = UdmConstant.INFO_READ_PARAM_FAIL;
 //            Toast.makeText(view.getContext(), String.valueOf(notice), Toast.LENGTH_SHORT).show();
             Snackbar.make(view.findViewById(R.id.anchor),  notice, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }else{
-            ViewElementDataUtil.setData(channelParameter, view);
+            ViewElementDataUtil.setData(deviceParameter, view);
         }
         //更新界面数据
-        ViewElementDataUtil.setData(channelParameter, view);
+        ViewElementDataUtil.setData(deviceParameter, view);
     }
 }

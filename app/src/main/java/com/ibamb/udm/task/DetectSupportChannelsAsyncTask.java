@@ -2,21 +2,20 @@ package com.ibamb.udm.task;
 
 import android.os.AsyncTask;
 
-import com.ibamb.dnet.module.beans.ChannelParameter;
-import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.instruct.IParamReader;
 import com.ibamb.dnet.module.instruct.ParamReader;
 import com.ibamb.udm.component.constants.UdmConstant;
 
-public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, ChannelParameter> {
-    private ChannelParameter channelParameter;
+public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, DeviceParameter> {
+    private DeviceParameter deviceParameter;
 
-    public DetectSupportChannelsAsyncTask(ChannelParameter channelParameter) {
-        this.channelParameter = channelParameter;
+    public DetectSupportChannelsAsyncTask(DeviceParameter deviceParameter) {
+        this.deviceParameter = deviceParameter;
     }
 
     @Override
-    protected ChannelParameter doInBackground(String... strings) {
+    protected DeviceParameter doInBackground(String... strings) {
         try {
 
             IParamReader reader = new ParamReader();
@@ -24,16 +23,16 @@ public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, Ch
             /**
              * 如果无数据返回，重试3次。
              */
-            reader.readChannelParam(channelParameter);
-            while (!channelParameter.isSuccessful() && tryCount < 3) {
+            reader.readDeviceParam(deviceParameter);
+            while (!deviceParameter.isSuccessful() && tryCount < 3) {
                 publishProgress(UdmConstant.WAIT_READ_PARAM);
-                reader.readChannelParam(channelParameter);
+                reader.readDeviceParam(deviceParameter);
                 tryCount++;
             }
 
         } catch (Exception e) {
 
         }
-        return channelParameter;
+        return deviceParameter;
     }
 }

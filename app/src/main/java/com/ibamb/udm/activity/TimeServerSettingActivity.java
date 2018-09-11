@@ -14,9 +14,8 @@ import android.widget.TimePicker;
 
 import com.ibamb.udm.R;
 import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.udm.component.constants.UdmConstant;
@@ -31,7 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class TimeServerSettingActivity extends AppCompatActivity {
-    private ChannelParameter channelParameter;
+    private DeviceParameter deviceParameter;
     private View currentView;
     private String mac;
     private String ip;
@@ -70,9 +69,9 @@ public class TimeServerSettingActivity extends AppCompatActivity {
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChannelParameter changedParam = ViewElementDataUtil.getChangedData(currentView,channelParameter,channelId);
+                DeviceParameter changedParam = ViewElementDataUtil.getChangedData(currentView, deviceParameter,channelId);
                 ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                task.execute(channelParameter,changedParam);
+                task.execute(deviceParameter,changedParam);
             }
         });
 
@@ -153,16 +152,16 @@ public class TimeServerSettingActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         try {
-            channelParameter = new ChannelParameter(mac, ip, UdmConstant.UDM_IP_SETTING_CHNL);
+            deviceParameter = new DeviceParameter(mac, ip, UdmConstant.UDM_IP_SETTING_CHNL);
             List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(OTH_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
                 items.add(new ParameterItem(parameter.getId(), null));
             }
-            channelParameter.setParamItems(items);
+            deviceParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView,channelParameter));
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, channelParameter);
+            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, deviceParameter));
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, deviceParameter);
             readerAsyncTask.execute(mac);
         } catch (Exception e) {
             UdmLog.error(e);

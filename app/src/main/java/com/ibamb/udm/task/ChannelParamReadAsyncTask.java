@@ -9,27 +9,26 @@ import android.widget.Toast;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.login.LoginComponent;
-import com.ibamb.dnet.module.beans.ChannelParameter;
-import com.ibamb.dnet.module.constants.Constants;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.instruct.IParamReader;
 import com.ibamb.dnet.module.instruct.ParamReader;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
 
-public class ChannelParamReadAsyncTask extends AsyncTask<String, String, ChannelParameter> {
+public class ChannelParamReadAsyncTask extends AsyncTask<String, String, DeviceParameter> {
 
     private View view;
-    private ChannelParameter channelParameter;
+    private DeviceParameter deviceParameter;
     private Activity activity;
 
-    public ChannelParamReadAsyncTask(Activity activity,View view,ChannelParameter channelParameter) {
+    public ChannelParamReadAsyncTask(Activity activity,View view,DeviceParameter deviceParameter) {
         this.activity = activity;
         this.view = view;
-        this.channelParameter = channelParameter;
+        this.deviceParameter = deviceParameter;
     }
 
     @Override
-    protected ChannelParameter doInBackground(String... strings) {
+    protected DeviceParameter doInBackground(String... strings) {
         try {
 
             IParamReader reader = new ParamReader();
@@ -37,34 +36,34 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, Channel
             /**
              * 如果无数据返回，重试3次。
              */
-            reader.readChannelParam(channelParameter);
-            while (!channelParameter.isSuccessful() && tryCount < 3) {
+            reader.readDeviceParam(deviceParameter);
+            while (!deviceParameter.isSuccessful() && tryCount < 3) {
                 publishProgress(UdmConstant.WAIT_READ_PARAM);
-                reader.readChannelParam(channelParameter);
+                reader.readDeviceParam(deviceParameter);
                 tryCount++;
             }
 
         } catch (Exception e) {
 
         }
-        return channelParameter;
+        return deviceParameter;
     }
 
     @Override
-    protected void onPostExecute(ChannelParameter channelParameter) {
-        super.onPostExecute(channelParameter);
+    protected void onPostExecute(DeviceParameter deviceParameter) {
+        super.onPostExecute(deviceParameter);
         //更新界面数据
         String notice = "";
-        if(channelParameter.isNoPermission()){
-            LoginComponent loginComponent = new LoginComponent(activity,channelParameter.getMac(),channelParameter.getIp());
+        if(deviceParameter.isNoPermission()){
+            LoginComponent loginComponent = new LoginComponent(activity, deviceParameter.getMac(), deviceParameter.getIp());
             loginComponent.setToProfile(false);
             loginComponent.login();
         }else{
-            if(!channelParameter.isSuccessful()){
+            if(!deviceParameter.isSuccessful()){
                 notice = "Possible network delay. Please click title try again.";
                 Toast.makeText(view.getContext(), notice,Toast.LENGTH_SHORT).show();
             }else{
-                ViewElementDataUtil.setData(channelParameter, view);
+                ViewElementDataUtil.setData(deviceParameter, view);
             }
             TextView title = view.findViewById(R.id.title);
             if(title!=null){

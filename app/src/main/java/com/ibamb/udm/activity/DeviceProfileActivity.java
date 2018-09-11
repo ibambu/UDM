@@ -15,10 +15,9 @@ import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.guide.MainActivityGuide;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
-import com.ibamb.dnet.module.beans.ChannelParameter;
+import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.DeviceModel;
 import com.ibamb.dnet.module.beans.ParameterItem;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.ContextData;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.log.UdmLog;
@@ -223,7 +222,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
          */
         List<String> confChannels = ParameterMapping.getInstance().getSupportedChannels();
         List<String> supportChannels = new ArrayList<>();
-        ChannelParameter testChannelParams = new ChannelParameter(mac, ip, "-1");
+        DeviceParameter testChannelParams = new DeviceParameter(mac, ip, "-1");
         testChannelParams.setParamItems(new ArrayList<ParameterItem>());
 
         for (String channelId : confChannels) {
