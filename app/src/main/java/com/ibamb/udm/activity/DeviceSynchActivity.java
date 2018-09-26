@@ -3,6 +3,7 @@ package com.ibamb.udm.activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,13 +21,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ibamb.dnet.module.beans.DeviceSyncMessage;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.ServiceConst;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
-import com.ibamb.udm.component.constants.ServiceConst;
-import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.beans.DeviceSyncMessage;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.service.DeviceSynchronizeService;
 import com.ibamb.udm.util.TaskBarQuiet;
 
@@ -98,17 +99,34 @@ public class DeviceSynchActivity extends AppCompatActivity {
                     Snackbar.make(v, "No Device Seleted!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
-                    if(syncDeviceLog!=null){
-                        syncDeviceLog.delete();
-                    }
-                    try{
-                        synchronizeService.syncDeviceParam(templateDevice, seletedDevices);
-                    }catch (Exception e){
-                        UdmLog.error(e);
-                    }
-                    actionButton.setClickable(false);
-                    actionButton.setText("In Sync...");
-                    selectDeviceButton.setClickable(false);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DeviceSynchActivity.this);
+                    builder.setIcon(android.R.drawable.ic_dialog_info);
+                    builder.setMessage("All configuration of this device  will be synchronized to " +
+                            "the selected device,expect network configuration. Are you sure to continue ?");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(syncDeviceLog!=null){
+                                syncDeviceLog.delete();
+                            }
+                            try{
+                                synchronizeService.syncDeviceParam(templateDevice, seletedDevices);
+                            }catch (Exception e){
+                                UdmLog.error(e);
+                            }
+                            actionButton.setClickable(false);
+                            actionButton.setText("In Sync...");
+                            selectDeviceButton.setClickable(false);
+                        }
+                    });
+                    builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.create().show();
                 }
             }
         });

@@ -12,14 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.search.DeviceSearch;
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SearchDeviceListPagerAdapter;
+import com.ibamb.udm.beans.Device;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
-import com.ibamb.udm.beans.Device;
-import com.ibamb.dnet.module.beans.DeviceModel;
-import com.ibamb.dnet.module.constants.Constants;
-import com.ibamb.dnet.module.search.DeviceSearch;
 
 import java.util.ArrayList;
 import java.util.List;

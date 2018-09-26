@@ -129,9 +129,22 @@ public class MainActivity extends AppCompatActivity {
         TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);//修改任务栏背景颜色
 
         if (PermissionUtils.isGrantExternalRW(this, 1)) {
-
+            String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                    DefaultConstant.BASE_DIR  +"/";
+            File baseDir = new File(udmDir);
+            if(!baseDir.exists()){
+                baseDir.mkdir();
+            }
+            File runErrFile = new File(udmDir + UdmConstant.FILE_UDM_RUN_ERR_LOG);
+            if (!runErrFile.exists()) {
+                try {
+                    runErrFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            UdmLog.setErrorLogFile(runErrFile);
         }
-
         //底部菜单绑定点击事件,实现界面切换.
         tabDeviceList = findViewById(R.id.tab_device_list);
         tabSetting = findViewById(R.id.tab_setting);
