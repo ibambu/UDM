@@ -176,8 +176,10 @@ public class WorkSpaceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!mConnectSwitch.isChecked()) {
                     connContext.closeAll();
+                    mConnectSwitch.setText("disconnect");
                 } else {
                     connect(configuration);
+                    mConnectSwitch.setText("connect");
                 }
             }
         });
