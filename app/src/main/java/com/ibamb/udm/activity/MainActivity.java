@@ -28,6 +28,7 @@ import com.ibamb.dnet.module.core.TryUser;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
 import com.ibamb.dnet.module.security.ICryptStrategy;
+import com.ibamb.plugins.tcpudp.activity.ConnectionActivity;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
@@ -409,6 +410,9 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }*/ else if (menuItemId == R.id.app_about) {
                     Intent intent = new Intent(MainActivity.this, AppUpdateActivity.class);
+                    startActivity(intent);
+                }else if(menuItemId==R.id.id_tcpudp){
+                    Intent intent = new Intent(MainActivity.this,ConnectionActivity.class);
                     startActivity(intent);
                 }
                 return true;

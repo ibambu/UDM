@@ -74,4 +74,8 @@
     <string name="tag_uart_work_mode">uart_work_mode</string>
     <string name="tag_conn_uart_out_ifg">conn_uart_out_ifg</string>
     <string name="tag_conn_merge_timeout">conn_merge_timeout</string>
+    <string-array name="conn_protocol">
+        <item>TCP</item>
+        <item>UDP</item>
+    </string-array>
 </resources>

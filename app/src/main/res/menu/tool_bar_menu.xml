@@ -42,6 +42,10 @@
         android:title="Device Sync Report"
         app:showAsAction="never" />
     <item
+        android:id="@+id/id_tcpudp"
+        android:title="TCP/UDP Tool"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/id_upgrade_device"
         android:title="Update"
         app:showAsAction="never" />

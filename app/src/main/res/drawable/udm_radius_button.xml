@@ -4,22 +4,22 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle" >
             <!-- 高度40 -->
-            <size android:height="8dp"/>
+            <size android:height="40dp"/>
             <!-- 圆角弧度 20 -->
-            <corners android:radius="25dp"/>
+            <corners android:radius="8dp"/>
             <!-- 变化率 -->
             <gradient
-                android:endColor="@color/text_gray"
-                android:startColor="@color/text_gray" />
+                android:endColor="@color/holo_blue_light"
+                android:startColor="@color/holo_blue_light" />
         </shape>
     </item>
 
     <item android:state_pressed="false">
         <shape android:shape="rectangle" >
             <!-- 高度40 -->
-            <size android:height="8dp"/>
+            <size android:height="40dp"/>
             <!-- 圆角弧度 20 -->
-            <corners android:radius="25dp"/>
+            <corners android:radius="8dp"/>
             <!-- 变化率 -->
             <gradient
                 android:endColor="@color/text_gray"

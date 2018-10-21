@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/udm_gray_light"
+    tools:context="com.ibamb.plugins.tcpudp.activity.ConnectionActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/connect_btn"
+            android:orientation="vertical">
+
+            <include layout="@layout/top_title_nav" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/udm_gray_light"
+                android:gravity="left|center"
+                android:minHeight="40dp"
+                android:text="Connection Type Information" />
+
+            <RadioGroup
+                android:id="@+id/protocol_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/udm_white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="Protocol:" />
+
+                <RadioButton
+                    android:id="@+id/tcp_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:checked="true"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="TCP" />
+
+                <RadioButton
+                    android:id="@+id/udp_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="UDP" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/role_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/udm_white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="Local Role:" />
+
+                <RadioButton
+                    android:id="@+id/client_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:checked="true"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="Client" />
+
+                <RadioButton
+                    android:id="@+id/server_radio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="Server" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/tcp_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/udm_gray_light"
+                    android:gravity="left|center"
+                    android:minHeight="40dp"
+                    android:text="Address Information" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tcp_remote_host_ly"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/udm_white">
+
+                    <EditText
+                        android:id="@+id/tcp_remote_host"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:hint="Remote Host"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tcp_remote_port_ly"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/udm_white">
+
+                    <EditText
+                        android:id="@+id/tcp_remote_port"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:hint="Remote Port"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/udm_white">
+
+                    <EditText
+                        android:id="@+id/tcp_local_port"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Local Port"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/udp_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <RadioGroup
+                    android:id="@+id/udp_trans_mode_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/udm_white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/udm_gray_light"
+                        android:gravity="left|center"
+                        android:minHeight="40dp"
+                        android:text="UDP Transmission Mode" />
+
+                    <RadioButton
+                        android:id="@+id/udp_uni_radio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="UniCast" />
+
+                    <RadioButton
+                        android:id="@+id/udp_mul_radio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MultiCast" />
+
+                    <RadioButton
+                        android:id="@+id/udp_broad_radio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="BroadCast" />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/udp_uni_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/udm_gray_light"
+                        android:gravity="left|center"
+                        android:minHeight="40dp"
+                        android:text="Address Information" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/udp_uni_target_address_ly"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/udm_white">
+
+                        <EditText
+                            android:id="@+id/udp_uni_target_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:hint="Remote Address"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/udp_uni_target_port_ly"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/udm_white">
+
+                        <EditText
+                            android:id="@+id/udp_uni_target_port"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:hint="Remote Port"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/udm_white">
+
+                        <EditText
+                            android:id="@+id/udp_uni_local_port"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:hint="Local Port"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/udp_mul_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/udm_gray_light"
+                        android:gravity="left|center"
+                        android:minHeight="40dp"
+                        android:text="Muticast Address Information" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/udm_white">
+
+                        <EditText
+                            android:id="@+id/multicast_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:hint="Multicast Address"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/udm_white">
+
+                        <EditText
+                            android:id="@+id/multicast_port"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:hint="Multicast Port"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/udp_broad_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/udm_gray_light"
+                        android:gravity="left|center"
+                        android:minHeight="40dp"
+                        android:text="Broadcast Information" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/udm_white">
+
+                        <EditText
+                            android:id="@+id/broadcast_port"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:hint="Broadcast Port"
+                            android:imeOptions="actionUnspecified"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/connect_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="3dp"
+            android:text="connect" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

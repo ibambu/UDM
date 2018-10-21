@@ -9,14 +9,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ibamb.udm.R;
-import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.core.TryUser;
-import com.ibamb.udm.component.constants.UdmConstant;
-import com.ibamb.udm.component.security.AESCrypt;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
 import com.ibamb.dnet.module.security.ICryptStrategy;
+import com.ibamb.udm.R;
+import com.ibamb.udm.component.constants.UdmConstant;
+import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.BufferedReader;

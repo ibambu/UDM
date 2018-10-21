@@ -9,13 +9,14 @@ import android.os.Build;
  * 关于申请授权
  * 只需要在主界面申请一次即可
  * 在其他子activity，自动授权
- * */
+ */
 public class PermissionUtils {
     //这是要申请的权限
     private static String[] PERMISSIONS_CAMERA_AND_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     /**
      * 解决安卓6.0以上版本不能读取外部存储权限的问题
      *
@@ -30,7 +31,7 @@ public class PermissionUtils {
             int cameraPermission = activity.checkSelfPermission(Manifest.permission.CAMERA);
             //检测是否有权限，如果没有权限，就需要申请
             if (storagePermission != PackageManager.PERMISSION_GRANTED ||
-                    cameraPermission != PackageManager.PERMISSION_GRANTED) {
+                    cameraPermission != PackageManager.PERMISSION_GRANTED ) {
                 //申请权限
                 activity.requestPermissions(PERMISSIONS_CAMERA_AND_STORAGE, requestCode);
                 //返回false。说明没有授权
