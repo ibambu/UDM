@@ -40,11 +40,12 @@ public class UDPUnicastServer {
                         try {
                             socket.receive(packet);
                             //接受到数据之前该方法处于阻塞状态
-                            String reveiceData = new String(data, 0, packet.getLength(), "gbk");
+                            byte[] receiveData = packet.getData();
+//                            String reveiceData = new String(data, 0, packet.getLength(), "gbk");
                             InetAddress address = packet.getAddress();
                             int port = packet.getPort();
                             clientMap.put(address.getHostAddress(), new UnicastClient(address.getHostAddress(), port));
-                            listener.onReceive(address.getHostAddress() + ":" + reveiceData);
+                            listener.onReceive(address.getHostAddress() , receiveData);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -56,7 +57,7 @@ public class UDPUnicastServer {
         }).start();
     }
 
-    public void send(final String toAddress, final String message, final MessageListener sendListener) {
+    public void send(final String toAddress, final byte[] message, final MessageListener sendListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -66,17 +67,16 @@ public class UDPUnicastServer {
                     if (client != null) {
                         if (!socket.isClosed()) {
                             InetAddress address = InetAddress.getByName(client.getAddress());
-                            byte[] sendData = message.getBytes();
-                            DatagramPacket sendDataPacket = new DatagramPacket(sendData,
-                                    sendData.length, address, client.getPort());
+//                            byte[] sendData = message.getBytes();
+                            DatagramPacket sendDataPacket = new DatagramPacket(message,message.length, address, client.getPort());
                             // 发送数据
                             socket.send(sendDataPacket);
-                            sendListener.onReceive(localAddress + ":" + message);
+                            sendListener.onReceive(localAddress ,message);
                         } else {
-                            sendListener.onReceive(localAddress + ":Socket is closed");
+                            sendListener.onReceive(localAddress ,":Socket is closed".getBytes());
                         }
                     } else {
-                        sendListener.onReceive(localAddress + ":Unknown address");
+                        sendListener.onReceive(localAddress ,":Unknown address".getBytes());
                     }
 
                 } catch (Exception ex) {

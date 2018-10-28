@@ -51,10 +51,11 @@ public class UDPMulticast {
                         DatagramPacket packet = new DatagramPacket(data, data.length);
                         //接受到数据之前该方法处于阻塞状态
                         multicastSocket.receive(packet);
-                        String receiveData = new String(data, 0, packet.getLength(), Constant.DEFAULT_CHARSET);
+                        byte[] receiveData = packet.getData();
+//                        String receiveData = new String(data, 0, packet.getLength(), Constant.DEFAULT_CHARSET);
                         InetAddress address = packet.getAddress();
                         if (!address.getHostAddress().equals(localAddress.getHostAddress())) {
-                            listener.onReceive(address.getHostAddress() + ":" + receiveData);
+                            listener.onReceive(address.getHostAddress() , receiveData);
                         }
                     }
                 } catch (Exception e) {
@@ -64,22 +65,22 @@ public class UDPMulticast {
         }).start();
     }
 
-    public void send(final String message, final MessageListener sendListener) {
+    public void send(final byte[] message, final MessageListener sendListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     if (!multicastSocket.isClosed()) {
                         /* * 服务器端接受客户端的数据 */
-                        byte[] data = message.getBytes(Constant.DEFAULT_CHARSET);
+//                        byte[] data = message.getBytes(Constant.DEFAULT_CHARSET);
                         //指定用于接受数据报的大小
-                        DatagramPacket packet = new DatagramPacket(data, data.length, multicastAddress, connectProperty.getUdpMulPort());
+                        DatagramPacket packet = new DatagramPacket(message, message.length, multicastAddress, connectProperty.getUdpMulPort());
                         //接受到数据之前该方法处于阻塞状态
                         multicastSocket.send(packet);
                         InetAddress localAddress = IPUtil.getLocalAddress();
-                        sendListener.onReceive(localAddress.getHostAddress() + ":" + message);
+                        sendListener.onReceive(localAddress.getHostAddress() , message);
                     } else {
-                        sendListener.onReceive(localAddress.getHostAddress() + ":Socket is closed");
+                        sendListener.onReceive(localAddress.getHostAddress() ,":Socket is closed".getBytes());
                     }
 
                 } catch (Exception e) {

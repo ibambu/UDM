@@ -5,6 +5,7 @@ import com.ibamb.plugins.tcpudp.listener.MessageListener;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class TCPReaderThread extends Thread{
 
@@ -29,9 +30,10 @@ public class TCPReaderThread extends Thread{
             byte[] buffer = new byte[1024];
             int length = 0;
             while ((length = inputStream.read(buffer)) != -1) {
-                String data = new String(buffer, 0, length,"gbk");
+                byte[] data = Arrays.copyOfRange(buffer,0,length);
+//                String data = new String(buffer, 0, length,"gbk");
                 if (line != null) {
-                    listener.onReceive(address+":"+data);
+                    listener.onReceive(address,data);
                 }
             }
             System.out.println("Server is stopped.");

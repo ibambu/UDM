@@ -48,11 +48,12 @@ public class UDPBroadcast {
                         DatagramPacket packet = new DatagramPacket(data, data.length);
                         socket.receive(packet);
                         //接受到数据之前该方法处于阻塞状态
-                        String reveiceData = new String(data, 0, packet.getLength(), Constant.DEFAULT_CHARSET);
+                        byte[] recieveData = packet.getData();
+//                        String reveiceData = new String(data, 0, packet.getLength(), Constant.DEFAULT_CHARSET);
                         InetAddress address = packet.getAddress();
                         InetAddress localAddress = IPUtil.getLocalAddress();
                         if (!packet.getAddress().getHostAddress().equals(localAddress.getHostAddress())) {
-                            listener.onReceive(address.getHostAddress() + ":" + reveiceData);
+                            listener.onReceive(address.getHostAddress() , recieveData);
                         }
                     }
                 } catch (Exception e) {
@@ -62,23 +63,23 @@ public class UDPBroadcast {
         }).start();
     }
 
-    public void send(final String message, final MessageListener sendListener) {
+    public void send(final byte[] message, final MessageListener sendListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     InetAddress localAddress = IPUtil.getLocalAddress();
                     if (!socket.isClosed()) {
-                        byte[] data = message.getBytes();
+//                        byte[] data = message.getBytes();
                         //2.创建数据报，包含发送的数据信息
-                        DatagramPacket packet = new DatagramPacket(data, data.length, address, connectProperty.getUdpBroadcastPort());
+                        DatagramPacket packet = new DatagramPacket(message, message.length, address, connectProperty.getUdpBroadcastPort());
                         //3.创建DatagramSocket用于数据的传输
                         //4.向服务器端发送数据报
                         socket.send(packet);
 
-                        sendListener.onReceive(localAddress.getHostAddress() + ":" + message);
+                        sendListener.onReceive(localAddress.getHostAddress() , message);
                     } else {
-                        sendListener.onReceive(localAddress.getHostAddress() + ":Socket is closed");
+                        sendListener.onReceive(localAddress.getHostAddress(), ":Socket is closed".getBytes());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

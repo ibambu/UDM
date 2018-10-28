@@ -4,9 +4,8 @@ import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
 import com.ibamb.plugins.tcpudp.thread.TCPServerHandler;
 
-import java.io.BufferedWriter;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -53,8 +52,8 @@ public class TCPServer {
                             Socket socket = server.accept();
                             TCPServerHandler handler = new TCPServerHandler(socket, new MessageListener() {
                                 @Override
-                                public void onReceive(String message) {
-                                    recvListener.onReceive(message);
+                                public void onReceive(String hostAddresss, byte[] message) {
+                                    recvListener.onReceive(hostAddresss, message);
                                 }
                             });
                             addTCPServerHandler(handler);
@@ -68,7 +67,7 @@ public class TCPServer {
         }).start();
     }
 
-    public void send(final String toAddress, final String message, final MessageListener listener) {
+    public void send(final String toAddress, final byte[] message, final MessageListener listener) {
 
         new Thread(new Runnable() {
             @Override
@@ -79,16 +78,15 @@ public class TCPServer {
                     if (serverHandler != null) {
                         Socket socket = serverHandler.getSocket();
                         if (!socket.isClosed()) {
-                            BufferedWriter bufferedWriter = new BufferedWriter(
-                                    new OutputStreamWriter(socket.getOutputStream(), Constant.DEFAULT_CHARSET));
-                            bufferedWriter.write(message);
-                            bufferedWriter.flush();
-                            listener.onReceive(localAddress.getHostAddress() + ":" + message);
+                            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream((socket.getOutputStream()));
+                            bufferedOutputStream.write(message);
+                            bufferedOutputStream.flush();
+                            listener.onReceive(localAddress.getHostAddress(), message);
                         } else {
-                            listener.onReceive(localAddress.getHostAddress() + ":Socket is closed");
+                            listener.onReceive(localAddress.getHostAddress(), ":Socket is closed".getBytes());
                         }
                     } else {
-                        listener.onReceive(localAddress.getHostAddress() + ":Network disconnected");
+                        listener.onReceive(localAddress.getHostAddress(), ":Network disconnected".getBytes());
                     }
 
                 } catch (IOException e) {
@@ -142,9 +140,6 @@ public class TCPServer {
             if (!handler.getSocket().isClosed()) {
                 aList.add(handler.getHostAddress());
             }
-        }
-        for (int i = 0; i < 5; i++) {
-            aList.add("192.168.0." + i);
         }
         return aList;
     }

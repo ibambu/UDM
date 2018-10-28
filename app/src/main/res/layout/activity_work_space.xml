@@ -116,6 +116,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:id="@+id/rb_character"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -123,6 +124,7 @@
                             android:text="Character" />
 
                         <RadioButton
+                            android:id="@+id/rb_hex"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

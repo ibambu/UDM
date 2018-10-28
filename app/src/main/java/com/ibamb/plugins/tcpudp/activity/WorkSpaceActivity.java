@@ -3,20 +3,20 @@ package com.ibamb.plugins.tcpudp.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.util.Convert;
 import com.ibamb.plugins.tcpudp.adapter.RecordListAdapter;
 import com.ibamb.plugins.tcpudp.context.ConnectProperty;
 import com.ibamb.plugins.tcpudp.context.ConnectionContext;
@@ -46,7 +46,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
     private Switch mConnectSwitch;//连接切换控件
     private CheckBox mAutoSendIntervalBox;
     private EditText mInterval;
-
+    RadioButton rbHex;
     private TextView vTitle;
 
     private ConnectProperty configuration;//连接配置信息
@@ -68,6 +68,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
         mAutoSendIntervalBox = findViewById(R.id.cb_auto_send_interval);
         mInterval = findViewById(R.id.et_auto_send_interval);
         vMoreObjectListView = findViewById(R.id.img_more_object_list);
+        rbHex = findViewById(R.id.rb_hex);
         //作为服务端时点击显示更多连接的客户端
         vMoreObjectListView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,8 +245,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 case Constant.CONN_TCP_SERVER:
                     TCPServer tcpServer = new TCPServer(new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                     tcpServer.create(connectProperty.getTcpLocalPort());
@@ -254,8 +255,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 case Constant.CONN_TCP_CLIENT:
                     TCPClient tcpClient = new TCPClient(new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                     tcpClient.create(connectProperty);
@@ -264,8 +265,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 case Constant.CONN_UDP_UNICAST_CLIENT:
                     UDPUnicastClient unicastClient = new UDPUnicastClient(connectProperty, new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                     unicastClient.create();
@@ -274,8 +275,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 case Constant.CONN_UDP_UNICAST_SERVER:
                     UDPUnicastServer unicastServer = new UDPUnicastServer(connectProperty, new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                     unicastServer.create();
@@ -284,8 +285,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 case Constant.CONN_UDP_MULCAST:
                     UDPMulticast udpMulticast = new UDPMulticast(connectProperty, new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                     udpMulticast.create();
@@ -294,8 +295,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 case Constant.CONN_UDP_BROADCAST:
                     UDPBroadcast broadcast = new UDPBroadcast(connectProperty, new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                     broadcast.create();
@@ -313,49 +314,58 @@ public class WorkSpaceActivity extends AppCompatActivity {
      */
     private void send(String message) {
         try {
+            int dataType = rbHex.isChecked() ? 1 : 0;
+
+            byte[] sendData = null;
+            if (dataType == 0) {//character
+                sendData = stringToBytes(message);
+            } else {//Hex
+                sendData = hexStringToBytes(message);
+            }
+
             if (configuration.getConnectType().equals(Constant.CONN_TCP_CLIENT)) {
-                connContext.getTcpClient().send(message, new MessageListener() {
+                connContext.getTcpClient().send(sendData, new MessageListener() {
                     @Override
-                    public void onReceive(String message) {
-                        updateRecord(message);
+                    public void onReceive(String hostAddress, byte[] message) {
+                        updateRecord(hostAddress, message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_TCP_SERVER)) {
                 //通过界面选择要发送的目标地址。
                 if (currentTargetIp != null) {
-                    connContext.getTcpServer().send(currentTargetIp, message, new MessageListener() {
+                    connContext.getTcpServer().send(currentTargetIp, sendData, new MessageListener() {
                         @Override
-                        public void onReceive(String message) {
-                            updateRecord(message);
+                        public void onReceive(String hostAddress, byte[] message) {
+                            updateRecord(hostAddress, message);
                         }
                     });
                 }
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_UNICAST_CLIENT)) {
-                connContext.getUdpUnicastClient().send(message, new MessageListener() {
+                connContext.getUdpUnicastClient().send(sendData, new MessageListener() {
                     @Override
-                    public void onReceive(String message) {
-                        updateRecord(message);
+                    public void onReceive(String hostAddress, byte[] message) {
+                        updateRecord(hostAddress, message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_UNICAST_SERVER)) {
-                connContext.getUdpUnicastServer().send(currentTargetIp, message, new MessageListener() {
+                connContext.getUdpUnicastServer().send(currentTargetIp, sendData, new MessageListener() {
                     @Override
-                    public void onReceive(String message) {
-                        updateRecord(message);
+                    public void onReceive(String hostAddress, byte[] message) {
+                        updateRecord(hostAddress, message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_MULCAST)) {
-                connContext.getUdpMulticast().send(message, new MessageListener() {
+                connContext.getUdpMulticast().send(sendData, new MessageListener() {
                     @Override
-                    public void onReceive(String message) {
-                        updateRecord(message);
+                    public void onReceive(String hostAdress, byte[] message) {
+                        updateRecord(hostAdress, message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_BROADCAST)) {
-                connContext.getUdpBroadcast().send(message, new MessageListener() {
+                connContext.getUdpBroadcast().send(sendData, new MessageListener() {
                     @Override
-                    public void onReceive(String message) {
-                        updateRecord(message);
+                    public void onReceive(String hostAddress, byte[] message) {
+                        updateRecord(hostAddress, message);
                     }
                 });
             }
@@ -369,15 +379,78 @@ public class WorkSpaceActivity extends AppCompatActivity {
      *
      * @param message
      */
-    private void updateRecord(final String message) {
+    private void updateRecord(final String hostAddress, final byte[] message) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                communicateList.add(message);
+                String displayData = "";
+                if (rbHex.isChecked()) {
+                    displayData = bytesToHexString(message);
+                } else {
+                    displayData = bytesToString(message);
+                }
+                communicateList.add(hostAddress + ":" + displayData);
                 adapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(communicateList.size() - 1);
             }
         });
+    }
+
+    /**
+     * string to bytes
+     *
+     * @param message
+     * @return
+     */
+    private byte[] stringToBytes(String message) {
+        char[] cData = message.toCharArray();
+        byte[] rBytes = new byte[cData.length];
+        for (int k = 0; k < cData.length; k++) {
+            rBytes[k] = (byte) cData[k];
+        }
+        return rBytes;
+    }
+
+    /**
+     * bytes to string
+     *
+     * @param message
+     * @return
+     */
+    private String bytesToString(byte[] message) {
+        //默认当作文本处理
+        StringBuilder buffer = new StringBuilder();
+        for (int k = 0; k < message.length; k++) {
+            char c = (char) message[k];
+            buffer.append(c);
+        }
+        return buffer.toString();
+    }
+
+
+    /**
+     * bytes to hex
+     *
+     * @param message
+     * @return
+     */
+    private String bytesToHexString(byte[] message) {
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < message.length; i++) {
+            buffer.append(Convert.toHexString(message[i]));
+        }
+        return buffer.toString();
+
+    }
+
+    /**
+     * hex to bytes
+     *
+     * @param message
+     * @return
+     */
+    private byte[] hexStringToBytes(String message) {
+        return Convert.hexStringtoBytes(message);
     }
 
 }

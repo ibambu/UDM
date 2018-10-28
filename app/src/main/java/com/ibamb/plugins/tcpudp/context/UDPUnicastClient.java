@@ -39,8 +39,8 @@ public class UDPUnicastClient {
                     while (!socket.isClosed()) {
                         socket.receive(recevPacket);
                         recevData = recevPacket.getData();
-                        String message = new String(recevData, 0, recevData.length);
-                        listener.onReceive(connectProperty.getUdpUniRemoteHost()+":"+message);
+//                        String message = new String(recevData, 0, recevData.length);
+                        listener.onReceive(connectProperty.getUdpUniRemoteHost(),recevData);
                     }
                 } catch (Exception ex) {
                     UdmLog.error(ex);
@@ -49,7 +49,7 @@ public class UDPUnicastClient {
         }).start();
     }
 
-    public void send(final String message, final MessageListener sendListener) {
+    public void send(final byte[] message, final MessageListener sendListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -57,14 +57,14 @@ public class UDPUnicastClient {
                     String localAddress = IPUtil.getLocalAddress().getHostAddress();
                     if (!socket.isClosed()) {
                         InetAddress address = InetAddress.getByName(connectProperty.getUdpUniRemoteHost());
-                        byte[] sendData = message.getBytes();
-                        DatagramPacket sendDataPacket = new DatagramPacket(sendData, sendData.length, address,
+//                        byte[] sendData = message.getBytes();
+                        DatagramPacket sendDataPacket = new DatagramPacket(message, message.length, address,
                                 connectProperty.getUdpUniRemotePort());
                         // 发送数据
                         socket.send(sendDataPacket);
-                        sendListener.onReceive(localAddress + ":" + message);
+                        sendListener.onReceive(localAddress,message);
                     } else {
-                        sendListener.onReceive(localAddress + ":Socket is closed");
+                        sendListener.onReceive(localAddress , ":Socket is closed".getBytes());
                     }
 
                 } catch (Exception ex) {
