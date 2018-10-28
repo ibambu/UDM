@@ -112,8 +112,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
         vTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent connIntent = new Intent(v.getContext(), ConnectionActivity.class);
-                startActivity(connIntent);
+//                Intent connIntent = new Intent(v.getContext(), ConnectionActivity.class);
+//                startActivity(connIntent);
             }
         });
 
