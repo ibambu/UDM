@@ -50,6 +50,15 @@
                 android:text="Connect"
                 android:textAllCaps="false"
                 android:textColor="@color/udm_light_black" />
+            <TextView
+                android:id="@+id/tv_clean"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/udm_radius_button"
+                android:gravity="center"
+                android:text="Clean" />
         </LinearLayout>
 
         <RelativeLayout

@@ -3,6 +3,7 @@ package com.ibamb.plugins.tcpudp.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +33,9 @@ import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.util.TaskBarQuiet;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,8 +49,11 @@ public class WorkSpaceActivity extends AppCompatActivity {
     private Switch mConnectSwitch;//连接切换控件
     private CheckBox mAutoSendIntervalBox;
     private EditText mInterval;
-    RadioButton rbHex;
+    private RadioButton rbHex;
     private TextView vTitle;
+    private TextView sendCountView;
+    private TextView recvCountView;
+    private TextView tvClean;
 
     private ConnectProperty configuration;//连接配置信息
     private ConnectionContext connContext = new ConnectionContext();//存放所有连接资源
@@ -55,6 +61,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
     private RecordListAdapter adapter;
 
     private String currentTargetIp;
+    private long revLength;
+    private long sendLength;
 
 
     @Override
@@ -68,7 +76,23 @@ public class WorkSpaceActivity extends AppCompatActivity {
         mAutoSendIntervalBox = findViewById(R.id.cb_auto_send_interval);
         mInterval = findViewById(R.id.et_auto_send_interval);
         vMoreObjectListView = findViewById(R.id.img_more_object_list);
+        recvCountView = findViewById(R.id.received_count);
+        sendCountView = findViewById(R.id.send_count);
         rbHex = findViewById(R.id.rb_hex);
+        tvClean = findViewById(R.id.tv_clean);
+        tvClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                revLength = 0;
+                sendLength = 0;
+                recvCountView.setText("Received:0");
+                sendCountView.setText("Send:0");
+                if (communicateList != null) {
+                    communicateList.clear();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
         //作为服务端时点击显示更多连接的客户端
         vMoreObjectListView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,8 +219,15 @@ public class WorkSpaceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (mAutoSendIntervalBox.isChecked()) {
                     if (mSendButton.getText().toString().equals("Send")) {
-                        mSendButton.setText("Stop");
-                        autoSendByInterval();
+                        String intval = mInterval.getText().toString();
+                        if (intval != null && intval.trim().length() > 0) {
+                            mSendButton.setText("Stop");
+                            autoSendByInterval();
+                        } else {
+                            Snackbar.make(mSendButton, "Interval can't be empty.", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                        }
+
                     } else {
                         mSendButton.setText("Send");
                         stopAutoSend();
@@ -247,6 +278,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countRecvBytes(message);
                         }
                     });
                     tcpServer.create(connectProperty.getTcpLocalPort());
@@ -257,6 +289,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countRecvBytes(message);
                         }
                     });
                     tcpClient.create(connectProperty);
@@ -267,6 +300,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countRecvBytes(message);
                         }
                     });
                     unicastClient.create();
@@ -277,6 +311,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countRecvBytes(message);
                         }
                     });
                     unicastServer.create();
@@ -287,6 +322,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countRecvBytes(message);
                         }
                     });
                     udpMulticast.create();
@@ -297,6 +333,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countRecvBytes(message);
                         }
                     });
                     broadcast.create();
@@ -318,7 +355,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
 
             byte[] sendData = null;
             if (dataType == 0) {//character
-                sendData = stringToBytes(message);
+                sendData = message.getBytes(Constant.DEFAULT_CHARSET);
             } else {//Hex
                 sendData = hexStringToBytes(message);
             }
@@ -328,6 +365,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
                         updateRecord(hostAddress, message);
+                        countSendBytes(message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_TCP_SERVER)) {
@@ -337,6 +375,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
                             updateRecord(hostAddress, message);
+                            countSendBytes(message);
                         }
                     });
                 }
@@ -345,6 +384,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
                         updateRecord(hostAddress, message);
+                        countSendBytes(message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_UNICAST_SERVER)) {
@@ -352,6 +392,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
                         updateRecord(hostAddress, message);
+                        countSendBytes(message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_MULCAST)) {
@@ -359,6 +400,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     @Override
                     public void onReceive(String hostAdress, byte[] message) {
                         updateRecord(hostAdress, message);
+                        countSendBytes(message);
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_UDP_BROADCAST)) {
@@ -366,12 +408,24 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
                         updateRecord(hostAddress, message);
+                        countSendBytes(message);
                     }
                 });
             }
         } catch (Exception e) {
             UdmLog.error(e);
         }
+    }
+
+    private void countSendBytes(byte[] message) {
+        sendLength += message.length;
+        sendCountView.setText("Send:" + sendLength);
+
+    }
+
+    private void countRecvBytes(byte[] message) {
+        revLength += message.length;
+        recvCountView.setText("Received:" + revLength);
     }
 
     /**
@@ -389,7 +443,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 } else {
                     displayData = bytesToString(message);
                 }
-                communicateList.add(hostAddress + ":" + displayData);
+                communicateList.add(hostAddress + "->" + displayData);
                 adapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(communicateList.size() - 1);
             }
@@ -419,12 +473,18 @@ public class WorkSpaceActivity extends AppCompatActivity {
      */
     private String bytesToString(byte[] message) {
         //默认当作文本处理
-        StringBuilder buffer = new StringBuilder();
-        for (int k = 0; k < message.length; k++) {
-            char c = (char) message[k];
-            buffer.append(c);
+        String retString = "";
+        try {
+            retString = new String(message, 0, message.length, Constant.DEFAULT_CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
-        return buffer.toString();
+//        StringBuilder buffer = new StringBuilder();
+//        for (int k = 0; k < message.length; k++) {
+//            char c = (char) message[k];
+//            buffer.append(c);
+//        }
+        return retString;
     }
 
 
@@ -450,7 +510,51 @@ public class WorkSpaceActivity extends AppCompatActivity {
      * @return
      */
     private byte[] hexStringToBytes(String message) {
-        return Convert.hexStringtoBytes(message);
+        byte[] retbytes = Convert.hexStringtoBytes(message);
+        if (retbytes.length == 0) {
+            String hexstr = str2HexStr(message);
+            retbytes = Convert.hexStringtoBytes(hexstr);
+        }
+        return retbytes;
     }
 
+    /**
+     * 字符串转换成为16进制(无需Unicode编码)
+     *
+     * @param str
+     * @return
+     */
+    public static String str2HexStr(String str) {
+        char[] chars = "0123456789ABCDEF".toCharArray();
+        StringBuilder sb = new StringBuilder("");
+        byte[] bs = str.getBytes();
+        int bit;
+        for (int i = 0; i < bs.length; i++) {
+            bit = (bs[i] & 0x0f0) >> 4;
+            sb.append(chars[bit]);
+            bit = bs[i] & 0x0f;
+            sb.append(chars[bit]);
+            // sb.append(' ');
+        }
+        return sb.toString().trim();
+    }
+
+    /**
+     * 16进制直接转换成为字符串(无需Unicode解码)
+     *
+     * @param hexStr
+     * @return
+     */
+    public static String hexStr2Str(String hexStr) {
+        String str = "0123456789ABCDEF";
+        char[] hexs = hexStr.toCharArray();
+        byte[] bytes = new byte[hexStr.length() / 2];
+        int n;
+        for (int i = 0; i < bytes.length; i++) {
+            n = str.indexOf(hexs[2 * i]) * 16;
+            n += str.indexOf(hexs[2 * i + 1]);
+            bytes[i] = (byte) (n & 0xff);
+        }
+        return new String(bytes);
+    }
 }

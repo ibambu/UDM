@@ -7,7 +7,7 @@ public class Constant {
     public static final String CONN_UDP_UNICAST_SERVER = "CS";
     public static final String CONN_UDP_MULCAST = "D";
     public static final String CONN_UDP_BROADCAST = "E";
-    public static final String DEFAULT_CHARSET = "UTF-8";
+    public static final String DEFAULT_CHARSET = "GBK";
 
     public static final int CONN_PROTOCOL_TCP = 1;
     public static final int CONN_PROTOCOL_UDP = 2;
