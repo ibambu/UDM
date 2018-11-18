@@ -4,11 +4,8 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceParameter;
-import com.ibamb.dnet.module.instruct.IParamReader;
-import com.ibamb.dnet.module.instruct.IParamWriter;
-import com.ibamb.dnet.module.instruct.ParamReader;
-import com.ibamb.dnet.module.instruct.ParamWriter;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
@@ -31,13 +28,11 @@ public class ChannelParamWriteAsynTask extends AsyncTask <DeviceParameter, Strin
         try{
             oldParams = deviceParameters[0];
             changedParams = deviceParameters[1];
-            IParamWriter writer = new ParamWriter();
-            changedParams = writer.writeDeviceParam(changedParams);
+            changedParams = UdmClient.getInstance().writeDeviceParameter(changedParams);
             String retMessage = changedParams.isSuccessful()? UdmConstant.INFO_SUCCESS:UdmConstant.INFO_FAIL;
             onProgressUpdate(retMessage);
             //修改后要重新读取一次
-            IParamReader reader = new ParamReader();
-            oldParams = reader.readDeviceParam(oldParams);
+            oldParams = UdmClient.getInstance().readDeviceParameter(oldParams);
         }catch (Exception e){
             UdmLog.error(e);
         }

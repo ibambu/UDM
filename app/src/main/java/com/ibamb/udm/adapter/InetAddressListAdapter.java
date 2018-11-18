@@ -47,6 +47,7 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
         TextView deviceMac = null;
         TextView deviceName = null;
         TextView deviceProfile = null;
+        TextView firefirmareVersion = null;
         if (view == null) {
             view = inflater.inflate(id, null);
             deviceIndex = view.findViewById(R.id.device_index);
@@ -54,7 +55,8 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
             deviceMac = view.findViewById(R.id.device_mac);
             deviceName = view.findViewById(R.id.device_name);
             deviceProfile = view.findViewById(R.id.device_profile);
-            view.setTag(new ListViewColumns(deviceIndex,deviceIP,deviceMac,deviceName,deviceProfile));
+            firefirmareVersion = view.findViewById(R.id.device_firefirmare_ver);
+            view.setTag(new ListViewColumns(deviceIndex,deviceIP,deviceMac,deviceName,deviceProfile,firefirmareVersion));
         } else {
             //得到保存的对象
             ListViewColumns columns = (ListViewColumns) view.getTag();
@@ -63,6 +65,7 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
             deviceMac = columns.mac;
             deviceName = columns.deviceName;
             deviceProfile = columns.deviceProfile;
+            firefirmareVersion = columns.firefirmareVersion;
 
         }
         Device deviceInfo = (Device) data.get(position);
@@ -71,8 +74,8 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
         deviceIP.setText(deviceInfo.getIp());
         deviceMac.setText(deviceInfo.getMac());
         deviceName.setText(deviceInfo.getDeviceName());
-        deviceProfile.setText(deviceInfo.getIp()+" | "+deviceInfo.getMac().toUpperCase()+" | "+deviceInfo.getFirmwareVersion());
-
+        deviceProfile.setText(deviceInfo.getIp()+" | "+deviceInfo.getMac().toUpperCase());
+        firefirmareVersion.setText(deviceInfo.getProductName()+"-"+deviceInfo.getFirmwareVersion());
         return view;
 
     }
@@ -84,14 +87,16 @@ public class InetAddressListAdapter extends BaseAdapter implements ListAdapter {
         TextView mac = null;
         TextView deviceName = null;
         TextView deviceProfile = null;
+        TextView firefirmareVersion = null;
 
         public ListViewColumns(TextView index, TextView ip, TextView mac,
-                               TextView deviceName,TextView deviceProfile) {
+                               TextView deviceName,TextView deviceProfile,TextView firefirmareVersion) {
             this.index = index;
             this.ip = ip;
             this.mac = mac;
             this.deviceName = deviceName;
             this.deviceProfile = deviceProfile;
+            this.firefirmareVersion = firefirmareVersion;
         }
     }
 }

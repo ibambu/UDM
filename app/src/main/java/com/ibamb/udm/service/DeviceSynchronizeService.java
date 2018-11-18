@@ -7,16 +7,15 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.DeviceSyncMessage;
 import com.ibamb.dnet.module.beans.ParameterItem;
 import com.ibamb.dnet.module.core.ParameterMapping;
-import com.ibamb.dnet.module.instruct.IParamReader;
-import com.ibamb.dnet.module.instruct.ParamReader;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.udm.component.constants.UdmConstant;
-import com.ibamb.udm.task.SyncDeviceParamTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
+import com.ibamb.udm.task.SyncDeviceParamTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -179,9 +178,8 @@ public class DeviceSynchronizeService extends Service {
     class ChannelParamReadTask extends AsyncTask<DeviceParameter, String, DeviceParameter> {
         @Override
         protected DeviceParameter doInBackground(DeviceParameter... deviceParameters) {
-            IParamReader reader = new ParamReader();
             if (deviceParameters != null && deviceParameters.length > 0) {
-                reader.readDeviceParam(deviceParameters[0]);
+                UdmClient.getInstance().readDeviceParameter(deviceParameters[0]);
             }
             return deviceParameters[0];
         }

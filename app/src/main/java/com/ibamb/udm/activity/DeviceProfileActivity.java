@@ -92,6 +92,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     if (supportedChannels.length == 1) {
                         params.putString("CHNL_ID", supportedChannels[0]);
                         selectedChannleId = supportedChannels[0];
+                        Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
+                        intent.putExtras(params);
+                        startActivity(intent);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setTitle("Select Channel");
@@ -109,13 +112,13 @@ public class DeviceProfileActivity extends AppCompatActivity {
                                 params.putString("CHNL_ID", supportedChannels[which]);
                                 selectedChannleId = supportedChannels[which];
                                 dialog.dismiss();
+                                Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
+                                intent.putExtras(params);
+                                startActivity(intent);
                             }
                         });
                         builder.show();
                     }
-                    Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
-                    intent.putExtras(params);
-                    startActivity(intent);
                     break;
                 case R.id.profile_other_setting:
                 case R.id.profile_other_more:
@@ -163,8 +166,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
         DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
         if (deviceModel != null) {
             hostName.setText("Device Name:"+deviceModel.getDeviceName());
-            hostIpMac.setText("Address:"+deviceModel.getIp()+" / "+mac.toUpperCase());
-            hostFirmwareVersion.setText("Firmware Version:"+deviceModel.getFirmwareVersion());
+            hostIpMac.setText("Address:"+deviceModel.getIp()+" | "+mac.toUpperCase());
+            hostFirmwareVersion.setText("Firmware Version:"+deviceModel.getPruductName()+"-"+deviceModel.getFirmwareVersion());
         }
         back = findViewById(R.id.go_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +249,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     }
                 }
             }
-
+            supportChannels.add("2");
+            supportChannels.add("3");
+            supportChannels.add("4");
+            supportChannels.add("5");
             supportedChannels = new String[supportChannels.size()];
             for (int i = 0; i < supportChannels.size(); i++) {
                 supportedChannels[i] = supportChannels.get(i);

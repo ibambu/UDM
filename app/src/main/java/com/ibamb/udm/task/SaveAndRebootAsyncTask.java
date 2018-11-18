@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.sys.SysManager;
 
 public class SaveAndRebootAsyncTask extends AsyncTask<String, Boolean, Boolean> {
@@ -17,8 +18,7 @@ public class SaveAndRebootAsyncTask extends AsyncTask<String, Boolean, Boolean> 
 
     @Override
     protected Boolean doInBackground(String... strings) {
-        String mac  = strings[0];
-        return SysManager.saveAndReboot(mac);
+        return UdmClient.getInstance().saveAndReboot(strings[0]);
     }
 
     @Override

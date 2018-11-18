@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceModel;
 import com.ibamb.dnet.module.search.DeviceSearch;
 import com.ibamb.udm.R;
@@ -52,11 +53,12 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
 
         String keyword = strings != null && strings.length > 0 ? strings[0] : null;
         publishProgress(UdmConstant.INFO_SEARCH_PROGRESS);
-        deviceList = DeviceSearch.searchDevice(keyword);
+        UdmClient udmClient = UdmClient.getInstance();
+        deviceList = udmClient.searchDevice(keyword);
         if (deviceList == null) {
             int tryMaxCount = 3;
             for (int i = tryMaxCount; i > 0; i--) {
-                deviceList = DeviceSearch.searchDevice(keyword);
+                deviceList = udmClient.searchDevice(keyword);
                 if (deviceList != null && !deviceList.isEmpty()) {
                     break;
                 }

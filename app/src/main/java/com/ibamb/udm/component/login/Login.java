@@ -2,9 +2,9 @@ package com.ibamb.udm.component.login;
 
 import android.util.Base64;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
-import com.ibamb.dnet.module.security.UserAuth;
 
 import java.io.UnsupportedEncodingException;
 
@@ -26,7 +26,7 @@ public class Login {
         try {
             String enUserName = Base64.encodeToString((userName + " ").getBytes(DefualtECryptValue.CHARSET), Base64.NO_WRAP);
             String enPassword = Base64.encodeToString(password.getBytes(DefualtECryptValue.CHARSET), Base64.NO_WRAP);
-            isSuccessful = UserAuth.login(enUserName,enPassword,devMac,ip);
+            isSuccessful = UdmClient.getInstance().login(enUserName,enPassword,devMac,ip);
         } catch (UnsupportedEncodingException e) {
             UdmLog.error(e);
         }

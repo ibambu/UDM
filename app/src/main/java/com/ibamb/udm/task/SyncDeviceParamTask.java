@@ -3,16 +3,14 @@ package com.ibamb.udm.task;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ibamb.udm.component.constants.ServiceConst;
-import com.ibamb.udm.component.constants.UdmConstant;
-import com.ibamb.udm.component.login.Login;
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
 import com.ibamb.dnet.module.constants.Control;
 import com.ibamb.dnet.module.core.TryUser;
-import com.ibamb.dnet.module.instruct.IParamWriter;
-import com.ibamb.dnet.module.instruct.ParamWriter;
-import com.ibamb.dnet.module.sys.SysManager;
+import com.ibamb.udm.component.constants.ServiceConst;
+import com.ibamb.udm.component.constants.UdmConstant;
+import com.ibamb.udm.component.login.Login;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -75,9 +73,8 @@ public class SyncDeviceParamTask implements Callable {
                 }
             }
             if (isAuthSuccess) {
-                IParamWriter writer = new ParamWriter();
                 copyParamValue(srcDeviceParameters.getParamItems(), distDeviceParameters.getParamItems());
-                writer.writeDeviceParam(distDeviceParameters);
+                UdmClient.getInstance().writeDeviceParameter(distDeviceParameters);
                 int resultCode = distDeviceParameters.getResultCode();
                 String resultInfo ="";
                 switch (resultCode){
@@ -100,11 +97,11 @@ public class SyncDeviceParamTask implements Callable {
                             resultInfo= UdmConstant.SYNC_UNKNOWN_ERROR;
                 }
                 if (resultCode== Control.ACKNOWLEDGE) {
-                    boolean isSuccess = SysManager.saveAndReboot(mac);//同步成功后重启设备。
+                    boolean isSuccess = UdmClient.getInstance().saveAndReboot(mac);//同步成功后重启设备。
                     if(!isSuccess){
                         //如果重启失败尝试3次
                         for(int i=0;i<3;i++){
-                            isSuccess = SysManager.saveAndReboot(mac);
+                            isSuccess = UdmClient.getInstance().saveAndReboot(mac);
                             if(isSuccess){
                                 break;
                             }

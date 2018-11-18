@@ -84,13 +84,14 @@ public class DeviceSearchListFragment extends Fragment {
                 String[] deviceArray = allDeviceInfo.split("@");
                 for(String deviceStr:deviceArray){
                     String[] dArray = deviceStr.split("#");
-                    if(dArray.length>4){
+                    if(dArray.length>5){
                         Device device = new Device();
                         device.setIndex(Integer.parseInt(dArray[0]));
                         device.setDeviceName(dArray[1]);
                         device.setIp(dArray[2]);
                         device.setMac(dArray[3]);
                         device.setFirmwareVersion(dArray[4]);
+                        device.setProductName(dArray[5]);
                         dataList.add(device);
                     }
                 }

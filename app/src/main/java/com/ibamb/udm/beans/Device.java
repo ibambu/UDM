@@ -11,6 +11,7 @@ public class Device implements Parcelable {
     private String ip;//IP地址
     private String mac;//MAC 地址，格式 XX：XX：XX：XX：XX：XX
     private String firmwareVersion;//设备固件版本
+    private String productName;//产品名称
 
     public static final Creator<Device> CREATOR = new Creator<Device>() {
         @Override
@@ -21,6 +22,7 @@ public class Device implements Parcelable {
             device.ip = in.readString();
             device.mac = in.readString();
             device.firmwareVersion = in.readString();
+            device.productName = in.readString();
             return device;
         }
 
@@ -29,6 +31,14 @@ public class Device implements Parcelable {
             return new Device[size];
         }
     };
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public int getIndex() {
         return index;
@@ -83,11 +93,12 @@ public class Device implements Parcelable {
         dest.writeString(ip);
         dest.writeString(mac);
         dest.writeString(firmwareVersion);
+        dest.writeString(productName);
     }
 
     @Override
     public String toString() {
-        return  index +"#"+ deviceName +"#" + ip + "#" + mac + "#" +firmwareVersion;
+        return  index +"#"+ deviceName +"#" + ip + "#" + mac + "#" +firmwareVersion+"#"+productName;
     }
 
     public static Device toDevice(DeviceModel deviceModel){
@@ -97,6 +108,7 @@ public class Device implements Parcelable {
         device.setIp(deviceModel.getIp());
         device.setMac(deviceModel.getMac());
         device.setFirmwareVersion(deviceModel.getFirmwareVersion());
+        device.setProductName(deviceModel.getPruductName());
         return device;
     }
 }

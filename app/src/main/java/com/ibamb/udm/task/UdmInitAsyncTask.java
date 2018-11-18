@@ -3,6 +3,7 @@ package com.ibamb.udm.task;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.udm.component.security.ParameterMappingLoader;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
@@ -28,7 +29,7 @@ public class UdmInitAsyncTask extends AsyncTask<String, Void, Map<String,Paramet
         if(mapping!=null&& !mapping.isEmpty()){
             ParameterMapping.setCustParameterMapping(mapping);
         }else{
-            ParameterMapping.getInstance();
+            UdmClient.getInstance();
         }
         return mapping;
     }
