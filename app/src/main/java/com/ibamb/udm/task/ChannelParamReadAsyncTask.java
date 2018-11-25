@@ -20,7 +20,7 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, DeviceP
     private DeviceParameter deviceParameter;
     private Activity activity;
 
-    public ChannelParamReadAsyncTask(Activity activity,View view,DeviceParameter deviceParameter) {
+    public ChannelParamReadAsyncTask(Activity activity, View view, DeviceParameter deviceParameter) {
         this.activity = activity;
         this.view = view;
         this.deviceParameter = deviceParameter;
@@ -41,7 +41,6 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, DeviceP
                 udmClient.readDeviceParameter(deviceParameter);
                 tryCount++;
             }
-
         } catch (Exception e) {
 
         }
@@ -53,30 +52,36 @@ public class ChannelParamReadAsyncTask extends AsyncTask<String, String, DeviceP
         super.onPostExecute(deviceParameter);
         //更新界面数据
         String notice = "";
-        if(deviceParameter.isNoPermission()){
+        if (deviceParameter.isNoPermission()) {
             LoginComponent loginComponent = new LoginComponent(activity, deviceParameter.getMac(), deviceParameter.getIp());
             loginComponent.setToProfile(false);
             loginComponent.login();
-        }else{
-            if(!deviceParameter.isSuccessful()){
+        } else {
+            if (!deviceParameter.isSuccessful()) {
                 notice = "Possible network delay. Please click title try again.";
-                Toast.makeText(view.getContext(), notice,Toast.LENGTH_SHORT).show();
-            }else{
-                ViewElementDataUtil.setData(deviceParameter, view);
+                Toast.makeText(view.getContext(), notice, Toast.LENGTH_SHORT).show();
+            } else {
+                if (view != null) {
+                    ViewElementDataUtil.setData(deviceParameter, view);
+                }
             }
-            TextView title = view.findViewById(R.id.title);
-            if(title!=null){
-                String titleValue = title.getText().toString();
-                title.setText(titleValue.replaceAll(UdmConstant.WAIT_READ_PARAM,""));
+            if (view != null) {
+                TextView title = view.findViewById(R.id.title);
+                if (title != null) {
+                    String titleValue = title.getText().toString();
+                    title.setText(titleValue.replaceAll(UdmConstant.WAIT_READ_PARAM, ""));
+                }
             }
         }
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
-        TextView title = view.findViewById(R.id.title);
-        if(title!=null && !title.getText().toString().contains(UdmConstant.WAIT_READ_PARAM)){
-            title.setText(title.getText().toString()+ UdmConstant.WAIT_READ_PARAM);
+        if (view != null) {
+            TextView title = view.findViewById(R.id.title);
+            if (title != null && !title.getText().toString().contains(UdmConstant.WAIT_READ_PARAM)) {
+                title.setText(title.getText().toString() + UdmConstant.WAIT_READ_PARAM);
+            }
         }
         super.onProgressUpdate(values);
     }

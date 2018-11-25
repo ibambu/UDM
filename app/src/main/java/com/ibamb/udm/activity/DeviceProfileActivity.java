@@ -10,17 +10,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.beans.DeviceParameter;
+import com.ibamb.dnet.module.beans.ParameterItem;
+import com.ibamb.dnet.module.core.ContextData;
+import com.ibamb.dnet.module.core.ParameterMapping;
+import com.ibamb.dnet.module.instruct.beans.Parameter;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.guide.MainActivityGuide;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
-import com.ibamb.dnet.module.beans.DeviceParameter;
-import com.ibamb.dnet.module.beans.DeviceModel;
-import com.ibamb.dnet.module.beans.ParameterItem;
-import com.ibamb.dnet.module.core.ContextData;
-import com.ibamb.dnet.module.core.ParameterMapping;
-import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -86,21 +88,26 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     break;
                 case R.id.profile_connect_setting:
                 case R.id.profile_connect_more:
+                    if(supportedChannels==null ||supportedChannels.length==0){
+                        getSupportChannel();
+                    }
                     /**
                      * 如果支持多个通道，择弹出通道列表界面供选择。
                      */
                     if (supportedChannels.length == 1) {
-                        params.putString("CHNL_ID", supportedChannels[0]);
+                        params.putString("CHNL_ID", supportedChannels[0].split("  ")[0]);
                         selectedChannleId = supportedChannels[0];
                         Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
                         intent.putExtras(params);
                         startActivity(intent);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+
                         builder.setTitle("Select Channel");
                         int checkItemIdx = 0;
                         for (int i = 0; i < supportedChannels.length; i++) {
-                            if (supportedChannels[i].equalsIgnoreCase(selectedChannleId)) {
+                            String selectedChannel = supportedChannels[i].split("  ")[0];
+                            if (selectedChannel.equalsIgnoreCase(selectedChannleId)) {
                                 checkItemIdx = i;
                                 break;
                             }
@@ -109,15 +116,18 @@ public class DeviceProfileActivity extends AppCompatActivity {
                         builder.setSingleChoiceItems(supportedChannels, checkItemIdx, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                params.putString("CHNL_ID", supportedChannels[which]);
-                                selectedChannleId = supportedChannels[which];
+                                String selectedChannel = supportedChannels[which].split("  ")[0];
+                                params.putString("CHNL_ID", selectedChannel);
+                                selectedChannleId = selectedChannel;
                                 dialog.dismiss();
                                 Intent intent = new Intent(currentContext, ConnectSettingActivity.class);
                                 intent.putExtras(params);
                                 startActivity(intent);
                             }
                         });
-                        builder.show();
+                        //创建对话框
+                        AlertDialog dialog = builder.create();
+                        dialog.show();//显示对话框
                     }
                     break;
                 case R.id.profile_other_setting:
@@ -220,6 +230,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         currentContext = this;
+    }
+
+    private void getSupportChannel(){
         /**
          * 读取支持的通道
          */
@@ -238,6 +251,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
         try {
             DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(testChannelParams);
             task.execute().get();
+            //获取工作模式和波特率，作为额外信息展现。
+            String [] tagIds = {"CONN_TCP_WORK_MODE","UART_BDRATE"};
+            //探测支持的通道数目，准备32个通道参数（CONN_NET_PROTOCOL）。
+
             for (int i = 1; i < 33; i++) {
                 String channelId = String.valueOf(i);
                 String paramId = "CONN" + channelId + "_NET_PROTOCOL";
@@ -245,14 +262,28 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     if (parameterItem.getParamId().equals(paramId)
                             && parameterItem.getParamValue() != null
                             && parameterItem.getParamValue().trim().length() > 0) {
-                        supportChannels.add(String.valueOf(channelId));
+                        List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(tagIds, channelId);
+                        List<ParameterItem> items = new ArrayList<>();
+                        for (Parameter parameter : parameters) {
+                            items.add(new ParameterItem(parameter.getId(), null));
+                        }
+                        DeviceParameter specailDeviceParam = new DeviceParameter(mac, ip,"-1");
+                        specailDeviceParam.setParamItems(items);
+                        ChannelParamReadAsyncTask task1 = new ChannelParamReadAsyncTask(this,null,specailDeviceParam);
+                        task1.execute().get();
+                        String channelInfo = String.valueOf(channelId);
+                        for(ParameterItem item:specailDeviceParam.getParamItems()){
+                            if(item.getParamId().endsWith("_BDRATE")){
+                                channelInfo += "(Baud Rate:"+item.getDisplayValue()+")";
+                            }else if(item.getParamId().endsWith("_TCP_WORK_MODE")){
+                                channelInfo+="  "+item.getDisplayValue();
+                            }
+                        }
+                        supportChannels.add(channelInfo);
                     }
                 }
             }
-            supportChannels.add("2");
-            supportChannels.add("3");
-            supportChannels.add("4");
-            supportChannels.add("5");
+
             supportedChannels = new String[supportChannels.size()];
             for (int i = 0; i < supportChannels.size(); i++) {
                 supportedChannels[i] = supportChannels.get(i);
