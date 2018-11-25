@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.ibamb.dnet.module.beans.DeviceBaseInfo;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.listener.UdmGestureListener;
@@ -21,6 +22,7 @@ import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.ChannelParamWriteAsynTask;
+import com.ibamb.udm.task.DeviceBaseInfoReadTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 import com.ibamb.udm.util.ViewElementDataUtil;
 
@@ -52,6 +54,8 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
     private TextView title;
     private ImageView back;
     private ImageView commit;
+
+    private DeviceBaseInfo.ComBaseInfo baseInfo;
 
     private static final String[] CONNECT_SETTING_PARAMS_TAG = {"CONN_NET_PROTOCOL"};
 
@@ -152,6 +156,14 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this, currentView, deviceParameter);
             readerAsyncTask.execute(mac);
 
+            DeviceBaseInfoReadTask task = new DeviceBaseInfoReadTask((new DeviceBaseInfoReadTask.ResultListener(){
+
+                @Override
+                public void onCompleted(DeviceBaseInfo.ComBaseInfo info) {
+                    baseInfo = info;
+                }
+            }),Integer.parseInt(channelId));
+            task.execute(mac);
             /**
              * 监听手势
              */

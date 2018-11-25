@@ -6,7 +6,7 @@ import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.udm.component.constants.UdmConstant;
 
-public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, DeviceParameter> {
+public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, Integer> {
     private DeviceParameter deviceParameter;
 
     public DetectSupportChannelsAsyncTask(DeviceParameter deviceParameter) {
@@ -14,7 +14,8 @@ public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, De
     }
 
     @Override
-    protected DeviceParameter doInBackground(String... strings) {
+    protected Integer doInBackground(String... strings) {
+        int maxSupport = 0;
         try {
 
             int tryCount = 0;
@@ -28,10 +29,10 @@ public class DetectSupportChannelsAsyncTask extends AsyncTask<String, String, De
                 udmClient.readDeviceParameter(deviceParameter);
                 tryCount++;
             }
-
+            maxSupport = udmClient.detectMaxSupportedChannel(deviceParameter.getMac());
         } catch (Exception e) {
 
         }
-        return deviceParameter;
+        return maxSupport;
     }
 }

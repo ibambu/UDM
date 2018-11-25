@@ -88,7 +88,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     break;
                 case R.id.profile_connect_setting:
                 case R.id.profile_connect_more:
-                    if(supportedChannels==null ||supportedChannels.length==0){
+                    if (supportedChannels == null || supportedChannels.length == 0) {
                         getSupportChannel();
                     }
                     /**
@@ -175,9 +175,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
 
         DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
         if (deviceModel != null) {
-            hostName.setText("Device Name:"+deviceModel.getDeviceName());
-            hostIpMac.setText("Address:"+deviceModel.getIp()+" | "+mac.toUpperCase());
-            hostFirmwareVersion.setText("Firmware Version:"+deviceModel.getPruductName()+"-"+deviceModel.getFirmwareVersion());
+            hostName.setText("Device Name:" + deviceModel.getDeviceName());
+            hostIpMac.setText("Address:" + deviceModel.getIp() + " | " + mac.toUpperCase());
+            hostFirmwareVersion.setText("Firmware Version:" + deviceModel.getPruductName() + "-" + deviceModel.getFirmwareVersion());
         }
         back = findViewById(R.id.go_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +232,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         currentContext = this;
     }
 
-    private void getSupportChannel(){
+    private void getSupportChannel() {
         /**
          * 读取支持的通道
          */
@@ -250,37 +250,60 @@ public class DeviceProfileActivity extends AppCompatActivity {
         }
         try {
             DetectSupportChannelsAsyncTask task = new DetectSupportChannelsAsyncTask(testChannelParams);
-            task.execute().get();
+            int maxSupportChannel = task.execute().get();
             //获取工作模式和波特率，作为额外信息展现。
-            String [] tagIds = {"CONN_TCP_WORK_MODE","UART_BDRATE"};
+            String[] tagIds = {"CONN_TCP_WORK_MODE", "UART_BDRATE"};
             //探测支持的通道数目，准备32个通道参数（CONN_NET_PROTOCOL）。
-
-            for (int i = 1; i < 33; i++) {
-                String channelId = String.valueOf(i);
-                String paramId = "CONN" + channelId + "_NET_PROTOCOL";
-                for (ParameterItem parameterItem : testChannelParams.getParamItems()) {
-                    if (parameterItem.getParamId().equals(paramId)
-                            && parameterItem.getParamValue() != null
-                            && parameterItem.getParamValue().trim().length() > 0) {
-                        List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(tagIds, channelId);
-                        List<ParameterItem> items = new ArrayList<>();
-                        for (Parameter parameter : parameters) {
-                            items.add(new ParameterItem(parameter.getId(), null));
-                        }
-                        DeviceParameter specailDeviceParam = new DeviceParameter(mac, ip,"-1");
-                        specailDeviceParam.setParamItems(items);
-                        ChannelParamReadAsyncTask task1 = new ChannelParamReadAsyncTask(this,null,specailDeviceParam);
-                        task1.execute().get();
-                        String channelInfo = String.valueOf(channelId);
-                        for(ParameterItem item:specailDeviceParam.getParamItems()){
-                            if(item.getParamId().endsWith("_BDRATE")){
-                                channelInfo += "(Baud Rate:"+item.getDisplayValue()+")";
-                            }else if(item.getParamId().endsWith("_TCP_WORK_MODE")){
-                                channelInfo+="  "+item.getDisplayValue();
+            if (maxSupportChannel == 0) {
+                for (int i = 1; i < 33; i++) {
+                    String channelId = String.valueOf(i);
+                    String paramId = "CONN" + channelId + "_NET_PROTOCOL";
+                    for (ParameterItem parameterItem : testChannelParams.getParamItems()) {
+                        if (parameterItem.getParamId().equals(paramId)
+                                && parameterItem.getParamValue() != null
+                                && parameterItem.getParamValue().trim().length() > 0) {
+                            List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(tagIds, channelId);
+                            List<ParameterItem> items = new ArrayList<>();
+                            for (Parameter parameter : parameters) {
+                                items.add(new ParameterItem(parameter.getId(), null));
                             }
+                            DeviceParameter specailDeviceParam = new DeviceParameter(mac, ip, "-1");
+                            specailDeviceParam.setParamItems(items);
+                            ChannelParamReadAsyncTask task1 = new ChannelParamReadAsyncTask(this, null, specailDeviceParam);
+                            task1.execute().get();
+                            String channelInfo = String.valueOf(channelId);
+                            for (ParameterItem item : specailDeviceParam.getParamItems()) {
+                                if (item.getParamId().endsWith("_BDRATE")) {
+                                    channelInfo += "(Baud Rate:" + item.getDisplayValue() + ")";
+                                } else if (item.getParamId().endsWith("_TCP_WORK_MODE")) {
+                                    channelInfo += "  " + item.getDisplayValue();
+                                }
+                            }
+                            supportChannels.add(channelInfo);
                         }
-                        supportChannels.add(channelInfo);
                     }
+                }
+            } else {
+                for (int i = 1; i < maxSupportChannel + 1; i++) {
+                    String channelId = String.valueOf(i);
+                    List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(tagIds, channelId);
+                    List<ParameterItem> items = new ArrayList<>();
+                    for (Parameter parameter : parameters) {
+                        items.add(new ParameterItem(parameter.getId(), null));
+                    }
+                    DeviceParameter specailDeviceParam = new DeviceParameter(mac, ip, "-1");
+                    specailDeviceParam.setParamItems(items);
+                    ChannelParamReadAsyncTask task1 = new ChannelParamReadAsyncTask(this, null, specailDeviceParam);
+                    task1.execute().get();
+                    String channelInfo = String.valueOf(channelId);
+                    for (ParameterItem item : specailDeviceParam.getParamItems()) {
+                        if (item.getParamId().endsWith("_BDRATE")) {
+                            channelInfo += "(Baud Rate:" + item.getDisplayValue() + ")";
+                        } else if (item.getParamId().endsWith("_TCP_WORK_MODE")) {
+                            channelInfo += "  " + item.getDisplayValue();
+                        }
+                    }
+                    supportChannels.add(channelInfo);
                 }
             }
 
@@ -303,10 +326,12 @@ public class DeviceProfileActivity extends AppCompatActivity {
                 .setOverlayTarget(false)
                 .setOutsideTouchable(false);
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
-            @Override public void onShown() {
+            @Override
+            public void onShown() {
             }
 
-            @Override public void onDismiss() {
+            @Override
+            public void onDismiss() {
             }
         });
 
