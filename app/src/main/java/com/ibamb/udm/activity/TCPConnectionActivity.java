@@ -27,13 +27,16 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class TCPConnectionActivity extends AppCompatActivity  implements View.OnTouchListener{
+public class TCPConnectionActivity extends AppCompatActivity implements View.OnTouchListener {
     private DeviceParameter deviceParameter;
     private View currentView;
     private String mac;
     private String channelId;
     private String ip;
+    private boolean isCanDNS;
 
     private ImageView commit;
     private ImageView back;
@@ -43,6 +46,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
             "CONN_TCP_HOST_PORT0", "CONN_TCP_HOST_IP0", "CONN_TCP_LOCAL_PORT"};
 
     private GestureDetector mGestureDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +58,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
         channelId = bundle.getString("CHNL_ID");
         ip = bundle.getString("HOST_ADDRESS");
         currentView = getWindow().getDecorView();
-
+        isCanDNS = bundle.getBoolean("IS_CAN_DNS");
         commit = findViewById(R.id.do_commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +95,7 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
     protected void onStart() {
         super.onStart();
         try {
-            deviceParameter = new DeviceParameter(mac, ip,channelId);
+            deviceParameter = new DeviceParameter(mac, ip, channelId);
             List<Parameter> parameters = ParameterMapping.getInstance().getMappingByTags(TCP_SETTING_PARAMS_TAG, channelId);
             List<ParameterItem> items = new ArrayList<>();
             for (Parameter parameter : parameters) {
@@ -99,15 +103,15 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
             }
             deviceParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, deviceParameter));
+            title.setOnClickListener(new UdmReloadParamsClickListener(this, currentView, deviceParameter));
 
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, deviceParameter);
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this, currentView, deviceParameter);
             readerAsyncTask.execute(mac);
 
             /**
              * 监听手势
              */
-            UdmGestureListener listener = new UdmGestureListener(this, deviceParameter,currentView);
+            UdmGestureListener listener = new UdmGestureListener(this, deviceParameter, currentView);
             mGestureDetector = new GestureDetector(this, listener);
             findViewById(R.id.v_gesture).setOnTouchListener(this);
             findViewById(R.id.label_work_as).setOnTouchListener(this);
@@ -129,8 +133,12 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
 
     private int checkData() {
         EditText remoteHost = ((EditText) findViewById(R.id.udm_conn_tcp_host_ip0));
-
-        if (!IPUtil.isIPAddress(remoteHost.getText().toString())) {
+        if (isCanDNS) {
+            if (!IPUtil.isDomain(remoteHost.getText().toString())
+                    &&!IPUtil.isIPAddress(remoteHost.getText().toString())) {
+                return R.id.udm_conn_tcp_host_ip0;
+            }
+        } else if (!IPUtil.isIPAddress(remoteHost.getText().toString())) {
             return R.id.udm_conn_tcp_host_ip0;
         }
         return 0;
@@ -147,4 +155,5 @@ public class TCPConnectionActivity extends AppCompatActivity  implements View.On
     public boolean onTouch(View v, MotionEvent event) {
         return mGestureDetector.onTouchEvent(event);
     }
+
 }

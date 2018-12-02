@@ -28,12 +28,13 @@ import com.ibamb.udm.util.ViewElementDataUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UDPConnectionActivity extends AppCompatActivity implements View.OnTouchListener{
+public class UDPConnectionActivity extends AppCompatActivity implements View.OnTouchListener {
     private DeviceParameter deviceParameter;
     private View currentView;
     private String mac;
     private String channelId;
     private String ip;
+    private boolean isCanDNS;
 
     private ImageView commit;
     private ImageView back;
@@ -63,18 +64,19 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
         mac = bundle.getString("HOST_MAC");
         ip = bundle.getString("HOST_ADDRESS");
         channelId = bundle.getString("CHNL_ID");
+        isCanDNS = bundle.getBoolean("IS_CAN_DNS");
         currentView = getWindow().getDecorView();
 
         commit = findViewById(R.id.do_commit);
         commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int errId =checkData();
-                if(errId==0){
-                    DeviceParameter changedParam = ViewElementDataUtil.getChangedData(currentView, deviceParameter,channelId);
+                int errId = checkData();
+                if (errId == 0) {
+                    DeviceParameter changedParam = ViewElementDataUtil.getChangedData(currentView, deviceParameter, channelId);
                     ChannelParamWriteAsynTask task = new ChannelParamWriteAsynTask(currentView);
-                    task.execute(deviceParameter,changedParam);
-                }else {
+                    task.execute(deviceParameter, changedParam);
+                } else {
                     EditText editText = findViewById(errId);
                     editText.requestFocus();
                     String notice = editText.getText().toString() + " is invalid.";
@@ -109,8 +111,8 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
             }
             deviceParameter.setParamItems(items);
             //点击重新读取参数值，并刷新界面。
-            title.setOnClickListener(new UdmReloadParamsClickListener(this,currentView, deviceParameter));
-            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this,currentView, deviceParameter);
+            title.setOnClickListener(new UdmReloadParamsClickListener(this, currentView, deviceParameter));
+            ChannelParamReadAsyncTask readerAsyncTask = new ChannelParamReadAsyncTask(this, currentView, deviceParameter);
             readerAsyncTask.execute(mac);
 
             /**
@@ -144,8 +146,12 @@ public class UDPConnectionActivity extends AppCompatActivity implements View.OnT
     private int checkData() {
         EditText remoteHost = ((EditText) findViewById(R.id.id_conn_udp_uni_host_ip0));
         EditText multiAddress = ((EditText) findViewById(R.id.udm_conn_udp_mul_remote_ip));
-
-        if (!IPUtil.isIPAddress(remoteHost.getText().toString())) {
+        if (isCanDNS) {
+            if (!IPUtil.isDomain(remoteHost.getText().toString())
+                    &&!IPUtil.isIPAddress(remoteHost.getText().toString())) {
+                return R.id.id_conn_udp_uni_host_ip0;
+            }
+        } else if (!IPUtil.isIPAddress(remoteHost.getText().toString())) {
             return R.id.id_conn_udp_uni_host_ip0;
         }
 

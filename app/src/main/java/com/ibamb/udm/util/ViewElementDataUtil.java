@@ -47,7 +47,7 @@ public class ViewElementDataUtil {
                             Switch udp = view.findViewById(R.id.udp_enanbled_switch);
                             Switch both = view.findViewById(R.id.tcp_udp_enanbled_switch);
 
-                            if (tcp != null && udp != null & both!=null ) {
+                            if (tcp != null && udp != null & both != null) {
                                 if ("0".equalsIgnoreCase(value)) {
                                     udp.setChecked(true);
                                     tcp.setChecked(false);
@@ -126,6 +126,7 @@ public class ViewElementDataUtil {
     public static DeviceParameter getChangedData(View view, DeviceParameter oldChannelParam, String channelId) {
         DeviceParameter deviceParameter = new DeviceParameter(oldChannelParam.getMac(),
                 oldChannelParam.getChannelId(), oldChannelParam.getIp());
+        deviceParameter.setChannelCanDNS(oldChannelParam.isChannelCanDNS());
         List<Parameter> parameters = ParameterMapping.getInstance().getChannelParamDef(Integer.parseInt(channelId));
         List<ParameterItem> items = new ArrayList<>();
         deviceParameter.setParamItems(items);
@@ -141,7 +142,7 @@ public class ViewElementDataUtil {
                         Switch tcp = view.findViewById(R.id.tcp_enanbled_switch);
                         Switch udp = view.findViewById(R.id.udp_enanbled_switch);
                         Switch both = view.findViewById(R.id.tcp_udp_enanbled_switch);
-                        if (tcp != null && udp != null & both!=null) {
+                        if (tcp != null && udp != null & both != null) {
                             if (both.isChecked()) {
                                 value = "2";
                             } else if (tcp.isChecked()) {
@@ -205,7 +206,9 @@ public class ViewElementDataUtil {
                     case Constants.UDM_PARAM_TYPE_NUMBER://数值类型
                         break;
                     case Constants.UDM_PARAM_TYPE_IPADDR://IP地址
-                        value = String.valueOf(IPUtil.getIpFromString(value));
+                        if (IPUtil.isIPAddress(value)) {
+                            value = String.valueOf(IPUtil.getIpFromString(value));
+                        }
                         break;
                     case Constants.UDM_PARAM_TYPE_TIME://时间类型
                         break;
@@ -219,6 +222,11 @@ public class ViewElementDataUtil {
                     //参数ID一致且值不一样，则认为是本次有修改的参数
                     if (parameterItem.getParamId().equals(parameter.getId())) {
                         if (parameterItem.getDisplayValue() != null && !parameterItem.getDisplayValue().equals(displayValue)) {
+                            if (parameter.getCovertType() == Constants.UDM_PARAM_TYPE_IPADDR) {
+                                if (IPUtil.isDomain(value)) {
+                                    parameterItem.setConvertType(Constants.UDM_PARAM_TYPE_CHAR);
+                                }
+                            }
                             ParameterItem changedItem = new ParameterItem(parameter.getId(), value);
                             items.add(changedItem);
                             ContextData.getInstance().addChangedParam(oldChannelParam.getMac(), changedItem);//将有变动的参数保存到上下文中。

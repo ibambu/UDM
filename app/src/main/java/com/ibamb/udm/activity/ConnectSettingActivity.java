@@ -219,6 +219,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             params.putString("HOST_ADDRESS", ip);
             params.putString("HOST_MAC", mac);
             params.putString("CHNL_ID", channelId);
+            params.putBoolean("IS_CAN_DNS", baseInfo.isCanDNS());
             if (intent != null) {
                 intent.putExtras(params);
                 startActivity(intent);
