@@ -91,6 +91,7 @@ public class ConnectionActivity extends AppCompatActivity {
         findViewById(R.id.do_commit).setVisibility(View.GONE);
         TextView title = findViewById(R.id.title);
         title.setText("Connection property");
+
         connectButton = findViewById(R.id.connect_btn);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,6 +197,7 @@ public class ConnectionActivity extends AppCompatActivity {
                         }
                     }
                     if (canContinue) {
+
                         Intent intent = new Intent(ConnectionActivity.this, WorkSpaceActivity.class);
                         intent.putExtra("TCP_REMOTE_HOST", vRemoteAddr.getText().toString());
                         intent.putExtra("TCP_REMOTE_PORT", vRemotePort.getText().toString());
@@ -213,7 +215,9 @@ public class ConnectionActivity extends AppCompatActivity {
                         intent.putExtra("CONNECTION_TYPE", connectionType);
 
                         intent.putExtra("WORK_ROLE", role);
+//                        setResult(9001,intent);
                         startActivity(intent);
+//                        finish();
                     } else {
                         Snackbar.make(connectButton, checkNotice, Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
@@ -222,6 +226,7 @@ public class ConnectionActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private boolean isEmptyValue(String value) {
         return value == null || value.trim().length() == 0;

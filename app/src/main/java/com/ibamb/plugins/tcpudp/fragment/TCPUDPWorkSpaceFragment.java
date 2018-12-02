@@ -1,14 +1,19 @@
-package com.ibamb.plugins.tcpudp.activity;
+package com.ibamb.plugins.tcpudp.fragment;
+
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,18 +35,15 @@ import com.ibamb.plugins.tcpudp.context.UDPUnicastClient;
 import com.ibamb.plugins.tcpudp.context.UDPUnicastServer;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
 import com.ibamb.udm.R;
-import com.ibamb.udm.component.constants.UdmConstant;
-import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class WorkSpaceActivity extends AppCompatActivity {
-
+public class TCPUDPWorkSpaceFragment extends Fragment {
+    public static final String PARAM = "PARAM";
     private RecyclerView mRecyclerView;//通信记录列表控件
     private EditText messageToSendView;//发送内容编辑控件
     private ImageView vMoreObjectListView;//更多目标列表
@@ -63,23 +65,69 @@ public class WorkSpaceActivity extends AppCompatActivity {
     private String currentTargetIp;
     private long revLength;
     private long sendLength;
+    private View fragmentView;
 
+    private String param;
+
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
+    }
+
+    public TCPUDPWorkSpaceFragment() {
+        // Required empty public constructor
+    }
+
+    public static TCPUDPWorkSpaceFragment newInstance(String param) {
+        TCPUDPWorkSpaceFragment fragment = new TCPUDPWorkSpaceFragment();
+        Bundle args = new Bundle();
+        args.putString(PARAM, param);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_work_space);
-        TaskBarQuiet.setStatusBarColor(this, UdmConstant.TASK_BAR_COLOR);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            String aa = bundle.getString(PARAM);
+            configuration = new ConnectProperty();
+            configuration.setTcpRemoteHost(bundle.getString("TCP_REMOTE_HOST"));
+            configuration.setTcpRemotePort(bundle.getString("TCP_REMOTE_PORT"));
+            configuration.setTcpLocalPort(bundle.getString("TCP_LOCAL_PORT"));
 
-        mRecyclerView = findViewById(R.id.record_recycler_view);
-        messageToSendView = findViewById(R.id.message_to_send);
-        mAutoSendIntervalBox = findViewById(R.id.cb_auto_send_interval);
-        mInterval = findViewById(R.id.et_auto_send_interval);
-        vMoreObjectListView = findViewById(R.id.img_more_object_list);
-        recvCountView = findViewById(R.id.received_count);
-        sendCountView = findViewById(R.id.send_count);
-        rbHex = findViewById(R.id.rb_hex);
-        tvClean = findViewById(R.id.tv_clean);
+            configuration.setUdpUniRemoteHost(bundle.getString("UDP_UNI_TARGET_HOST"));
+            configuration.setUdpUniRemotePort(bundle.getString("UDP_UNI_TARGET_PORT"));
+            configuration.setUdpUniLocalPort(bundle.getString("UDP_UNI_LOCAL_PORT"));
+
+            configuration.setUdpMulAddress(bundle.getString("UDP_MUL_ADDRESS"));
+            configuration.setUdpMulPort(bundle.getString("UDP_MUL_PORT"));
+            configuration.setUdpBroadcastPort(bundle.getString("UDP_BROADCAST_PORT"));
+
+            configuration.setConnectType(bundle.getString("CONNECTION_TYPE"));
+            configuration.setWorkRole(bundle.getInt("WORK_ROLE", Constant.CONN_ROLE_CLIENT));
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tcpudpwork_space, container, false);
+
+        mRecyclerView = view.findViewById(R.id.record_recycler_view);
+        messageToSendView = view.findViewById(R.id.message_to_send);
+        mAutoSendIntervalBox = view.findViewById(R.id.cb_auto_send_interval);
+        mInterval = view.findViewById(R.id.et_auto_send_interval);
+        vMoreObjectListView = view.findViewById(R.id.img_more_object_list);
+        recvCountView = view.findViewById(R.id.received_count);
+        sendCountView = view.findViewById(R.id.send_count);
+        vTitle = getActivity().findViewById(R.id.title);
+        rbHex = view.findViewById(R.id.rb_hex);
+        tvClean = view.findViewById(R.id.tv_clean);
         tvClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +138,47 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 if (communicateList != null) {
                     communicateList.clear();
                     adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+
+        communicateList = new ArrayList<>();//初始化录通信记录
+        adapter = new RecordListAdapter(getActivity(), communicateList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(adapter);
+
+
+        if (configuration.getConnectType().equals(Constant.CONN_TCP_CLIENT)) {
+            vTitle.setText("To " + configuration.getTcpRemoteHost());
+        } else if (configuration.getConnectType().equals(Constant.CONN_UDP_UNICAST_CLIENT)) {
+            vTitle.setText("To " + configuration.getUdpUniRemoteHost());
+        } else if (configuration.getConnectType().equals(Constant.CONN_UDP_BROADCAST)) {
+            vTitle.setText("UDP Broadcast");
+        } else if (configuration.getConnectType().equals(Constant.CONN_UDP_MULCAST)) {
+            vTitle.setText("UDP Multicast");
+        }
+        if (configuration.getWorkRole() == Constant.CONN_ROLE_SERVER &&
+                !configuration.getConnectType().equals(Constant.CONN_UDP_BROADCAST)
+                && !configuration.getConnectType().equals(Constant.CONN_UDP_MULCAST)) {
+            fragmentView.findViewById(R.id.img_more_object_list).setVisibility(View.VISIBLE);
+        } else {
+            fragmentView.findViewById(R.id.img_more_object_list).setVisibility(View.GONE);
+        }
+
+        connect(configuration);//开始连接
+
+        mConnectSwitch = fragmentView.findViewById(R.id.toggle_state_btn);
+        mConnectSwitch.setChecked(true);
+        mConnectSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mConnectSwitch.isChecked()) {
+                    connContext.closeAll();
+                    mConnectSwitch.setText("disconnect");
+                } else {
+                    connect(configuration);
+                    mConnectSwitch.setText("connect");
                 }
             }
         });
@@ -132,87 +221,13 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 }
             }
         });
-        vTitle = findViewById(R.id.title);
-        vTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent connIntent = new Intent(v.getContext(), ConnectionActivity.class);
-//                startActivity(connIntent);
-            }
-        });
-
-        findViewById(R.id.go_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        findViewById(R.id.do_commit).setVisibility(View.GONE);
-
-        communicateList = new ArrayList<>();//初始化录通信记录
 
 
-        adapter = new RecordListAdapter(this, communicateList);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(adapter);
-
-
-        Intent intent = getIntent();
-
-        configuration = new ConnectProperty();
-        configuration.setTcpRemoteHost(intent.getStringExtra("TCP_REMOTE_HOST"));
-        configuration.setTcpRemotePort(intent.getStringExtra("TCP_REMOTE_PORT"));
-        configuration.setTcpLocalPort(intent.getStringExtra("TCP_LOCAL_PORT"));
-
-        configuration.setUdpUniRemoteHost(intent.getStringExtra("UDP_UNI_TARGET_HOST"));
-        configuration.setUdpUniRemotePort(intent.getStringExtra("UDP_UNI_TARGET_PORT"));
-        configuration.setUdpUniLocalPort(intent.getStringExtra("UDP_UNI_LOCAL_PORT"));
-
-        configuration.setUdpMulAddress(intent.getStringExtra("UDP_MUL_ADDRESS"));
-        configuration.setUdpMulPort(intent.getStringExtra("UDP_MUL_PORT"));
-        configuration.setUdpBroadcastPort(intent.getStringExtra("UDP_BROADCAST_PORT"));
-
-        configuration.setConnectType(intent.getStringExtra("CONNECTION_TYPE"));
-        configuration.setWorkRole(intent.getIntExtra("WORK_ROLE", Constant.CONN_ROLE_CLIENT));
-        if (configuration.getConnectType().equals(Constant.CONN_TCP_CLIENT)) {
-            vTitle.setText("To " + configuration.getTcpRemoteHost());
-        } else if (configuration.getConnectType().equals(Constant.CONN_UDP_UNICAST_CLIENT)) {
-            vTitle.setText("To " + configuration.getUdpUniRemoteHost());
-        } else if (configuration.getConnectType().equals(Constant.CONN_UDP_BROADCAST)) {
-            vTitle.setText("UDP Broadcast");
-        } else if (configuration.getConnectType().equals(Constant.CONN_UDP_MULCAST)) {
-            vTitle.setText("UDP Multicast");
-        }
-        if (configuration.getWorkRole() == Constant.CONN_ROLE_SERVER &&
-                !configuration.getConnectType().equals(Constant.CONN_UDP_BROADCAST)
-                && !configuration.getConnectType().equals(Constant.CONN_UDP_MULCAST)) {
-            findViewById(R.id.img_more_object_list).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.img_more_object_list).setVisibility(View.GONE);
-        }
-
-        connect(configuration);//开始连接
-
-        mConnectSwitch = findViewById(R.id.toggle_state_btn);
-        mConnectSwitch.setChecked(true);
-        mConnectSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mConnectSwitch.isChecked()) {
-                    connContext.closeAll();
-                    mConnectSwitch.setText("disconnect");
-                } else {
-                    connect(configuration);
-                    mConnectSwitch.setText("connect");
-                }
-            }
-        });
         /**
          * 发送信息事件
          */
 
-        mSendButton = findViewById(R.id.send_button);
+        mSendButton = view.findViewById(R.id.send_button);
         mSendButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -238,7 +253,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 }
             }
         });
-
+        this.fragmentView = view;
+        return view;
     }
 
     Timer timer;
@@ -262,9 +278,9 @@ public class WorkSpaceActivity extends AppCompatActivity {
     }
 
     @Override
-    public void finish() {
+    public void onDestroy() {
+        super.onDestroy();
         connContext.closeAll();
-        super.finish();
     }
 
     /**
@@ -434,7 +450,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
      * @param message
      */
     private void updateRecord(final String hostAddress, final byte[] message) {
-        runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 String displayData = "";
