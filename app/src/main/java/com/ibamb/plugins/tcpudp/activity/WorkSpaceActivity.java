@@ -417,15 +417,27 @@ public class WorkSpaceActivity extends AppCompatActivity {
         }
     }
 
-    private void countSendBytes(byte[] message) {
-        sendLength += message.length;
-        sendCountView.setText("Send:" + sendLength);
+    private void countSendBytes(final byte[] message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                sendLength += message.length;
+                sendCountView.setText("Send:" + sendLength);
+            }
+        });
+
 
     }
 
-    private void countRecvBytes(byte[] message) {
-        revLength += message.length;
-        recvCountView.setText("Received:" + revLength);
+    private void countRecvBytes(final byte[] message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                revLength += message.length;
+                recvCountView.setText("Received:" + revLength);
+            }
+        });
+
     }
 
     /**
