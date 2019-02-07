@@ -88,6 +88,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             public void onClick(View v) {
                 vUdpMode.setChecked(false);
                 vBothMode.setChecked(false);
+                vTcpMode.setChecked(true);
             }
         });
         vUdpMode = findViewById(R.id.udp_enanbled_switch);
@@ -96,6 +97,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             public void onClick(View v) {
                 vTcpMode.setChecked(false);
                 vBothMode.setChecked(false);
+                vUdpMode.setChecked(true);
             }
         });
         vBothMode = findViewById(R.id.tcp_udp_enanbled_switch);
@@ -104,6 +106,7 @@ public class ConnectSettingActivity extends AppCompatActivity implements View.On
             public void onClick(View v) {
                 vTcpMode.setChecked(false);
                 vUdpMode.setChecked(false);
+                vBothMode.setChecked(true);
             }
         });
 
