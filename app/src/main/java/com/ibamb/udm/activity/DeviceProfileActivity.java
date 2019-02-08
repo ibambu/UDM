@@ -63,6 +63,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private TextView vReboot;
     private TextView vImportSettings;
     private TextView vExportSettings;
+    private TextView vMaintain;
 
     Guide guide;
 
@@ -143,16 +144,19 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     break;
                 case R.id.profile_save_reboot:
                     SaveAndRebootAsyncTask task = new SaveAndRebootAsyncTask(getWindow().getDecorView());
-                    task.execute(mac,"1");
+                    task.execute(mac, "1");
                     break;
                 case R.id.profile_reboot:
                     SaveAndRebootAsyncTask task1 = new SaveAndRebootAsyncTask(getWindow().getDecorView());
-                    task1.execute(mac,"0");
+                    task1.execute(mac, "0");
                     break;
                 case R.id.profile_import:
 
                     break;
                 case R.id.profile_export:
+
+                    break;
+                case R.id.profile_maintain:
 
                     break;
                 case R.id.profile_synchronize:
@@ -220,6 +224,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         vReboot = findViewById(R.id.profile_reboot);
         vImportSettings = findViewById(R.id.profile_import);
         vExportSettings = findViewById(R.id.profile_export);
+        vMaintain = findViewById(R.id.profile_maintain);
 
         vSettingIP.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
@@ -235,6 +240,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         vImportSettings.setOnClickListener(profileMenuClickListener);
         vExportSettings.setOnClickListener(profileMenuClickListener);
         vReboot.setOnClickListener(profileMenuClickListener);
+        vMaintain.setOnClickListener(profileMenuClickListener);
         /*vSettingIP.post(new Runnable() {
             @Override
             public void run() {
