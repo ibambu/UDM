@@ -60,7 +60,7 @@ public class UdmConstant {
     public static final String INFO_LOGIN_FAIL = "login fail,try again.";
 
     public static final int FLAG_SPECIALLY_SEARCH = 1;
-    public static final int FLAG_SCAN_QR_CODE = -1;
+    public static final int FLAG_SCAN_QR_CODE = 999;
 
     public static final int MAX_CHANNEL = 33;
 

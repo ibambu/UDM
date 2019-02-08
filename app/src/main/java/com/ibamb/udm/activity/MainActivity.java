@@ -24,12 +24,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.client.android.Intents;
 import com.ibamb.dnet.module.core.TryUser;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.security.DefualtECryptValue;
 import com.ibamb.dnet.module.security.ICryptStrategy;
 import com.ibamb.plugins.tcpudp.activity.ConnectionActivity;
-import com.ibamb.plugins.tcpudp.activity.MutilWorkSpaceActivity;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FileDirManager;
@@ -43,6 +43,7 @@ import com.ibamb.udm.task.DeviceSearchAsyncTask;
 import com.ibamb.udm.task.SearchUpgradeDeviceAsycTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -308,6 +309,16 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
+        } else if (requestCode == UdmConstant.FLAG_SCAN_QR_CODE) {
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString(Intents.Scan.RESULT);
+            if(scanResult==null){
+                Toast.makeText(MainActivity.this, "Unrecognized", Toast.LENGTH_SHORT).show();
+            }else{
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("WEB_URL",scanResult);
+                startActivity(intent);
+            }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -380,8 +391,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
                     startActivity(intent);
                 } else if (menuItemId == R.id.id_menu_or_code) {
-                    Intent intent = new Intent(MainActivity.this, ScanQRCodeActivity.class);
-                    startActivityForResult(intent, -1);
+                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                    startActivityForResult(intent, UdmConstant.FLAG_SCAN_QR_CODE);
                 } else if (menuItemId == R.id.id_load_param_def) {
                     Intent intent = new Intent(MainActivity.this, ImportTypeDefFileActivity.class);
 //                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

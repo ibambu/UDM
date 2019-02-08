@@ -131,10 +131,11 @@
         <activity
             android:name="com.ibamb.plugins.tcpudp.activity.WorkSpaceActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.ibamb.plugins.tcpudp.activity.MutilWorkSpaceActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+        <activity
+            android:name="com.ibamb.plugins.tcpudp.activity.MutilWorkSpaceActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.WebViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

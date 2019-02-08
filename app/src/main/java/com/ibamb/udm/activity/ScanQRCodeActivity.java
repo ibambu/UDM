@@ -15,7 +15,6 @@ import com.google.zxing.client.android.Intents;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.login.LoginComponent;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.BitmapUtil;
 import com.ibamb.udm.util.TaskBarQuiet;
 import com.journeyapps.barcodescanner.CaptureActivity;

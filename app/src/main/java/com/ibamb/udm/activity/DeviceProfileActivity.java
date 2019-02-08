@@ -60,6 +60,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private TextView hostName;
     private TextView hostIpMac;
     private TextView hostFirmwareVersion;
+    private TextView vReboot;
+    private TextView vImportSettings;
+    private TextView vExportSettings;
 
     Guide guide;
 
@@ -140,7 +143,17 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     break;
                 case R.id.profile_save_reboot:
                     SaveAndRebootAsyncTask task = new SaveAndRebootAsyncTask(getWindow().getDecorView());
-                    task.execute(mac);
+                    task.execute(mac,"1");
+                    break;
+                case R.id.profile_reboot:
+                    SaveAndRebootAsyncTask task1 = new SaveAndRebootAsyncTask(getWindow().getDecorView());
+                    task1.execute(mac,"0");
+                    break;
+                case R.id.profile_import:
+
+                    break;
+                case R.id.profile_export:
+
                     break;
                 case R.id.profile_synchronize:
                     Intent intent4 = new Intent(v.getContext(), DeviceSynchActivity.class);
@@ -204,6 +217,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingAccess = findViewById(R.id.profile_access_more);
         vSaveAndReboot = findViewById(R.id.profile_save_reboot);
         vSyncToOther = findViewById(R.id.profile_synchronize);
+        vReboot = findViewById(R.id.profile_reboot);
+        vImportSettings = findViewById(R.id.profile_import);
+        vExportSettings = findViewById(R.id.profile_export);
 
         vSettingIP.setOnClickListener(profileMenuClickListener);
         vSettingConnect.setOnClickListener(profileMenuClickListener);
@@ -216,7 +232,9 @@ public class DeviceProfileActivity extends AppCompatActivity {
         icSettingConnect.setOnClickListener(profileMenuClickListener);
         icSettingOther.setOnClickListener(profileMenuClickListener);
         icSettingAccess.setOnClickListener(profileMenuClickListener);
-
+        vImportSettings.setOnClickListener(profileMenuClickListener);
+        vExportSettings.setOnClickListener(profileMenuClickListener);
+        vReboot.setOnClickListener(profileMenuClickListener);
         /*vSettingIP.post(new Runnable() {
             @Override
             public void run() {

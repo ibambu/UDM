@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.DeviceProfileActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,211 +20,275 @@
             <include layout="@layout/top_title_nav" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/anchor"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:theme="@style/udm_device_profile_style">
+            android:scrollbars="none">
 
             <LinearLayout
+                android:id="@+id/anchor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@mipmap/ic_action_laptop"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:layout_gravity="center"
-                    android:text="" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:theme="@style/udm_device_profile_style">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="@android:color/white">
+
                     <TextView
-                        android:id="@+id/device_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:height="30dp"
-                        android:textStyle="bold"
-                        android:text=""
-                        android:gravity="left|center" />
-                    <TextView
-                        android:id="@+id/host_ip_mac"
-                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@mipmap/ic_action_laptop"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:text="" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:height="20dp"
-                        android:textSize="13dp"
-                        android:gravity="left|center" />
-                    <TextView
-                        android:id="@+id/host_firmware_version"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:height="20dp"
-                        android:textSize="13dp"
-                        android:gravity="left|center"
-                        android:layout_marginBottom="4dp"/>
+                        android:layout_weight="6"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/device_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:height="30dp"
+                            android:gravity="left|center"
+                            android:text=""
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/host_ip_mac"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:height="20dp"
+                            android:gravity="left|center"
+                            android:textSize="13dp" />
+
+                        <TextView
+                            android:id="@+id/host_firmware_version"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:height="20dp"
+                            android:gravity="left|center"
+                            android:textSize="13dp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/white">
-
-                <TextView
-                    android:id="@+id/profile_access_setting"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_settings"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:gravity="left|center"
-                    android:text="Basic Setting" />
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
 
-                <ImageView
-                    android:id="@+id/profile_access_more"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitEnd"
-                    android:src="@mipmap/ic_right_navg" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/profile_access_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_settings"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Basic Setting" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@android:color/white">
+                    <ImageView
+                        android:id="@+id/profile_access_more"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitEnd"
+                        android:src="@mipmap/ic_right_navg" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/profile_ip_setting"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_feed"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:gravity="left|center"
-                    android:text="Network" />
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
 
-                <ImageView
-                    android:id="@+id/profile_ip_more"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitEnd"
-                    android:src="@mipmap/ic_right_navg" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/profile_ip_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_feed"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Network" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@android:color/white">
+                    <ImageView
+                        android:id="@+id/profile_ip_more"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitEnd"
+                        android:src="@mipmap/ic_right_navg" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/profile_connect_setting"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_database"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:fontFamily="@font/arial"
-                    android:gravity="left|center"
-                    android:text="Channels" />
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
 
-                <ImageView
-                    android:id="@+id/profile_connect_more"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitEnd"
-                    android:src="@mipmap/ic_right_navg" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/profile_connect_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_database"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:fontFamily="@font/arial"
+                        android:gravity="left|center"
+                        android:text="Channels" />
+
+                    <ImageView
+                        android:id="@+id/profile_connect_more"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitEnd"
+                        android:src="@mipmap/ic_right_navg" />
+                </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@android:color/white">
-
-                <TextView
-                    android:id="@+id/profile_other_setting"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_clock"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:gravity="left|center"
-                    android:text="Time Server" />
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
 
-                <ImageView
-                    android:id="@+id/profile_other_more"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:scaleType="fitEnd"
-                    android:src="@mipmap/ic_right_navg" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/profile_other_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_clock"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Time Server" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/white">
+                    <ImageView
+                        android:id="@+id/profile_other_more"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitEnd"
+                        android:src="@mipmap/ic_right_navg" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/profile_save_reboot"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_turn_right"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:gravity="left|center"
-                    android:text="Save with Reboot" />
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/profile_save_reboot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_tick"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Save with Reboot" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/white">
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/profile_synchronize"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="5"
-                    android:height="60dp"
-                    android:drawableLeft="@mipmap/ic_action_goright"
-                    android:drawablePadding="@dimen/fab_margin"
-                    android:gravity="left|center"
-                    android:text="Synchronize to Other Device" />
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
 
+                    <TextView
+                        android:id="@+id/profile_reboot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_turn_right"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Reboot" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:id="@+id/profile_import"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_import"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Import Settings" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:id="@+id/profile_export"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_export"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Export Settings" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@android:color/white">
+
+                    <TextView
+                        android:id="@+id/profile_synchronize"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="5"
+                        android:height="60dp"
+                        android:drawableLeft="@mipmap/ic_action_goright"
+                        android:drawablePadding="@dimen/fab_margin"
+                        android:gravity="left|center"
+                        android:text="Synchronize to Other Device" />
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>
