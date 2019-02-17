@@ -62,7 +62,7 @@
                 android:height="40dp"
                 android:gravity="left|center"
                 android:tag="lab_conn_tcp_work_mode"
-                android:text="Optition" />
+                android:text="Connect Response" />
             <!-- TCP -->
             <com.ibamb.udm.tag.UdmSpinner
                 android:id="@+id/udm_conn_tcp_conn_respons"
