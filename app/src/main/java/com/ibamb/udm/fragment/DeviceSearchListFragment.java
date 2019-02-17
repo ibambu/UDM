@@ -13,11 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ibamb.udm.R;
-import com.ibamb.udm.activity.MainActivity;
 import com.ibamb.udm.adapter.InetAddressListAdapter;
+import com.ibamb.udm.beans.Device;
 import com.ibamb.udm.component.guide.MainActivityGuide;
 import com.ibamb.udm.component.login.LoginComponent;
-import com.ibamb.udm.beans.Device;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
 

@@ -3,6 +3,7 @@
     <files-path name="logs"    path="logs" />
     <files-path name="tryuser" path="user" />
     <files-path name="data"    path="data" />
+    <files-path name="udm"    path="." />
     <external-path name="download" path="download" />
-    <external-path name="udm" path="udm" />
+    <external-path name="udm" path="." />
 </paths>

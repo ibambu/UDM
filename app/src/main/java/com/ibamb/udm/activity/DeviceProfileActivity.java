@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceModel;
 import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
@@ -17,17 +21,35 @@ import com.ibamb.dnet.module.core.ContextData;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.dnet.module.log.UdmLog;
+import com.ibamb.dnet.module.security.DefualtECryptValue;
+import com.ibamb.dnet.module.security.ICryptStrategy;
 import com.ibamb.udm.R;
+import com.ibamb.udm.beans.FileInfo;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.guide.MainActivityGuide;
+import com.ibamb.udm.component.security.AESCrypt;
+import com.ibamb.udm.conf.DefaultConstant;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
+import com.ibamb.udm.task.ExportSettingAsyncTask;
+import com.ibamb.udm.task.ImportSettingAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class DeviceProfileActivity extends AppCompatActivity {
@@ -64,6 +86,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private TextView vImportSettings;
     private TextView vExportSettings;
     private TextView vMaintain;
+    private ImageView vExportFile;
+    private ProgressBar vImportFileProg;
+
+    private String exportFile;//导出文件
 
     Guide guide;
 
@@ -151,10 +177,65 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     task1.execute(mac, "0");
                     break;
                 case R.id.profile_import:
+                    /**
+                     * 读取指定目录下的导出文件在一个弹出框中显示。
+                     */
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                    final String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/";
+                    File baseDir = new File(udmDir);
+                    List<String> fileInfoList = new ArrayList<>();
+                    if (baseDir.exists()) {
+                        File[] files = baseDir.listFiles();
+                        for (File file : files) {
+                            if (!file.isDirectory() && file.getName().endsWith(".dfg")) {
+                                fileInfoList.add(file.getName());
+                            }
+                        }
+                    }
+                    final String[] files = new String[fileInfoList.size()];
+                    for (int i = 0; i < fileInfoList.size(); i++) {
+                        files[i] = fileInfoList.get(i);
+                    }
+                    builder.setSingleChoiceItems(files, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String filename = udmDir + files[which];
+                            File file = new File(filename);
+                            if (!file.exists()) {
+                                Toast.makeText(DeviceProfileActivity.this, file.getName() + " can not found!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                FileInputStream inputStream = null;
+                                StringBuilder stringBuilder = new StringBuilder();
+                                try {
+                                    inputStream = new FileInputStream(file);
+                                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                                    String line = null;
+                                    while ((line = bufferedReader.readLine()) != null) {
+                                        stringBuilder.append(line);
+                                    }
+                                    vImportFileProg.setVisibility(View.VISIBLE);
+                                    String content = stringBuilder.toString();
+                                    ImportSettingAsyncTask importTask = new ImportSettingAsyncTask(DeviceProfileActivity.this);
+                                    importTask.execute(mac, content);
+
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            builder.setTitle("Optional file list");
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
 
                     break;
                 case R.id.profile_export:
-
+                    findViewById(R.id.profile_export_file).setVisibility(View.GONE);
+                    findViewById(R.id.profile_export_prog).setVisibility(View.VISIBLE);
+                    ExportSettingAsyncTask exportTask = new ExportSettingAsyncTask(DeviceProfileActivity.this);
+                    exportTask.execute(mac);
                     break;
                 case R.id.profile_maintain:
 
@@ -241,12 +322,38 @@ public class DeviceProfileActivity extends AppCompatActivity {
         vExportSettings.setOnClickListener(profileMenuClickListener);
         vReboot.setOnClickListener(profileMenuClickListener);
         vMaintain.setOnClickListener(profileMenuClickListener);
-        /*vSettingIP.post(new Runnable() {
+        vImportFileProg = findViewById(R.id.profile_import_prog);
+
+        vExportFile = findViewById(R.id.profile_export_file);
+        vExportFile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                showGuideView();
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/";
+                File baseDir = new File(udmDir);
+                List<String> fileInfoList = new ArrayList<>();
+                if (baseDir.exists()) {
+                    File[] files = baseDir.listFiles();
+                    for (File file : files) {
+                        if (!file.isDirectory() && file.getName().endsWith(".dfg")) {
+                            fileInfoList.add(file.getName());
+                        }
+                    }
+                }
+                String[] files = new String[fileInfoList.size()];
+                for (int i = 0; i < fileInfoList.size(); i++) {
+                    files[i] = fileInfoList.get(i);
+                }
+                builder.setSingleChoiceItems(files, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setTitle("Exported files");
+                builder.show();
             }
-        });*/
+        });
 
     }
 
