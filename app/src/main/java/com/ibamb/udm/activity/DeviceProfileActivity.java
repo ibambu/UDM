@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceModel;
 import com.ibamb.dnet.module.beans.DeviceParameter;
 import com.ibamb.dnet.module.beans.ParameterItem;
@@ -21,13 +20,9 @@ import com.ibamb.dnet.module.core.ContextData;
 import com.ibamb.dnet.module.core.ParameterMapping;
 import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.security.DefualtECryptValue;
-import com.ibamb.dnet.module.security.ICryptStrategy;
 import com.ibamb.udm.R;
-import com.ibamb.udm.beans.FileInfo;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.guide.MainActivityGuide;
-import com.ibamb.udm.component.security.AESCrypt;
 import com.ibamb.udm.conf.DefaultConstant;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
@@ -44,12 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class DeviceProfileActivity extends AppCompatActivity {
