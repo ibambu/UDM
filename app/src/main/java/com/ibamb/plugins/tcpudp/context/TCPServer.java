@@ -2,6 +2,7 @@ package com.ibamb.plugins.tcpudp.context;
 
 import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
+import com.ibamb.plugins.tcpudp.listener.ResultListener;
 import com.ibamb.plugins.tcpudp.thread.TCPServerHandler;
 
 import java.io.BufferedOutputStream;
@@ -27,18 +28,26 @@ public class TCPServer {
         this.recvListener = recvListener;
     }
 
-    public void create(final int serverPort) {
+    public void create(final int serverPort, final ResultListener resultListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                String code ="0";
                 try {
                     server = new ServerSocket(serverPort);
+                    code = "1";
                     start();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }finally {
+                    resultListener.onResult(code);
                 }
             }
         }).start();
+    }
+
+    public boolean isReady() {
+        return server == null || server.isClosed() ? false : true;
     }
 
 
@@ -83,7 +92,7 @@ public class TCPServer {
                             bufferedOutputStream.flush();
                             listener.onReceive(localAddress.getHostAddress(), message);
                         } else {
-                            listener.onReceive(localAddress.getHostAddress(), ":Socket is closed".getBytes());
+                            listener.onReceive(localAddress.getHostAddress(), Constant.SOCKET_IS_CLOSED.getBytes());
                         }
                     } else {
                         listener.onReceive(localAddress.getHostAddress(), ":Network disconnected".getBytes());

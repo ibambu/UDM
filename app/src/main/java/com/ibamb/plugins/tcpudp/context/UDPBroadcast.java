@@ -3,10 +3,12 @@ package com.ibamb.plugins.tcpudp.context;
 import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
+import com.ibamb.plugins.tcpudp.listener.ResultListener;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 
 public class UDPBroadcast {
     private DatagramSocket socket;
@@ -20,22 +22,28 @@ public class UDPBroadcast {
         this.listener = listener;
     }
 
-    public void create() {
+    public void create(final ResultListener resultListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                String code ="0";
                 try {
                     socket = new DatagramSocket(connectProperty.getUdpBroadcastPort());
                     socket.setBroadcast(true);
                     address = InetAddress.getByName(Constants.UDM_BROADCAST_IP);
+                    code ="1";
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                    resultListener.onResult(code);
                 }
                 reading();
             }
         }).start();
     }
-
+    public boolean isReady() {
+        return socket == null || socket.isClosed() ? false : true;
+    }
     public void reading() {
         new Thread(new Runnable() {
             @Override
@@ -48,8 +56,7 @@ public class UDPBroadcast {
                         DatagramPacket packet = new DatagramPacket(data, data.length);
                         socket.receive(packet);
                         //接受到数据之前该方法处于阻塞状态
-                        byte[] recieveData = packet.getData();
-//                        String reveiceData = new String(data, 0, packet.getLength(), Constant.DEFAULT_CHARSET);
+                        byte[] recieveData = Arrays.copyOfRange(packet.getData(), 0, packet.getLength());
                         InetAddress address = packet.getAddress();
                         InetAddress localAddress = IPUtil.getLocalAddress();
                         if (!packet.getAddress().getHostAddress().equals(localAddress.getHostAddress())) {
@@ -79,7 +86,7 @@ public class UDPBroadcast {
 
                         sendListener.onReceive(localAddress.getHostAddress() , message);
                     } else {
-                        sendListener.onReceive(localAddress.getHostAddress(), ":Socket is closed".getBytes());
+                        sendListener.onReceive(localAddress.getHostAddress(), Constant.SOCKET_IS_CLOSED.getBytes());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

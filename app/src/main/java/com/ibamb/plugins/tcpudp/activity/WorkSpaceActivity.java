@@ -29,13 +29,13 @@ import com.ibamb.plugins.tcpudp.context.UDPMulticast;
 import com.ibamb.plugins.tcpudp.context.UDPUnicastClient;
 import com.ibamb.plugins.tcpudp.context.UDPUnicastServer;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
+import com.ibamb.plugins.tcpudp.listener.ResultListener;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -200,11 +200,11 @@ public class WorkSpaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!mConnectSwitch.isChecked()) {
-                    connContext.closeAll();
-                    mConnectSwitch.setText("disconnect");
+                    disconnect();
                 } else {
                     connect(configuration);
                     mConnectSwitch.setText("connect");
+                    mSendButton.setEnabled(true);
                 }
             }
         });
@@ -241,11 +241,21 @@ public class WorkSpaceActivity extends AppCompatActivity {
 
     }
 
+    private void disconnect(){
+        stopAutoSend();
+        connContext.closeAll();
+        mConnectSwitch.setText("disconnect");
+        mSendButton.setText("Send");
+        mConnectSwitch.setChecked(false);
+        mSendButton.setEnabled(false);
+    }
+
     Timer timer;
+    TimerTask task;
 
     private void autoSendByInterval() {
         timer = new Timer();
-        TimerTask task = new TimerTask() {
+        task = new TimerTask() {
             @Override
             public void run() {
                 send(messageToSendView.getText().toString());
@@ -256,8 +266,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
     }
 
     private void stopAutoSend() {
-        if (timer != null) {
-            timer.cancel();
+        if (task != null) {
+            task.cancel();
         }
     }
 
@@ -266,6 +276,22 @@ public class WorkSpaceActivity extends AppCompatActivity {
         connContext.closeAll();
         super.finish();
     }
+
+    private boolean isSocketClosed(byte[] message) {
+        boolean isClosed = bytesToString(message).contains(Constant.SOCKET_IS_CLOSED);
+        if(isClosed){
+            Snackbar.make(this.getWindow().getDecorView(), "Socket is closed", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    disconnect();
+                }
+            });
+        }
+        return isClosed;
+    }
+
 
     /**
      * 连接
@@ -277,66 +303,163 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     TCPServer tcpServer = new TCPServer(new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
+                            if (isSocketClosed(message)) {
+                                stopAutoSend();
+                            } else {
+                                updateRecord(hostAddress, message);
+                                countRecvBytes(message);
+                            }
                         }
                     });
-                    tcpServer.create(connectProperty.getTcpLocalPort());
+                    tcpServer.create(connectProperty.getTcpLocalPort(), new ResultListener() {
+                        @Override
+                        public void onResult(String code) {
+                            if(code.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        disconnect();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     connContext.setTcpServer(tcpServer);
                     break;
                 case Constant.CONN_TCP_CLIENT:
                     TCPClient tcpClient = new TCPClient(new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
+                            if (isSocketClosed(message)) {
+                                stopAutoSend();
+                            } else {
+                                updateRecord(hostAddress, message);
+                                countRecvBytes(message);
+                            }
                         }
                     });
-                    tcpClient.create(connectProperty);
+                    tcpClient.create(connectProperty, new ResultListener() {
+                        @Override
+                        public void onResult(String code) {
+                            if(code.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        disconnect();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     connContext.setTcpClient(tcpClient);
                     break;
                 case Constant.CONN_UDP_UNICAST_CLIENT:
                     UDPUnicastClient unicastClient = new UDPUnicastClient(connectProperty, new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
+                            if (isSocketClosed(message)) {
+                                stopAutoSend();
+                            } else {
+                                updateRecord(hostAddress, message);
+                                countRecvBytes(message);
+                            }
                         }
                     });
-                    unicastClient.create();
+                    unicastClient.create(new ResultListener() {
+                        @Override
+                        public void onResult(String code) {
+                            if(code.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        disconnect();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     connContext.setUdpUnicastClient(unicastClient);
                     break;
                 case Constant.CONN_UDP_UNICAST_SERVER:
                     UDPUnicastServer unicastServer = new UDPUnicastServer(connectProperty, new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
+                            if (isSocketClosed(message)) {
+                                stopAutoSend();
+                            } else {
+                                updateRecord(hostAddress, message);
+                                countRecvBytes(message);
+                            }
                         }
                     });
-                    unicastServer.create();
+                    unicastServer.create(new ResultListener() {
+                        @Override
+                        public void onResult(String code) {
+                            if(code.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        disconnect();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     connContext.setUdpUnicastServer(unicastServer);
                     break;
                 case Constant.CONN_UDP_MULCAST:
                     UDPMulticast udpMulticast = new UDPMulticast(connectProperty, new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
+                            if(isSocketClosed(message)){
+                                stopAutoSend();
+                            }else{
+                                updateRecord(hostAddress, message);
+                                countRecvBytes(message);
+                            }
+
                         }
                     });
-                    udpMulticast.create();
+                    udpMulticast.create(new ResultListener() {
+                        @Override
+                        public void onResult(String code) {
+                            if(code.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        disconnect();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     connContext.setUdpMulticast(udpMulticast);
                     break;
                 case Constant.CONN_UDP_BROADCAST:
                     UDPBroadcast broadcast = new UDPBroadcast(connectProperty, new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
+                            if(isSocketClosed(message)){
+                                stopAutoSend();
+                            }else{
+                                updateRecord(hostAddress, message);
+                                countRecvBytes(message);
+                            }
                         }
                     });
-                    broadcast.create();
+                    broadcast.create(new ResultListener() {
+                        @Override
+                        public void onResult(String code) {
+                            if(code.equals("0")){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        disconnect();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     connContext.setUdpBroadcast(broadcast);
                     break;
             }
@@ -364,8 +487,9 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 connContext.getTcpClient().send(sendData, new MessageListener() {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
-                        updateRecord(hostAddress, message);
+//                        updateRecord(hostAddress, message);
                         countSendBytes(message);
+
                     }
                 });
             } else if (configuration.getConnectType().equals(Constant.CONN_TCP_SERVER)) {
@@ -374,7 +498,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                     connContext.getTcpServer().send(currentTargetIp, sendData, new MessageListener() {
                         @Override
                         public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
+//                            updateRecord(hostAddress, message);
                             countSendBytes(message);
                         }
                     });
@@ -383,7 +507,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 connContext.getUdpUnicastClient().send(sendData, new MessageListener() {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
-                        updateRecord(hostAddress, message);
+//                        updateRecord(hostAddress, message);
                         countSendBytes(message);
                     }
                 });
@@ -391,7 +515,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 connContext.getUdpUnicastServer().send(currentTargetIp, sendData, new MessageListener() {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
-                        updateRecord(hostAddress, message);
+//                        updateRecord(hostAddress, message);
                         countSendBytes(message);
                     }
                 });
@@ -399,7 +523,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 connContext.getUdpMulticast().send(sendData, new MessageListener() {
                     @Override
                     public void onReceive(String hostAdress, byte[] message) {
-                        updateRecord(hostAdress, message);
+//                        updateRecord(hostAdress, message);
                         countSendBytes(message);
                     }
                 });
@@ -407,7 +531,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
                 connContext.getUdpBroadcast().send(sendData, new MessageListener() {
                     @Override
                     public void onReceive(String hostAddress, byte[] message) {
-                        updateRecord(hostAddress, message);
+//                        updateRecord(hostAddress, message);
                         countSendBytes(message);
                     }
                 });

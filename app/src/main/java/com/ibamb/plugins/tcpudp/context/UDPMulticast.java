@@ -2,10 +2,12 @@ package com.ibamb.plugins.tcpudp.context;
 
 import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
+import com.ibamb.plugins.tcpudp.listener.ResultListener;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.Arrays;
 
 public class UDPMulticast {
 
@@ -20,10 +22,11 @@ public class UDPMulticast {
         this.listener = listener;
     }
 
-    public void create() {
+    public void create(final ResultListener resultListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                String code ="0";
                 try {
                     multicastAddress = InetAddress.getByName(connectProperty.getUdpMulAddress()); //组地址
                     localAddress = IPUtil.getLocalAddress();
@@ -31,8 +34,11 @@ public class UDPMulticast {
                     multicastSocket = new MulticastSocket(connectProperty.getUdpMulPort());
                     multicastSocket.setLoopbackMode(false);
                     multicastSocket.joinGroup(multicastAddress); //加入到组播组中
+                    code ="1";
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                    resultListener.onResult(code);
                 }
                 reading();
             }
@@ -51,8 +57,8 @@ public class UDPMulticast {
                         DatagramPacket packet = new DatagramPacket(data, data.length);
                         //接受到数据之前该方法处于阻塞状态
                         multicastSocket.receive(packet);
-                        byte[] receiveData = packet.getData();
-//                        String receiveData = new String(data, 0, packet.getLength(), Constant.DEFAULT_CHARSET);
+                        byte[] receiveData =Arrays.copyOfRange(packet.getData(), 0, packet.getLength());
+
                         InetAddress address = packet.getAddress();
                         if (!address.getHostAddress().equals(localAddress.getHostAddress())) {
                             listener.onReceive(address.getHostAddress() , receiveData);
@@ -80,7 +86,7 @@ public class UDPMulticast {
                         InetAddress localAddress = IPUtil.getLocalAddress();
                         sendListener.onReceive(localAddress.getHostAddress() , message);
                     } else {
-                        sendListener.onReceive(localAddress.getHostAddress() ,":Socket is closed".getBytes());
+                        sendListener.onReceive(localAddress.getHostAddress() ,Constant.SOCKET_IS_CLOSED.getBytes());
                     }
 
                 } catch (Exception e) {

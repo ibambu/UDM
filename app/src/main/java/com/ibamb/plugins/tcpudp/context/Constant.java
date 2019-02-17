@@ -16,4 +16,6 @@ public class Constant {
     public static final int CONN_UDP_TRANS_UNICAST = 1;
     public static final int CONN_UDP_TRANS_MULCAST = 2;
     public static final int CONN_UDP_TRANS_BROADCAST = 3;
+
+    public static final String SOCKET_IS_CLOSED =":Socket is closed.";
 }

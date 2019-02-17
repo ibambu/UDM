@@ -3,12 +3,14 @@ package com.ibamb.plugins.tcpudp.context;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
+import com.ibamb.plugins.tcpudp.listener.ResultListener;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,12 +28,14 @@ public class UDPUnicastServer {
         this.listener = listener;
     }
 
-    public void create() {
+    public void create(final ResultListener resultListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                String code ="0";
                 try {
                     socket = new DatagramSocket(connectProperty.getUdpUniLocalPort());
+                    code ="1";
                     while (!socket.isClosed()) {
                         /* * 服务器端接受客户端的数据 */
                         byte[] data = new byte[1024];
@@ -40,8 +44,7 @@ public class UDPUnicastServer {
                         try {
                             socket.receive(packet);
                             //接受到数据之前该方法处于阻塞状态
-                            byte[] receiveData = packet.getData();
-//                            String reveiceData = new String(data, 0, packet.getLength(), "gbk");
+                            byte[] receiveData =Arrays.copyOfRange(packet.getData(), 0, packet.getLength());
                             InetAddress address = packet.getAddress();
                             int port = packet.getPort();
                             clientMap.put(address.getHostAddress(), new UnicastClient(address.getHostAddress(), port));
@@ -52,11 +55,15 @@ public class UDPUnicastServer {
                     }
                 } catch (SocketException e) {
                     e.printStackTrace();
+                }finally {
+                    resultListener.onResult(code);
                 }
             }
         }).start();
     }
-
+    public boolean isReady() {
+        return socket == null || socket.isClosed() ? false : true;
+    }
     public void send(final String toAddress, final byte[] message, final MessageListener sendListener) {
         new Thread(new Runnable() {
             @Override
@@ -73,7 +80,7 @@ public class UDPUnicastServer {
                             socket.send(sendDataPacket);
                             sendListener.onReceive(localAddress ,message);
                         } else {
-                            sendListener.onReceive(localAddress ,":Socket is closed".getBytes());
+                            sendListener.onReceive(localAddress ,Constant.SOCKET_IS_CLOSED.getBytes());
                         }
                     } else {
                         sendListener.onReceive(localAddress ,":Unknown address".getBytes());

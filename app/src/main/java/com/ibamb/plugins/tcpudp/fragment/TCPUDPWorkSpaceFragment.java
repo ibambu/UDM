@@ -287,78 +287,78 @@ public class TCPUDPWorkSpaceFragment extends Fragment {
      * 连接
      */
     private void connect(ConnectProperty connectProperty) {
-        try {
-            switch (connectProperty.getConnectType()) {
-                case Constant.CONN_TCP_SERVER:
-                    TCPServer tcpServer = new TCPServer(new MessageListener() {
-                        @Override
-                        public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
-                        }
-                    });
-                    tcpServer.create(connectProperty.getTcpLocalPort());
-                    connContext.setTcpServer(tcpServer);
-                    break;
-                case Constant.CONN_TCP_CLIENT:
-                    TCPClient tcpClient = new TCPClient(new MessageListener() {
-                        @Override
-                        public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
-                        }
-                    });
-                    tcpClient.create(connectProperty);
-                    connContext.setTcpClient(tcpClient);
-                    break;
-                case Constant.CONN_UDP_UNICAST_CLIENT:
-                    UDPUnicastClient unicastClient = new UDPUnicastClient(connectProperty, new MessageListener() {
-                        @Override
-                        public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
-                        }
-                    });
-                    unicastClient.create();
-                    connContext.setUdpUnicastClient(unicastClient);
-                    break;
-                case Constant.CONN_UDP_UNICAST_SERVER:
-                    UDPUnicastServer unicastServer = new UDPUnicastServer(connectProperty, new MessageListener() {
-                        @Override
-                        public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
-                        }
-                    });
-                    unicastServer.create();
-                    connContext.setUdpUnicastServer(unicastServer);
-                    break;
-                case Constant.CONN_UDP_MULCAST:
-                    UDPMulticast udpMulticast = new UDPMulticast(connectProperty, new MessageListener() {
-                        @Override
-                        public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
-                        }
-                    });
-                    udpMulticast.create();
-                    connContext.setUdpMulticast(udpMulticast);
-                    break;
-                case Constant.CONN_UDP_BROADCAST:
-                    UDPBroadcast broadcast = new UDPBroadcast(connectProperty, new MessageListener() {
-                        @Override
-                        public void onReceive(String hostAddress, byte[] message) {
-                            updateRecord(hostAddress, message);
-                            countRecvBytes(message);
-                        }
-                    });
-                    broadcast.create();
-                    connContext.setUdpBroadcast(broadcast);
-                    break;
-            }
-        } catch (Exception e) {
-            UdmLog.error(e);
-        }
+//        try {
+//            switch (connectProperty.getConnectType()) {
+//                case Constant.CONN_TCP_SERVER:
+//                    TCPServer tcpServer = new TCPServer(new MessageListener() {
+//                        @Override
+//                        public void onReceive(String hostAddress, byte[] message) {
+//                            updateRecord(hostAddress, message);
+//                            countRecvBytes(message);
+//                        }
+//                    });
+//                    tcpServer.create(connectProperty.getTcpLocalPort());
+//                    connContext.setTcpServer(tcpServer);
+//                    break;
+//                case Constant.CONN_TCP_CLIENT:
+//                    TCPClient tcpClient = new TCPClient(new MessageListener() {
+//                        @Override
+//                        public void onReceive(String hostAddress, byte[] message) {
+//                            updateRecord(hostAddress, message);
+//                            countRecvBytes(message);
+//                        }
+//                    });
+//                    tcpClient.create(connectProperty);
+//                    connContext.setTcpClient(tcpClient);
+//                    break;
+//                case Constant.CONN_UDP_UNICAST_CLIENT:
+//                    UDPUnicastClient unicastClient = new UDPUnicastClient(connectProperty, new MessageListener() {
+//                        @Override
+//                        public void onReceive(String hostAddress, byte[] message) {
+//                            updateRecord(hostAddress, message);
+//                            countRecvBytes(message);
+//                        }
+//                    });
+//                    unicastClient.create();
+//                    connContext.setUdpUnicastClient(unicastClient);
+//                    break;
+//                case Constant.CONN_UDP_UNICAST_SERVER:
+//                    UDPUnicastServer unicastServer = new UDPUnicastServer(connectProperty, new MessageListener() {
+//                        @Override
+//                        public void onReceive(String hostAddress, byte[] message) {
+//                            updateRecord(hostAddress, message);
+//                            countRecvBytes(message);
+//                        }
+//                    });
+//                    unicastServer.create();
+//                    connContext.setUdpUnicastServer(unicastServer);
+//                    break;
+//                case Constant.CONN_UDP_MULCAST:
+//                    UDPMulticast udpMulticast = new UDPMulticast(connectProperty, new MessageListener() {
+//                        @Override
+//                        public void onReceive(String hostAddress, byte[] message) {
+//                            updateRecord(hostAddress, message);
+//                            countRecvBytes(message);
+//                        }
+//                    });
+//                    udpMulticast.create();
+//                    connContext.setUdpMulticast(udpMulticast);
+//                    break;
+//                case Constant.CONN_UDP_BROADCAST:
+//                    UDPBroadcast broadcast = new UDPBroadcast(connectProperty, new MessageListener() {
+//                        @Override
+//                        public void onReceive(String hostAddress, byte[] message) {
+//                            updateRecord(hostAddress, message);
+//                            countRecvBytes(message);
+//                        }
+//                    });
+//                    broadcast.create();
+//                    connContext.setUdpBroadcast(broadcast);
+//                    break;
+//            }
+//        } catch (Exception e) {
+//            UdmLog.error(e);
+//        }
     }
 
 

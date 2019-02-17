@@ -2,6 +2,7 @@ package com.ibamb.plugins.tcpudp.context;
 
 import com.ibamb.dnet.module.net.IPUtil;
 import com.ibamb.plugins.tcpudp.listener.MessageListener;
+import com.ibamb.plugins.tcpudp.listener.ResultListener;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -24,12 +25,14 @@ public class TCPClient {
         this.listener = listener;
     }
 
-    public void create(final ConnectProperty connectProperty) {
+    public void create(final ConnectProperty connectProperty, final ResultListener resultListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                String code ="0";
                 try {
                     socket = new Socket(connectProperty.getTcpRemoteHost(), connectProperty.getTcpRemotePort());
+                    code ="1";
                     inputStream = new BufferedInputStream(socket.getInputStream());
                     outputStream = new BufferedOutputStream(socket.getOutputStream());
                     bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), Constant.DEFAULT_CHARSET));
@@ -38,6 +41,8 @@ public class TCPClient {
                     reading();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }finally {
+                    resultListener.onResult(code);
                 }
             }
         }).start();
@@ -59,14 +64,16 @@ public class TCPClient {
                             listener.onReceive(remoteAddress, readData);
                         }
                     }
-                    listener.onReceive(remoteAddress, ":Server is stopped.".getBytes());
+                    listener.onReceive(remoteAddress, Constant.SOCKET_IS_CLOSED.getBytes());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
-
+    public boolean isReady() {
+        return socket == null || socket.isClosed() ? false : true;
+    }
     public void send(final byte[] message, final MessageListener sendListener) {
         new Thread(new Runnable() {
             @Override
@@ -77,7 +84,7 @@ public class TCPClient {
                         outputStream.flush();
                         sendListener.onReceive(localAddress , message);
                     } else {
-                        sendListener.onReceive(localAddress ,":Socket is colsed".getBytes());
+                        sendListener.onReceive(localAddress ,Constant.SOCKET_IS_CLOSED.getBytes());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
