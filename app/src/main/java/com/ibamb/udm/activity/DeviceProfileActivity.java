@@ -79,8 +79,6 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private ImageView vExportFile;
     private ProgressBar vImportFileProg;
 
-    private String exportFile;//导出文件
-
     Guide guide;
 
     private View.OnClickListener profileMenuClickListener = new View.OnClickListener() {
@@ -228,7 +226,34 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     exportTask.execute(mac);
                     break;
                 case R.id.profile_maintain:
+                    DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
+                    String productName = deviceModel.getDeviceName();
+                    String version = deviceModel.getFirmwareVersion();
+                    /**
+                     * product_name	product_version	upgrade_patch
+                     */
+                    List<String> productVersionList = null;
+                    boolean canMaintain = false;
+                    for (String versionInfo : productVersionList) {
+                        String[] verinfs = versionInfo.split("#");
+                        String nProductName = verinfs[0];
+                        String nProducVersion = verinfs[1];
+                        int versionCode = Integer.parseInt(nProducVersion.replaceAll("V", "")
+                                .replaceAll("R", "")
+                                .replaceAll("\\.", ""));
+                        if (productName.equalsIgnoreCase(nProductName)) {
+                            int myVersionCode = Integer.parseInt(nProducVersion.replaceAll("V", "")
+                                    .replaceAll("R", "")
+                                    .replaceAll("\\.", ""));
+                            if (myVersionCode < versionCode) {
+                                canMaintain = true;
+                            }
+                            break;
+                        }
+                    }
+                    if (canMaintain) {
 
+                    }
                     break;
                 case R.id.profile_synchronize:
                     Intent intent4 = new Intent(v.getContext(), DeviceSynchActivity.class);
