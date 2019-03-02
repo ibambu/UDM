@@ -214,10 +214,11 @@ public class DeviceProfileActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                            builder.setTitle("Optional file list");
+
                             dialog.dismiss();
                         }
                     });
+                    builder.setTitle("Optional file list");
                     builder.show();
 
                     break;
