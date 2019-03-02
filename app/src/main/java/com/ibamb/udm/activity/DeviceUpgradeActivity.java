@@ -40,12 +40,7 @@ import com.ibamb.udm.task.CheckForUpdatesAsyncTask;
 import com.ibamb.udm.task.FileDownloadAysncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 
 public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUpgradeService.OnServiceProgressListener {
