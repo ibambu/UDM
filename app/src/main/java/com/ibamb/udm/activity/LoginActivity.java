@@ -3,6 +3,8 @@ package com.ibamb.udm.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -45,9 +47,42 @@ public class LoginActivity extends AppCompatActivity {
             mac = intent.getStringExtra("HOST_MAC");
             ip = intent.getStringExtra("HOST_ADDRESS");
         }
-        final AutoCompleteTextView userNameView = findViewById(R.id.dev_user_name);
-        final EditText passwordView = findViewById(R.id.dev_password);
         final TextView noticeView = findViewById(R.id.notice_info);//显示登录结果
+        final AutoCompleteTextView userNameView = findViewById(R.id.dev_user_name);
+        userNameView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                noticeView.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        final EditText passwordView = findViewById(R.id.dev_password);
+        passwordView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                noticeView.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         Button sigInInButton = findViewById(R.id.alter_sign_in_button);
         sigInInButton.setOnClickListener(new View.OnClickListener() {
             @Override
