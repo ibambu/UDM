@@ -63,7 +63,6 @@ public class DeviceMaintainAsyncTask extends AsyncTask<String, String, String> {
             List<CacheFileInfo> productCacheInfos = readCacheFileInfos(localfile);
 
             for (CacheFileInfo cacheFileInfo : productCacheInfos) {
-                System.out.println(cacheFileInfo.getProductName()+"------------"+productName);
                 if (cacheFileInfo.getProductName().equalsIgnoreCase(productName)) {
                     int versionCode = Integer.parseInt(cacheFileInfo.getProductVersion().replaceAll("V", "")
                             .replaceAll("R", "")
