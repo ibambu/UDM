@@ -10,7 +10,7 @@
         android:id="@+id/top_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay" android:visibility="gone">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/upgrade_toolbar"
@@ -21,6 +21,7 @@
             android:fitsSystemWindows="true"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/top_title_nav" />
     <LinearLayout
         android:id="@+id/layout_upgrade"
         android:layout_width="match_parent"

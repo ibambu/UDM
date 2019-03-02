@@ -9,11 +9,11 @@ import android.widget.TextView;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.R;
 import com.ibamb.udm.activity.DeviceUpgradeActivity;
+import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FTPHelper;
 import com.ibamb.udm.conf.DefaultConstant;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -23,23 +23,12 @@ public class CheckForUpdatesAsyncTask extends AsyncTask<String,String,String> {
 
     private View currentView;
     private DeviceUpgradeActivity deviceUpgradeActivity;
-    private String host;
-    private int port;
-    private String userName;
-    private String password;
-    private File localDir;
 
     private String localFileName;
 
-    public CheckForUpdatesAsyncTask(DeviceUpgradeActivity deviceUpgradeActivity, String host, String port,
-                                    String userName,String password,File localDir) {
+    public CheckForUpdatesAsyncTask(DeviceUpgradeActivity deviceUpgradeActivity) {
         this.deviceUpgradeActivity = deviceUpgradeActivity;
         this.currentView = deviceUpgradeActivity.getWindow().getDecorView();
-        this.host = host;
-        this.port = Integer.parseInt(port);
-        this.localDir = localDir;
-        this.userName = userName;
-        this.password = password;
     }
 
     @Override
@@ -49,10 +38,19 @@ public class CheckForUpdatesAsyncTask extends AsyncTask<String,String,String> {
             /**
              * 检查版本
              */
-            FTPHelper ftpHelper = new FTPHelper(host,port,userName,password);
+            publishProgress("connectting...");
+            FTPHelper ftpHelper = new FTPHelper(UdmConstant.UDM_SERVER_DOMAINS[0], DefaultConstant.FTP_PORT, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+            int retcode = ftpHelper.connect();
+            if (retcode != 0) {
+                FTPHelper ftpHelper1 = new FTPHelper(UdmConstant.UDM_SERVER_DOMAINS[1], DefaultConstant.FTP_PORT, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+                retcode = ftpHelper1.connect();
+                if (retcode == 0) {
+                    ftpHelper = ftpHelper1;
+                }
+            }
             localFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+DefaultConstant.BASE_DIR+"/"
                     + DefaultConstant.VERSION_CHECK_FILE;
-            publishProgress("connectting...");
+
             int retCode = ftpHelper.download(DefaultConstant.VERSION_CHECK_FILE,localFileName);
             if(retCode == -1){
                 notice = "The server refused to connect.";
@@ -100,15 +98,12 @@ public class CheckForUpdatesAsyncTask extends AsyncTask<String,String,String> {
                 String versionName = properties.getProperty("udm-versionName");
                 String versionDesc = properties.getProperty("udm-versionDesc");
                 String udmApkFile = properties.getProperty("udm-apk-file");
-                String deviceUpdateVersion = properties.getProperty("device-update-version");
-                String deviceUpdatePackage = properties.getProperty("device-update-package");
+
 
                 deviceUpgradeActivity.udmVersion.setVersionId(versionId);
                 deviceUpgradeActivity.udmVersion.setVersionName(versionName);
                 deviceUpgradeActivity.udmVersion.setVersionDesc(versionDesc);
-                deviceUpgradeActivity.udmVersion.setUpdatePackage(deviceUpdatePackage);
                 deviceUpgradeActivity.udmVersion.setApkFile(udmApkFile);
-                deviceUpgradeActivity.udmVersion.setDeviceUpdateVersion(deviceUpdateVersion);
 
                 if(deviceUpgradeActivity.udmVersion.getCurrentVersionId() < versionId){
                     ((TextView)currentView.findViewById(R.id.version_info)).setText("Discover new version:"+ versionName);

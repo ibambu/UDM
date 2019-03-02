@@ -324,7 +324,12 @@
                         android:drawablePadding="@dimen/fab_margin"
                         android:gravity="left|center"
                         android:text="Maintain" />
-
+                    <ProgressBar
+                        android:id="@+id/profile_maintain_prog"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="35dp"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

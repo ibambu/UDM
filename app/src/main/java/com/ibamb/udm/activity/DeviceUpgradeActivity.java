@@ -70,12 +70,22 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
     //本地更新包
     private String localUpdatePatch;
 
-    private String localCheckFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+DefaultConstant.BASE_DIR+"/"
+    private String localCheckFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/"
             + DefaultConstant.VERSION_CHECK_FILE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_upgrade);
+
+        ((TextView)findViewById(R.id.title)).setText("Update");
+        findViewById(R.id.do_commit).setVisibility(View.INVISIBLE);
+        findViewById(R.id.go_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         currentView = getWindow().getDecorView();
         //将ActionBar位置改放Toolbar.
         mToolbar = findViewById(R.id.upgrade_toolbar);
@@ -86,7 +96,7 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         //这句代码使启用Activity回退功能，并显示Toolbar上的左侧回退图标
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("Update");
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -130,7 +140,6 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] content = null;
                 FileDirManager fileDirManager = new FileDirManager(DeviceUpgradeActivity.this);
                 File updateDir = fileDirManager.getFileByName("update");
                 if (updateDir == null || !updateDir.exists()) {
@@ -141,70 +150,39 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
 
                     localUpdatePatch = null;
                     File f = new File(localCheckFileName);
-                    if(f.exists()){
+                    if (f.exists()) {
                         f.delete();
                     }
-                    FileInputStream inputStream = null;
-                    try {
-                        inputStream = openFileInput("update-setting.txt");
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                        String line = null;
-                        StringBuilder strBuffer = new StringBuilder();
-                        while ((line = bufferedReader.readLine()) != null) {
-                            strBuffer.append(line);
-                        }
-                        content = strBuffer.toString().split("#");
-                        if (content.length > 3) {
-                            String host = content[0];
-                            String port = content[1];
-                            String userName = content[2];
-                            String password = content[3];
-                            ftpServer = new FtpServer(host, port, userName, password);
-                            CheckForUpdatesAsyncTask task = new CheckForUpdatesAsyncTask(
-                                    DeviceUpgradeActivity.this, host, port, userName, password, updateDir);
-                            task.execute();
-                        }
-                    } catch (FileNotFoundException e) {
-                        UdmLog.error(e);
-                        CheckForUpdatesAsyncTask task = new CheckForUpdatesAsyncTask(
-                                DeviceUpgradeActivity.this,
-                                DefaultConstant.FTP_HOST,
-                                String.valueOf(DefaultConstant.FTP_PORT),
-                                DefaultConstant.USER_NAME,
-                                DefaultConstant.PASSWORD,
-                                updateDir);
-                        task.execute();
-                    } catch (IOException e) {
-                        UdmLog.error(e);
-                    }
+                    CheckForUpdatesAsyncTask task = new CheckForUpdatesAsyncTask(DeviceUpgradeActivity.this);
+                    task.execute();
                 } else if (actionButton.getText().toString().equals("Download update patch")) {
                     localUpdatePatch = null;
                     findViewById(R.id.upgrade_progress_bar).setVisibility(View.VISIBLE);
                     ((TextView) findViewById(R.id.version_info)).setText("downloading...");
-                    FileDownloadAysncTask task = new FileDownloadAysncTask(currentView,udmVersion);
+                    FileDownloadAysncTask task = new FileDownloadAysncTask(currentView, udmVersion);
                     String remoteApk = udmVersion.getApkFile();
-                    String remoteUpdatePackage = udmVersion.getUpdatePackage();
-                    task.execute(ftpServer.getHost(), ftpServer.getPort(), ftpServer.getUserName(), ftpServer.getPassword(),
-                            remoteApk, remoteUpdatePackage);
+                    task.execute(remoteApk);
                     actionButton.setClickable(false);
 
                 } else if (actionButton.getText().toString().equals("Update")) {
-                   if (udmVersion.getCurrentVersionId() < udmVersion.getVersionId()) {
-                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+
-                                DefaultConstant.BASE_DIR+"/"+udmVersion.getApkFile();
-                        InstallAPK.installApk(DeviceUpgradeActivity.this,path);
-                    }else {
+                    if (udmVersion.getCurrentVersionId() < udmVersion.getVersionId()) {
+                        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                                DefaultConstant.BASE_DIR + "/" + udmVersion.getApkFile();
+                        InstallAPK.installApk(DeviceUpgradeActivity.this, path);
+                    } else {
                         actionButton.setText("Restart");
                     }
 
-                }else if(actionButton.getText().toString().equals("Restart")){
+                } else if (actionButton.getText().toString().equals("Restart")) {
                     localUpdatePatch = null;
-                    new Handler().postDelayed(new Runnable()  {
-                        @Override public void run() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
                             Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(getApplication().getPackageName());
                             LaunchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(LaunchIntent);
-                        }  }, 1000);// 1秒钟后重启应用
+                        }
+                    }, 1000);// 1秒钟后重启应用
                 }
             }
         });
@@ -321,7 +299,7 @@ public class DeviceUpgradeActivity extends AppCompatActivity implements DeviceUp
             if (path != null && path.trim().length() > 0) {
                 TextView textView = findViewById(R.id.file_path);
                 File f = new File(path);
-                textView.setText("Import File:"+f.getName());
+                textView.setText("Import File:" + f.getName());
                 actionButton.setText("Update");
                 localUpdatePatch = path;
             }

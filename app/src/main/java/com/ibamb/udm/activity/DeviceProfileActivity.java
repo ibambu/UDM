@@ -1,5 +1,6 @@
 package com.ibamb.udm.activity;
 
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
+import com.ibamb.udm.task.DeviceMaintainAsyncTask;
 import com.ibamb.udm.task.ExportSettingAsyncTask;
 import com.ibamb.udm.task.ImportSettingAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
@@ -226,34 +228,16 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     exportTask.execute(mac);
                     break;
                 case R.id.profile_maintain:
-                    DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
-                    String productName = deviceModel.getDeviceName();
-                    String version = deviceModel.getFirmwareVersion();
-                    /**
-                     * product_name	product_version	upgrade_patch
-                     */
-                    List<String> productVersionList = null;
-                    boolean canMaintain = false;
-                    for (String versionInfo : productVersionList) {
-                        String[] verinfs = versionInfo.split("#");
-                        String nProductName = verinfs[0];
-                        String nProducVersion = verinfs[1];
-                        int versionCode = Integer.parseInt(nProducVersion.replaceAll("V", "")
-                                .replaceAll("R", "")
-                                .replaceAll("\\.", ""));
-                        if (productName.equalsIgnoreCase(nProductName)) {
-                            int myVersionCode = Integer.parseInt(nProducVersion.replaceAll("V", "")
-                                    .replaceAll("R", "")
-                                    .replaceAll("\\.", ""));
-                            if (myVersionCode < versionCode) {
-                                canMaintain = true;
-                            }
-                            break;
-                        }
-                    }
-                    if (canMaintain) {
 
+                    DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
+                    if(deviceModel!=null){
+                        String productName = deviceModel.getPruductName();
+                        String version = deviceModel.getFirmwareVersion();
+                        DeviceMaintainAsyncTask task2 = new DeviceMaintainAsyncTask(DeviceProfileActivity.this);
+                        task2.execute(mac,productName,version);
+                        findViewById(R.id.profile_maintain_prog).setVisibility(View.VISIBLE);
                     }
+
                     break;
                 case R.id.profile_synchronize:
                     Intent intent4 = new Intent(v.getContext(), DeviceSynchActivity.class);

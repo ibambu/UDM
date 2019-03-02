@@ -21,12 +21,36 @@ public class FTPHelper {
     private int ftpPort;
     private String userName;
     private String password;
+    private FTPClient ftpClient = new FTPClient();
 
     public FTPHelper(String ftpServer, int ftpPort, String userName, String password) {
         this.ftpServer = ftpServer;
         this.ftpPort = ftpPort;
         this.userName = userName;
         this.password = password;
+    }
+
+    public int connect() {
+        int replyCode = 0;
+        try {
+            ftpClient.connect(ftpServer, ftpPort);
+            replyCode = ftpClient.getReplyCode();
+            //是否连接成功
+            if (!FTPReply.isPositiveCompletion(replyCode)) {
+                replyCode = -1;
+                throw new ConnectException("The server refused to connect.");
+            } else if (!ftpClient.login(userName, password)) {
+                replyCode = -2;
+                throw new ConnectException("Incorrect username or password.");
+            } else {
+                replyCode = 0;
+            }
+        } catch (IOException e) {
+            replyCode = -3;
+            e.printStackTrace();
+        } finally {
+            return replyCode;
+        }
     }
 
     /**
@@ -37,22 +61,10 @@ public class FTPHelper {
      * @return
      */
     public int download(String remoteFile, String localFile) {
-        FTPClient ftpClient = new FTPClient();
+
         int retCode = 0;
         OutputStream output = null;
         try {
-            ftpClient.connect(ftpServer, ftpPort);
-            int reply = ftpClient.getReplyCode();
-            //是否连接成功
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                retCode = -1;
-                throw new ConnectException("The server refused to connect.");
-            }
-            //登陆
-            if (!ftpClient.login(userName, password)) {
-                retCode = -2;
-                throw new ConnectException("Incorrect username or password.");
-            }
             ftpClient.login(userName, password);
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.setControlEncoding("UTF-8");
@@ -70,8 +82,10 @@ public class FTPHelper {
         } catch (NoRouteToHostException e) {
             retCode = -6;
         } catch (ConnectException e) {
+            e.printStackTrace();
             retCode = -3;
         } catch (Exception e) {
+            e.printStackTrace();
             retCode = -4;
             UdmLog.error(e);
         } finally {
@@ -82,7 +96,7 @@ public class FTPHelper {
             } catch (IOException e) {
                 UdmLog.error(e);
             }
+            return retCode;
         }
-        return retCode;
     }
 }

@@ -77,4 +77,8 @@ public class UdmConstant {
     public static final String SYNC_UNKNOWN_ERROR = "unknown error";
     public static final String SYNC_SAVE_REBOOT_FAIL = "save&reboot fail";
     public static final String SYNC_AUTH_FAIL = "auth fail";
+    public static final String[] UDM_SERVER_DOMAINS = {"192.168.1.8","http://www.usdera.com","http://www.usdera.cn"};
+    public static final String UDM_CMC_MAGIC = "cmcmagic.txt";
+
+
 }

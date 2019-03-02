@@ -103,10 +103,6 @@ public class MainActivity extends AppCompatActivity {
             UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
             initAsyncTask.execute();
 
-            //搜索并自动升级
-            SearchUpgradeDeviceAsycTask task = new SearchUpgradeDeviceAsycTask(this);
-            task.execute();
-
         } catch (Exception e) {
             UdmLog.error(e);
         } finally {

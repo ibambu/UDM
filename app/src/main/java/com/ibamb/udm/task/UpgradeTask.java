@@ -26,8 +26,8 @@ import java.util.concurrent.Callable;
 import java.util.zip.ZipFile;
 
 public class UpgradeTask implements Callable {
-    private ZipFile upgradePatch;//升级包中的数据文件。
-    private DeviceModel device;//升级设备
+    private ZipFile upgradeCache;
+    private DeviceModel device;
 
     private Socket socket;//套接字
     private DataInputStream dataReader;//数据读
@@ -36,8 +36,8 @@ public class UpgradeTask implements Callable {
     private LocalBroadcastManager broadcastManager;
 
 
-    public UpgradeTask(ZipFile upgradePatch, DeviceModel device, LocalBroadcastManager broadcastManager) {
-        this.upgradePatch = upgradePatch;
+    public UpgradeTask(ZipFile upgradeCache, DeviceModel device, LocalBroadcastManager broadcastManager) {
+        this.upgradeCache = upgradeCache;
         this.device = device;
         this.broadcastManager = broadcastManager;
     }
@@ -61,10 +61,10 @@ public class UpgradeTask implements Callable {
                 dataWriter = new DataOutputStream(socket.getOutputStream());
                 isValidHost = isValidHost();//读取返回信息，验证是否合法IP。
                 if (isValidHost) {
-                    UdmLog.info("start send file to "+device.getIp());
+                    UdmLog.info("start send file to " + device.getIp());
                     FileRemoteTransfer transfer = new FileRemoteTransfer(dataReader, dataWriter);
-                    retMessage = transfer.sendZipFile(upgradePatch);
-                    UdmLog.info("send file to "+device.getIp()+" result: "+retMessage.getCode());
+                    retMessage = transfer.sendZipFile(upgradeCache);
+                    UdmLog.info("send file to " + device.getIp() + " result: " + retMessage.getCode());
                 }
             }
 
@@ -81,11 +81,14 @@ public class UpgradeTask implements Callable {
                 dataWriter.close();
             }
             device.setUpgradeCode(Constants.UPGRADE_SUCCESS_CODE);
-            Intent intent = new Intent("com.ibamb.udm.service");
-            intent.putExtra("UPGRADE_COUNT", String.valueOf(1));
-            broadcastManager.sendBroadcast(intent);
+            if (broadcastManager != null) {
+                Intent intent = new Intent("com.ibamb.udm.service");
+                intent.putExtra("UPGRADE_COUNT", String.valueOf(1));
+                broadcastManager.sendBroadcast(intent);
+            }
+            return retMessage;
         }
-        return retMessage;
+
     }
 
 
@@ -102,7 +105,7 @@ public class UpgradeTask implements Callable {
             if (rsp.contains(Constants.UPGRADE_VLID_HOST)) {
                 isValid = true;
             }
-            UdmLog.info("check valid host response:"+rsp);
+            UdmLog.info("check valid host response:" + rsp);
         } catch (SocketTimeoutException ex) {
         } catch (Exception e) {
         }
