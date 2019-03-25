@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import com.ibamb.udm.guide.guideview.GuideBuilder;
 import com.ibamb.udm.task.ChannelParamReadAsyncTask;
 import com.ibamb.udm.task.DetectSupportChannelsAsyncTask;
 import com.ibamb.udm.task.DeviceMaintainAsyncTask;
+import com.ibamb.udm.task.DeviceSearchAsyncTask;
 import com.ibamb.udm.task.ExportSettingAsyncTask;
 import com.ibamb.udm.task.ImportSettingAsyncTask;
 import com.ibamb.udm.task.SaveAndRebootAsyncTask;
@@ -80,6 +82,8 @@ public class DeviceProfileActivity extends AppCompatActivity {
     private TextView vMaintain;
     private ImageView vExportFile;
     private ProgressBar vImportFileProg;
+
+    private String filepath;
 
     Guide guide;
 
@@ -224,18 +228,18 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     break;
                 case R.id.profile_export:
                     findViewById(R.id.profile_export_file).setVisibility(View.GONE);
-                    findViewById(R.id.profile_export_prog).setVisibility(View.VISIBLE);
-                    ExportSettingAsyncTask exportTask = new ExportSettingAsyncTask(DeviceProfileActivity.this);
-                    exportTask.execute(mac);
+                    Intent intent = new Intent(DeviceProfileActivity.this, FileBrowseActivity.class);
+                    startActivityForResult(intent, 991);
+
                     break;
                 case R.id.profile_maintain:
 
                     DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
-                    if(deviceModel!=null){
+                    if (deviceModel != null) {
                         String productName = deviceModel.getPruductName();
                         String version = deviceModel.getFirmwareVersion();
                         DeviceMaintainAsyncTask task2 = new DeviceMaintainAsyncTask(DeviceProfileActivity.this);
-                        task2.execute(mac,productName,version);
+                        task2.execute(mac, productName, version);
                         findViewById(R.id.profile_maintain_prog).setVisibility(View.VISIBLE);
                     }
 
@@ -286,7 +290,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
         });
 
         commit = findViewById(R.id.do_commit);
-        commit.setVisibility(View.GONE);
+        commit.setVisibility(View.INVISIBLE);
 
         title = findViewById(R.id.title);
         title.setText(UdmConstant.TITLE_DEVICE_PROFILE);
@@ -444,6 +448,36 @@ public class DeviceProfileActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             UdmLog.error(e);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 991) {
+            if (data != null) {
+                filepath = data.getStringExtra("filepath");
+                if (filepath == null || filepath.trim().length() == 0) {
+                    findViewById(R.id.profile_export_prog).setVisibility(View.GONE);
+                    return;
+                }
+                final EditText inputServer = new EditText(DeviceProfileActivity.this);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(DeviceProfileActivity.this);
+                builder1.setTitle("Name to save").setIcon(getResources().getDrawable(R.mipmap.ic_action_edit)).setView(inputServer)
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                findViewById(R.id.profile_export_prog).setVisibility(View.GONE);
+                            }
+                        });
+                builder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        findViewById(R.id.profile_export_prog).setVisibility(View.VISIBLE);
+                        ExportSettingAsyncTask exportTask = new ExportSettingAsyncTask(DeviceProfileActivity.this);
+                        exportTask.execute(mac, filepath, inputServer.getText().toString());
+                    }
+                });
+                builder1.show();
+            }
         }
     }
 

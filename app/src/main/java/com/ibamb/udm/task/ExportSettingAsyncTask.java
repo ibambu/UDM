@@ -30,14 +30,16 @@ public class ExportSettingAsyncTask extends AsyncTask<String, String, File> {
         DataModel<String> dataModel = UdmClient.getInstance().exportDeviceParameters(strings[0]);
         if (dataModel.getCode() == 1) {
             String data = dataModel.getData();
-            System.out.println(data);
-            String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                    DefaultConstant.BASE_DIR + "/";
+            String udmDir = strings[1];
+            if (strings[1] == null || strings[1].trim().length() == 0) {
+                udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                        DefaultConstant.BASE_DIR + "/";
+            }
             File baseDir = new File(udmDir);
             if (!baseDir.exists()) {
                 baseDir.mkdir();
             }
-            File file = new File(udmDir + strings[0].replaceAll(":","-") + ".dfg");
+            File file = new File(udmDir + strings[2] + ".dfg");
             FileWriter fileWriter = null;
             try {
                 if (file.exists()) {

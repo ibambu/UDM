@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class OpenFileDialog {
     public static String tag = "OpenFileDialog";
-    static final public String sRoot = "/";
+    static final public String sRoot = "/udm";
     static final public String sParent = "..";
     static final public String sFolder = ".";
     static final public String sEmpty = "";

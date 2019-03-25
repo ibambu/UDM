@@ -422,6 +422,9 @@ public class MainActivity extends AppCompatActivity {
                 }else if(menuItemId==R.id.id_tcpudp){
                     Intent intent = new Intent(MainActivity.this,ConnectionActivity.class);
                     startActivity(intent);
+                }else if(menuItemId==R.id.test){
+                    Intent intent = new Intent(MainActivity.this,FileBrowseActivity.class);
+                    startActivity(intent);
                 }
                 return true;
             }

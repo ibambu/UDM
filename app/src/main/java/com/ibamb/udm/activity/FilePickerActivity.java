@@ -1,15 +1,14 @@
 package com.ibamb.udm.activity;
 
 import android.app.Dialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.CallbackBundle;
 import com.ibamb.udm.component.file.OpenFileDialog;
-import com.ibamb.dnet.module.constants.Constants;
 import com.ibamb.udm.util.TaskBarQuiet;
 
 import java.util.HashMap;
@@ -50,7 +49,7 @@ public class FilePickerActivity extends AppCompatActivity {
                             setTitle(filepath); // 把文件路径显示在标题上
                         }
                     },
-                    ".wav;",
+                    ".*;",
                     images);
             return dialog;
         }
