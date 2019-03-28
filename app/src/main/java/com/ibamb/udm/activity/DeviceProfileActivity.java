@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +26,7 @@ import com.ibamb.dnet.module.instruct.beans.Parameter;
 import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.R;
 import com.ibamb.udm.component.constants.UdmConstant;
+import com.ibamb.udm.component.file.FilePathParser;
 import com.ibamb.udm.component.guide.MainActivityGuide;
 import com.ibamb.udm.conf.DefaultConstant;
 import com.ibamb.udm.guide.guideview.Guide;
@@ -174,57 +177,10 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     /**
                      * 读取指定目录下的导出文件在一个弹出框中显示。
                      */
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    final String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/";
-                    File baseDir = new File(udmDir);
-                    List<String> fileInfoList = new ArrayList<>();
-                    if (baseDir.exists()) {
-                        File[] files = baseDir.listFiles();
-                        for (File file : files) {
-                            if (!file.isDirectory() && file.getName().endsWith(".dfg")) {
-                                fileInfoList.add(file.getName());
-                            }
-                        }
-                    }
-                    final String[] files = new String[fileInfoList.size()];
-                    for (int i = 0; i < fileInfoList.size(); i++) {
-                        files[i] = fileInfoList.get(i);
-                    }
-                    builder.setSingleChoiceItems(files, 0, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String filename = udmDir + files[which];
-                            File file = new File(filename);
-                            if (!file.exists()) {
-                                Toast.makeText(DeviceProfileActivity.this, file.getName() + " can not found!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                FileInputStream inputStream = null;
-                                StringBuilder stringBuilder = new StringBuilder();
-                                try {
-                                    inputStream = new FileInputStream(file);
-                                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                                    String line = null;
-                                    while ((line = bufferedReader.readLine()) != null) {
-                                        stringBuilder.append(line);
-                                    }
-                                    vImportFileProg.setVisibility(View.VISIBLE);
-                                    String content = stringBuilder.toString();
-                                    ImportSettingAsyncTask importTask = new ImportSettingAsyncTask(DeviceProfileActivity.this);
-                                    importTask.execute(mac, content);
-
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setTitle("Optional file list");
-                    builder.show();
-
+                    Intent importIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    importIntent.setType("*/*");//设置类型.
+                    importIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(importIntent, 992);
                     break;
                 case R.id.profile_export:
                     findViewById(R.id.profile_export_file).setVisibility(View.GONE);
@@ -477,6 +433,42 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     }
                 });
                 builder1.show();
+            }
+        } else if (resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            FilePathParser filePathParser = new FilePathParser();
+            String filename = null;
+            if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
+                filename = uri.getPath();
+            }else  if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
+                filename = filePathParser.getPath(this, uri);
+            } else {//4.4以下下系统调用方法
+                filename = filePathParser.getRealPathFromURI(uri, getContentResolver());
+            }
+
+            File file = new File(filename);
+            if (!file.exists()) {
+                Toast.makeText(DeviceProfileActivity.this, file.getName() + " can not found!", Toast.LENGTH_SHORT).show();
+            } else {
+                FileInputStream inputStream = null;
+                StringBuilder stringBuilder = new StringBuilder();
+                try {
+                    inputStream = new FileInputStream(file);
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line = null;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    vImportFileProg.setVisibility(View.VISIBLE);
+                    String content = stringBuilder.toString();
+                    ImportSettingAsyncTask importTask = new ImportSettingAsyncTask(DeviceProfileActivity.this);
+                    importTask.execute(mac, content);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
