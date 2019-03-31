@@ -63,17 +63,10 @@ public class DeviceMaintainAsyncTask extends AsyncTask<String, String, String> {
             List<CacheFileInfo> productCacheInfos = readCacheFileInfos(localfile);
 
             for (CacheFileInfo cacheFileInfo : productCacheInfos) {
-                if (cacheFileInfo.getProductName().equalsIgnoreCase(productName)) {
-                    int versionCode = Integer.parseInt(cacheFileInfo.getProductVersion().replaceAll("V", "")
-                            .replaceAll("R", "")
-                            .replaceAll("\\.", ""));
-                    int myVersionCode = Integer.parseInt(productVersion.replaceAll("V", "")
-                            .replaceAll("R", "")
-                            .replaceAll("\\.", ""));
-                    if (myVersionCode < versionCode) {
-                        isLocalLatest = false;
-                        latestfile = cacheFileInfo;
-                    }
+                if (cacheFileInfo.getProductName().equalsIgnoreCase(productName)
+                        && !cacheFileInfo.getProductVersion().equalsIgnoreCase(productVersion)) {
+                    isLocalLatest = false;
+                    latestfile = cacheFileInfo;
                     break;
                 }
             }

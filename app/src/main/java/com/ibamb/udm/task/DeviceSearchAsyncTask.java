@@ -14,12 +14,14 @@ import android.widget.Toast;
 
 import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceModel;
+import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.dnet.module.search.DeviceSearch;
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SearchDeviceListPagerAdapter;
 import com.ibamb.udm.beans.Device;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.fragment.DeviceSearchListFragment;
+import com.ibamb.udm.myapp.UdmApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,7 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
                     break;
                 }
             }
-            if(deviceList== null ){
+            if (deviceList == null) {
                 deviceList = new ArrayList<>();
             }
         }
@@ -89,55 +91,58 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         LinearLayout tabLineLayout = mainView.findViewById(R.id.tab_line_layout);
 
         List<Device> allDeviceList = new ArrayList<>();
-        for(DeviceModel deviceInfo :dataList){
+        UdmApplication application = (UdmApplication) activity.getApplication();
+        for (DeviceModel deviceInfo : dataList) {
+            //记录搜索到的设备型号及对应的版本号。
+            application.getUdmContext().edit().putString(deviceInfo.getPruductName(), deviceInfo.getFirmwareVersion()).commit();
             Device device = Device.toDevice(deviceInfo);
             allDeviceList.add(device);
         }
         /**
          * 分页展现搜索到的设备
          */
-        int fromIndex =0;
+        int fromIndex = 0;
         int endIndex = 0;
         int pageCount = 0;
         int maxRows = 25;
-        while(fromIndex < allDeviceList.size()) {
-            if(endIndex+maxRows>dataList.size()){
+        while (fromIndex < allDeviceList.size()) {
+            if (endIndex + maxRows > dataList.size()) {
                 endIndex = dataList.size();
-            }else{
-                endIndex +=maxRows;
+            } else {
+                endIndex += maxRows;
             }
             pageCount++;
-            List<Device> onePageData = allDeviceList.subList(fromIndex,endIndex);
+            List<Device> onePageData = allDeviceList.subList(fromIndex, endIndex);
             String page = String.valueOf(pageCount);
             TabLayout.Tab tab = tabLayout.newTab();
             tab.setText(page);
             tabLayout.addTab(tab);
-            String start = String.format("%03d",onePageData.get(0).getIndex());
-            String end = String.format("%03d",onePageData.get(onePageData.size()-1).getIndex());
-            titles.add(page+"("+start+"~"+end+")");
+            String start = String.format("%03d", onePageData.get(0).getIndex());
+            String end = String.format("%03d", onePageData.get(onePageData.size() - 1).getIndex());
+            titles.add(page + "(" + start + "~" + end + ")");
             fromIndex = endIndex;
             StringBuilder deviceInfoBuffer = new StringBuilder();
-            for(Device device:onePageData){
+            for (Device device : onePageData) {
                 deviceInfoBuffer.append(device.toString()).append("@");
             }
-            if(deviceInfoBuffer.length()>0){
-                deviceInfoBuffer.deleteCharAt(deviceInfoBuffer.length()-1);
+            if (deviceInfoBuffer.length() > 0) {
+                deviceInfoBuffer.deleteCharAt(deviceInfoBuffer.length() - 1);
             }
             fragmentList.add(DeviceSearchListFragment.newInstance(deviceInfoBuffer.toString()));
         }
-        if(pageCount<2){
+        if (pageCount < 2) {
             tabLayout.setVisibility(View.GONE);
-        }else{
+        } else {
             tabLayout.setVisibility(View.VISIBLE);
         }
-        if(pageCount<6){
+        if (pageCount < 6) {
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        }else{
+        } else {
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }
         tabLayout.setupWithViewPager(viewPager);
-        SearchDeviceListPagerAdapter adapter = new SearchDeviceListPagerAdapter(supportFragmentManager,titles,fragmentList);
+        SearchDeviceListPagerAdapter adapter = new SearchDeviceListPagerAdapter(supportFragmentManager, titles, fragmentList);
         viewPager.setAdapter(adapter);
 
         /**
@@ -151,8 +156,8 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         }
         Toast.makeText(activity, notice, Toast.LENGTH_SHORT).show();
         TextView vDeviceList = mainView.findViewById(R.id.tab_device_list);
-        if(dataList.size()>0){
-            vDeviceList.setText("Device List("+dataList.size()+")");
+        if (dataList.size() > 0) {
+            vDeviceList.setText("Device List(" + dataList.size() + ")");
         }
         ProgressBar progressbar = mainView.findViewById(R.id.search_progress_bar);
         progressbar.setVisibility(View.GONE);

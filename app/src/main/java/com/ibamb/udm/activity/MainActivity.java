@@ -39,8 +39,8 @@ import com.ibamb.udm.component.security.PermissionUtils;
 import com.ibamb.udm.conf.DefaultConstant;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
+import com.ibamb.udm.task.CheckVersionAsyncTask;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
-import com.ibamb.udm.task.SearchUpgradeDeviceAsycTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
 import com.journeyapps.barcodescanner.CaptureActivity;
@@ -74,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
         FileDirManager fileDirManager = new FileDirManager(this);
         try {
             String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                    DefaultConstant.BASE_DIR  +"/";
+                    DefaultConstant.BASE_DIR + "/";
             File baseDir = new File(udmDir);
-            if(!baseDir.exists()){
+            if (!baseDir.exists()) {
                 baseDir.mkdir();
             }
             File runErrFile = new File(udmDir + UdmConstant.FILE_UDM_RUN_ERR_LOG);
@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
             //初始化应用基础数据
             UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
             initAsyncTask.execute();
+            //检查版本
+            CheckVersionAsyncTask task = new CheckVersionAsyncTask();
+            task.execute("NDOWN");
 
         } catch (Exception e) {
             UdmLog.error(e);
@@ -129,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (PermissionUtils.isGrantExternalRW(this, 1)) {
             String udmDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                    DefaultConstant.BASE_DIR  +"/";
+                    DefaultConstant.BASE_DIR + "/";
             File baseDir = new File(udmDir);
-            if(!baseDir.exists()){
+            if (!baseDir.exists()) {
                 baseDir.mkdir();
             }
             File runErrFile = new File(udmDir + UdmConstant.FILE_UDM_RUN_ERR_LOG);
@@ -308,11 +311,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == UdmConstant.FLAG_SCAN_QR_CODE) {
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString(Intents.Scan.RESULT);
-            if(scanResult==null){
+            if (scanResult == null) {
                 Toast.makeText(MainActivity.this, "Unrecognized", Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Intent intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra("WEB_URL",scanResult);
+                intent.putExtra("WEB_URL", scanResult);
                 startActivity(intent);
             }
         } else {
@@ -416,14 +419,14 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 } /*else if (menuItemId == R.id.id_menu_exit) {
                     finish();
-                }*/ else if (menuItemId == R.id.app_about) {
+                }else if (menuItemId == R.id.app_about) {
                     Intent intent = new Intent(MainActivity.this, AppUpdateActivity.class);
                     startActivity(intent);
-                }else if(menuItemId==R.id.id_tcpudp){
-                    Intent intent = new Intent(MainActivity.this,ConnectionActivity.class);
+                }*/ else if (menuItemId == R.id.id_tcpudp) {
+                    Intent intent = new Intent(MainActivity.this, ConnectionActivity.class);
                     startActivity(intent);
-                }else if(menuItemId==R.id.test){
-                    Intent intent = new Intent(MainActivity.this,FileBrowseActivity.class);
+                } else if (menuItemId == R.id.id_maintain) {
+                    Intent intent = new Intent(MainActivity.this, MaintainActivity.class);
                     startActivity(intent);
                 }
                 return true;

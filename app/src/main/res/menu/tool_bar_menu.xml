@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--<item android:id="@+id/udm_search"-->
-        <!--android:title="search"-->
-        <!--app:showAsAction="always"-->
-        <!--app:queryBackground="@android:color/white"-->
-        <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
+    <!--android:title="search"-->
+    <!--app:showAsAction="always"-->
+    <!--app:queryBackground="@android:color/white"-->
+    <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
     <!-- 同级的item有几个则在toolbar右边显示几个 -->
     <!--
         id:之后设置点击事件的时候找到当前菜单项的唯一标识
@@ -20,10 +20,10 @@
         android:title="User Profile"
         app:showAsAction="ifRoom" />
     <!--<item-->
-        <!--android:id="@+id/id_upgrade_device"-->
-        <!--android:icon="@mipmap/ic_action_upload"-->
-        <!--android:title="Device Upgrade"-->
-        <!--app:showAsAction="ifRoom" />-->
+    <!--android:id="@+id/id_upgrade_device"-->
+    <!--android:icon="@mipmap/ic_action_upload"-->
+    <!--android:title="Device Upgrade"-->
+    <!--app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/id_menu_or_code"
         android:title="Scan QR Code"
@@ -31,13 +31,13 @@
     <item
         android:id="@+id/id_load_param_def"
         android:title="Import Type File"
-        app:showAsAction="ifRoom"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom" />
     <!--<item-->
-        <!--android:id="@+id/id_menu_join_cloud"-->
-        <!--android:icon="@mipmap/ic_action_cloud"-->
-        <!--android:title="Join Cloud"-->
-        <!--app:showAsAction="never" />-->
+    <!--android:id="@+id/id_menu_join_cloud"-->
+    <!--android:icon="@mipmap/ic_action_cloud"-->
+    <!--android:title="Join Cloud"-->
+    <!--app:showAsAction="never" />-->
     <item
         android:id="@+id/id_menu_sync_report"
         android:title="Device Sync Report"
@@ -47,16 +47,16 @@
         android:title="TCP/UDP Tool"
         app:showAsAction="never" />
     <item
+        android:id="@+id/id_maintain"
+        android:title="Maintain"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/id_upgrade_device"
         android:title="Update"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/app_about"
-        android:title="About"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/test"
-        android:title="test"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/app_about"-->
+        <!--android:title="About"-->
+        <!--app:showAsAction="never" />-->
 
 </menu>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MaintainActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_upgrade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <include layout="@layout/top_title_nav" />
+
+        <TextView
+            android:id="@+id/upgrade_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:height="20dp"
+            android:gravity="center"
+            android:text=""
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/upgrade_progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/round_progressbar"
+            android:max="200"
+            android:progress="0"
+            android:progressDrawable="@drawable/round_progressbar"
+            android:visibility="gone" />
+
+
+        <Button
+            android:id="@+id/action_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="Maintain"
+            android:textAllCaps="false"
+            android:textColor="#636363" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

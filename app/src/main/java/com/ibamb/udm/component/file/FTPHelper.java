@@ -22,12 +22,25 @@ public class FTPHelper {
     private String userName;
     private String password;
     private FTPClient ftpClient = new FTPClient();
+    private String[] defaultHosts;
 
     public FTPHelper(String ftpServer, int ftpPort, String userName, String password) {
         this.ftpServer = ftpServer;
         this.ftpPort = ftpPort;
         this.userName = userName;
         this.password = password;
+    }
+
+    public FTPHelper(String[] defualttHosts) {
+        this.defaultHosts = defualttHosts;
+    }
+
+    public int tryDefalutConnect() {
+        int replyCode = connect(defaultHosts[0], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+        if (replyCode != 0) {
+            replyCode = connect(defaultHosts[1], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+        }
+        return replyCode;
     }
 
     public int connect() {
@@ -47,7 +60,29 @@ public class FTPHelper {
             }
         } catch (IOException e) {
             replyCode = -3;
-            e.printStackTrace();
+        } finally {
+            return replyCode;
+        }
+    }
+
+
+    public int connect(String host, int port, String userName, String password) {
+        int replyCode = 0;
+        try {
+            ftpClient.connect(host, port);
+            replyCode = ftpClient.getReplyCode();
+            //是否连接成功
+            if (!FTPReply.isPositiveCompletion(replyCode)) {
+                replyCode = -1;
+                throw new ConnectException("The server refused to connect.");
+            } else if (!ftpClient.login(userName, password)) {
+                replyCode = -2;
+                throw new ConnectException("Incorrect username or password.");
+            } else {
+                replyCode = 0;
+            }
+        } catch (IOException e) {
+            replyCode = -3;
         } finally {
             return replyCode;
         }
@@ -85,7 +120,6 @@ public class FTPHelper {
             e.printStackTrace();
             retCode = -3;
         } catch (Exception e) {
-            e.printStackTrace();
             retCode = -4;
             UdmLog.error(e);
         } finally {
