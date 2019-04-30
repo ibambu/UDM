@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.ibamb.dnet.module.api.UdmClient;
 import com.ibamb.dnet.module.beans.DeviceModel;
-import com.ibamb.dnet.module.log.UdmLog;
-import com.ibamb.dnet.module.search.DeviceSearch;
 import com.ibamb.udm.R;
 import com.ibamb.udm.adapter.SearchDeviceListPagerAdapter;
 import com.ibamb.udm.beans.Device;
