@@ -91,8 +91,8 @@ public class DeviceSearchAsyncTask extends AsyncTask<String, String, ArrayList<D
         List<Device> allDeviceList = new ArrayList<>();
         UdmApplication application = (UdmApplication) activity.getApplication();
         for (DeviceModel deviceInfo : dataList) {
-            //记录搜索到的设备型号及对应的版本号。
-            application.getUdmContext().edit().putString(deviceInfo.getPruductName(), deviceInfo.getFirmwareVersion()).commit();
+            //记录搜索到的设备型号及对应的版本号,其中版本号#后面跟着的是软件配置序列号
+            application.getUdmContext().edit().putString(deviceInfo.getPruductName(), deviceInfo.getFirmwareVersion()+"#"+deviceInfo.getSerailNO()).commit();
             Device device = Device.toDevice(deviceInfo);
             allDeviceList.add(device);
         }

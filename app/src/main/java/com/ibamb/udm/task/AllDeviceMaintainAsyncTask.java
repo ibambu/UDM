@@ -116,10 +116,10 @@ public class AllDeviceMaintainAsyncTask extends AsyncTask<String, Integer, Strin
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] cacheInfos = line.split("\\|");
-                if (cacheInfos.length < 3) {
+                if (cacheInfos.length < 4) {
                     continue;
                 }
-                CacheFileInfo cacheFileInfo = new CacheFileInfo(cacheInfos[0], cacheInfos[1], cacheInfos[2]);
+                CacheFileInfo cacheFileInfo = new CacheFileInfo(cacheInfos[0], cacheInfos[1], cacheInfos[2],cacheInfos[3]);
                 productCacheInfos.add(cacheFileInfo);
             }
         } catch (Exception e) {

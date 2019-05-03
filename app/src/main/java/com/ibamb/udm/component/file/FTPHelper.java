@@ -121,6 +121,7 @@ public class FTPHelper {
             retCode = -3;
         } catch (Exception e) {
             retCode = -4;
+            e.printStackTrace();
             UdmLog.error(e);
         } finally {
             try {

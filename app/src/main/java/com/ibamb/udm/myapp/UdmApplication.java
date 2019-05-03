@@ -1,5 +1,6 @@
 package com.ibamb.udm.myapp;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,22 +9,19 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.ibamb.dnet.module.beans.DeviceModel;
-import com.ibamb.dnet.module.core.ContextData;
-import com.ibamb.udm.beans.CacheFileInfo;
-import com.ibamb.udm.task.CheckVersionAsyncTask;
+import com.ibamb.udm.service.CheckVersionIntentService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
 public class UdmApplication extends Application {
+
+    private static final String TAG = UdmApplication.class.getName();
     /**
      * 全局缓存
      */
@@ -74,12 +72,33 @@ public class UdmApplication extends Application {
                     default:
                         break;
                 }
-                CheckVersionAsyncTask task = new CheckVersionAsyncTask();
-                task.execute("YDOWN");
+
+                if (!isServiceRunning(context, CheckVersionIntentService.class.getName())) {
+                    Log.i(TAG, "CHECK VERSION SERVICE IS NOT RUN.");
+                    CheckVersionIntentService.startActionCheckVersion(context, "YDOWN");
+                } else {
+                    Log.i(TAG, "CHECK VERSION SERVICE IS RUNNING.");
+                }
 
             } else {
                 Toast.makeText(context, "当前无网络连接", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    public static boolean isServiceRunning(Context context, String serviceName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> runningServiceInfos = am.getRunningServices(200);
+        if (runningServiceInfos.isEmpty()) {
+            return false;
+        }
+        for (ActivityManager.RunningServiceInfo serviceInfo : runningServiceInfos) {
+            if (serviceInfo.service.getClassName().equals(serviceName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

@@ -27,11 +27,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".service.CheckVersionIntentService"
+            android:exported="false"></service>
+
         <activity
             android:name=".activity.MaintainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".activity.FileBrowseActivity"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -3,15 +3,25 @@ package com.ibamb.udm.beans;
 public class CacheFileInfo {
     private String productName;
     private String productVersion;
+    private String serailNO;
     private String cacheFileName;
 
     public CacheFileInfo() {
     }
 
-    public CacheFileInfo(String productName, String productVersion, String cacheFileName) {
+    public CacheFileInfo(String productName, String productVersion, String serailNO, String cacheFileName) {
         this.productName = productName;
         this.productVersion = productVersion;
+        this.serailNO = serailNO;
         this.cacheFileName = cacheFileName;
+    }
+
+    public String getSerailNO() {
+        return serailNO;
+    }
+
+    public void setSerailNO(String serailNO) {
+        this.serailNO = serailNO;
     }
 
     public String getProductName() {

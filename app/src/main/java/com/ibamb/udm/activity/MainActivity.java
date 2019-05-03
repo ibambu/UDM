@@ -39,7 +39,6 @@ import com.ibamb.udm.component.security.PermissionUtils;
 import com.ibamb.udm.conf.DefaultConstant;
 import com.ibamb.udm.guide.guideview.Guide;
 import com.ibamb.udm.guide.guideview.GuideBuilder;
-import com.ibamb.udm.task.CheckVersionAsyncTask;
 import com.ibamb.udm.task.DeviceSearchAsyncTask;
 import com.ibamb.udm.task.UdmInitAsyncTask;
 import com.ibamb.udm.util.TaskBarQuiet;
@@ -102,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
             //初始化应用基础数据
             UdmInitAsyncTask initAsyncTask = new UdmInitAsyncTask(this);
             initAsyncTask.execute();
-            //检查版本
-            CheckVersionAsyncTask task = new CheckVersionAsyncTask();
-            task.execute("NDOWN");
 
         } catch (Exception e) {
             UdmLog.error(e);
@@ -185,37 +181,6 @@ public class MainActivity extends AppCompatActivity {
                 searchDevice();
             }
         });
-        /**
-         * 判断是否显示新手指引
-         */
-        FileInputStream inputStream1 = null;
-        try {
-            FileDirManager fileDirManager = new FileDirManager(this);
-            File guideFile = fileDirManager.getFileByName(UdmConstant.FILE_GUIDE_CONF);
-            if (guideFile != null) {
-                inputStream1 = openFileInput(UdmConstant.FILE_GUIDE_CONF);
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream1));
-                showGuideFlag = bufferedReader.readLine();
-            }
-            /*if("1".equals(showGuideFlag)){
-                vSearchIcon.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        showGuideView();
-                    }
-                });
-            }*/
-        } catch (Exception e) {
-            UdmLog.error(e);
-        } finally {
-            if (inputStream1 != null) {
-                try {
-                    inputStream1.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     /**
@@ -229,14 +194,14 @@ public class MainActivity extends AppCompatActivity {
             /**
              * 判断WIFI是否连接,非WIFI网络下不搜索设备.
              */
-            String wifiIp = "";
+//            String wifiIp = "";
             if (networkInfo != null && networkInfo.isConnected()) {
                 if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                     WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                     WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                     int ipAddress = wifiInfo.getIpAddress();
-                    wifiIp = ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
-                            + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
+//                    wifiIp = ((ipAddress & 0xff) + "." + (ipAddress >> 8 & 0xff) + "."
+//                            + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 24 & 0xff));
                     /**
                      * 开启搜索任务
                      */
