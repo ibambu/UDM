@@ -52,7 +52,7 @@ public class FileBrowseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentTemp = new Intent();
-                intentTemp.putExtra("filepath", baseDir.getAbsolutePath());
+                intentTemp.putExtra("filepath", baseDir.getAbsolutePath()+"/");
                 setResult(991, intentTemp);
                 finish();
             }
