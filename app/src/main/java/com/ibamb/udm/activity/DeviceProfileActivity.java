@@ -193,7 +193,7 @@ public class DeviceProfileActivity extends AppCompatActivity {
                     DeviceModel deviceModel = ContextData.getInstance().getDevice(mac);
                     if (deviceModel != null) {
                         String productName = deviceModel.getPruductName();
-                        String version = deviceModel.getFirmwareVersion();
+                        String version = deviceModel.getSerailNO();
                         DeviceMaintainAsyncTask task2 = new DeviceMaintainAsyncTask(DeviceProfileActivity.this);
                         task2.execute(mac, productName, version);
                         findViewById(R.id.profile_maintain_prog).setVisibility(View.VISIBLE);

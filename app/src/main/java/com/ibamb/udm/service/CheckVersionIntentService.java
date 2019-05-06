@@ -97,11 +97,16 @@ public class CheckVersionIntentService extends IntentService {
             bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(localfile), "gbk"));
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] cacheInfos = line.split("\\|");
-                if (cacheInfos.length < 4) {
+                String[] cacheInfos = line.split(":");
+                String productName = "";
+                if (cacheInfos.length > 1) {
+                    productName = cacheInfos[0];
+                }
+                String[] versions = cacheInfos[1].split("\\|");
+                if (versions.length < 3) {
                     continue;
                 }
-                CacheFileInfo cacheFileInfo = new CacheFileInfo(cacheInfos[0], cacheInfos[1], cacheInfos[2], cacheInfos[3]);
+                CacheFileInfo cacheFileInfo = new CacheFileInfo(productName, versions[0], versions[1], cacheInfos[2]);
                 productCacheInfos.add(cacheFileInfo);
             }
         } catch (Exception e) {

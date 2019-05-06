@@ -42,7 +42,7 @@ public class DeviceMaintainAsyncTask extends AsyncTask<String, String, String> {
         String retMessage = "";
         String mac = strings[0];
         String productName = strings[1];
-        String productVersion = strings[2];
+        String serialNO = strings[2];
         FTPHelper ftpHelper = new FTPHelper(UdmConstant.UDM_SERVER_DOMAINS[0], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
         int retcode = ftpHelper.connect();
         if (retcode != 0) {
@@ -64,7 +64,7 @@ public class DeviceMaintainAsyncTask extends AsyncTask<String, String, String> {
 
             for (CacheFileInfo cacheFileInfo : productCacheInfos) {
                 if (cacheFileInfo.getProductName().equalsIgnoreCase(productName)
-                        && !cacheFileInfo.getProductVersion().equalsIgnoreCase(productVersion)) {
+                        && !cacheFileInfo.getSerailNO().equalsIgnoreCase(serialNO)) {
                     isLocalLatest = false;
                     latestfile = cacheFileInfo;
                     break;
@@ -96,11 +96,16 @@ public class DeviceMaintainAsyncTask extends AsyncTask<String, String, String> {
             bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(localfile), "gbk"));
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] cacheInfos = line.split("\\|");
-                if (cacheInfos.length < 4) {
+                String[] cacheInfos = line.split(":");
+                String productName = "";
+                if (cacheInfos.length > 1) {
+                    productName = cacheInfos[0];
+                }
+                String[] versions = cacheInfos[1].split("\\|");
+                if (versions.length < 3) {
                     continue;
                 }
-                CacheFileInfo cacheFileInfo = new CacheFileInfo(cacheInfos[0], cacheInfos[1], cacheInfos[2],cacheInfos[3]);
+                CacheFileInfo cacheFileInfo = new CacheFileInfo(productName, versions[0], versions[1], cacheInfos[2]);
                 productCacheInfos.add(cacheFileInfo);
             }
         } catch (Exception e) {

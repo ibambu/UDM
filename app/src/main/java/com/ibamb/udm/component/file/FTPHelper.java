@@ -46,17 +46,19 @@ public class FTPHelper {
     public int connect() {
         int replyCode = 0;
         try {
-            ftpClient.connect(ftpServer, ftpPort);
-            replyCode = ftpClient.getReplyCode();
-            //是否连接成功
-            if (!FTPReply.isPositiveCompletion(replyCode)) {
-                replyCode = -1;
-                throw new ConnectException("The server refused to connect.");
-            } else if (!ftpClient.login(userName, password)) {
-                replyCode = -2;
-                throw new ConnectException("Incorrect username or password.");
-            } else {
-                replyCode = 0;
+            if (!ftpClient.isConnected()) {
+                ftpClient.connect(ftpServer, ftpPort);
+                replyCode = ftpClient.getReplyCode();
+                //是否连接成功
+                if (!FTPReply.isPositiveCompletion(replyCode)) {
+                    replyCode = -1;
+                    throw new ConnectException("The server refused to connect.");
+                } else if (!ftpClient.login(userName, password)) {
+                    replyCode = -2;
+                    throw new ConnectException("Incorrect username or password.");
+                } else {
+                    replyCode = 0;
+                }
             }
         } catch (IOException e) {
             replyCode = -3;
@@ -69,18 +71,21 @@ public class FTPHelper {
     public int connect(String host, int port, String userName, String password) {
         int replyCode = 0;
         try {
-            ftpClient.connect(host, port);
-            replyCode = ftpClient.getReplyCode();
-            //是否连接成功
-            if (!FTPReply.isPositiveCompletion(replyCode)) {
-                replyCode = -1;
-                throw new ConnectException("The server refused to connect.");
-            } else if (!ftpClient.login(userName, password)) {
-                replyCode = -2;
-                throw new ConnectException("Incorrect username or password.");
-            } else {
-                replyCode = 0;
+            if (!ftpClient.isConnected()) {
+                ftpClient.connect(host, port);
+                replyCode = ftpClient.getReplyCode();
+                //是否连接成功
+                if (!FTPReply.isPositiveCompletion(replyCode)) {
+                    replyCode = -1;
+                    throw new ConnectException("The server refused to connect.");
+                } else if (!ftpClient.login(userName, password)) {
+                    replyCode = -2;
+                    throw new ConnectException("Incorrect username or password.");
+                } else {
+                    replyCode = 0;
+                }
             }
+
         } catch (IOException e) {
             replyCode = -3;
         } finally {
