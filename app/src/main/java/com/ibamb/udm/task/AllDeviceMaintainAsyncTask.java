@@ -46,7 +46,7 @@ public class AllDeviceMaintainAsyncTask extends AsyncTask<String, Integer, Strin
             for (CacheFileInfo cacheFileInfo : cacheFileInfoList) {
                 //产品型号对应的版本号不一致，则需要更新。
                 if (deviceModel.getPruductName().equals(cacheFileInfo.getProductName())
-                        && !deviceModel.getFirmwareVersion().equalsIgnoreCase(cacheFileInfo.getProductVersion())) {
+                        && !deviceModel.getSerailNO().equalsIgnoreCase(cacheFileInfo.getSerailNO())) {
                     String cacheFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/"
                             + cacheFileInfo.getCacheFileName();
                     try {
