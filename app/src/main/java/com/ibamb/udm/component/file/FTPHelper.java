@@ -36,10 +36,10 @@ public class FTPHelper {
     }
 
     public int tryDefalutConnect() {
-        int replyCode = connect(defaultHosts[0], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
-        if (replyCode != 0) {
-            replyCode = connect(defaultHosts[1], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
-        }
+        int replyCode = connect(defaultHosts[0], 2121, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+//        if (replyCode != 0) {
+//            replyCode = connect(defaultHosts[1], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+//        }
         return replyCode;
     }
 
@@ -82,6 +82,7 @@ public class FTPHelper {
                     replyCode = -2;
                     throw new ConnectException("Incorrect username or password.");
                 } else {
+                    ftpClient.enterLocalPassiveMode();
                     replyCode = 0;
                 }
             }
@@ -105,7 +106,7 @@ public class FTPHelper {
         int retCode = 0;
         OutputStream output = null;
         try {
-            ftpClient.login(userName, password);
+//            ftpClient.login(userName, password);
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             ftpClient.setControlEncoding("UTF-8");
             String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/";

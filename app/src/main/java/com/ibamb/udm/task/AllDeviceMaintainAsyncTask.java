@@ -15,6 +15,7 @@ import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.R;
 import com.ibamb.udm.beans.CacheFileInfo;
 import com.ibamb.udm.component.constants.UdmConstant;
+import com.ibamb.udm.component.file.LocalFileReader;
 import com.ibamb.udm.conf.DefaultConstant;
 
 import java.io.BufferedReader;
@@ -39,7 +40,7 @@ public class AllDeviceMaintainAsyncTask extends AsyncTask<String, Integer, Strin
     @Override
     protected String doInBackground(String... strings) {
         String localfile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/" + UdmConstant.UDM_CMC_MAGIC;
-        List<CacheFileInfo> cacheFileInfoList = readCacheFileInfos(localfile);
+        List<CacheFileInfo> cacheFileInfoList = LocalFileReader.readCacheFileInfos(localfile);
         int maintainCount = 0;
         ExecutorService pool = Executors.newFixedThreadPool(1);
         for (DeviceModel deviceModel : ContextData.getInstance().getDataInfos()) {
@@ -106,38 +107,5 @@ public class AllDeviceMaintainAsyncTask extends AsyncTask<String, Integer, Strin
             }
         }
         return retMessage;
-    }
-
-    private List<CacheFileInfo> readCacheFileInfos(String localfile) {
-        BufferedReader bufferedReader = null;
-        List<CacheFileInfo> productCacheInfos = new ArrayList<>();
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(localfile), "gbk"));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] cacheInfos = line.split(":");
-                String productName = "";
-                if (cacheInfos.length > 1) {
-                    productName = cacheInfos[0];
-                }
-                String[] versions = cacheInfos[1].split("\\|");
-                if (versions.length < 3) {
-                    continue;
-                }
-                CacheFileInfo cacheFileInfo = new CacheFileInfo(productName, versions[0], versions[1], cacheInfos[2]);
-                productCacheInfos.add(cacheFileInfo);
-            }
-        } catch (Exception e) {
-            UdmLog.getErrorTrace(e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return productCacheInfos;
     }
 }

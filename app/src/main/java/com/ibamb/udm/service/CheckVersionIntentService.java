@@ -10,6 +10,7 @@ import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.beans.CacheFileInfo;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FTPHelper;
+import com.ibamb.udm.component.file.LocalFileReader;
 import com.ibamb.udm.conf.DefaultConstant;
 
 import java.io.BufferedReader;
@@ -17,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -60,9 +62,9 @@ public class CheckVersionIntentService extends IntentService {
             String localfile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DefaultConstant.BASE_DIR + "/" + UdmConstant.UDM_CMC_MAGIC;
             replyCode = ftpHelper.download(UdmConstant.UDM_CMC_MAGIC, localfile);
             String requestCode = needDown;
-            Log.i(LOG_TAG,"down version file reply code is "+replyCode+" and the request action is "+needDown);
+            Log.i(LOG_TAG, "down version file reply code is " + replyCode + " and the request action is " + needDown);
             if (replyCode == -5 && "YDOWN".equals(requestCode)) {
-                cacheFileInfoList = readCacheFileInfos(localfile);
+                cacheFileInfoList = LocalFileReader.readCacheFileInfos(localfile);
                 Map localVersionMap = getSharedPreferences("UDM_CONTEXT", MODE_PRIVATE).getAll();
                 for (Iterator it = localVersionMap.keySet().iterator(); it.hasNext(); ) {
                     String productName = (String) it.next();
@@ -89,38 +91,4 @@ public class CheckVersionIntentService extends IntentService {
             }
         }
     }
-
-    private List<CacheFileInfo> readCacheFileInfos(String localfile) {
-        BufferedReader bufferedReader = null;
-        List<CacheFileInfo> productCacheInfos = new ArrayList<>();
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(localfile), "gbk"));
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] cacheInfos = line.split(":");
-                String productName = "";
-                if (cacheInfos.length > 1) {
-                    productName = cacheInfos[0];
-                }
-                String[] versions = cacheInfos[1].split("\\|");
-                if (versions.length < 3) {
-                    continue;
-                }
-                CacheFileInfo cacheFileInfo = new CacheFileInfo(productName, versions[0], versions[1], cacheInfos[2]);
-                productCacheInfos.add(cacheFileInfo);
-            }
-        } catch (Exception e) {
-            UdmLog.getErrorTrace(e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return productCacheInfos;
-    }
-
 }
