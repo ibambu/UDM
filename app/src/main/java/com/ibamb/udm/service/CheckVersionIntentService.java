@@ -1,24 +1,17 @@
 package com.ibamb.udm.service;
 
 import android.app.IntentService;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
-import com.ibamb.dnet.module.log.UdmLog;
 import com.ibamb.udm.beans.CacheFileInfo;
 import com.ibamb.udm.component.constants.UdmConstant;
 import com.ibamb.udm.component.file.FTPHelper;
 import com.ibamb.udm.component.file.LocalFileReader;
 import com.ibamb.udm.conf.DefaultConstant;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
