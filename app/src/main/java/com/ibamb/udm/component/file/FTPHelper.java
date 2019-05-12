@@ -36,10 +36,10 @@ public class FTPHelper {
     }
 
     public int tryDefalutConnect() {
-        int replyCode = connect(defaultHosts[0], 2121, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
-//        if (replyCode != 0) {
-//            replyCode = connect(defaultHosts[1], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
-//        }
+        int replyCode = connect(defaultHosts[0], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+        if (replyCode != 0) {
+            replyCode = connect(defaultHosts[1], 21, DefaultConstant.USER_NAME, DefaultConstant.PASSWORD);
+        }
         return replyCode;
     }
 
