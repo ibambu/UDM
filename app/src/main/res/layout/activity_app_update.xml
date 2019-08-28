@@ -55,7 +55,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="8"
                 android:gravity="left|center"
-                android:text="Software name:udm"
+                android:text="Software name:DM"
                 android:visibility="visible" />
 
             <TextView
