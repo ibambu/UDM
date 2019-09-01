@@ -30,7 +30,7 @@ public class ChannelParamWriteAsynTask extends AsyncTask <DeviceParameter, Strin
             changedParams = deviceParameters[1];
             changedParams = UdmClient.getInstance().writeDeviceParameter(changedParams);
             String retMessage = changedParams.isSuccessful()? UdmConstant.INFO_SUCCESS:UdmConstant.INFO_FAIL;
-            onProgressUpdate(retMessage);
+            publishProgress(retMessage);
             //修改后要重新读取一次
             oldParams = UdmClient.getInstance().readDeviceParameter(oldParams);
         }catch (Exception e){
